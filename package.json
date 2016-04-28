@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/steventran06/sweaty-figs/issues"
   },
-  "homepage": "https://github.com/steventran06/sweaty-figs#readme"
+  "homepage": "https://github.com/steventran06/sweaty-figs#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
 }
