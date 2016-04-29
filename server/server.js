@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var YELP_API_KEY = require('../client/config/yelp.js');
 
 var app = express();
 
@@ -15,5 +16,21 @@ app.listen(port);
 
 module.exports = app;
 
+var Yelp = require('yelp');
 
 
+var yelp = new Yelp({
+  consumer_key: YELP_API_KEY.key,
+  consumer_secret: YELP_API_KEY.keySecret,
+  token: YELP_API_KEY.token,
+  token_secret: YELP_API_KEY.tokenSecret
+});
+
+// See http://www.yelp.com/developers/documentation/v2/search_api
+yelp.search({ term: 'food', location: 'San Francisco, CA' })
+.then(function (data) {
+  console.log(data);
+})
+.catch(function (err) {
+  console.error(err);
+});
