@@ -1,16 +1,24 @@
 var ReactRouter = window.ReactRouter;
-let RouteHandler = ReactRouter.RouteHandler;
-let Router = ReactRouter.Router;
-let Route = ReactRouter.Route;
-let browserHistory = ReactRouter.browserHistory;
+var RouteHandler = ReactRouter.RouteHandler;
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var Link = ReactRouter.Link;
+var browserHistory = ReactRouter.browserHistory;
 
 
 class App extends React.Component {
+
   render() {
-    console.log(Router);
+    console.log(ReactRouter);
     return (
       <div>
-        <h1>Hello</h1>
+        <Nav />
+          <Router history={ browserHistory }>
+            <Route path="/" component={ Index }></Route>
+            <Route path="/activities" component={ Activities }></Route>
+            <Route path="/confirmation" component={ Confirmation }></Route>
+            <Route path="/*" component={ Index }></Route>
+          </Router>
       </div>
     );
   }
