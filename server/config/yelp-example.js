@@ -1,0 +1,3 @@
+var YELP_API_KEY = "ENTER YELP API KEY HERE";
+
+module.exports = YELP_API_KEY;
