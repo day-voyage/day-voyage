@@ -1,7 +1,5 @@
 var ReactRouter = window.ReactRouter;
 let Link = ReactRouter.Link;
-// var redux = require('react-redux');
-// var actions = require('../../redux/actions/actions.js');
 
 class PlanBuilder extends React.Component {
   render() {
