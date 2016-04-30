@@ -5,7 +5,6 @@ var Route = ReactRouter.Route;
 var Link = ReactRouter.Link;
 var browserHistory = ReactRouter.browserHistory;
 
-
 class App extends React.Component {
 
   render() {
