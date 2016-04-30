@@ -7,11 +7,11 @@ class Activities extends React.Component {
     super(props);
   }
 
-  getInitialState() {
-    return {
-      planner: {}
-    }
-  }
+  // getInitialState() {
+  //   return {
+  //     planner: {}
+  //   }
+  // }
 
   render() {
     return (
