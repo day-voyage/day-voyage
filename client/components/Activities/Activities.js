@@ -22,7 +22,7 @@ class Activities extends React.Component {
             <h1>Activities Page</h1>
             <button><Link to="/confirmation">go to confirmation page</Link></button>
           </div>
-            <BuildPlanner />
+            <PlanBuilder />
         </div>
       </div>
     );
