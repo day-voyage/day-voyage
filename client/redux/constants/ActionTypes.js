@@ -1,0 +1,2 @@
+export const ADD_TO_BUILDER = 'ADD_TO_BUILDER';
+export const DELETE_FROM_BUILDER = 'DELETE_FROM_BUILDER';
