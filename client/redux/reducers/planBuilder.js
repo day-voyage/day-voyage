@@ -9,7 +9,7 @@ export default function planBuilder (state = initialState, action) {
   switch (action.type) {
     case types.ADD_TO_BUILDER:
       for (var i = 0; i < state.length; i++) {
-        if (state[i].googlePlaceId === action.place.googlePlaceId) {
+        if (state[i].activityId === action.activity.activityId) {
           return state;
         }
       }
@@ -17,7 +17,7 @@ export default function planBuilder (state = initialState, action) {
     case types.DELETE_FROM_BUILDER:
       var newState = state.slice();
       for (var i = 0; i < newState.length; i++) {
-        if (newState[i].googlePlaceId === action.placeId) {
+        if (newState[i].activityId === action.placeId) {
           newState.splice(i, 1);
         }
       }
