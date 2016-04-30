@@ -12,14 +12,26 @@ class Search extends React.Component {
 
   searchYelp(event) {
     event.preventDefault();
-    console.log(this.state.value);
-    fetch('yelpSearch', function(err, results) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(results);
-      }
-    });
+
+    // $.ajax({
+    //   url: "/yelpSearch",
+    //   type: 'POST',
+    //   data: "SOME STRING",
+    //   contentType: 'application/json',
+    //   success: function (data) {
+    //     console.log('searchYelp succeeded: ', data);
+    //     // return callback(data);
+    //   },
+    //   error: function (data) {
+    //     // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
+    //     console.error('searchYelp: Failed to search');
+    //   }
+    // });
+    fetch('/api/yelpSearch', {
+      method: 'POST',
+      body: 'hello' 
+    }).then((results) => results.json()).then((data) => console.log(data))
+    .catch(e => console.log(e));
   }
 
   handleChange(event) {
