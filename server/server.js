@@ -1,18 +1,12 @@
 var express = require('express');
 var path = require('path');
-// var bodyParser = require('body-parser');
 var Yelp = require('yelp');
 var yelpAPIKey = require('./config/yelp.js');
-var fs = require('fs');
 
 var app = express();
 
 app.use(express.static(path.join(__dirname + '/../client')));
-
-// app.use(bodyParser.urlencoded({
-//   extended: true
-// }));
-// app.use(bodyParser.json());
+app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
 
 app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../client/index.html'));
@@ -26,13 +20,9 @@ var yelp = new Yelp({
 });
 
 app.post('/api/yelpSearch', function(request, response) {
-  var body = '';
-  request.on('data', chunk => body += chunk)
-          .on('end', () => console.log(body));
   yelp.search({ term: 'food', location: 'San Francisco, CA' })
   .then(function (data) {
     response.send(data.businesses);
-    // response.send(request.params);
   })
   .catch(function (err) {
     console.error(err);
