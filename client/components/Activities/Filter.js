@@ -1,14 +1,14 @@
 var ReactRouter = window.ReactRouter;
 let Link = ReactRouter.Link;
 
-class BuildPlanner extends React.Component {
+class Filter extends React.Component {
   render() {
     return (
       <div className="col-md-4">
-        BuildPlanner is here
+        Filter is here
       </div>
     );
   }
 }
 
-window.BuildPlanner = BuildPlanner;
+window.Filter = Filter;
