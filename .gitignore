@@ -2,6 +2,7 @@
 .DS_Store
 
 ## Bower ##
+client/lib/
 client/lib/react
 client/lib/jquery
 client/lib/lodash
