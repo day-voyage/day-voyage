@@ -4,7 +4,7 @@
   "description": "Tourist App",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "nodemon server/server.js",
     "test": "mocha server/test/travistest.js"
   },
   "repository": {

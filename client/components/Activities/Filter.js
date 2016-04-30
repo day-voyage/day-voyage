@@ -2,27 +2,15 @@ var ReactRouter = window.ReactRouter;
 let Link = ReactRouter.Link;
 
 class Filter extends React.Component {
-  constructor(){
-    super();
-    this.state = {
-      txt: 'this is the state txt'
-    }
-  }
-
-  update(event) {
-    this.setState({
-      txt: e.target.value
-    })
-  }
-
-  render() {
+  render(){
     return (
-      <div className="col-md-4">
-        <input type="text"
-          onChange={this.update.bind(this)} />
-          <h1>{this.state.txt}</h1>
+      <div>
+        <input ref="inp" type="range"
+        min="0"
+        max="255"
+        onChange={this.props.update} />
       </div>
-    );
+    )
   }
 }
 
