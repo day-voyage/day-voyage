@@ -9,4 +9,4 @@ client/lib/lodash
 
 ## npm ##
 node_modules
-client/config/yelp.js
+server/config/yelp.js

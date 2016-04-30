@@ -9,7 +9,6 @@ var browserHistory = ReactRouter.browserHistory;
 class App extends React.Component {
 
   render() {
-    console.log(ReactRouter);
     return (
       <div>
         <Nav />
