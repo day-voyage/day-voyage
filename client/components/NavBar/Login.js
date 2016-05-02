@@ -1,4 +1,6 @@
-class Login extends React.Component {
+import * as React from 'react';
+
+export default class Login extends React.Component {
   render() {
     return (
       <div className="col-sm-6">
@@ -12,5 +14,3 @@ class Login extends React.Component {
     );
   }
 }
-
-window.Login = Login;

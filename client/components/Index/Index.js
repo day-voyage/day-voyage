@@ -1,8 +1,9 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import * as React from 'react';
+import { Link } from 'react-router';
 
+import Search from './Search';
 
-class Index extends React.Component {
+export default class Index extends React.Component {
   render() {
     return (
       <div className="container">
@@ -11,5 +12,3 @@ class Index extends React.Component {
     );
   }
 }
-
-window.Index = Index;

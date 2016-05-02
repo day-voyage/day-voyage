@@ -1,7 +1,7 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import * as React from 'react';
+import { Link } from 'react-router';
 
-class Confirmation extends React.Component {
+export default class Confirmation extends React.Component {
   render() {
     return (
       <div className="container">
@@ -11,5 +11,3 @@ class Confirmation extends React.Component {
     );
   }
 }
-
-window.Confirmation = Confirmation;

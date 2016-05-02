@@ -1,17 +1,14 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import * as React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { addToBuilder, deleteFromBuilder } from '../../redux/actions';
+import ActivitiesContainer from './ActivitiesContainer';
+import PlanBuilderContainer from './PlanBuilderContainer';
 
-class Activities extends React.Component {
+import Filter from './Filter';
+import PlanBuilder from './PlanBuilder';
 
-  constructor(props) {
-    super(props);
-  }
-
-  getInitialState() {
-    return {
-      planner: {}
-    }
-  }
+export default class Activities extends React.Component {
 
   render() {
     return (
@@ -20,13 +17,14 @@ class Activities extends React.Component {
           <Filter />
           <div className="col-md-4">
             <h1>Activities Page</h1>
+            <ActivitiesContainer />
             <button><Link to="/confirmation">go to confirmation page</Link></button>
           </div>
-            <BuildPlanner />
+            <PlanBuilderContainer />
         </div>
       </div>
     );
   }
-}
 
-window.Activities = Activities;
+
+}
