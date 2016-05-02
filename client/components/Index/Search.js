@@ -1,8 +1,7 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import { Link } from 'react-router';
+import * as React from 'react';
 
-
-class Search extends React.Component {
+export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,5 +39,3 @@ class Search extends React.Component {
     );
   }
 }
-
-window.Search = Search;

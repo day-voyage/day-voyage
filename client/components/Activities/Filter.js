@@ -1,7 +1,7 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import * as React from 'react';
+import { Link } from 'react-router';
 
-class Filter extends React.Component {
+export default class Filter extends React.Component {
   render() {
     return (
       <div className="col-md-4">
@@ -10,5 +10,3 @@ class Filter extends React.Component {
     );
   }
 }
-
-window.Filter = Filter;
