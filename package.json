@@ -4,7 +4,9 @@
   "description": "Tourist App",
   "main": "index.js",
   "scripts": {
-    "test": "mocha server/test/travistest.js"
+    "test": "mocha server/test/travistest.js",
+    "babelify": "browserify client/main.js -o client/bundle.js -t [ babelify --presets [ es2015 react ] ]",
+    "babelify:dev": "browserify client/main.js -o client/bundle.js -d -t [ babelify --presets [ es2015 react ] ]"
   },
   "repository": {
     "type": "git",
@@ -18,15 +20,21 @@
   },
   "homepage": "https://github.com/steventran06/sweaty-figs#readme",
   "devDependencies": {
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.0",
     "chai": "^3.5.0",
     "mocha": "^2.4.5"
   },
   "dependencies": {
+    "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "path": "^0.12.7",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
     "yelp": "^1.0.1"

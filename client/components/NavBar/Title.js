@@ -1,4 +1,6 @@
-class Title extends React.Component {
+import * as React from 'react';
+
+export default class Title extends React.Component {
   render() {
     return (
       <div className="col-sm-6">
@@ -7,5 +9,3 @@ class Title extends React.Component {
     );
   }
 }
-
-window.Title = Title;

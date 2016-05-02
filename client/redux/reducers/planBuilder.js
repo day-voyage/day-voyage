@@ -1,4 +1,4 @@
-import * as types from '../constants/ActionTypes.js';
+import * as types from '../constants/ActionTypes';
 
 const initialState = [];
 
@@ -9,11 +9,11 @@ export default function planBuilder (state = initialState, action) {
   switch (action.type) {
     case types.ADD_TO_BUILDER:
       for (var i = 0; i < state.length; i++) {
-        if (state[i].activityId === action.activity.activityId) {
+        if (state[i].activityId === action.activityId) {
           return state;
         }
       }
-      return state.concat(action.place);
+      return state.concat(action.activityId);
     case types.DELETE_FROM_BUILDER:
       var newState = state.slice();
       for (var i = 0; i < newState.length; i++) {

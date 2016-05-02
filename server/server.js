@@ -17,10 +17,6 @@ app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules'
 // app.use(bodyParser.json());
 
 
-app.get('*', function (request, response){
-  response.sendFile(path.join(__dirname + '/../client/index.html'));
-});
-
 var yelp = new Yelp({
   consumer_key: yelpAPIKey.key,
   consumer_secret: yelpAPIKey.keySecret,
