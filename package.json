@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha server/test/travistest.js",
     "babelify": "browserify client/main.js -o client/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "babelify:dev": "browserify client/main.js -o client/bundle.js -d -t [ babelify --presets [ es2015 react ] ]"
+    "dev": "browserify client/main.js -o client/bundle.js -d -t [ babelify --presets [ es2015 react ] ]"
   },
   "repository": {
     "type": "git",
