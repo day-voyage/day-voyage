@@ -9,12 +9,8 @@ import {
   Link, 
   browserHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-
 import Nav from './NavBar/Nav';
-import Activities from './Activities/Activities';
-import Index from './Index/Index';
-import Confirmation from './Confirmation/Confirmation';
-
+import Routes from '../config/Routes';
 import Reducer from '../redux/reducers';
 
 const store = createStore(
@@ -22,13 +18,6 @@ const store = createStore(
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
-
-// var ReactRouter = window.ReactRouter;
-// var RouteHandler = ReactRouter.RouteHandler;
-// var Router = ReactRouter.Router;
-// var Route = ReactRouter.Route;
-// var Link = ReactRouter.Link;
-// var browserHistory = ReactRouter.browserHistory;
 
 
 class App extends React.Component {
@@ -38,12 +27,7 @@ class App extends React.Component {
       <Provider store={store}>
         <div>
           <Nav />
-            <Router history={ browserHistory }>
-              <Route path="/" component={ Index }></Route>
-              <Route path="/activities" component={ Activities }></Route>
-              <Route path="/confirmation" component={ Confirmation }></Route>
-              <Route path="/*" component={ Index }></Route>
-            </Router>
+            { Routes }
         </div>
       </Provider>
     );
