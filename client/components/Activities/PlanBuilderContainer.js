@@ -21,7 +21,7 @@ PlanBuilderContainer.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired
+    city: PropTypes.string.isRequired
   })).isRequired,
   confirmPlan: PropTypes.func.isRequired
 }

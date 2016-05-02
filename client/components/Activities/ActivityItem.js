@@ -10,12 +10,12 @@ export default class ActivityItem extends Component {
         style={{ marginBottom: 20 }}>
         <Activity
           title={activity.title}
-          categories={product.categories}
-          location={product.location} />
+          categories={activity.categories}
+          city={activity.city} />
         <button
           onClick={this.props.onAddToBuilderClicked}
-          disabled={product.added ? 'disabled' : ''}>
-          {product.added ? 'Added' : 'Add to itinerary'}
+          disabled={activity.added ? 'disabled' : ''}>
+          {activity.added ? 'Added' : 'Add to itinerary'}
         </button>
       </div>
     )
@@ -26,7 +26,7 @@ ActivityItem.propTypes = {
   activity: PropTypes.shape({
     title: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired,
+    city: PropTypes.string.isRequired,
     added: PropTypes.bool.isRequired
   }).isRequired,
   onAddToBuilderClicked: PropTypes.func.isRequired

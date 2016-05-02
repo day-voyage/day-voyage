@@ -7,6 +7,7 @@ import ActivitiesList from './ActivitiesList'
 
 class ActivitiesContainer extends Component {
   render() {
+    console.log('here are the props', this.props);
     const { activities } = this.props
     return (
       <ActivitiesList title="Activities">
@@ -26,7 +27,7 @@ ActivitiesContainer.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired,
+    city: PropTypes.string.isRequired,
     added: PropTypes.bool.isRequired
   })).isRequired,
   addToBuilder: PropTypes.func.isRequired
