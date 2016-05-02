@@ -10,6 +10,7 @@ export function getPlannerActivities(state) {
   return getAddedIds(state.planBuilder).map(id => Object.assign(
     {},
     getActivity(state.activities, id)
+
   ))
 }
 

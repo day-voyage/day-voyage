@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER } from '../constants/ActionTypes'
+import { combineReducers } from 'redux';
+import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER } from '../constants/ActionTypes';
 
 function activities(state, action) {
   switch (action.type) {

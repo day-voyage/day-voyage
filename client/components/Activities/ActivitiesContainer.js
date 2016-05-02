@@ -26,7 +26,8 @@ ActivitiesContainer.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    added: PropTypes.bool.isRequired
   })).isRequired,
   addToBuilder: PropTypes.func.isRequired
 }
