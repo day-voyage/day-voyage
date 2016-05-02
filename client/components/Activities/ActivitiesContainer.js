@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addToBuilder } from '../../redux/actions'
-// import { getVisibleProducts } from '../reducers/products'
+import { getVisibleActivities } from '../../redux/reducers/activities.js'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
 
@@ -33,7 +33,7 @@ ActivitiesContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: getVisibleProducts(state.products)
+    activities: getVisibleActivities(state.activities)
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { confirmPlan } from '../../redux/actions'
-import { buildPlanner } from '../../redux/reducers'
+import { buildPlanner, getPlannerActivities } from '../../redux/reducers'
 import PlanBuilder from './PlanBuilder'
 
 class PlanBuilderContainer extends Component {
@@ -28,7 +28,7 @@ PlanBuilderContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    activities: buildPlanner(state),
+    activities: getPlannerActivities(state),
   }
 }
 
