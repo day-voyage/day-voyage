@@ -9,7 +9,7 @@ export default class PlanBuilder extends React.Component {
     const hasActivities = activities.length > 0
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
-      activities.map(product =>
+      activities.map(activity =>
         <Activity
           title={activity.title}
           categories={activity.categories}
@@ -33,3 +33,4 @@ PlanBuilder.propTypes = {
   activities: PropTypes.array,
   onConfirmClicked: PropTypes.func
 };
+ 

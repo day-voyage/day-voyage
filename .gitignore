@@ -1,6 +1,8 @@
 ## Mac OSX ##
 .DS_Store
 
+client/bundle.js
+
 ## Bower ##
 client/lib/
 client/lib/react
