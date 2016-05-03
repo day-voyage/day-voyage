@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import Activity from './Activity'
 
 export default class ActivityItem extends Component {
   render() {
@@ -8,10 +7,8 @@ export default class ActivityItem extends Component {
     return (
       <div
         style={{ marginBottom: 20 }}>
-        <Activity
-          title={activity.title}
-          categories={activity.categories}
-          city={activity.city} />
+        <div> {activity.title} - {activity.categories} {activity.location } </div>
+
         <button
           onClick={this.props.onAddToBuilderClicked}
           disabled={activity.added ? 'disabled' : ''}>

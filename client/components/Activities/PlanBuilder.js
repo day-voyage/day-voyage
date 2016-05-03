@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router';
-import Activity from './Activity'
 
 export default class PlanBuilder extends React.Component {
   render() {
@@ -10,11 +9,9 @@ export default class PlanBuilder extends React.Component {
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       activities.map(activity =>
-        <Activity
-          title={activity.title}
-          categories={activity.categories}
-          city={activity.city}
-          key={activity.id}/>
+        <div key={activity.id}>
+          {activity.title} - {activity.categories} {activity.city}
+        </div>
     )
     return (
       <div className="col-md-4">

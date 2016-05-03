@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Activity from './Activity';
+import Activity from './index';
 import Result from '../Helpers/Result';
 
 export default class SearchResults extends React.Component {
