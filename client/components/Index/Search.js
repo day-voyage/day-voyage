@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import * as React from 'react';
 
 export default class Search extends React.Component {
@@ -10,22 +10,33 @@ export default class Search extends React.Component {
     };
   }
 
+  // contextTypes {
+  //   router: React.PropTypes.object.isRequired
+  // }
+
 
   searchYelp(event) {
     event.preventDefault();
-    console.log(this.state.city);
-    console.log(this.state.category);
 
-    fetch(`/api/yelpSearch?city=${this.state.city}&category=${this.state.category}`, {
-      method: 'GET'
-    })
-    .then((results) => results.json()).then((data) => 
-      console.log("yelp data:", data));
-      fetch('http://localhost:3000/v1/activities', {
-        method: 'GET'
-      })
-      .then((dbResults) => dbResults.json()).then((dbData) => console.log("db Data:", dbData.data))
-    .catch(e => console.log(e));
+    browserHistory.push({
+      pathname: '/activities',
+      query: {
+        city: this.state.city,
+        category: this.state.category
+      }
+    });
+
+    // fetch(`/api/yelpSearch?city=${this.state.city}&category=${this.state.category}`, {
+    //   method: 'GET'
+    // })
+    // .then((results) => results.json()).then((data) => 
+    //   console.log("yelp data:", data));
+    //   fetch('http://localhost:3000/v1/activities', {
+    //     method: 'GET'
+    //   })
+    //   .then((dbResults) => dbResults.json()).then((dbData) => console.log("db Data:", dbData.data))
+    // .catch(e => console.log(e));
+
   }
 
   handleCategory(event) {
