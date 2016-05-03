@@ -13,7 +13,7 @@ import {
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import Nav from './NavBar/Nav';
 import Routes from '../config/Routes';
-import Activities from './Activities/Activities';
+import Activities from './Activities';
 import Index from './Index/Index';
 import Confirmation from './Confirmation/Confirmation';
 

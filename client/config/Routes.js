@@ -10,7 +10,7 @@ import {
   Link,
   browserHistory } from 'react-router';
 
-import Activities from '../Components/Activities/Activities';
+import Activities from '../Components/Activities';
 import Index from '../Components/Index/Index';
 import Confirmation from '../Components/Confirmation/Confirmation';
 
