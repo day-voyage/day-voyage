@@ -17,12 +17,10 @@ import Confirmation from '../Components/Confirmation/Confirmation';
 
   var Routes = (
     <Router history={ browserHistory }>
-      <Route path="/" component={ Index }>
-        <IndexRoute component= { Index } />
-        <Route path="/activities" component={ Activities } />
-        <Route path="/confirmation" component={ Confirmation } />
-        <Route path="/*" component={ Index } />
-      </Route>
+      <Route path="/" component={ Index } />
+      <Route path="/activities" component={ Activities } />
+      <Route path="/confirmation" component={ Confirmation } />
+      <Route path="/*" component={ Index } />
     </Router>
   );
 
