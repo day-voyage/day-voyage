@@ -41,12 +41,27 @@ const store = configStore();
 console.log('app.js store: ', store);
 const history = syncHistoryWithStore(browserHistory, store)
 
-ReactDOM.render(
-  <Provider store={store}>
-    <div>
-      <Nav />
-      <Router history={history} routes={Routes} />
-    </div>
-  </Provider>, 
-  document.getElementById('app')
-);
+export class App extends React.Component {
+  static propTypes = {
+    children: React.PropTypes.any,
+  };
+
+  render() {
+    return (
+      <Provider store={store}>
+        <div>
+          <Nav />
+          <Router history={history} routes={Routes} />
+        </div>
+      </Provider>
+      )
+
+  }
+};
+ 
+// PropTypes: {
+//   children: React.PropTypes.any
+// }
+
+ReactDOM.render(<App/>, document.getElementById('app'));
+

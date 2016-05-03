@@ -4,8 +4,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { getAllActivities } from '../../redux/actions'
 import { Provider } from 'react-redux';
 
-
-
 export default class Search extends Component {
 
   constructor(props) {
@@ -65,5 +63,5 @@ export default class Search extends Component {
 
 
 contextTypes: {
-  router: PropTypes.func.isRequired
+  router: PropTypes.object
 }
