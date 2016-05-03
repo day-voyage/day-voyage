@@ -7,7 +7,6 @@ import ActivitiesList from './ActivitiesList'
 
 class ActivitiesContainer extends Component {
   render() {
-    console.log('here are the props', this.props);
     const { activities } = this.props
     return (
       <ActivitiesList title="Activities">

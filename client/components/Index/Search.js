@@ -45,7 +45,7 @@ export default class Search extends React.Component {
 
   handleCity(event) {
     this.setState({city: event.target.value});
-  }
+  } 
 
   render() {
     return (
