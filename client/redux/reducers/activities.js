@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux'
-import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER } from '../constants/ActionTypes'
+import { combineReducers } from 'redux';
+import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER } from '../constants/ActionTypes';
 
 function activities(state, action) {
   switch (action.type) {
@@ -18,7 +18,7 @@ function byId(state = {}, action) {
       return Object.assign({},
         state,
         action.activities.reduce((obj, activity) => {
-          obj[activities.id] = activity
+          obj[activity.id] = activity
           return obj
         }, {})
       )
@@ -48,6 +48,8 @@ export default combineReducers({
 })
 
 export function getActivity(state, id) {
+  console.log('state from getActivity ', state);
+  console.log('id from getActivity ', id);
   return state.byId[id]
 }
 

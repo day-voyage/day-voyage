@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import { 
   RouteHandler, 
   Router, 
@@ -11,14 +13,25 @@ import {
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import Nav from './NavBar/Nav';
 import Routes from '../config/Routes';
+import Activities from './Activities/Activities';
+import Index from './Index/Index';
+import Confirmation from './Confirmation/Confirmation';
+
+import { getAllActivities } from '../redux/actions'
 import Reducer from '../redux/reducers';
 
+const middleware = process.env.NODE_ENV === 'production' ?
+  [ thunk ] :
+  [ thunk, logger() ]
+
 const store = createStore(
-  Reducer
+  Reducer,
+  applyMiddleware(...middleware)
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
 
+store.dispatch(getAllActivities())
 
 class App extends React.Component {
 

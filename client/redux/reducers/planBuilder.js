@@ -20,18 +20,6 @@ function addedIds(state = initialState.addedIds, action) {
   }
 }
 
-function quantityById(state = initialState.quantityById, action) {
-  switch (action.type) {
-    case ADD_TO_BUILDER:
-      const { activityId } = action
-      return Object.assign({}, state, {
-        [activityId]: (state[activityId] || 0) + 1
-      })
-    default:
-      return state
-  }
-}
-
 export default function planBuilder(state = initialState, action) {
   switch (action.type) {
     case CONFIRM_REQUEST:
@@ -41,14 +29,10 @@ export default function planBuilder(state = initialState, action) {
     default:
       return {
         addedIds: addedIds(state.addedIds, action),
-        quantityById: quantityById(state.quantityById, action)
       }
   }
 }
 
-export function getQuantity(state, activityId) {
-  return state.quantityById[activityId] || 0
-}
 
 export function getAddedIds(state) {
   return state.addedIds

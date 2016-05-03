@@ -1,4 +1,4 @@
-import plan from '../../api/plan.js'
+import plan from '../../api/plan.js';
 import * as types from '../constants/ActionTypes.js';
 
 function receiveActivities(activities) {

@@ -13,7 +13,7 @@ export default class PlanBuilder extends React.Component {
         <Activity
           title={activity.title}
           categories={activity.categories}
-          location={activity.location}
+          city={activity.city}
           key={activity.id}/>
     )
     return (

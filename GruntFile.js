@@ -1,8 +1,3 @@
-require('react');
-require('babelify');
-require('babel-preset-es2015');
-require('babel-preset-react');
-
 module.exports = function (grunt) {
    grunt.initConfig({
       browserify: {
@@ -15,16 +10,18 @@ module.exports = function (grunt) {
                ]
             },
             files: {
-               // if the source file has an extension of es6 then
-               // we change the name of the source file accordingly.
-               // The result file's extension is always .js
-               "./client/bundle.js": ["./client/main.js"]
+               "client/bundle.js": ["client/main.js"]
             }
          }
       },
+      nodemon: {
+        dev: {
+          script: 'server/server.js'
+        }
+      },
       watch: {
          scripts: {
-            files: ["./client/*"],
+            files: ["client/**/*.js", "!client/bundle.js"],
             tasks: ["browserify"]
          },
          options: {
@@ -35,7 +32,19 @@ module.exports = function (grunt) {
 
    grunt.loadNpmTasks("grunt-browserify");
    grunt.loadNpmTasks("grunt-contrib-watch");
+   grunt.loadNpmTasks("grunt-nodemon");
 
-   grunt.registerTask("w", ["watch"]);
    grunt.registerTask("build", ["browserify"]);
+   grunt.registerTask("default", function (target) {
+     // Running nodejs in a different process and displaying output on the main console
+     var nodemon = grunt.util.spawn({
+       cmd: 'grunt',
+       grunt: true,
+       args: 'nodemon'
+     });
+     nodemon.stdout.pipe(process.stdout);
+     nodemon.stderr.pipe(process.stderr);
+
+     grunt.task.run(["watch"]);
+   });
 };

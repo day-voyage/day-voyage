@@ -10,5 +10,5 @@ export default class Activity extends Component {
 Activity.propTypes = {
   title: PropTypes.string,
   categories: PropTypes.array,
-  location: PropTypes.object
+  city: PropTypes.string
 }
