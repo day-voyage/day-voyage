@@ -7,6 +7,7 @@ import ActivitiesList from './ActivitiesList'
 
 class ActivitiesContainer extends Component {
   render() {
+    console.log('this.props in activitiescontainer, ', this.props);
     const { activities } = this.props
     return (
       <ActivitiesList title="Activities">
@@ -33,6 +34,7 @@ ActivitiesContainer.propTypes = {
 }
 
 function mapStateToProps(state) {
+  console.log('this is the mapped state: ', state);
   return {
     activities: getVisibleActivities(state.activities)
   }

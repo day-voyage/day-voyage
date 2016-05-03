@@ -1,5 +1,6 @@
 import { browserHistory } from 'react-router';
 import * as React from 'react';
+import { getAllActivities } from '../../redux/actions'
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -10,13 +11,11 @@ export default class Search extends React.Component {
     };
   }
 
-  // contextTypes {
-  //   router: React.PropTypes.object.isRequired
-  // }
-
 
   searchYelp(event) {
     event.preventDefault();
+
+    getAllActivities({city: this.state.city, category: this.state.category});
 
     browserHistory.push({
       pathname: '/activities',
@@ -25,17 +24,6 @@ export default class Search extends React.Component {
         category: this.state.category
       }
     });
-
-    // fetch(`/api/yelpSearch?city=${this.state.city}&category=${this.state.category}`, {
-    //   method: 'GET'
-    // })
-    // .then((results) => results.json()).then((data) => 
-    //   console.log("yelp data:", data));
-    //   fetch('http://localhost:3000/v1/activities', {
-    //     method: 'GET'
-    //   })
-    //   .then((dbResults) => dbResults.json()).then((dbData) => console.log("db Data:", dbData.data))
-    // .catch(e => console.log(e));
 
   }
 

@@ -17,7 +17,7 @@ import Activities from './Activities';
 import Index from './Index/Index';
 import Confirmation from './Confirmation/Confirmation';
 
-import { getAllActivities } from '../redux/actions'
+import { initApp } from '../redux/actions'
 import Reducer from '../redux/reducers';
 
 const middleware = process.env.NODE_ENV === 'production' ?
@@ -31,7 +31,7 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-store.dispatch(getAllActivities())
+store.dispatch(initApp())
 
 class App extends React.Component {
 
