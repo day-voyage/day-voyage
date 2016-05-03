@@ -1,8 +1,13 @@
 import { browserHistory } from 'react-router';
-import * as React from 'react';
+import React, { PropTypes, Component} from 'react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { getAllActivities } from '../../redux/actions'
+import { Provider } from 'react-redux';
 
-export default class Search extends React.Component {
+
+
+export default class Search extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -13,17 +18,17 @@ export default class Search extends React.Component {
 
 
   searchYelp(event) {
+    // const contextTypes = {
+    //   router: PropTypes.object
+    // }
     event.preventDefault();
 
-    getAllActivities({city: this.state.city, category: this.state.category});
+    console.log('search.js props: ', this.props);
+    console.log('this.context: ', this.context);
+    console.log('proptypes: ', PropTypes);
 
-    browserHistory.push({
-      pathname: '/activities',
-      query: {
-        city: this.state.city,
-        category: this.state.category
-      }
-    });
+    getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
+   
 
   }
 
@@ -56,4 +61,9 @@ export default class Search extends React.Component {
       </div>
     );
   }
+}
+
+
+contextTypes: {
+  router: PropTypes.func.isRequired
 }

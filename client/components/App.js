@@ -13,38 +13,40 @@ import {
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import Nav from './NavBar/Nav';
 import Routes from '../config/Routes';
-import Activities from './Activities';
-import Index from './Index/Index';
-import Confirmation from './Confirmation/Confirmation';
+import configStore from '../redux/store/configStore.js'
+// import Activities from './Activities';
+// import Index from './Index/Index';
+// import Confirmation from './Confirmation/Confirmation';
 
-import { initApp } from '../redux/actions'
-import Reducer from '../redux/reducers';
+// import { initApp } from '../redux/actions'
+// import { getAllActivities } from '../redux/actions'
 
-const middleware = process.env.NODE_ENV === 'production' ?
-  [ thunk ] :
-  [ thunk, logger() ]
+// import Reducer from '../redux/reducers';
 
-const store = createStore(
-  Reducer,
-  applyMiddleware(...middleware)
-)
+// const middleware = process.env.NODE_ENV === 'production' ?
+//   [ thunk ] :
+//   [ thunk, logger() ]
 
+// export const store = createStore(
+//   Reducer,
+//   applyMiddleware(...middleware)
+// )
+
+// const history = syncHistoryWithStore(browserHistory, store)
+
+// // store.dispatch(initApp());
+// store.dispatch(getAllActivities({city: 'san francisco', category: 'food'}));
+
+const store = configStore();
+console.log('app.js store: ', store);
 const history = syncHistoryWithStore(browserHistory, store)
 
-store.dispatch(initApp())
-
-class App extends React.Component {
-
-  render() {
-    return (
-      <Provider store={store}>
-        <div>
-          <Nav />
-            { Routes }
-        </div>
-      </Provider>
-    );
-  }
-}
-
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <Provider store={store}>
+    <div>
+      <Nav />
+      <Router history={history} routes={Routes} />
+    </div>
+  </Provider>, 
+  document.getElementById('app')
+);

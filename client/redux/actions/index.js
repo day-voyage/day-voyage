@@ -15,39 +15,22 @@ function receiveActivities(activities) {
   }
 }
 
-export function getAllActivities(query) {
+export function getAllActivities(query, router) {
+  console.log('inside getallactivities, router: ', router);
   return dispatch => {
-    // plan.getActivities(activities => {
-    //   dispatch(receiveActivities(activities))
-    // })
-
-    var yelp = new Yelp({
-      consumer_key: yelpAPIKey.key,
-      consumer_secret: yelpAPIKey.keySecret,
-      token: yelpAPIKey.token,
-      token_secret: yelpAPIKey.tokenSecret
-    });
-
-    yelp.search({ term: query.category, location: query.city })
-    .then(function (data) {
-      console.log('this is the yelp data: ', data);
-      dispatch(receiveActivities(data));
+    fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
+      method: 'GET'
     })
-    .catch(function (err) {
-      console.error(err);
-    });
-
-    // console.log('inside getAllActivities');
-    // fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
-    //   method: 'GET'
-    // })
-    // .then((results) => results.json()).then((data) => 
-    //   console.log("yelp data:", data));
-    //   fetch('http://localhost:3000/v1/activities', {
-    //     method: 'GET'
-    //   })
-    //   .then((dbResults) => dbResults.json()).then((dbData) => dispatch(receiveActivities(dbData)))
-    // .catch(e => console.log(e));
+    .then((results) => results.json()).then((data) => 
+      console.log("yelp data:", data));
+      fetch('https://sleepy-crag-32675.herokuapp.com/v1/activities', {
+        method: 'GET'
+      })
+      .then((dbResults) => dbResults.json()).then((dbData) => dispatch(receiveActivities(dbData.data)))
+      .then(() => {
+        router.push('/activities')
+      })
+    .catch(e => console.log(e));
 
   }
 }
