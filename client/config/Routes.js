@@ -13,7 +13,7 @@ import {
 import Activities from '../Components/Activities';
 import Index from '../Components/Index/Index';
 import Confirmation from '../Components/Confirmation/Confirmation';
-import Maps from '../Components/Maps/Maps';
+import Maps from '../Components/Helpers/Maps';
 
 
   var Routes = (
