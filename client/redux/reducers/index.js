@@ -13,7 +13,7 @@ export function getPlannerActivities(state) {
 
   ))
 }
-
+ 
 export default combineReducers({
   planBuilder,
   activities,

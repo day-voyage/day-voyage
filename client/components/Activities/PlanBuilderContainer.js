@@ -18,9 +18,10 @@ class PlanBuilderContainer extends Component {
 
 PlanBuilderContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     title: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
+    desc: PropTypes.string.isRequired,
+    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired
   })).isRequired,
   confirmPlan: PropTypes.func.isRequired

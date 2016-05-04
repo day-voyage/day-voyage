@@ -9,8 +9,8 @@ export default class PlanBuilder extends React.Component {
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       activities.map(activity =>
-        <div key={activity.id}>
-          {activity.title} - {activity.categories} {activity.city}
+        <div key={activity.title}>
+          {activity.title} - {activity.desc} {activity.city}
         </div>
     )
     return (
