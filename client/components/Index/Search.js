@@ -1,10 +1,13 @@
 import { browserHistory } from 'react-router';
 import React, { PropTypes, Component} from 'react';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { getAllActivities } from '../../redux/actions'
+import { getAllActivities } from '../../redux/actions';
 import { Provider } from 'react-redux';
 
 export default class Search extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
 
   constructor(props) {
     super(props);
@@ -16,18 +19,10 @@ export default class Search extends Component {
 
 
   searchYelp(event) {
-    // const contextTypes = {
-    //   router: PropTypes.object
-    // }
     event.preventDefault();
-
-    console.log('search.js props: ', this.props);
-    console.log('this.context: ', this.context);
-    console.log('proptypes: ', PropTypes);
+    console.log(this.context.router);
 
     getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
-   
-
   }
 
   handleCategory(event) {
@@ -59,9 +54,4 @@ export default class Search extends Component {
       </div>
     );
   }
-}
-
-
-contextTypes: {
-  router: PropTypes.object
 }

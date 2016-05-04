@@ -1,5 +1,6 @@
 import plan from '../../api/plan.js';
 import * as types from '../constants/ActionTypes.js';
+import { store } from '../../components/App.js';
 var Yelp = require('yelp');
 
 export function initApp() {
@@ -16,8 +17,7 @@ function receiveActivities(activities) {
 }
 
 export function getAllActivities(query, router) {
-  console.log('inside getallactivities, router: ', router);
-  return dispatch => {
+
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
@@ -26,13 +26,11 @@ export function getAllActivities(query, router) {
       fetch('https://sleepy-crag-32675.herokuapp.com/v1/activities', {
         method: 'GET'
       })
-      .then((dbResults) => dbResults.json()).then((dbData) => dispatch(receiveActivities(dbData.data)))
-      .then(() => {
-        router.push('/activities')
-      })
+    .then((dbResults) => dbResults.json()).then((dbData) => store.dispatch(receiveActivities(dbData.data)))
+    .then(() => {
+      router.push('/activities');
+    })
     .catch(e => console.log(e));
-
-  }
 }
 
 export function addToBuilder(activityId) {

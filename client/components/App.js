@@ -13,35 +13,15 @@ import {
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import Nav from './NavBar/Nav';
 import Routes from '../config/Routes';
-import configStore from '../redux/store/configStore.js'
-// import Activities from './Activities';
-// import Index from './Index/Index';
-// import Confirmation from './Confirmation/Confirmation';
+import configStore from '../redux/store/configStore.js';
 
-// import { initApp } from '../redux/actions'
-// import { getAllActivities } from '../redux/actions'
-
-// import Reducer from '../redux/reducers';
-
-// const middleware = process.env.NODE_ENV === 'production' ?
-//   [ thunk ] :
-//   [ thunk, logger() ]
-
-// export const store = createStore(
-//   Reducer,
-//   applyMiddleware(...middleware)
-// )
-
-// const history = syncHistoryWithStore(browserHistory, store)
-
-// // store.dispatch(initApp());
-// store.dispatch(getAllActivities({city: 'san francisco', category: 'food'}));
-
-const store = configStore();
-console.log('app.js store: ', store);
-const history = syncHistoryWithStore(browserHistory, store)
+// Exporting store so redux actions can use it to dispatch!!!
+export const store = configStore();
+const history = syncHistoryWithStore(browserHistory, store);
 
 export class App extends React.Component {
+
+  // static now works with stage-0, passing all PropTypes down to children
   static propTypes = {
     children: React.PropTypes.any,
   };
@@ -54,14 +34,9 @@ export class App extends React.Component {
           <Router history={history} routes={Routes} />
         </div>
       </Provider>
-      )
-
+    )
   }
 };
- 
-// PropTypes: {
-//   children: React.PropTypes.any
-// }
 
 ReactDOM.render(<App/>, document.getElementById('app'));
 

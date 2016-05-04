@@ -10,14 +10,12 @@ export default function configStore(initialState) {
 
   const middleware = process.env.NODE_ENV === 'production' ?
     [ thunk ] :
-    [ thunk, logger() ]
+    [ thunk, logger()];
 
   const store = createStore(
     Reducer,
     applyMiddleware(...middleware)
-  )
-
-  console.log('configstore store: ', store);
+  );
 
   return store;
 }
