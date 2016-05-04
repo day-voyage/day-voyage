@@ -7,7 +7,9 @@ export default class Index extends React.Component {
   render() {
     return (
       <div className="container">
-        <Search />
+        <div className="row">
+          <Search />
+        </div>
       </div>
     );
   }

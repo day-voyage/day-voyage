@@ -14,7 +14,7 @@ export default class PlanBuilder extends React.Component {
         </div>
     )
     return (
-      <div className="col-md-4">
+      <div>
         <h3>Your Itinerary</h3>
         <div>{nodes}</div>
         <button onClick={onConfirmClicked}
