@@ -7,7 +7,7 @@ export default class ActivityItem extends Component {
     return (
       <div
         style={{ marginBottom: 20 }}>
-        <div> {activity.title} - {activity.categories} {activity.location } </div>
+        <div> {activity.title} - {activity.desc} {activity.location } </div>
 
         <button
           onClick={this.props.onAddToBuilderClicked}
@@ -22,7 +22,8 @@ export default class ActivityItem extends Component {
 ActivityItem.propTypes = {
   activity: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
+    desc: PropTypes.string.isRequired,
+    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired,
     added: PropTypes.bool.isRequired
   }).isRequired,

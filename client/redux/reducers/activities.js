@@ -18,7 +18,7 @@ function byId(state = {}, action) {
       return Object.assign({},
         state,
         action.activities.reduce((obj, activity) => {
-          obj[activity.id] = activity
+          obj[activity.title] = activity
           return obj
         }, {})
       )
@@ -36,7 +36,7 @@ function byId(state = {}, action) {
 function visibleIds(state = [], action) {
   switch (action.type) {
     case RECEIVE_ACTIVITIES:
-      return action.activities.map(activity => activity.id)
+      return action.activities.map(activity => activity.title)
     default:
       return state
   }
@@ -47,10 +47,10 @@ export default combineReducers({
   visibleIds
 })
 
-export function getActivity(state, id) {
-  return state.byId[id]
+export function getActivity(state, title) {
+  return state.byId[title]
 }
 
 export function getVisibleActivities(state) {
-  return state.visibleIds.map(id => getActivity(state, id))
+  return state.visibleIds.map(title => getActivity(state, title))
 }

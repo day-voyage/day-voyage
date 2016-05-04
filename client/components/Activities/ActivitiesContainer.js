@@ -13,9 +13,9 @@ class ActivitiesContainer extends Component {
       <ActivitiesList title="Activities">
         {activities.map(activity =>
           <ActivityItem
-            key={activity.id}
+            key={activity.title}
             activity={activity}
-            onAddToBuilderClicked={() => this.props.addToBuilder(activity.id)} />
+            onAddToBuilderClicked={() => this.props.addToBuilder(activity.title)} />
         )}
       </ActivitiesList>
     )
@@ -24,9 +24,10 @@ class ActivitiesContainer extends Component {
 
 ActivitiesContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     title: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired,
+    desc: PropTypes.string.isRequired,
+    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired,
     added: PropTypes.bool.isRequired
   })).isRequired,
@@ -34,7 +35,6 @@ ActivitiesContainer.propTypes = {
 }
 
 function mapStateToProps(state) {
-  console.log('this is the mapped state: ', state);
   return {
     activities: getVisibleActivities(state.activities)
   }
