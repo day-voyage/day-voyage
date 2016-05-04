@@ -13,6 +13,7 @@ import {
 import Activities from '../Components/Activities';
 import Index from '../Components/Index/Index';
 import Confirmation from '../Components/Confirmation/Confirmation';
+import Maps from '../Components/Maps/Maps';
 
 
   var Routes = (
@@ -20,6 +21,7 @@ import Confirmation from '../Components/Confirmation/Confirmation';
       <Route path="/" component={ Index } />
       <Route path="/activities" component={ Activities } />
       <Route path="/confirmation" component={ Confirmation } />
+      <Route path="/maps" component={ Maps } />
       <Route path="/*" component={ Index } />
     </Router>
   );
