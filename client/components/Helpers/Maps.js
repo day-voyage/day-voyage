@@ -45,41 +45,36 @@ export default class Maps extends React.Component {
     ];
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <h1>HERE IS YOUR MAP</h1>
-            <section style={{height: "500px"}}>
-              <GoogleMapLoader
-                containerElement={
-                  <div
-                    {...this.props}
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      position: "absolute"
-                    }}
-                  />
-                }
-                googleMapElement={
-                  <GoogleMap
-                    defaultZoom={12}
-                    defaultCenter={{lat: destObj.lat, lng: destObj.lng}}>
-                      {markers.map((marker, index) => {
-                        return (
-                          <Marker
-                            key={ index }
-                            {...marker} />
-                        );
-                      })}
-                      {this.state.directions ? <DirectionsRenderer directions={this.state.directions} /> : null}
-
-                  </GoogleMap>
-                }
+      <div className="col-md-8">
+        <section style={{height: "500px"}}>
+          <GoogleMapLoader
+            containerElement={
+              <div
+                {...this.props}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  position: "absolute"
+                }}
               />
-            </section>
-          </div>
-        </div>
+            }
+            googleMapElement={
+              <GoogleMap
+                defaultZoom={12}
+                defaultCenter={{lat: destObj.lat, lng: destObj.lng}}>
+                  {markers.map((marker, index) => {
+                    return (
+                      <Marker
+                        key={ index }
+                        {...marker} />
+                    );
+                  })}
+                  {this.state.directions ? <DirectionsRenderer directions={this.state.directions} /> : null}
+
+              </GoogleMap>
+            }
+          />
+        </section>
       </div>
     );
   }

@@ -36,20 +36,22 @@ export default class Search extends Component {
   render() {
     return (
       <div className="col-sm-12">
-        <form className="commentForm" onSubmit={this.searchYelp.bind(this)}>
-          Search Category:
+        <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchYelp.bind(this)}>
+          <h5>Search Category: </h5>
           <input
             type="text"
             value={this.state.value}
             placeholder="Category"
+            style={{marginBottom: 25}}
             onChange={this.handleCategory.bind(this)} />
-          Select City:
+          <h5>Select City: </h5>
           <select onChange={this.handleCity.bind(this)}>
             <option value="San Francisco, CA" >San Francisco</option>
             <option value="Oakland, CA" >Oakland</option>
             <option value="San Jose, CA" >San Jose</option>
-          </select>
-          <input type="submit" value="Post" />
+          </select><br />
+          <input type="submit" 
+                 value="Search" />
         </form>
       </div>
     );

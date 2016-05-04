@@ -10,14 +10,16 @@ class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props
     return (
-      <ActivitiesList title="Activities">
-        {activities.map(activity =>
-          <ActivityItem
-            key={activity.title}
-            activity={activity}
-            onAddToBuilderClicked={() => this.props.addToBuilder(activity.title)} />
-        )}
-      </ActivitiesList>
+      <div className="col-md-4">
+        <ActivitiesList title="Activities">
+          {activities.map(activity =>
+            <ActivityItem
+              key={activity.title}
+              activity={activity}
+              onAddToBuilderClicked={() => this.props.addToBuilder(activity.title)} />
+          )}
+        </ActivitiesList>
+      </div>
     )
   }
 }

@@ -9,9 +9,11 @@ class PlanBuilderContainer extends Component {
     const { activities } = this.props
 
     return (
-      <PlanBuilder
-        activities={activities}
-        onConfirmClicked={() => this.props.confirmPlan()} />
+      <div className="col-md-4">
+        <PlanBuilder
+          activities={activities}
+          onConfirmClicked={() => this.props.confirmPlan()} />
+      </div>
     )
   }
 }
