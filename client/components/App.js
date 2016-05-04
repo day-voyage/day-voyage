@@ -13,38 +13,30 @@ import {
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import Nav from './NavBar/Nav';
 import Routes from '../config/Routes';
-import Activities from './Activities';
-import Index from './Index/Index';
-import Confirmation from './Confirmation/Confirmation';
+import configStore from '../redux/store/configStore.js';
 
-import { getAllActivities } from '../redux/actions'
-import Reducer from '../redux/reducers';
+// Exporting store so redux actions can use it to dispatch!!!
+export const store = configStore();
+const history = syncHistoryWithStore(browserHistory, store);
 
-const middleware = process.env.NODE_ENV === 'production' ?
-  [ thunk ] :
-  [ thunk, logger() ]
+export class App extends React.Component {
 
-const store = createStore(
-  Reducer,
-  applyMiddleware(...middleware)
-)
-
-const history = syncHistoryWithStore(browserHistory, store)
-
-store.dispatch(getAllActivities())
-
-class App extends React.Component {
+  // static now works with stage-0, passing all PropTypes down to children
+  static propTypes = {
+    children: React.PropTypes.any,
+  };
 
   render() {
     return (
       <Provider store={store}>
         <div>
           <Nav />
-            { Routes }
+          <Router history={history} routes={Routes} />
         </div>
       </Provider>
-    );
+    )
   }
-}
+};
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));
+

@@ -48,8 +48,6 @@ export default combineReducers({
 })
 
 export function getActivity(state, id) {
-  console.log('state from getActivity ', state);
-  console.log('id from getActivity ', id);
   return state.byId[id]
 }
 

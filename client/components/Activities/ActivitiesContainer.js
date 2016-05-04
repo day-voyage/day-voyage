@@ -5,6 +5,7 @@ import { getVisibleActivities } from '../../redux/reducers/activities.js'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
 
+
 class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props
@@ -33,6 +34,7 @@ ActivitiesContainer.propTypes = {
 }
 
 function mapStateToProps(state) {
+  console.log('this is the mapped state: ', state);
   return {
     activities: getVisibleActivities(state.activities)
   }

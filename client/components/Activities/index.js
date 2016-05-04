@@ -17,12 +17,14 @@ export default class Activities extends React.Component {
           <Filter />
           <div className="col-md-4">
             <h1>Activities Page</h1>
-            <ActivitiesContainer />
+            <ActivitiesContainer
+            query={this.props.location.query}
+            />
             <button><Link to="/confirmation">go to confirmation page</Link></button>
           </div>
             <PlanBuilderContainer />
         </div>
-      </div>
+      </div> 
     );
   }
 

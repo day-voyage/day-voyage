@@ -1,7 +1,14 @@
 import { browserHistory } from 'react-router';
-import * as React from 'react';
+import React, { PropTypes, Component} from 'react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { getAllActivities } from '../../redux/actions';
+import { Provider } from 'react-redux';
 
-export default class Search extends React.Component {
+export default class Search extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,33 +17,12 @@ export default class Search extends React.Component {
     };
   }
 
-  // contextTypes {
-  //   router: React.PropTypes.object.isRequired
-  // }
-
 
   searchYelp(event) {
     event.preventDefault();
+    console.log(this.context.router);
 
-    browserHistory.push({
-      pathname: '/activities',
-      query: {
-        city: this.state.city,
-        category: this.state.category
-      }
-    });
-
-    // fetch(`/api/yelpSearch?city=${this.state.city}&category=${this.state.category}`, {
-    //   method: 'GET'
-    // })
-    // .then((results) => results.json()).then((data) => 
-    //   console.log("yelp data:", data));
-    //   fetch('http://localhost:3000/v1/activities', {
-    //     method: 'GET'
-    //   })
-    //   .then((dbResults) => dbResults.json()).then((dbData) => console.log("db Data:", dbData.data))
-    // .catch(e => console.log(e));
-
+    getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
   }
 
   handleCategory(event) {
