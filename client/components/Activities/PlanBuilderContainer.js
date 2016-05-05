@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { confirmPlan, deleteFromBuilder } from '../../redux/actions'
 import { buildPlanner, getPlannerActivities } from '../../redux/reducers'
-import PlanBuilder from './PlanBuilder'
 import PlanBuilderItem from './PlanBuilderItem'
 
 class PlanBuilderContainer extends Component {

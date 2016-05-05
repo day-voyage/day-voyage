@@ -1,19 +1,12 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
 import { 
-  RouteHandler, 
   Router, 
   Route,
-  IndexRoute,
-  Link,
   browserHistory } from 'react-router';
 
-import Activities from '../Components/Activities';
 import Index from '../Components/Index/Index';
-import Confirmation from '../Components/Confirmation/Confirmation';
-import Maps from '../Components/Helpers/Maps';
+import Activities from '../Components/Activities';
+import Confirmation from '../Components/Confirmation';
 
 
   var Routes = (
@@ -25,4 +18,4 @@ import Maps from '../Components/Helpers/Maps';
     </Router>
   );
 
-  module.exports = Routes;
+module.exports = Routes;
