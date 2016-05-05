@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-export default class ActivityItem extends Component {
+export default class PlanBuilderItem extends Component {
   render() {
     const { activity } = this.props
 
@@ -12,16 +12,15 @@ export default class ActivityItem extends Component {
         <div> {activity.title} - {activity.desc} {activity.location } </div>
 
         <button
-          onClick={this.props.onAddToBuilderClicked}
-          disabled={activity.added ? 'disabled' : ''}>
-          {activity.added ? 'Added' : 'Add to itinerary'}
+          onClick={this.props.onDeleteFromBuilderClicked}>
+          Delete
         </button>
       </div>
     )
   }
 }
 
-ActivityItem.propTypes = {
+PlanBuilderItem.propTypes = {
   activity: PropTypes.shape({
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
@@ -29,5 +28,5 @@ ActivityItem.propTypes = {
     city: PropTypes.string.isRequired,
     added: PropTypes.bool.isRequired
   }).isRequired,
-  onAddToBuilderClicked: PropTypes.func.isRequired
+  onDeleteFromBuilderClicked: PropTypes.func.isRequired
 }

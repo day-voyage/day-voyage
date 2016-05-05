@@ -19,7 +19,7 @@ class ActivitiesContainer extends Component {
               onAddToBuilderClicked={() => this.props.addToBuilder(activity.title)} />
           )}
         </ActivitiesList>
-      </div>
+      </div> 
     )
   }
 }

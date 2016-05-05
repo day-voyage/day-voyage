@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { default as planBuilder, getQuantity, getAddedIds } from './planBuilder';
+import { default as planBuilder, getQuantity, getAddedIds, deleteActivity } from './planBuilder';
 import { default as activities, getActivity } from './activities';
 // import otherReducer1 from './otherReducer1.js';
 // import otherReducer2 from './otherReducer2.js';

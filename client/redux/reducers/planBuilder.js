@@ -1,5 +1,6 @@
 import {
   ADD_TO_BUILDER,
+  DELETE_FROM_BUILDER,
   CONFIRM_REQUEST,
   CONFIRM_FAILURE
 } from '../constants/ActionTypes'
@@ -15,6 +16,11 @@ function addedIds(state = initialState.addedIds, action) {
         return state
       }
       return [ ...state, action.activityId ]
+    case DELETE_FROM_BUILDER:
+      var newState = state.slice();
+      var activityIndex = state.indexOf(action.activityId);
+      newState.splice(activityIndex, 1);
+      return newState;
     default:
       return state
   }
@@ -33,12 +39,9 @@ export default function planBuilder(state = initialState, action) {
   }
 }
 
-
 export function getAddedIds(state) {
   return state.addedIds
 }
-
-
 
 
 // import * as types from '../constants/ActionTypes';
