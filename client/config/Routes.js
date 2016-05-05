@@ -21,7 +21,6 @@ import Maps from '../Components/Helpers/Maps';
       <Route path="/" component={ Index } />
       <Route path="/activities" component={ Activities } />
       <Route path="/confirmation" component={ Confirmation } />
-      <Route path="/maps" component={ Maps } />
       <Route path="/*" component={ Index } />
     </Router>
   );

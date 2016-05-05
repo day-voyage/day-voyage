@@ -1,5 +1,7 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
+import { getVisibleActivities } from '../../redux/reducers/activities.js';
+import { connect } from 'react-redux';
 
 
 export default class Maps extends React.Component {
@@ -7,8 +9,7 @@ export default class Maps extends React.Component {
     super(props);
     this.state = {
       directions: null,
-      origin: '2434 Geary Blvd, San Francisco, CA',
-      destination: "944 Market Street, San Francisco, CA",
+      somePlace: {location: {lat: 37.72, lng: -122.33}}
     };
   }
 
@@ -17,10 +18,10 @@ export default class Maps extends React.Component {
 
     DirectionsService.route(
       {
-        origin: this.state.origin,
-        destination: this.state.destination,
-        waypoints: [{location: {lat: 37.73, lng: -122.37}}, {location: {lat: 37.72, lng: -122.33}}],
-        optimizeWaypoints: true,
+        origin: '2434 Geary Blvd, San Francisco, CA',
+        destination: "944 Market Street, San Francisco, CA",
+        waypoints: [this.state.somePlace, {location: {lat: 37.73, lng: -122.37}}],
+        optimizeWaypoints: false,
         travelMode: google.maps.TravelMode.WALKING,
       }, (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
@@ -34,34 +35,25 @@ export default class Maps extends React.Component {
   }
 
   render() {
-
-    var destObj = {
-      lat: 37.7749,
-      lng: -122.4194
-    };
-    var markers = [
-      {position: destObj, title: 'Hello World!'},
-      {position: {lat: 37.75, lng: -122.4}, title: 'second one'}
-    ];
+    const { activities } = this.props;
+    var markers = activities.map(function(item) {
+      return {position: {lat: item.lat, lng: item.long }, title: item.title };
+    });
 
     return (
-      <div className="col-md-8">
-        <section style={{height: "500px"}}>
+      <div className={styles[this.props.size].divClass}>
+        <section style={styles[this.props.size].mapSize}>
           <GoogleMapLoader
             containerElement={
               <div
                 {...this.props}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  position: "absolute"
-                }}
+                style={styles[this.props.size].mapPosition}
               />
             }
             googleMapElement={
               <GoogleMap
                 defaultZoom={12}
-                defaultCenter={{lat: destObj.lat, lng: destObj.lng}}>
+                defaultCenter={{lat: 37.73, lng: -122.37}}>
                   {markers.map((marker, index) => {
                     return (
                       <Marker
@@ -70,7 +62,6 @@ export default class Maps extends React.Component {
                     );
                   })}
                   {this.state.directions ? <DirectionsRenderer directions={this.state.directions} /> : null}
-
               </GoogleMap>
             }
           />
@@ -79,3 +70,40 @@ export default class Maps extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    activities: getVisibleActivities(state.activities)
+  }
+}
+
+var styles = {
+  large: {
+    mapSize: {
+      height: "500px",
+      width: "500px"
+    },
+    mapPosition: {
+      height: "100%",
+      width: "100%",
+      position: "absolute"
+    },
+    divClass: "col-md-8"
+  },
+  small: {
+    mapSize: {
+      height: "250px",
+      width: "250px"
+    },
+    mapPosition: {
+      height: "100%",
+      width: "100%",
+      position: "absolute"
+    },
+    divClass: "col-md-4"
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(Maps)
