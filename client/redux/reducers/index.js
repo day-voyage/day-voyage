@@ -16,12 +16,12 @@ export function getPlannerActivities(state) {
   ))
 }
 
-export function getConfirmActivities(state) {
-  return getAddedIds(state.planBuilder).map(id => Object.assign(
-    {},
-    getActivity(state.activities, id)
-
-  ))
+export function getConfirmActivities(confirmationState) {
+  var results = [];
+  for (var prop in confirmationState) {
+    results.push(confirmationState[prop]);
+  }
+  return results;
 }
  
 export default combineReducers({

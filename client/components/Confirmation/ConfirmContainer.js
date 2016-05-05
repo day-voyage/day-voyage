@@ -1,14 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
 import { saveToDb } from '../../redux/actions'
-import { getVisibleActivities } from '../../redux/reducers/activities.js'
+import { getConfirmActivities } from '../../redux/reducers/'
 import ConfirmItem from './ConfirmItem'
 
 class ConfirmContainer extends Component {
 
   render() {
     const { activities } = this.props
-    console.log(this.props);
+    console.log('here are the activities ', activities);
     return (
       <div>
         <div>
@@ -40,8 +40,9 @@ ConfirmContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => {
+  console.log('here is the state ', state);
   return {
-    activities: getVisibleActivities(state.activities),
+    activities: getConfirmActivities(state.confirmation),
   }
 }
 
