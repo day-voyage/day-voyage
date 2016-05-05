@@ -23,6 +23,7 @@ class PlanBuilderContainer extends Component {
       </div>
     return (
       <div className="col-md-4">
+      <h3>Itinerary</h3>
         {nodes}
       </div>
     )

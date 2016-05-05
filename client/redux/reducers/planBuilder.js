@@ -16,6 +16,11 @@ function addedIds(state = initialState.addedIds, action) {
         return state
       }
       return [ ...state, action.activityId ]
+    case DELETE_FROM_BUILDER:
+      var newState = state.slice();
+      var activityIndex = state.indexOf(action.activityId);
+      newState.splice(activityIndex, 1);
+      return newState;
     default:
       return state
   }
@@ -34,22 +39,8 @@ export default function planBuilder(state = initialState, action) {
   }
 }
 
-
 export function getAddedIds(state) {
   return state.addedIds
-}
-
-export function deleteActivity(state = initialState.addedIds, action) {
-  switch(action.type) {
-    case DELETE_FROM_BUILDER:
-    console.log(action.activityId);
-      var newState = state.slice();
-      var activityIndex = state.indexOf(action.activityId);
-      newState.splice(activityIndex, 1);
-      return newState;
-    default:
-      return state
-  }
 }
 
 
