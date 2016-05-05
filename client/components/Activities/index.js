@@ -1,14 +1,9 @@
-import * as React from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import { addToBuilder, deleteFromBuilder } from '../../redux/actions';
+import React, { Component } from 'react'
+import Filter from './Filter';
 import ActivitiesContainer from './ActivitiesContainer';
 import PlanBuilderContainer from './PlanBuilderContainer';
 
-import Filter from './Filter';
-import PlanBuilder from './PlanBuilder';
-
-export default class Activities extends React.Component {
+export default class Activities extends Component {
 
   render() {
     return (

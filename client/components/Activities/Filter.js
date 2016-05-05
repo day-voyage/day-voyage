@@ -1,7 +1,6 @@
-import * as React from 'react';
-import { Link } from 'react-router';
+import React, { Component } from 'react';
 
-export default class Filter extends React.Component {
+export default class Filter extends Component {
   render() {
     return (
       <div className="col-md-4">

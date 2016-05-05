@@ -5,7 +5,6 @@ import { getVisibleActivities } from '../../redux/reducers/activities.js'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
 
-
 class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props

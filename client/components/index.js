@@ -1,6 +1,6 @@
 require('./Activities'); 
 
-require('./Confirmation/Confirmation');
+require('./Confirmation');
 
 require('./Index/Index');
 
