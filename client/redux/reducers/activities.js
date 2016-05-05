@@ -1,11 +1,15 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER } from '../constants/ActionTypes';
+import { RECEIVE_ACTIVITIES, ADD_TO_BUILDER, DELETE_FROM_BUILDER } from '../constants/ActionTypes';
 
 function activities(state, action) {
   switch (action.type) {
     case ADD_TO_BUILDER:
       return Object.assign({}, state, {
         added: true
+      })
+    case DELETE_FROM_BUILDER:
+      return Object.assign({}, state, {
+        added: false
       })
     default:
       return state

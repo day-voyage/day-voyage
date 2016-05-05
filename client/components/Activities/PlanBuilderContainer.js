@@ -1,18 +1,29 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { confirmPlan } from '../../redux/actions'
+import { confirmPlan, deleteFromBuilder } from '../../redux/actions'
 import { buildPlanner, getPlannerActivities } from '../../redux/reducers'
 import PlanBuilder from './PlanBuilder'
+import PlanBuilderItem from './PlanBuilderItem'
 
 class PlanBuilderContainer extends Component {
   render() {
-    const { activities } = this.props
+    const { activities, onConfirmClicked } = this.props
 
+    const hasActivities = activities.length > 0
+    const nodes = !hasActivities ?
+      <em>Start building your itinerary here!</em> :
+      <div>
+      {activities.map(activity => 
+        <PlanBuilderItem
+          key={activity.title}
+          activity={activity}
+          onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity.title)} 
+          onConfirmClicked={() => this.props.confirmPlan()} />
+      )}
+      </div>
     return (
       <div className="col-md-4">
-        <PlanBuilder
-          activities={activities}
-          onConfirmClicked={() => this.props.confirmPlan()} />
+        {nodes}
       </div>
     )
   }
@@ -37,5 +48,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { confirmPlan }
+  { confirmPlan, deleteFromBuilder }
 )(PlanBuilderContainer)

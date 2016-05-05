@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router';
+import { deleteFromBuilder } from '../../redux/actions';
 
 export default class PlanBuilder extends React.Component {
   render() {
@@ -9,12 +10,14 @@ export default class PlanBuilder extends React.Component {
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       activities.map(activity =>
-        <div 
-        key={activity.title}
+        <div
         style={{ marginBottom: 20,
                 borderStyle: "solid",
                 borderWidth: "2px" }}>
-          {activity.title} - {activity.desc} {activity.city}
+          <div 
+          key={activity.title}>
+            {activity.title} - {activity.desc} {activity.city}
+          </div>
         </div>
     )
     return (
