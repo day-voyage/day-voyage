@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
-import { getVisibleActivities } from '../../redux/reducers/activities.js';
+import { getPlannerActivities } from '../../redux/reducers';
 import { connect } from 'react-redux';
 
 
@@ -14,32 +14,46 @@ export default class Maps extends React.Component {
   }
 
   componentDidMount() {
-    const DirectionsService = new google.maps.DirectionsService();
+    if (this.props.size === "large") {
+      const { activities } = this.props;
 
-    DirectionsService.route(
-      {
-        origin: '2434 Geary Blvd, San Francisco, CA',
-        destination: "944 Market Street, San Francisco, CA",
-        waypoints: [this.state.somePlace, {location: {lat: 37.73, lng: -122.37}}],
-        optimizeWaypoints: false,
-        travelMode: google.maps.TravelMode.WALKING,
-      }, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.setState({
-            directions: result
-          });
-        } else {
-          console.error(`error fetching directions ${ result }`);
-        }
-    });
+      var places = activities.map(function(item) {
+        return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
+      });
+
+      const DirectionsService = new google.maps.DirectionsService();
+
+      DirectionsService.route(
+        {
+          origin: places[0].address,
+          destination: places[places.length-1].address,
+          waypoints: places.slice(1,-1).map((item) => item.position),
+          optimizeWaypoints: false,
+          travelMode: google.maps.TravelMode.WALKING,
+        }, (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result
+            });
+          } else {
+            console.error(`error fetching directions ${ result }`);
+          }
+      });
+    }
   }
 
   render() {
-    const { activities } = this.props;
-    var markers = activities.map(function(item) {
-      return {position: {lat: item.lat, lng: item.long }, title: item.title };
-    });
+    var markers;
+    
+    if (this.props.size === "small") {
+      const { activities } = this.props;
 
+      markers = activities.map(function(item) {
+        return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title };
+      });
+    } else {
+      markers = [];
+    }
     return (
       <div className={styles[this.props.size].divClass}>
         <section style={styles[this.props.size].mapSize}>
@@ -71,9 +85,9 @@ export default class Maps extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return {
-    activities: getVisibleActivities(state.activities)
+    activities: getPlannerActivities(state),
   }
 }
 

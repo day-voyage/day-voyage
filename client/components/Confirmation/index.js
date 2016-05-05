@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ConfirmationContainer from './ConfirmationContainer';
+// import ConfirmationContainer from './ConfirmationContainer';
+import PlanBuilderContainer from '../Activities/PlanBuilderContainer';
 import Maps from '../Helpers/Maps';
 
 export default class Activities extends Component {
@@ -8,8 +9,8 @@ export default class Activities extends Component {
     return (
       <div className="container">
         <div className="row">
-          <ConfirmationContainer />
           <Maps size="large" />
+          <PlanBuilderContainer />
         </div>
       </div> 
     );
