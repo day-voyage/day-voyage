@@ -3,6 +3,7 @@ import Filter from './Filter';
 import ActivitiesContainer from './ActivitiesContainer';
 import PlanBuilderContainer from './PlanBuilderContainer';
 
+
 export default class Activities extends Component {
 
   render() {

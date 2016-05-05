@@ -1,7 +1,6 @@
 import plan from '../../api/plan.js';
 import * as types from '../constants/ActionTypes.js';
 import { store } from '../../components/App.js';
-var Yelp = require('yelp');
 
 export function initApp() {
   return dispatch => {
@@ -72,10 +71,15 @@ export function deleteFromBuilder(activityId) {
 }
 
 export function confirmPlan(activities) {
-  return (dispatch, getState) => {
-    dispatch({
-      type: types.CONFIRM_REQUEST
-    }) 
+  return {
+      type: types.CONFIRM_REQUEST,
+      activities
   }
 }
- 
+
+export function saveToDb(activities) {
+  return {
+    type: types.SAVE_TO_DB,
+    activities
+  }
+}

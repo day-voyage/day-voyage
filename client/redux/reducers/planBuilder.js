@@ -29,7 +29,7 @@ function addedIds(state = initialState.addedIds, action) {
 export default function planBuilder(state = initialState, action) {
   switch (action.type) {
     case CONFIRM_REQUEST:
-      return initialState
+      return state.addedIds
     case CONFIRM_FAILURE:
       return action.planBuilder
     default:
@@ -42,34 +42,3 @@ export default function planBuilder(state = initialState, action) {
 export function getAddedIds(state) {
   return state.addedIds
 }
-
-
-// import * as types from '../constants/ActionTypes';
-
-// const initialState = [];
-
-// export default function planBuilder (state = initialState, action) {
-//   // console.log('Action: ', action);
-//   // console.log('State: ', state);
-
-//   switch (action.type) {
-//     case types.ADD_TO_BUILDER:
-//       for (var i = 0; i < state.length; i++) {
-//         if (state[i].activityId === action.activityId) {
-//           return state;
-//         }
-//       }
-//       return state.concat(action.activityId);
-//     case types.DELETE_FROM_BUILDER:
-//       var newState = state.slice();
-//       for (var i = 0; i < newState.length; i++) {
-//         if (newState[i].activityId === action.placeId) {
-//           newState.splice(i, 1);
-//         }
-//       }
-//       // console.log(newState);
-//       return newState;
-//     default:
-//       return state;
-//   }
-// } 

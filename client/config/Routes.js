@@ -6,7 +6,8 @@ import {
 
 import Index from '../Components/Index/Index';
 import Activities from '../Components/Activities';
-import Confirmation from '../Components/Confirmation';
+import Confirmation from '../Components/Confirmation/ConfirmContainer';
+import Maps from '../Components/Helpers/Maps';
 
 
 var Routes = (

@@ -5,25 +5,40 @@ import { buildPlanner, getPlannerActivities } from '../../redux/reducers'
 import PlanBuilderItem from './PlanBuilderItem'
 
 class PlanBuilderContainer extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  goToConfirm(props) {
+    this.context.router.push('/confirmation');
+    this.props.confirmPlan(props);
+  }
+
   render() {
-    const { activities, onConfirmClicked } = this.props
+    const { activities } = this.props
 
     const hasActivities = activities.length > 0
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       <div>
-      {activities.map(activity => 
-        <PlanBuilderItem
-          key={activity.title}
-          activity={activity}
-          onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity.title)} 
-          onConfirmClicked={() => this.props.confirmPlan()} />
-      )}
+        <div>
+        {activities.map(activity => 
+          <PlanBuilderItem
+            key={activity.title}
+            activity={activity}
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity.title)}/>
+        )}
+        </div>
       </div>
     return (
       <div className="col-md-4">
       <h3>Itinerary</h3>
         {nodes}
+        <button
+          onClick={() => this.goToConfirm(this.props.activities)}
+          disabled={hasActivities ? '':'disabled'}>
+          Confirm
+        </button>
       </div>
     )
   }
