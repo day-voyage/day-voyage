@@ -6,7 +6,9 @@ export default class ActivityItem extends Component {
 
     return (
       <div
-        style={{ marginBottom: 20 }}>
+        style={{ marginBottom: 20,
+                borderStyle: "solid",
+                borderWidth: "2px" }}>
         <div> {activity.title} - {activity.desc} {activity.location } </div>
 
         <button

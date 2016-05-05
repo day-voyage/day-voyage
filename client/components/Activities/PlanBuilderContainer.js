@@ -16,7 +16,7 @@ class PlanBuilderContainer extends Component {
       </div>
     )
   }
-}
+} 
 
 PlanBuilderContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
