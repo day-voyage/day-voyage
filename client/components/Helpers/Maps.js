@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
-import { getPlannerActivities } from '../../redux/reducers';
+import { getConfirmActivities } from '../../redux/reducers';
 import { connect } from 'react-redux';
 
 
@@ -9,7 +9,6 @@ export default class Maps extends React.Component {
     super(props);
     this.state = {
       directions: null,
-      somePlace: {location: {lat: 37.72, lng: -122.33}}
     };
   }
 
@@ -43,17 +42,15 @@ export default class Maps extends React.Component {
   }
 
   render() {
-    var markers;
-    
-    if (this.props.size === "small") {
-      const { activities } = this.props;
+    var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
-      markers = activities.map(function(item) {
-        return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title };
-      });
-    } else {
-      markers = [];
+    var centerLat = 37.7749;
+    var centerLng = -122.4194;
+    if (this.props.lat && this.props.long) {
+      centerLat = parseFloat(this.props.lat);
+      centerLng = parseFloat(this.props.long);
     }
+
     return (
       <div className={styles[this.props.size].divClass}>
         <section style={styles[this.props.size].mapSize}>
@@ -67,11 +64,12 @@ export default class Maps extends React.Component {
             googleMapElement={
               <GoogleMap
                 defaultZoom={12}
-                defaultCenter={{lat: 37.73, lng: -122.37}}>
+                defaultCenter={{lat: centerLat, lng: centerLng}}>
                   {markers.map((marker, index) => {
                     return (
                       <Marker
                         key={ index }
+                        title={ marker.title }
                         {...marker} />
                     );
                   })}
@@ -87,7 +85,7 @@ export default class Maps extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    activities: getPlannerActivities(state),
+    activities: getConfirmActivities(state.confirmation),
   }
 }
 
@@ -106,13 +104,13 @@ var styles = {
   },
   small: {
     mapSize: {
-      height: "250px",
-      width: "250px"
+      height: "400px",
+      width: "400px"
     },
     mapPosition: {
       height: "100%",
-      width: "100%",
-      position: "absolute"
+      width: "100%"
+      // position: "absolute"
     },
     divClass: "col-md-4"
   }

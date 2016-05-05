@@ -10,7 +10,7 @@ class ConfirmContainer extends Component {
     const { activities } = this.props
     console.log('here are the activities ', activities);
     return (
-      <div>
+      <div className="col-md-4">
         <div>
         {activities.map(activity => 
           <ConfirmItem
