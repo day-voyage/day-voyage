@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addToBuilder } from '../../redux/actions'
-import { getVisibleActivities } from '../../redux/reducers/activities.js'
 import CreateActivity from './CreateActivity'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
@@ -45,16 +44,14 @@ ActivitiesContainer.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    // categories: PropTypes.array.isRequired,
-    city: PropTypes.string.isRequired,
-    added: PropTypes.bool.isRequired
+    city: PropTypes.string.isRequired
   })).isRequired,
   addToBuilder: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    activities: getVisibleActivities(state.activities)
+    activities: state.activities
   }
 }
 
