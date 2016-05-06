@@ -7,3 +7,7 @@ export const RECEIVE_YELPS = 'RECEIVE_YELPS';
 export const CONFIRM_REQUEST = 'CONFIRM_REQUEST';
 
 export const SAVE_TO_DB = 'SAVE_TO_DB';
+
+// maps stuff
+export const CHANGE_ROUTES = 'CHANGE_ROUTES';
+export const RECEIVE_ROUTES = 'RECEIVE_ROUTES';

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { default as planBuilder, getQuantity, getAddedIds, deleteActivity } from './planBuilder';
+import { default as directions, getDirections } from './map';
 import { default as activities, getActivity } from './activities';
 import { default as confirmation, saveToDb } from './confirmation';
 
@@ -12,8 +13,7 @@ export function getPlannerActivities(state) {
   return getAddedIds(state.planBuilder).map(id => Object.assign(
     {},
     getActivity(state.activities, id)
-
-  ))
+  ));
 }
 
 export function getConfirmActivities(confirmationState) {
@@ -23,11 +23,21 @@ export function getConfirmActivities(confirmationState) {
   }
   return results;
 }
+
+// export function getDirections(routeState) {
+//   return returnDirections(routeState);
+//   // var results = [];
+//   // for (var prop in confirmationState) {
+//   //   results.push(confirmationState[prop]);
+//   // }
+//   // return results;
+// }
  
 export default combineReducers({
   planBuilder,
   activities,
   confirmation,
+  directions,
   // otherReducer1,
   // otherReducer2,
   // otherReducer3

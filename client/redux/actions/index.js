@@ -5,14 +5,28 @@ import { store } from '../../components/App.js';
 export function initApp() {
   return dispatch => {
     console.log('ready to receive activities');
-  }
+  };
 }
 
 function receiveActivities(activities) {
   return {
     type: types.RECEIVE_ACTIVITIES,
     activities: activities
-  }
+  };
+}
+
+function receiveRoutes(route) {
+  return { 
+    type: types.RECEIVE_ROUTES,
+    directions: route
+  };
+}
+
+function changeRoutes(route) {
+  return { 
+    type: types.CHANGE_ROUTES, 
+    directions: route
+  };
 }
 
 export function getAllActivities(query, router) {
@@ -60,26 +74,57 @@ export function addToBuilder(activityId) {
   return { 
     type: types.ADD_TO_BUILDER, 
     activityId
-  }
+  };
 }
 
 export function deleteFromBuilder(activityId) {
   return {
     type: types.DELETE_FROM_BUILDER, 
     activityId
-  }
+  };
 }
 
 export function confirmPlan(activities) {
   return {
-      type: types.CONFIRM_REQUEST,
-      activities
-  }
+    type: types.CONFIRM_REQUEST,
+    activities
+  };
 }
 
 export function saveToDb(activities) {
   return {
     type: types.SAVE_TO_DB,
     activities
-  }
+  };
+}
+
+// map stuff
+export function changingRoutes(activities) {
+  const DirectionsService = new google.maps.DirectionsService();
+
+  var places = activities.map(function(item) {
+    return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
+  });
+
+  DirectionsService.route(
+    {
+      origin: places[0].address,
+      destination: places[places.length-1].address,
+      waypoints: places.slice(1,-1).map((item) => item.position),
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.WALKING,
+    }, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        return store.dispatch(changeRoutes(result));
+      } else {
+        console.error(`error fetching directions ${ result }`);
+      }
+  });
+
+
+
+  // return { 
+  //   type: types.CHANGE_ROUTES, 
+  //   activityId
+  // };
 }
