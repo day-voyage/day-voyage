@@ -9,10 +9,10 @@ const initialState = {
 
 export function directions(state = initialState.directions, action) {
   switch (action.type) {
-    case CHANGE_ROUTES:
-      return action.directions;
     case RECEIVE_ROUTES:
       return state;
+    case CHANGE_ROUTES:
+      return action.directions;
     default:
       return state;
   }

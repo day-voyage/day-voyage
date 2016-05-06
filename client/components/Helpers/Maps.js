@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
-import { getConfirmActivities } from '../../redux/reducers';
+import { getPlannerActivities } from '../../redux/reducers';
 import { directions } from '../../redux/reducers/map.js';
 
 import { changingRoutes } from '../../redux/actions';
@@ -11,11 +11,20 @@ export default class Maps extends React.Component {
 
   componentDidMount() {
     const { activities } = this.props;
-
-    changingRoutes(activities);
+    if (activities.length > 0) {
+      changingRoutes(activities);
+    }
   }
 
   updateRoute() {
+    var dummyPlaces =[
+    {lat: (37.7749 + Math.random(1)/100).toFixed(4), long: (-122.4194 + Math.random(1)/100).toFixed(4), title: "hello", address: "2434 Geary Blvd", city: "San Francisco", state: "CA" },
+    {lat: (37.7749 + Math.random(1)/100).toFixed(4), long: (-122.4194 + Math.random(1)/100).toFixed(4), title: "hello", address: "2434 Geary Blvd", city: "San Francisco", state: "CA" },
+    {lat: (37.7749 + Math.random(1)/100).toFixed(4), long: (-122.4194 + Math.random(1)/100).toFixed(4), title: "hello", address: "2434 Geary Blvd", city: "San Francisco", state: "CA" },
+    {lat: (37.7749 + Math.random(1)/100).toFixed(4), long: (-122.4194 + Math.random(1)/100).toFixed(4), title: "hello", address: "944 Market St", city: "San Francisco", state: "CA" }
+    ];
+
+    changingRoutes(dummyPlaces);
   }
 
   render() {
@@ -66,8 +75,8 @@ export default class Maps extends React.Component {
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    activities: getConfirmActivities(state.confirmation),
-    directions: directions(state.directions, {type: "RECEIVE_ROUTES"})
+    activities: state.confirmation,
+    directions: state.directions
   }
 }
 

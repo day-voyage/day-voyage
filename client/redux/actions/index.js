@@ -100,10 +100,12 @@ export function saveToDb(activities) {
 // map stuff
 export function changingRoutes(activities) {
   const DirectionsService = new google.maps.DirectionsService();
-
+  console.log("in changing routes function", activities);
   var places = activities.map(function(item) {
     return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
   });
+
+  console.log(places);
 
   DirectionsService.route(
     {
