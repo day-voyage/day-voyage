@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux'
-import { saveToDb, reorderUp, reorderDown } from '../../redux/actions'
-import { getConfirmActivities } from '../../redux/reducers/'
+import { saveToDb, reorderUp, reorderDown, changingRoutes } from '../../redux/actions'
 import ConfirmItem from './ConfirmItem'
 
 class ConfirmContainer extends Component {
@@ -15,8 +14,14 @@ class ConfirmContainer extends Component {
           <ConfirmItem
             key={activity.title}
             activity={activity}
-            onMoveUpClicked={() => this.props.reorderUp(activities.indexOf(activity))}
-            onMoveDownClicked={() => this.props.reorderDown(activities.indexOf(activity))}/>
+            onMoveUpClicked={() => {
+              this.props.reorderUp(activities.indexOf(activity));
+              changingRoutes(activities);
+            }}
+            onMoveDownClicked={() => {
+              this.props.reorderDown(activities.indexOf(activity));
+              changingRoutes(activities);
+            }}/>
         )}
         </div>
         <button
@@ -48,5 +53,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { saveToDb, reorderUp, reorderDown }
+  { saveToDb, reorderUp, reorderDown, changingRoutes }
 )(ConfirmContainer)
