@@ -13,20 +13,20 @@ export default function confirmation(state = [], action) {
       console.log('save to db pressed')
       return state
     case REORDER_UP:
-      var newState = state.slice();
       if (action.activityIndex === 0) {
         return state;
       } else {
+        var newState = state.slice();
         var index = action.activityIndex;
         var newIndex = action.activityIndex - 1;
         newState[index] = newState.splice(newIndex, 1, newState[index])[0];
         return newState;
       }
     case REORDER_DOWN:
-      var newState = state.slice();
       if (action.activityIndex === state.length - 1) {
         return state;
       } else {
+        var newState = state.slice();
         var index = action.activityIndex;
         var newIndex = action.activityIndex + 1;
         newState[index] = newState.splice(newIndex, 1, newState[index])[0];
