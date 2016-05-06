@@ -9,16 +9,15 @@ const initialState = {
   addedIds: [],
 }
 
-function addedIds(state = initialState.addedIds, action) {
+function addedIds(state = [], action) {
   switch (action.type) {
     case ADD_TO_BUILDER:
-      if (state.indexOf(action.activityId) !== -1) {
-        return state
-      }
-      return [ ...state, action.activityId ]
+      var newState = state.slice();
+      newState.push(action.activity);
+      return newState;
     case DELETE_FROM_BUILDER:
       var newState = state.slice();
-      var activityIndex = state.indexOf(action.activityId);
+      var activityIndex = state.indexOf(action);
       newState.splice(activityIndex, 1);
       return newState;
     default:
