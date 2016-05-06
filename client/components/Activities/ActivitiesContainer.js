@@ -5,8 +5,6 @@ import { getVisibleActivities } from '../../redux/reducers/activities.js'
 import CreateActivity from './CreateActivity'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
-import Modal from 'react-modal';
-
 
 class ActivitiesContainer extends Component {
   constructor(props) {
@@ -64,14 +62,3 @@ export default connect(
   mapStateToProps,
   { addToBuilder }
 )(ActivitiesContainer)
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
