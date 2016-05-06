@@ -1,80 +1,26 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
 import { getConfirmActivities } from '../../redux/reducers';
-import { getDirections } from '../../redux/reducers/map.js';
+import { directions } from '../../redux/reducers/map.js';
 
 import { changingRoutes } from '../../redux/actions';
 import { connect } from 'react-redux';
 
 
 export default class Maps extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      directions: null,
-    };
-  }
 
   componentDidMount() {
-    const { activities, directions } = this.props;
+    const { activities } = this.props;
 
     changingRoutes(activities);
-    // if (this.props.size === "large") {
-
-    //   var places = activities.map(function(item) {
-    //     return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
-    //   });
-
-    //   const DirectionsService = new google.maps.DirectionsService();
-
-    //   DirectionsService.route(
-    //     {
-    //       origin: places[0].address,
-    //       destination: places[places.length-1].address,
-    //       waypoints: places.slice(1,-1).map((item) => item.position),
-    //       optimizeWaypoints: true,
-    //       travelMode: google.maps.TravelMode.WALKING,
-    //     }, (result, status) => {
-    //       if (status === google.maps.DirectionsStatus.OK) {
-    //         this.setState({
-    //           directions: result
-    //         });
-    //       } else {
-    //         console.error(`error fetching directions ${ result }`);
-    //       }
-    //   });
-    // }
   }
 
   updateRoute() {
-    const DirectionsService = new google.maps.DirectionsService();
-
-    var places = [
-    {position: {location: {lat: 37.7749, lng: -122.4194 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.42 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.425 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.43 }}, title: "some title", address: '944 Market Street, San Francisco, CA' }
-    ];
-
-    DirectionsService.route(
-      {
-        origin: places[0].address,
-        destination: places[places.length-1].address,
-        waypoints: places.slice(1,-1).map((item) => item.position),
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING,
-      }, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.setState({
-            directions: result
-          });
-        } else {
-          console.error(`error fetching directions ${ result }`);
-        }
-    });
   }
 
   render() {
+    const { directions } = this.props;
+
     var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
     var centerLat = 37.7749;
@@ -107,7 +53,7 @@ export default class Maps extends React.Component {
                         {...marker} />
                     );
                   })}
-                  {this.state.directions ? <DirectionsRenderer directions={directions} /> : null}
+                  { directions ? <DirectionsRenderer directions={directions} /> : null}
               </GoogleMap>
             }
           />
@@ -121,7 +67,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     activities: getConfirmActivities(state.confirmation),
-    directions: getDirections(state)
+    directions: directions(state.directions, {type: "RECEIVE_ROUTES"})
   }
 }
 

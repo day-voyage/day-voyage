@@ -1,4 +1,3 @@
-import plan from '../../api/plan.js';
 import * as types from '../constants/ActionTypes.js';
 import { store } from '../../components/App.js';
 
