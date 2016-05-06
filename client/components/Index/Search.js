@@ -20,7 +20,6 @@ export default class Search extends Component {
 
   searchYelp(event) {
     event.preventDefault();
-    console.log(this.context.router);
 
     getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
   }

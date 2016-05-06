@@ -64,9 +64,8 @@ export default class Maps extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
-    activities: getConfirmActivities(state.confirmation),
+    activities: state.confirmation,
     directions: directions(state.directions, {type: "RECEIVE_ROUTES"})
   }
 }

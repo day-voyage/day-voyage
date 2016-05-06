@@ -16,14 +16,6 @@ export function getPlannerActivities(state) {
   ));
 }
 
-export function getConfirmActivities(confirmationState) {
-  var results = [];
-  for (var prop in confirmationState) {
-    results.push(confirmationState[prop]);
-  }
-  return results;
-}
-
 // export function getDirections(routeState) {
 //   return returnDirections(routeState);
 //   // var results = [];

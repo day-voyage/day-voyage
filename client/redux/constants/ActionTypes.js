@@ -6,6 +6,8 @@ export const RECEIVE_YELPS = 'RECEIVE_YELPS';
 
 export const CONFIRM_REQUEST = 'CONFIRM_REQUEST';
 
+export const REORDER_UP = 'REORDER_UP';
+export const REORDER_DOWN = 'REORDER_DOWN';
 export const SAVE_TO_DB = 'SAVE_TO_DB';
 
 // maps stuff

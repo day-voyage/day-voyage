@@ -90,6 +90,20 @@ export function confirmPlan(activities) {
   };
 }
 
+export function reorderUp(activityIndex) {
+  return {
+    type: types.REORDER_UP,
+    activityIndex
+  }
+}
+
+export function reorderDown(activityIndex) {
+  return {
+    type: types.REORDER_DOWN,
+    activityIndex,
+  }
+}
+
 export function saveToDb(activities) {
   return {
     type: types.SAVE_TO_DB,
@@ -119,6 +133,8 @@ export function changingRoutes(activities) {
         console.error(`error fetching directions ${ result }`);
       }
   });
+
+
 
 
 
