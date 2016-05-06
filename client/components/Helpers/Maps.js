@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
-import { getConfirmActivities } from '../../redux/reducers';
-import { directions } from '../../redux/reducers/map.js';
 
 import { changingRoutes } from '../../redux/actions';
 import { connect } from 'react-redux';
@@ -11,8 +9,9 @@ export default class Maps extends React.Component {
 
   componentDidMount() {
     const { activities } = this.props;
-
-    changingRoutes(activities);
+    if (activities.length > 0) {
+      changingRoutes(activities);
+    }
   }
 
   updateRoute() {
@@ -66,7 +65,7 @@ export default class Maps extends React.Component {
 const mapStateToProps = (state) => {
   return {
     activities: state.confirmation,
-    directions: directions(state.directions, {type: "RECEIVE_ROUTES"})
+    directions: state.directions
   }
 }
 
