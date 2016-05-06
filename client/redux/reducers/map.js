@@ -7,7 +7,7 @@ const initialState = {
   directions: null,
 };
 
-function mapDirections(state = initialState.directions, action) {
+export function directions(state = initialState.directions, action) {
   switch (action.type) {
     case CHANGE_ROUTES:
       return action.directions;
@@ -16,8 +16,4 @@ function mapDirections(state = initialState.directions, action) {
     default:
       return state;
   }
-}
-
-export default function getDirections(state) {
-  return state.mapDirections;
 }

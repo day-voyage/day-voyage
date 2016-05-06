@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
 import { getConfirmActivities } from '../../redux/reducers';
-import { getDirections } from '../../redux/reducers/map.js';
+import { directions } from '../../redux/reducers/map.js';
 
 import { changingRoutes } from '../../redux/actions';
 import { connect } from 'react-redux';
@@ -16,34 +16,9 @@ export default class Maps extends React.Component {
   }
 
   componentDidMount() {
-    const { activities, directions } = this.props;
+    const { activities } = this.props;
 
     changingRoutes(activities);
-    // if (this.props.size === "large") {
-
-    //   var places = activities.map(function(item) {
-    //     return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
-    //   });
-
-    //   const DirectionsService = new google.maps.DirectionsService();
-
-    //   DirectionsService.route(
-    //     {
-    //       origin: places[0].address,
-    //       destination: places[places.length-1].address,
-    //       waypoints: places.slice(1,-1).map((item) => item.position),
-    //       optimizeWaypoints: true,
-    //       travelMode: google.maps.TravelMode.WALKING,
-    //     }, (result, status) => {
-    //       if (status === google.maps.DirectionsStatus.OK) {
-    //         this.setState({
-    //           directions: result
-    //         });
-    //       } else {
-    //         console.error(`error fetching directions ${ result }`);
-    //       }
-    //   });
-    // }
   }
 
   updateRoute() {
@@ -75,6 +50,8 @@ export default class Maps extends React.Component {
   }
 
   render() {
+    const { directions } = this.props;
+
     var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
     var centerLat = 37.7749;
@@ -107,7 +84,7 @@ export default class Maps extends React.Component {
                         {...marker} />
                     );
                   })}
-                  {this.state.directions ? <DirectionsRenderer directions={directions} /> : null}
+                  { directions ? <DirectionsRenderer directions={directions} /> : null}
               </GoogleMap>
             }
           />
@@ -121,7 +98,7 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     activities: getConfirmActivities(state.confirmation),
-    directions: getDirections(state)
+    directions: directions(state.directions, {type: "RECEIVE_ROUTES"})
   }
 }
 
