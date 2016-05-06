@@ -14,9 +14,6 @@ export default class Maps extends React.Component {
     }
   }
 
-  updateRoute() {
-  }
-
   render() {
     const { directions } = this.props;
 
@@ -24,6 +21,7 @@ export default class Maps extends React.Component {
 
     var centerLat = 37.7749;
     var centerLng = -122.4194;
+    
     if (this.props.lat && this.props.long) {
       centerLat = parseFloat(this.props.lat);
       centerLng = parseFloat(this.props.long);

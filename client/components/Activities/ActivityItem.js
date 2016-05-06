@@ -10,15 +10,9 @@ export default class ActivityItem extends Component {
     };
   }
 
-  openModal() {
+  toggleModal() {
     this.setState({
-      modalOpen: true
-    });
-  }
-
-  closeModal() {
-    this.setState({
-      modalOpen: false
+      modalOpen: !this.state.modalOpen
     });
   }
 
@@ -30,13 +24,13 @@ export default class ActivityItem extends Component {
         style={{ marginBottom: 20,
                 borderStyle: "solid",
                 borderWidth: "2px" }}>
-        <div> {activity.title} - {activity.desc} {activity.neighborhood } <img src='../../assets/open.png' onClick={this.openModal.bind(this)} /></div>
+        <div> {activity.title} - {activity.desc} {activity.neighborhood } <img src='../../assets/open.png' onClick={this.toggleModal.bind(this)} /></div>
         <Modal
           isOpen={this.state.modalOpen}
           style={customStyles} >
           <div className="container">
             <div className="row">
-              <img src='../../assets/close.png' onClick={this.closeModal.bind(this)} />
+              <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
               <div> {activity.title} - {activity.neighborhood }</div>
               <Maps size="small" lat={activity.lat} long={activity.long} title={activity.title} />
             </div>
