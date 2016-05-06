@@ -8,12 +8,6 @@ import { connect } from 'react-redux';
 
 
 export default class Maps extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      directions: null,
-    };
-  }
 
   componentDidMount() {
     const { activities } = this.props;
@@ -22,31 +16,6 @@ export default class Maps extends React.Component {
   }
 
   updateRoute() {
-    const DirectionsService = new google.maps.DirectionsService();
-
-    var places = [
-    {position: {location: {lat: 37.7749, lng: -122.4194 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.42 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.425 }}, title: "some title", address: '2434 Geary Blvd, San Francisco, CA' },
-    {position: {location: {lat: 37.7749, lng: -122.43 }}, title: "some title", address: '944 Market Street, San Francisco, CA' }
-    ];
-
-    DirectionsService.route(
-      {
-        origin: places[0].address,
-        destination: places[places.length-1].address,
-        waypoints: places.slice(1,-1).map((item) => item.position),
-        optimizeWaypoints: true,
-        travelMode: google.maps.TravelMode.WALKING,
-      }, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.setState({
-            directions: result
-          });
-        } else {
-          console.error(`error fetching directions ${ result }`);
-        }
-    });
   }
 
   render() {
