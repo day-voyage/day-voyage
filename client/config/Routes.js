@@ -6,15 +6,15 @@ import {
 
 import Index from '../Components/Index/Index';
 import Activities from '../Components/Activities';
-import Confirmation from '../Components/Confirmation';
 import Maps from '../Components/Helpers/Maps';
+import UpdateProfile from '../Components/User/UpdateProfile'
 
 
 var Routes = (
   <Router history={ browserHistory }>
     <Route path="/" component={ Index } />
     <Route path="/activities" component={ Activities } />
-    <Route path="/confirmation" component={ Confirmation } />
+    <Route path="/updateprofile" component = { UpdateProfile } />
     <Route path="/*" component={ Index } />
   </Router>
 );
