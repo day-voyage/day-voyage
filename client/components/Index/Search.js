@@ -17,7 +17,7 @@ export default class Search extends Component {
     }
   }
 
-  searchActivities() {
+  searchActivities(event) {
     event.preventDefault();
 
     getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);

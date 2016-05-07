@@ -30,7 +30,6 @@ export default class Maps extends React.Component {
     return (
       <div className={styles[this.props.size].divClass}>
         <section style={styles[this.props.size].mapSize}>
-          <button onClick={this.updateRoute.bind(this)}>CLICK HERE</button>
           <GoogleMapLoader
             containerElement={
               <div
