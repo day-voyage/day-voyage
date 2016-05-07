@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { addToBuilder, changingRoutes } from '../../redux/actions'
-import CreateActivity from './CreateActivity'
-import ActivityItem from './ActivityItem'
-import ActivitiesList from './ActivitiesList'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addToBuilder, changingRoutes } from '../../redux/actions';
+import CreateActivity from './CreateActivity';
+import ActivityItem from './ActivityItem';
+import ActivitiesList from './ActivitiesList';
+import FlatButton from 'material-ui/FlatButton';
 
 class ActivitiesContainer extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class ActivitiesContainer extends Component {
 
     return (
       <div className="col-md-5">
-        <button onClick={this.openModal.bind(this)} >Create An Activity</button>
+        <FlatButton label="Create An Activity" onClick={this.openModal.bind(this)} />
         <CreateActivity modal={this.state.modalOpen} toggleModal={this.openModal.bind(this)}/>
         <ActivitiesList title="Activities">
           {activities.map(activity =>

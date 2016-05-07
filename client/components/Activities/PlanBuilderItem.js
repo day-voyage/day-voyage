@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+import FlatButton from 'material-ui/FlatButton';
 
 export default class PlanBuilderItem extends Component {
   render() {
@@ -10,18 +11,15 @@ export default class PlanBuilderItem extends Component {
                 borderStyle: "solid",
                 borderWidth: "2px" }}>
         <div> {activity.title} - {activity.desc} {activity.location } </div>
-        <button
-          onClick={this.props.onMoveUpClicked}>
-          Up
-        </button>
-        <button
-          onClick={this.props.onMoveDownClicked}>
-          Down
-        </button>
-        <button
-          onClick={this.props.onDeleteFromBuilderClicked}>
-          Delete
-        </button>
+        <FlatButton
+          label="Up"
+          onClick={this.props.onMoveUpClicked} />
+        <FlatButton
+          label="Down"
+          onClick={this.props.onMoveDownClicked} />
+        <FlatButton
+          label="Delete"
+          onClick={this.props.onDeleteFromBuilderClicked} />
       </div>
     )
   }

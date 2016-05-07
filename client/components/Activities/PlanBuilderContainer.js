@@ -1,13 +1,15 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { confirmPlan, 
         deleteFromBuilder, 
         reorderUp, 
         reorderDown, 
-        changingRoutes } from '../../redux/actions'
-import { buildPlanner } from '../../redux/reducers'
-import PlanBuilderItem from './PlanBuilderItem'
-import Maps from '../Helpers/Maps'
+        changingRoutes } from '../../redux/actions';
+import { buildPlanner } from '../../redux/reducers';
+import PlanBuilderItem from './PlanBuilderItem';
+import Maps from '../Helpers/Maps';
+import FlatButton from 'material-ui/FlatButton';
+
 
 class PlanBuilderContainer extends Component {
   static contextTypes = {
@@ -49,11 +51,10 @@ class PlanBuilderContainer extends Component {
           <Maps size="small" />
         </div>
         {nodes}
-        <button
+        <FlatButton
+          label="Confirm"
           onClick={() => this.goToConfirm()}
-          disabled={hasActivities ? '':'disabled'}>
-          Confirm
-        </button>
+          disabled={hasActivities ? '':'disabled'} />
       </div>
     )
   }

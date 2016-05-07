@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import Maps from '../Helpers/Maps';
+import FlatButton from 'material-ui/FlatButton';
+
 
 export default class ActivityItem extends Component {
   constructor(props) {
@@ -44,11 +46,10 @@ export default class ActivityItem extends Component {
             </div>
           </div>
         </Modal>
-        <button
+        <FlatButton
+          label={activity.added ? 'Added' : 'Add to itinerary'}
           onClick={this.clickAddButton.bind(this)}
-          disabled={activity.added ? 'disabled' : ''}>
-          {activity.added ? 'Added' : 'Add to itinerary'}
-        </button>
+          disabled={activity.added ? 'disabled' : ''} />
       </div>
     )
   }
