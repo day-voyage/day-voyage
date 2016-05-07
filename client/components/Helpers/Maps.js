@@ -62,7 +62,7 @@ export default class Maps extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    activities: state.confirmation,
+    activities: state.planBuilder,
     directions: state.directions
   }
 }

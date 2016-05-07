@@ -39,7 +39,6 @@ ConfirmContainer.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired
   })).isRequired,
   saveToDb: PropTypes.func.isRequired
@@ -47,7 +46,7 @@ ConfirmContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    activities: state.confirmation,
+    activities: state.planBuilder,
   }
 }
 

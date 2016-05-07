@@ -27,8 +27,6 @@ ConfirmItem.propTypes = {
   activity: PropTypes.shape({
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired,
-    added: PropTypes.bool.isRequired
   }).isRequired
 }
