@@ -124,7 +124,7 @@ export function changingRoutes(activities) {
       origin: places[0].address,
       destination: places[places.length-1].address,
       waypoints: places.slice(1,-1).map((item) => item.position),
-      optimizeWaypoints: true,
+      optimizeWaypoints: false,
       travelMode: google.maps.TravelMode.WALKING,
     }, (result, status) => {
       if (status === google.maps.DirectionsStatus.OK) {
