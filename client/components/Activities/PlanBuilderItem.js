@@ -10,7 +10,14 @@ export default class PlanBuilderItem extends Component {
                 borderStyle: "solid",
                 borderWidth: "2px" }}>
         <div> {activity.title} - {activity.desc} {activity.location } </div>
-
+        <button
+          onClick={this.props.onMoveUpClicked}>
+          Up
+        </button>
+        <button
+          onClick={this.props.onMoveDownClicked}>
+          Down
+        </button>
         <button
           onClick={this.props.onDeleteFromBuilderClicked}>
           Delete

@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { confirmPlan, deleteFromBuilder } from '../../redux/actions'
+import { confirmPlan, 
+        deleteFromBuilder, 
+        reorderUp, 
+        reorderDown, 
+        changingRoutes } from '../../redux/actions'
 import { buildPlanner } from '../../redux/reducers'
 import PlanBuilderItem from './PlanBuilderItem'
 
@@ -25,7 +29,15 @@ class PlanBuilderContainer extends Component {
           <PlanBuilderItem
             key={activity.title}
             activity={activity}
-            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}/>
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
+            onMoveUpClicked={() => {
+              this.props.reorderUp(activities.indexOf(activity));
+              changingRoutes(activities);
+            }}
+            onMoveDownClicked={() => {
+              this.props.reorderDown(activities.indexOf(activity));
+              changingRoutes(activities);
+            }}/>
         )}
         </div>
       </div>
@@ -61,5 +73,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { confirmPlan, deleteFromBuilder }
+  { confirmPlan, deleteFromBuilder, reorderUp, reorderDown, changingRoutes }
 )(PlanBuilderContainer)

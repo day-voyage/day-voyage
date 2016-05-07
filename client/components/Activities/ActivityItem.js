@@ -6,7 +6,8 @@ export default class ActivityItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      buttonClicked: false
     };
   }
 
@@ -14,6 +15,13 @@ export default class ActivityItem extends Component {
     this.setState({
       modalOpen: !this.state.modalOpen
     });
+  }
+
+  ClickButton() {
+    this.setState({
+      buttonClicked: true
+    });
+    this.props.onAddToBuilderClicked();
   }
 
   render() {
@@ -37,9 +45,9 @@ export default class ActivityItem extends Component {
           </div>
         </Modal>
         <button
-          onClick={this.props.onAddToBuilderClicked}
-          disabled={activity.added ? 'disabled' : ''}>
-          {activity.added ? 'Added' : 'Add to itinerary'}
+          onClick={this.ClickButton.bind(this)}
+          disabled={this.state.buttonClicked ? 'disabled' : ''}>
+          {this.state.buttonClicked ? 'Added' : 'Add to itinerary'}
         </button>
       </div>
     )
