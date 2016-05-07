@@ -8,15 +8,15 @@ export function activities(state = [], action) {
     case RECEIVE_ACTIVITIES:
       return action.activities
     case ADD_TO_BUILDER:
-      var newState = state.slice();
+      // var newState = state.slice();
       action.activity.added = true;
-      newState.push(action.activity);
-      return newState;
+      // newState.push(action.activity);
+      return state;
     case DELETE_FROM_BUILDER:
-      newState = state.slice();
+      // newState = state.slice();
       action.activity.added = false;
-      newState.push(action.activity);
-      return newState;
+      // newState.push(action.activity);
+      return state;
     default:
       return state
   }
