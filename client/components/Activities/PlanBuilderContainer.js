@@ -7,6 +7,7 @@ import { confirmPlan,
         changingRoutes } from '../../redux/actions'
 import { buildPlanner } from '../../redux/reducers'
 import PlanBuilderItem from './PlanBuilderItem'
+import Maps from '../Helpers/Maps'
 
 class PlanBuilderContainer extends Component {
   static contextTypes = {
@@ -42,8 +43,11 @@ class PlanBuilderContainer extends Component {
         </div>
       </div>
     return (
-      <div className="col-md-4">
-      <h3>Itinerary</h3>
+      <div className="col-md-5">
+        <h3>Itinerary</h3>
+        <div className="row">
+          <Maps size="large" />
+        </div>
         {nodes}
         <button
           onClick={() => this.goToConfirm()}
