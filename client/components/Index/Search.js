@@ -14,11 +14,10 @@ export default class Search extends Component {
     this.state = {
       category: "",
       city: "San Francisco, CA"
-    };
+    }
   }
 
-
-  searchYelp(event) {
+  searchActivities() {
     event.preventDefault();
 
     getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
@@ -35,7 +34,7 @@ export default class Search extends Component {
   render() {
     return (
       <div className="col-sm-12">
-        <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchYelp.bind(this)}>
+        <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
           <h5>Search Category: </h5>
           <input
             type="text"
