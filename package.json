@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha server/test/travistest.js",
     "babelify": "browserify client/main.js -o client/bundle.js -t [ babelify --presets [ es2015 react ] ]",
-    "dev": "browserify client/main.js -o client/bundle.js -d -t [ babelify --presets [ es2015 react ] ]"
+    "dev": "browserify client/main.js -o client/bundle.js -d -t [ babelify --presets [ es2015 react ] ]",
+    "lint": "eslint client/.; exit 0",
+    "fix": "eslint --fix client/. exit 0"
   },
   "repository": {
     "type": "git",
@@ -20,12 +22,18 @@
   },
   "homepage": "https://github.com/steventran06/sweaty-figs#readme",
   "devDependencies": {
+    "babel-eslint": "^6.0.4",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
+    "eslint": "^2.9.0",
+    "eslint-config-standard": "^5.3.1",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-react": "^5.0.1",
+    "eslint-plugin-standard": "^1.3.2",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-browserify": "^5.0.0",
