@@ -4,17 +4,25 @@ import {
   REORDER_UP,
   REORDER_DOWN
 } from '../constants/ActionTypes'
+import {
+  changingRoutes
+} from '../actions'
 
 export function planBuilder(state = [], action) {
   switch (action.type) {
     case ADD_TO_BUILDER:
       var newState = state.slice();
       newState.push(action.activity);
+      changingRoutes(newState);
       return newState;
     case DELETE_FROM_BUILDER:
       var newState = state.slice();
       var activityIndex = state.indexOf(action.activity);
       newState.splice(activityIndex, 1);
+      if (newState.length > 0) {
+
+        changingRoutes(newState);
+      }
       return newState;
     case REORDER_UP:
       if (action.activityIndex === 0) {

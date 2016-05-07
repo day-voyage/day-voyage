@@ -19,7 +19,7 @@ export default class ActivityItem extends Component {
 
   clickAddButton() {
     this.setState({
-      buttonClicked: true
+      buttonClicked: !this.state.buttonClicked
     });
     this.props.onAddToBuilderClicked();
   }
@@ -46,8 +46,8 @@ export default class ActivityItem extends Component {
         </Modal>
         <button
           onClick={this.clickAddButton.bind(this)}
-          disabled={this.state.buttonClicked ? 'disabled' : ''}>
-          {this.state.buttonClicked ? 'Added' : 'Add to itinerary'}
+          disabled={activity.added ? 'disabled' : ''}>
+          {activity.added ? 'Added' : 'Add to itinerary'}
         </button>
       </div>
     )

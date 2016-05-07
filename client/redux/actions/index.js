@@ -59,7 +59,8 @@ export function getAllActivities(query, router) {
         method: 'GET'
       })
       .then((dbResults) => dbResults.json())
-      .then((dbJson) => dbJson.data.concat(yelpData))
+      .then((dbJson) => dbJson.data.map((item) => Object.assign(item, {added: false})))
+      .then((dbArray) => dbArray.concat(yelpData))
       .then((dbActivities) => store.dispatch(receiveActivities(dbActivities)))
     })
     .then(() => {
@@ -69,7 +70,6 @@ export function getAllActivities(query, router) {
 }
 
 export function addToBuilder(activity) {
-  console.log('addtobuilder activity: ', activity);
   return { 
     type: types.ADD_TO_BUILDER, 
     activity
@@ -115,6 +115,10 @@ export function saveToDb(activities) {
 export function changingRoutes(activities) {
   const DirectionsService = new google.maps.DirectionsService();
 
+  if (activities.length === 0) {
+    return store.dispatch(changeRoutes(null));
+  }
+
   var places = activities.map(function(item) {
     return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
   });
@@ -131,6 +135,9 @@ export function changingRoutes(activities) {
         return store.dispatch(changeRoutes(result));
       } else {
         console.error(`error fetching directions ${ result }`);
+        return store.dispatch(changeRoutes(null));
+
+        
       }
   });
 

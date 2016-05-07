@@ -28,7 +28,7 @@ class PlanBuilderContainer extends Component {
         <div>
         {activities.map(activity => 
           <PlanBuilderItem
-            key={activity.title}
+            // key={activity.lat}
             activity={activity}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
@@ -46,7 +46,7 @@ class PlanBuilderContainer extends Component {
       <div className="col-md-5">
         <h3>Itinerary</h3>
         <div className="row">
-          <Maps size="large" />
+          <Maps size="small" />
         </div>
         {nodes}
         <button
