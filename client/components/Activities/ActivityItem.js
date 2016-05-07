@@ -17,7 +17,7 @@ export default class ActivityItem extends Component {
     });
   }
 
-  ClickButton() {
+  clickAddButton() {
     this.setState({
       buttonClicked: true
     });
@@ -45,7 +45,7 @@ export default class ActivityItem extends Component {
           </div>
         </Modal>
         <button
-          onClick={this.ClickButton.bind(this)}
+          onClick={this.clickAddButton.bind(this)}
           disabled={this.state.buttonClicked ? 'disabled' : ''}>
           {this.state.buttonClicked ? 'Added' : 'Add to itinerary'}
         </button>

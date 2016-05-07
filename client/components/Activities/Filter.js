@@ -12,7 +12,7 @@ export default class Filter extends Component {
 
   render() {
     return (
-      <div className="col-md-4">
+      <div className="col-md-2">
         <button onClick={this.move.bind(this)}>go to confirmation</button>
       </div>
     );

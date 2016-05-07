@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { addToBuilder } from '../../redux/actions'
+import { addToBuilder, changingRoutes } from '../../redux/actions'
 import CreateActivity from './CreateActivity'
 import ActivityItem from './ActivityItem'
 import ActivitiesList from './ActivitiesList'
@@ -20,10 +20,10 @@ class ActivitiesContainer extends Component {
   }
 
   render() {
-    const { activities } = this.props;
+    const { activities, planBuilder } = this.props;
 
     return (
-      <div className="col-md-4">
+      <div className="col-md-5">
         <button onClick={this.openModal.bind(this)} >Create An Activity</button>
         <CreateActivity modal={this.state.modalOpen} toggleModal={this.openModal.bind(this)}/>
         <ActivitiesList title="Activities">
@@ -31,7 +31,10 @@ class ActivitiesContainer extends Component {
             <ActivityItem
               key={activity.title}
               activity={activity}
-              onAddToBuilderClicked={() => this.props.addToBuilder(activity)} />
+              onAddToBuilderClicked={() => {
+                this.props.addToBuilder(activity);
+                changingRoutes(planBuilder);
+              }}/>
           )}
         </ActivitiesList>
       </div> 
@@ -51,7 +54,8 @@ ActivitiesContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities
+    activities: state.activities,
+    planBuilder: state.planBuilder
   }
 }
 
