@@ -10,7 +10,7 @@ export function initApp() {
 function receiveActivities(activities) {
   return {
     type: types.RECEIVE_ACTIVITIES,
-    activities: activities
+    activities
   };
 }
 
@@ -59,8 +59,7 @@ export function getAllActivities(query, router) {
         method: 'GET'
       })
       .then((dbResults) => dbResults.json())
-      .then((dbJson) => dbJson.data.map((item) => Object.assign(item, {added: false})))
-      .then((dbArray) => dbArray.concat(yelpData))
+      .then((dbJson) => dbJson.data.concat(yelpData))
       .then((dbActivities) => store.dispatch(receiveActivities(dbActivities)))
     })
     .then(() => {
@@ -69,17 +68,18 @@ export function getAllActivities(query, router) {
     .catch(e => console.log(e));
 }
 
-export function addToBuilder(activityId) {
+export function addToBuilder(activity) {
+  console.log('addtobuilder activity: ', activity);
   return { 
     type: types.ADD_TO_BUILDER, 
-    activityId
+    activity
   };
 }
 
-export function deleteFromBuilder(activityId) {
+export function deleteFromBuilder(activity) {
   return {
     type: types.DELETE_FROM_BUILDER, 
-    activityId
+    activity
   };
 }
 
@@ -135,11 +135,4 @@ export function changingRoutes(activities) {
   });
 
 
-
-
-
-  // return { 
-  //   type: types.CHANGE_ROUTES, 
-  //   activityId
-  // };
 }

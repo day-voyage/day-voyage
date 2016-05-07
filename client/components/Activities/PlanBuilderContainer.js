@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { confirmPlan, deleteFromBuilder } from '../../redux/actions'
-import { buildPlanner, getPlannerActivities } from '../../redux/reducers'
+import { buildPlanner } from '../../redux/reducers'
 import PlanBuilderItem from './PlanBuilderItem'
 
 class PlanBuilderContainer extends Component {
@@ -9,9 +9,8 @@ class PlanBuilderContainer extends Component {
     router: PropTypes.object
   }
 
-  goToConfirm(props) {
+  goToConfirm() {
     this.context.router.push('/confirmation');
-    this.props.confirmPlan(props);
   }
 
   render() {
@@ -35,7 +34,7 @@ class PlanBuilderContainer extends Component {
       <h3>Itinerary</h3>
         {nodes}
         <button
-          onClick={() => this.goToConfirm(this.props.activities)}
+          onClick={() => this.goToConfirm()}
           disabled={hasActivities ? '':'disabled'}>
           Confirm
         </button>
@@ -49,7 +48,6 @@ PlanBuilderContainer.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    // categories: PropTypes.array.isRequired,
     city: PropTypes.string.isRequired
   })).isRequired,
   confirmPlan: PropTypes.func.isRequired
@@ -57,7 +55,7 @@ PlanBuilderContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    activities: getPlannerActivities(state),
+    activities: state.planBuilder,
   }
 }
 

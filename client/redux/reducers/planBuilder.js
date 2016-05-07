@@ -5,40 +5,18 @@ import {
   CONFIRM_FAILURE
 } from '../constants/ActionTypes'
 
-const initialState = {
-  addedIds: [],
-}
-
-function addedIds(state = initialState.addedIds, action) {
+export function planBuilder(state = [], action) {
   switch (action.type) {
     case ADD_TO_BUILDER:
-      if (state.indexOf(action.activityId) !== -1) {
-        return state
-      }
-      return [ ...state, action.activityId ]
+      var newState = state.slice();
+      newState.push(action.activity);
+      return newState;
     case DELETE_FROM_BUILDER:
       var newState = state.slice();
-      var activityIndex = state.indexOf(action.activityId);
+      var activityIndex = state.indexOf(action.activity);
       newState.splice(activityIndex, 1);
       return newState;
     default:
       return state
   }
-}
-
-export default function planBuilder(state = initialState, action) {
-  switch (action.type) {
-    case CONFIRM_REQUEST:
-      return state.addedIds
-    case CONFIRM_FAILURE:
-      return action.planBuilder
-    default:
-      return {
-        addedIds: addedIds(state.addedIds, action),
-      }
-  }
-}
-
-export function getAddedIds(state) {
-  return state.addedIds
 }
