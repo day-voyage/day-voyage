@@ -49,7 +49,7 @@ export default class Maps extends React.Component {
                         {...marker} />
                     );
                   })}
-                  { directions ? <DirectionsRenderer directions={directions} /> : null}
+                  { directions && !this.props.lat ? <DirectionsRenderer directions={directions} /> : null}
               </GoogleMap>
             }
           />
