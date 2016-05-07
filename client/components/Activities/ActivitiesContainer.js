@@ -20,7 +20,8 @@ class ActivitiesContainer extends Component {
   }
 
   render() {
-    const { activities, planBuilder } = this.props;
+    const { activities } = this.props;
+    var that = this;
 
     return (
       <div className="col-md-5">
@@ -29,11 +30,10 @@ class ActivitiesContainer extends Component {
         <ActivitiesList title="Activities">
           {activities.map(activity =>
             <ActivityItem
-              key={activity.title}
+              // key={activity.lat}
               activity={activity}
               onAddToBuilderClicked={() => {
                 this.props.addToBuilder(activity);
-                changingRoutes(planBuilder);
               }}/>
           )}
         </ActivitiesList>
