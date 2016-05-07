@@ -1,44 +1,57 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import { browserHistory } from 'react-router';
+import React, { PropTypes, Component} from 'react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { getAllActivities } from '../../redux/actions';
+import { Provider } from 'react-redux';
 
+export default class Search extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
 
-class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
-    };
+      category: "",
+      city: "San Francisco, CA"
+    }
   }
 
-
-  searchYelp(event) {
+  searchActivities(event) {
     event.preventDefault();
 
-    fetch(`/api/yelpSearch?city=${this.state.value}`, {
-      method: 'GET'
-    }).then((results) => results.json()).then((data) => console.log(data))
-    .catch(e => console.log(e));
+    getAllActivities({city: this.state.city, category: this.state.category}, this.context.router);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  handleCategory(event) {
+    this.setState({category: event.target.value});
   }
+
+  handleCity(event) {
+    this.setState({city: event.target.value});
+  } 
 
   render() {
     return (
       <div className="col-sm-12">
-        <form className="commentForm" onSubmit={this.searchYelp.bind(this)}>
-          Search:
+        <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
+          <h5>Search Category: </h5>
           <input
             type="text"
             value={this.state.value}
             placeholder="Category"
-            onChange={this.handleChange.bind(this)} />
-          <input type="submit" value="Post" />
+            style={{marginBottom: 25}}
+            onChange={this.handleCategory.bind(this)} />
+          <h5>Select City: </h5>
+          <select onChange={this.handleCity.bind(this)}>
+            <option value="San Francisco, CA" >San Francisco</option>
+            <option value="Oakland, CA" >Oakland</option>
+            <option value="San Jose, CA" >San Jose</option>
+          </select><br />
+          <input type="submit" 
+                 value="Search" />
         </form>
       </div>
     );
   }
 }
-
-window.Search = Search;

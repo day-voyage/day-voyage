@@ -6,10 +6,14 @@ var yelpAPIKey = require('./config/yelp.js');
 
 var app = express();
 
+// var app = require('./routes.js');
+
 app.use(express.static(path.join(__dirname + '/../client')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
 
+
+// Yelp stuff
 var yelp = new Yelp({
   consumer_key: yelpAPIKey.key,
   consumer_secret: yelpAPIKey.keySecret,
@@ -18,7 +22,8 @@ var yelp = new Yelp({
 });
 
 app.get('/api/yelpSearch', function(request, response) {
-  yelp.search({ term: 'food', location: request.query.city })
+  console.log(request.query);
+  yelp.search({ term: request.query.category, location: request.query.city, limit: 10, sort: 2 })
   .then(function (data) {
     response.send(data.businesses);
   })
@@ -26,6 +31,7 @@ app.get('/api/yelpSearch', function(request, response) {
     console.error(err);
   });
 });
+
 
 app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../client/index.html'));

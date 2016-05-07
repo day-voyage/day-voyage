@@ -6,6 +6,8 @@ client/lib/
 client/lib/react
 client/lib/jquery
 client/lib/lodash
+client/bundle.js
+client/config/yelp.js
 
 ## npm ##
 node_modules
