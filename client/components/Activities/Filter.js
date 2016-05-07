@@ -1,14 +1,20 @@
-var ReactRouter = window.ReactRouter;
-let Link = ReactRouter.Link;
+import React, { Component, PropTypes } from 'react';
 
-class Filter extends React.Component {
+export default class Filter extends Component {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  move() {
+    this.context.router.push('/confirmation');
+
+  }
+
   render() {
     return (
-      <div className="col-md-4">
-        Filter is here
+      <div className="col-md-2">
+        <button onClick={this.move.bind(this)}>go to confirmation</button>
       </div>
     );
   }
 }
-
-window.Filter = Filter;

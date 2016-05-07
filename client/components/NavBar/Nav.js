@@ -1,4 +1,9 @@
-class Nav extends React.Component {
+import * as React from 'react';
+
+import Title from './Title';
+import Login from './Login';
+
+export default class Nav extends React.Component {
   render() {
     return (
       <div className="container">
@@ -11,5 +16,3 @@ class Nav extends React.Component {
     );
   }
 }
-
-window.Nav = Nav;
