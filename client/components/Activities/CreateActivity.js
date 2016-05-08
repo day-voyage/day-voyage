@@ -22,6 +22,24 @@ export default class CreateActivity extends Component {
     };
   }
 
+  /* The following gets the user's location to optimize autocomplete search*/
+  // componentWillMount() {
+  //   navigator.geolocation.getCurrentPosition(function(pos) {
+  //     this.setState({
+  //       lat: pos.coords.latitude,
+  //       long: pos.coords.longitude
+  //     })
+  //     console.log(this.state.lat);
+  //     console.log(this.state.long);
+  //   }, function(err) {
+  //     // else error grabbing location, just return SF's coords
+  //     this.setState({
+  //       lat: 37.7749295,
+  //       long: -122.41941550000001
+  //     })
+  //   });
+  // }
+
   componentDidMount() {
     if (this.props.open) {
       this.toggleModal();
@@ -55,7 +73,8 @@ export default class CreateActivity extends Component {
   }
 
   onSuggestSelect(place) {
-    var address = place.label.split(', ');
+    console.log(place);
+    var address = place.gmaps.formatted_address.split(', ');
 
     var name = address[0];
     var streetAddress = address[1];
@@ -72,6 +91,15 @@ export default class CreateActivity extends Component {
         stateZip: stateZip,
         lat: lat,
         long: long
+      })
+    } else {
+      this.setState({
+        name: '',
+        address: '',
+        city: '',
+        stateZip: '',
+        lat: '',
+        long: ''
       })
     }
     
@@ -93,7 +121,7 @@ export default class CreateActivity extends Component {
               placeholder="Start typing!"
               initialValue="San Francisco"
               onSuggestSelect={this.onSuggestSelect.bind(this)}
-              location={new google.maps.LatLng(53.558572, 9.9278215)}
+              location={new google.maps.LatLng(37.7749295, -122.41941550000001)}
               radius="20" />
 
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
@@ -126,7 +154,6 @@ export default class CreateActivity extends Component {
                 style={{marginBottom: 25}}/><br />
 
               <FlatButton label="Submit" type="submit"/>
-
 
            </form>
           </div>
