@@ -54,7 +54,7 @@ class PlanBuilderContainer extends Component {
         <FlatButton
           label="Confirm"
           onClick={() => this.goToConfirm()}
-          disabled={hasActivities ? '':'disabled'} />
+          disabled={hasActivities ? false : true} />
       </div>
     )
   }
