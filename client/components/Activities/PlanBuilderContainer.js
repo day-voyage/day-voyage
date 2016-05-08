@@ -45,7 +45,7 @@ class PlanBuilderContainer extends Component {
         </div>
       </div>
     return (
-      <div className="col-md-5">
+      <div className="col-md-6">
         <h3>Itinerary</h3>
         <div className="row">
           <Maps size="small" />

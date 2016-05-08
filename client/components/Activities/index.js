@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import Filter from './Filter';
+import React, { Component } from 'react';
+import FilterContainer from './FilterContainer';
 import ActivitiesContainer from './ActivitiesContainer';
 import PlanBuilderContainer from './PlanBuilderContainer';
 
@@ -10,7 +10,7 @@ export default class Activities extends Component {
     return (
       <div className="container">
         <div className="row">
-          <Filter />
+          <FilterContainer />
           <ActivitiesContainer />
           <PlanBuilderContainer />
         </div>

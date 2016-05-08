@@ -33,7 +33,6 @@ export default class Search extends Component {
   }
 
   handleCity(event, index, value){
-    console.log(value);
     this.setState({city: value});
   }
 
