@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 export default class CreateActivity extends Component {
   constructor(props) {
@@ -57,65 +60,81 @@ export default class CreateActivity extends Component {
             <h2>Create your own activity</h2>
 
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
-              <h5>Name:</h5>
-              Name: <input type="text" value={this.state.name} placeholder="Name" style={{marginBottom: 10}} onChange={this.handleName.bind(this)} /><br />
-              Address: <input type="text" value={this.state.address} placeholder="Address" style={{marginBottom: 10}} onChange={this.handleAddress.bind(this)} /><br />
-              City: <input type="text" value={this.state.city} placeholder="City" style={{marginBottom: 10}} onChange={this.handleCity.bind(this)} /><br />
-              State:
-              <select onChange={this.handleState.bind(this)}>
-                <option value="AL">Alabama</option>
-                <option value="AK">Alaska</option>
-                <option value="AZ">Arizona</option>
-                <option value="AR">Arkansas</option>
-                <option value="CA">California</option>
-                <option value="CO">Colorado</option>
-                <option value="CT">Connecticut</option>
-                <option value="DE">Delaware</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="FL">Florida</option>
-                <option value="GA">Georgia</option>
-                <option value="HI">Hawaii</option>
-                <option value="ID">Idaho</option>
-                <option value="IL">Illinois</option>
-                <option value="IN">Indiana</option>
-                <option value="IA">Iowa</option>
-                <option value="KS">Kansas</option>
-                <option value="KY">Kentucky</option>
-                <option value="LA">Louisiana</option>
-                <option value="ME">Maine</option>
-                <option value="MD">Maryland</option>
-                <option value="MA">Massachusetts</option>
-                <option value="MI">Michigan</option>
-                <option value="MN">Minnesota</option>
-                <option value="MS">Mississippi</option>
-                <option value="MO">Missouri</option>
-                <option value="MT">Montana</option>
-                <option value="NE">Nebraska</option>
-                <option value="NV">Nevada</option>
-                <option value="NH">New Hampshire</option>
-                <option value="NJ">New Jersey</option>
-                <option value="NM">New Mexico</option>
-                <option value="NY">New York</option>
-                <option value="NC">North Carolina</option>
-                <option value="ND">North Dakota</option>
-                <option value="OH">Ohio</option>
-                <option value="OK">Oklahoma</option>
-                <option value="OR">Oregon</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="RI">Rhode Island</option>
-                <option value="SC">South Carolina</option>
-                <option value="SD">South Dakota</option>
-                <option value="TN">Tennessee</option>
-                <option value="TX">Texas</option>
-                <option value="UT">Utah</option>
-                <option value="VT">Vermont</option>
-                <option value="VA">Virginia</option>
-                <option value="WA">Washington</option>
-                <option value="WV">West Virginia</option>
-                <option value="WI">Wisconsin</option>
-                <option value="WY">Wyoming</option>
-              </select><br />
-              <input type="submit" value="Add Activity!" />
+              <TextField
+                id="text-field-controlled"
+                type="text"
+                value={this.state.name}
+                placeholder="Name"
+                style={{marginBottom: 25}}
+                onChange={this.handleName.bind(this)} /><br />
+              <TextField
+                id="text-field-controlled"
+                type="text"
+                value={this.state.address}
+                placeholder="Address"
+                style={{marginBottom: 25}}
+                onChange={this.handleAddress.bind(this)} /><br />
+              <TextField
+                id="text-field-controlled"
+                type="text"
+                value={this.state.city}
+                placeholder="City"
+                style={{marginBottom: 25}}
+                onChange={this.handleCity.bind(this)} /><br />
+              <SelectField value={this.state.state} onChange={this.handleState.bind(this)}>
+                <MenuItem value="AL" primaryText="Alabama" />
+                <MenuItem value="AK" primaryText="Alaska" />
+                <MenuItem value="AZ" primaryText="Arizona" />
+                <MenuItem value="AR" primaryText="Arkansas" />
+                <MenuItem value="CA" primaryText="California" />
+                <MenuItem value="CO" primaryText="Colorado" />
+                <MenuItem value="CT" primaryText="Connecticut" />
+                <MenuItem value="DE" primaryText="Delaware" />
+                <MenuItem value="DC" primaryText="District Of Columbia" />
+                <MenuItem value="FL" primaryText="Florida" />
+                <MenuItem value="GA" primaryText="Georgia" />
+                <MenuItem value="HI" primaryText="Hawaii" />
+                <MenuItem value="ID" primaryText="Idaho" />
+                <MenuItem value="IL" primaryText="Illinois" />
+                <MenuItem value="IN" primaryText="Indiana" />
+                <MenuItem value="IA" primaryText="Iowa" />
+                <MenuItem value="KS" primaryText="Kansas" />
+                <MenuItem value="KY" primaryText="Kentucky" />
+                <MenuItem value="LA" primaryText="Louisiana" />
+                <MenuItem value="ME" primaryText="Maine" />
+                <MenuItem value="MD" primaryText="Maryland" />
+                <MenuItem value="MA" primaryText="Massachusetts" />
+                <MenuItem value="MI" primaryText="Michigan" />
+                <MenuItem value="MN" primaryText="Minnesota" />
+                <MenuItem value="MS" primaryText="Mississippi" />
+                <MenuItem value="MO" primaryText="Missouri" />
+                <MenuItem value="MT" primaryText="Montana" />
+                <MenuItem value="NE" primaryText="Nebraska" />
+                <MenuItem value="NV" primaryText="Nevada" />
+                <MenuItem value="NH" primaryText="New Hampshire" />
+                <MenuItem value="NJ" primaryText="New Jersey" />
+                <MenuItem value="NM" primaryText="New Mexico" />
+                <MenuItem value="NY" primaryText="New York" />
+                <MenuItem value="NC" primaryText="North Carolina" />
+                <MenuItem value="ND" primaryText="North Dakota" />
+                <MenuItem value="OH" primaryText="Ohio" />
+                <MenuItem value="OK" primaryText="Oklahoma" />
+                <MenuItem value="OR" primaryText="Oregon" />
+                <MenuItem value="PA" primaryText="Pennsylvania" />
+                <MenuItem value="RI" primaryText="Rhode Island" />
+                <MenuItem value="SC" primaryText="South Carolina" />
+                <MenuItem value="SD" primaryText="South Dakota" />
+                <MenuItem value="TN" primaryText="Tennessee" />
+                <MenuItem value="TX" primaryText="Texas" />
+                <MenuItem value="UT" primaryText="Utah" />
+                <MenuItem value="VT" primaryText="Vermont" />
+                <MenuItem value="VA" primaryText="Virginia" />
+                <MenuItem value="WA" primaryText="Washington" />
+                <MenuItem value="WV" primaryText="West Virginia" />
+                <MenuItem value="WI" primaryText="Wisconsin" />
+                <MenuItem value="WY" primaryText="Wyoming" />
+              </SelectField><br />
+              <FlatButton label="Submit" type="submit"/>
             </form>
           </div>
         </div>

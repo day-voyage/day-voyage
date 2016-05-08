@@ -82,7 +82,7 @@ var styles = {
   small: {
     mapSize: {
       height: "400px",
-      width: "400px"
+      width: "600px"
     },
     mapPosition: {
       height: "100%",

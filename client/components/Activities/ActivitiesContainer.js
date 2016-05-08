@@ -4,7 +4,9 @@ import { addToBuilder, changingRoutes } from '../../redux/actions';
 import CreateActivity from './CreateActivity';
 import ActivityItem from './ActivityItem';
 import ActivitiesList from './ActivitiesList';
+
 import FlatButton from 'material-ui/FlatButton';
+
 
 class ActivitiesContainer extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class ActivitiesContainer extends Component {
     };
   }
 
-  openModal() {
+  toggleModal() {
     this.setState({
       modalOpen: !this.state.modalOpen
     });
@@ -25,10 +27,11 @@ class ActivitiesContainer extends Component {
     var that = this;
 
     return (
-      <div className="col-md-5">
-        <FlatButton label="Create An Activity" onClick={this.openModal.bind(this)} />
-        <CreateActivity modal={this.state.modalOpen} toggleModal={this.openModal.bind(this)}/>
+      <div className="col-md-6">
+
+        <CreateActivity modal={this.state.modalOpen} toggleModal={this.toggleModal.bind(this)}/>
         <ActivitiesList title="Activities">
+        <FlatButton label="Create New Activity" onClick={this.toggleModal.bind(this)} />
           {activities.map(activity =>
             <ActivityItem
               // key={activity.lat}
