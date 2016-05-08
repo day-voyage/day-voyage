@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-<<<<<<< 224948f853ba2f52a2a211a7d22ebc3afa844335
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-=======
 // import GOOGLE_API_KEY from '../../config/googlePlaces'
 
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
->>>>>>> fix autocomplete search bar
 
 export default class CreateActivity extends Component {
 
@@ -71,7 +68,6 @@ export default class CreateActivity extends Component {
             <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
             <h2>Create your own activity</h2>
 
-            <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
             <Geosuggest
               className="geosuggest"
               placeholder="Start typing!"
@@ -79,6 +75,7 @@ export default class CreateActivity extends Component {
               onSuggestSelect={this.onSuggestSelect}
               location={new google.maps.LatLng(53.558572, 9.9278215)}
               radius="20" />
+            <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
               <TextField
                 id="text-field-controlled"
                 type="text"
