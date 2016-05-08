@@ -40,7 +40,7 @@ export default class ActivityItem extends Component {
         />
         <FlatButton
           onClick={this.clickAddButton.bind(this)}
-          disabled={activity.added ? 'disabled' : ''}
+          disabled={activity.added ? true : false}
           label={activity.added ? 'Added' : 'Add to itinerary'} />
         <img src='../../assets/open.png' onClick={this.toggleModal.bind(this)} />
         <CardText expandable={true}>
