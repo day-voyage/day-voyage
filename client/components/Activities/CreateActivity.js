@@ -4,7 +4,6 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-// import GOOGLE_API_KEY from '../../config/googlePlaces'
 
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
 
