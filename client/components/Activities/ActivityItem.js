@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import Maps from '../Helpers/Maps';
 import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 
 export default class ActivityItem extends Component {
@@ -30,27 +31,36 @@ export default class ActivityItem extends Component {
     const { activity } = this.props;
 
     return (
-      <div
-        style={{ marginBottom: 20,
-                borderStyle: "solid",
-                borderWidth: "2px" }}>
-        <div> {activity.title} - {activity.desc} {activity.neighborhood } <img src='../../assets/open.png' onClick={this.toggleModal.bind(this)} /></div>
+      <Card>
+        <CardHeader
+          title={activity.title}
+          subtitle={activity.neighborhood}
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <FlatButton
+          onClick={this.clickAddButton.bind(this)}
+          disabled={activity.added ? 'disabled' : ''}
+          label={activity.added ? 'Added' : 'Add to itinerary'} />
+        <img src='../../assets/open.png' onClick={this.toggleModal.bind(this)} />
+        <CardText expandable={true}>
+          {activity.desc}
+        </CardText>
         <Modal
           isOpen={this.state.modalOpen}
           style={customStyles} >
           <div className="container">
             <div className="row">
-              <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
-              <div> {activity.title} - {activity.neighborhood }</div>
+              <div>
+                <FlatButton
+                  onClick={this.toggleModal.bind(this)}
+                  label="Close Map" />
+              </div>
               <Maps size="small" lat={activity.lat} long={activity.long} title={activity.title} />
             </div>
           </div>
         </Modal>
-        <FlatButton
-          label={activity.added ? 'Added' : 'Add to itinerary'}
-          onClick={this.clickAddButton.bind(this)}
-          disabled={activity.added ? 'disabled' : ''} />
-      </div>
+      </Card>
     )
   }
 }

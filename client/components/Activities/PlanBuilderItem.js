@@ -1,26 +1,33 @@
 import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+
 
 export default class PlanBuilderItem extends Component {
   render() {
-    const { activity } = this.props
+    const { activity } = this.props;
 
     return (
-      <div
-        style={{ marginBottom: 20,
-                borderStyle: "solid",
-                borderWidth: "2px" }}>
-        <div> {activity.title} - {activity.desc} {activity.location } </div>
+      <Card>
+        <CardHeader
+          title={activity.title}
+          subtitle={activity.neighborhood}
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <ContentRemoveCircle onClick={this.props.onDeleteFromBuilderClicked}/>
         <FlatButton
           label="Up"
           onClick={this.props.onMoveUpClicked} />
         <FlatButton
           label="Down"
           onClick={this.props.onMoveDownClicked} />
-        <FlatButton
-          label="Delete"
-          onClick={this.props.onDeleteFromBuilderClicked} />
-      </div>
+        <CardText expandable={true}>
+          {activity.desc}
+        </CardText>
+      </Card>
     )
   }
 }
