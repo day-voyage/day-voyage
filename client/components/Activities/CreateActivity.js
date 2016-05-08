@@ -16,7 +16,9 @@ export default class CreateActivity extends Component {
       name: '',
       address: '',
       city: '',
-      state: ''
+      stateZip: '',
+      lat: '',
+      long: '',
     };
   }
 
@@ -52,8 +54,27 @@ export default class CreateActivity extends Component {
     this.setState({state: event.target.value});
   }
 
-  onSuggestSelect(suggest) {
-    console.log(suggest);
+  onSuggestSelect(place) {
+    var address = place.label.split(', ');
+
+    var name = address[0];
+    var streetAddress = address[1];
+    var city = address[2];
+    var stateZip = address[3];
+    var lat = place.location.lat;
+    var long = place.location.lng;
+
+    if (address.length >= 4) {
+      this.setState({
+        name: name,
+        address: streetAddress,
+        city: city,
+        stateZip: stateZip,
+        lat: lat,
+        long: long
+      })
+    }
+    
   }
 
   render() {
@@ -71,84 +92,39 @@ export default class CreateActivity extends Component {
               className="geosuggest"
               placeholder="Start typing!"
               initialValue="San Francisco"
-              onSuggestSelect={this.onSuggestSelect}
+              onSuggestSelect={this.onSuggestSelect.bind(this)}
               location={new google.maps.LatLng(53.558572, 9.9278215)}
               radius="20" />
+
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
+              Name: <br />
               <TextField
-                id="text-field-controlled"
+                id="name-field"
                 type="text"
                 value={this.state.name}
-                placeholder="Name"
-                style={{marginBottom: 25}}
-                onChange={this.handleName.bind(this)} /><br />
+                style={{marginBottom: 25}} /><br />
+
+              Street Address: <br />
               <TextField
-                id="text-field-controlled"
+                id="address-field"
                 type="text"
                 value={this.state.address}
-                placeholder="Address"
-                style={{marginBottom: 25}}
-                onChange={this.handleAddress.bind(this)} /><br />
+                style={{marginBottom: 25}} /><br />
+
+              City: <br />
               <TextField
-                id="text-field-controlled"
+                id="city-field"
                 type="text"
                 value={this.state.city}
-                placeholder="City"
-                style={{marginBottom: 25}}
-                onChange={this.handleCity.bind(this)} /><br />
-              <SelectField value={this.state.state} onChange={this.handleState.bind(this)}>
-                <MenuItem value="AL" primaryText="Alabama" />
-                <MenuItem value="AK" primaryText="Alaska" />
-                <MenuItem value="AZ" primaryText="Arizona" />
-                <MenuItem value="AR" primaryText="Arkansas" />
-                <MenuItem value="CA" primaryText="California" />
-                <MenuItem value="CO" primaryText="Colorado" />
-                <MenuItem value="CT" primaryText="Connecticut" />
-                <MenuItem value="DE" primaryText="Delaware" />
-                <MenuItem value="DC" primaryText="District Of Columbia" />
-                <MenuItem value="FL" primaryText="Florida" />
-                <MenuItem value="GA" primaryText="Georgia" />
-                <MenuItem value="HI" primaryText="Hawaii" />
-                <MenuItem value="ID" primaryText="Idaho" />
-                <MenuItem value="IL" primaryText="Illinois" />
-                <MenuItem value="IN" primaryText="Indiana" />
-                <MenuItem value="IA" primaryText="Iowa" />
-                <MenuItem value="KS" primaryText="Kansas" />
-                <MenuItem value="KY" primaryText="Kentucky" />
-                <MenuItem value="LA" primaryText="Louisiana" />
-                <MenuItem value="ME" primaryText="Maine" />
-                <MenuItem value="MD" primaryText="Maryland" />
-                <MenuItem value="MA" primaryText="Massachusetts" />
-                <MenuItem value="MI" primaryText="Michigan" />
-                <MenuItem value="MN" primaryText="Minnesota" />
-                <MenuItem value="MS" primaryText="Mississippi" />
-                <MenuItem value="MO" primaryText="Missouri" />
-                <MenuItem value="MT" primaryText="Montana" />
-                <MenuItem value="NE" primaryText="Nebraska" />
-                <MenuItem value="NV" primaryText="Nevada" />
-                <MenuItem value="NH" primaryText="New Hampshire" />
-                <MenuItem value="NJ" primaryText="New Jersey" />
-                <MenuItem value="NM" primaryText="New Mexico" />
-                <MenuItem value="NY" primaryText="New York" />
-                <MenuItem value="NC" primaryText="North Carolina" />
-                <MenuItem value="ND" primaryText="North Dakota" />
-                <MenuItem value="OH" primaryText="Ohio" />
-                <MenuItem value="OK" primaryText="Oklahoma" />
-                <MenuItem value="OR" primaryText="Oregon" />
-                <MenuItem value="PA" primaryText="Pennsylvania" />
-                <MenuItem value="RI" primaryText="Rhode Island" />
-                <MenuItem value="SC" primaryText="South Carolina" />
-                <MenuItem value="SD" primaryText="South Dakota" />
-                <MenuItem value="TN" primaryText="Tennessee" />
-                <MenuItem value="TX" primaryText="Texas" />
-                <MenuItem value="UT" primaryText="Utah" />
-                <MenuItem value="VT" primaryText="Vermont" />
-                <MenuItem value="VA" primaryText="Virginia" />
-                <MenuItem value="WA" primaryText="Washington" />
-                <MenuItem value="WV" primaryText="West Virginia" />
-                <MenuItem value="WI" primaryText="Wisconsin" />
-                <MenuItem value="WY" primaryText="Wyoming" />
-              </SelectField><br />
+                style={{marginBottom: 25}}/><br />
+
+              State: <br />
+              <TextField
+                id="state-zip-field"
+                type="text"
+                value={this.state.stateZip}
+                style={{marginBottom: 25}}/><br />
+
               <FlatButton label="Submit" type="submit"/>
 
 
