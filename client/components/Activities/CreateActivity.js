@@ -6,6 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 export default class CreateActivity extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -50,6 +51,8 @@ export default class CreateActivity extends Component {
   }
 
   render() {
+
+
     return (
       <Modal
         isOpen={this.props.modal}
