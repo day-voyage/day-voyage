@@ -8,6 +8,7 @@ client/lib/jquery
 client/lib/lodash
 client/bundle.js
 client/config/yelp.js
+client/config/googlePlaces.js
 
 ## npm ##
 node_modules

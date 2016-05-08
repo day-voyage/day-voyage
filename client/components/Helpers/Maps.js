@@ -1,6 +1,5 @@
 import * as React from 'react';
-import {GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer} from "react-google-maps";
-
+import { GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer } from "react-google-maps";
 import { changingRoutes } from '../../redux/actions';
 import { connect } from 'react-redux';
 

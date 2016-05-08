@@ -20,12 +20,21 @@ export default class UpdateProfile extends Component {
      };
    }
 
-   handleChange = (event) => {
+   handleFirstNameChange = (event) => {
      this.setState({
-       firstName: event.target.firstName,
-       lastName: this.state.lastName,
-       email: this.state.email,
+       firstName: event.target.firstName
+     });
+   };
 
+   handleLastNameChange = (event) => {
+     this.setState({
+       lastName: event.target.lastName
+     });
+   };
+
+   handleEmailChange = (event) => {
+     this.setState({
+       email: event.target.email
      });
    };
 
@@ -51,22 +60,22 @@ export default class UpdateProfile extends Component {
          <TextField
            id="text-field-controlled"
            defaultValue={this.state.firstName}
-           value={this.state.firstName}
-           onChange={this.handleChange}
+           // value={this.state.firstName}
+           onChange={this.handleFirstNameChange}
            // hintStyle={styles.errorStyle}
          /><br />
          <TextField
            id="text-field-controlled"
            defaultValue={this.state.lastName}
            value={this.state.lastName}
-           onChange={this.handleChange}
+           onChange={this.handleLastNameChange}
            // hintStyle={styles.errorStyle}
          /><br />
          <TextField
            id="text-field-controlled"
            defaultValue={this.state.email}
            value={this.state.email}
-           onChange={this.handleChange}
+           onChange={this.handleEmailChange}
            errorText="This field is required."
          /><br />
          <TextField

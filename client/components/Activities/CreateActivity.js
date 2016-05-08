@@ -4,8 +4,12 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+// import GOOGLE_API_KEY from '../../config/googlePlaces'
+
+import Geosuggest from 'react-geosuggest/module/Geosuggest';
 
 export default class CreateActivity extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,7 +53,12 @@ export default class CreateActivity extends Component {
     this.setState({state: event.target.value});
   }
 
+  onSuggestSelect(suggest) {
+    console.log(suggest);
+  }
+
   render() {
+
     return (
       <Modal
         isOpen={this.props.modal}
@@ -59,6 +68,13 @@ export default class CreateActivity extends Component {
             <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
             <h2>Create your own activity</h2>
 
+            <Geosuggest
+              className="geosuggest"
+              placeholder="Start typing!"
+              initialValue="San Francisco"
+              onSuggestSelect={this.onSuggestSelect}
+              location={new google.maps.LatLng(53.558572, 9.9278215)}
+              radius="20" />
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
               <TextField
                 id="text-field-controlled"
@@ -135,7 +151,9 @@ export default class CreateActivity extends Component {
                 <MenuItem value="WY" primaryText="Wyoming" />
               </SelectField><br />
               <FlatButton label="Submit" type="submit"/>
-            </form>
+
+
+           </form>
           </div>
         </div>
       </Modal>
@@ -143,8 +161,10 @@ export default class CreateActivity extends Component {
   }
 }
 
+
 const customStyles = {
   content : {
+    position: 'absolute',
     top                   : '50%',
     left                  : '50%',
     right                 : 'auto',
