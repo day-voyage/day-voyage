@@ -58,7 +58,7 @@ export class Search extends React.Component {
             <MenuItem value="Oakland, CA" primaryText="Oakland, CA" />
             <MenuItem value="San Jose, CA" primaryText="San Jose, CA" />
           </SelectField><br />
-          <FlatButton label="Search" type="submit"/>
+          <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
         </form>
       </div>
     );

@@ -18,6 +18,7 @@ import {
   RECEIVE_PROTECTED_DATA
 } from '../constants';
 import { push } from 'redux-router';
+import { store } from '../index.js';
 
 export function initApp() {
   return dispatch => {
@@ -124,7 +125,6 @@ export function saveToDb(activities) {
 
 // map stuff
 export function changingRoutes(activities) {
-  return function(dispatch) {
     const DirectionsService = new google.maps.DirectionsService();
 
     if (activities.length === 0) {
@@ -144,13 +144,12 @@ export function changingRoutes(activities) {
         travelMode: google.maps.TravelMode.WALKING,
       }, (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
-          return dispatch(changeRoutes(result));
+          return store.dispatch(changeRoutes(result));
         } else {
           console.error(`error fetching directions ${ result }`);
-          return dispatch(changeRoutes(null));
+          return store.dispatch(changeRoutes(null));
         }
     });
-  }
 }
 
 
