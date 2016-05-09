@@ -1,15 +1,36 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+'use strict';
+
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+
+const config = require('../webpack.config');
+const compiler = webpack(config);
+
 var path = require('path');
 var Yelp = require('yelp');
 var yelpAPIKey = require('./config/yelp.js');
 
-var app = express();
+app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+}));
+app.use(webpackHotMiddleware(compiler));
+app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname + '/../client')));
+// var app = require('./routes.js');
+
+app.use(express.static(path.join(__dirname + '../src')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//TODO: is this necessary
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
 
+
+// Yelp stuff
 var yelp = new Yelp({
   consumer_key: yelpAPIKey.key,
   consumer_secret: yelpAPIKey.keySecret,
@@ -18,7 +39,8 @@ var yelp = new Yelp({
 });
 
 app.get('/api/yelpSearch', function(request, response) {
-  yelp.search({ term: 'food', location: request.query.city })
+  console.log(request.query);
+  yelp.search({ term: request.query.category, location: request.query.city, limit: 10, sort: 2 })
   .then(function (data) {
     response.send(data.businesses);
   })
@@ -27,12 +49,13 @@ app.get('/api/yelpSearch', function(request, response) {
   });
 });
 
+
 app.get('*', function (request, response){
-  response.sendFile(path.join(__dirname + '/../client/index.html'));
+  response.sendFile(path.join(__dirname + '/../src/index.html'));
 });
 
 
-var port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 app.listen(port);
 
