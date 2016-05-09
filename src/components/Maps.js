@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer } from "react-google-maps";
 import { changingRoutes } from '../actions';
 import { connect } from 'react-redux';
@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 
 
-export default class Maps extends React.Component {
+export default class Maps extends Component {
 
   componentDidMount() {
     const { activities } = this.props;
@@ -22,7 +22,7 @@ export default class Maps extends React.Component {
 
     var centerLat = 37.7749;
     var centerLng = -122.4194;
-
+    
     if (this.props.lat && this.props.long) {
       centerLat = parseFloat(this.props.lat);
       centerLng = parseFloat(this.props.long);
@@ -67,10 +67,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
-
 var styles = {
   large: {
     mapSize: {
@@ -100,5 +96,5 @@ var styles = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  { changingRoutes }
 )(Maps)

@@ -5,8 +5,6 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-// import GOOGLE_API_KEY from '../../config/googlePlaces'
-
 import Toggle from 'material-ui/Toggle';
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
 
@@ -57,7 +55,6 @@ export default class CreateActivity extends Component {
     event.preventDefault();
     console.log("add event!");
     this.props.toggleModal();
-    this.props.openSnackbar("You've created a new event!");
   }
 
   handleTitle(event) {
@@ -73,7 +70,7 @@ export default class CreateActivity extends Component {
   }
 
   handlePrivate() {
-    this.setState({private: this.state.private});
+    this.setState({private: !this.state.private});
   }
 
   onSuggestSelect(place) {
@@ -88,7 +85,7 @@ export default class CreateActivity extends Component {
       lat: lat,
       long: long
     })
-
+    
   }
 
   addNewEvent() {
@@ -101,16 +98,15 @@ export default class CreateActivity extends Component {
       category: 'personal',
       private: this.state.private,
       added: true
-    }
+    };
     this.props.addFromCreate(activity);
     this.props.toggleModal();
     this.props.openSnackbar("Event has been created");
-}
+  }
 
   render() {
-
-    return (
-       <Dialog
+   return (
+      <Dialog
         open={this.props.modal}
         modal={true}
         contentStyle={customContentStyle}
@@ -146,7 +142,6 @@ export default class CreateActivity extends Component {
                 onSuggestSelect={this.onSuggestSelect.bind(this)}
                 location={new google.maps.LatLng(37.7749295, -122.41941550000001)}
                 radius="20" />
-
               <TextField
                 className="text-field"
                 id="address-field"
@@ -156,14 +151,13 @@ export default class CreateActivity extends Component {
                 onChange={this.handleAddress.bind(this)}
                 value={this.state.address}
                 style={{marginBottom: 25}} /><br />
-
               <Toggle
                 label="Private"
                 labelPosition="right"
                 onToggle={this.handlePrivate.bind(this)}
                 defaultToggled={false} />
-              <FlatButton
-                label="Add to itinerary"
+              <FlatButton 
+                label="Add to itinerary" 
                 onClick={this.addNewEvent.bind(this)}/>
               <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
            </form>
