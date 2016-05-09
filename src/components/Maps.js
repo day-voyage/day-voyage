@@ -24,11 +24,6 @@ export default class Maps extends Component {
 
     var centerLat = markers.slice().map((item) => item.position.lat).reduce((a, b) => a + b)/markers.length;
     var centerLng = markers.slice().map((item) => item.position.lng).reduce((a, b) => a + b)/markers.length;
-    
-    if (this.props.lat && this.props.long) {
-      centerLat = parseFloat(this.props.lat);
-      centerLng = parseFloat(this.props.long);
-    }
 
     return (
       <div className={styles[this.props.size].divClass}>
