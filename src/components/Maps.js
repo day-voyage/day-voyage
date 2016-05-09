@@ -9,16 +9,18 @@ import * as actionCreators from '../actions';
 export default class Maps extends Component {
 
   componentDidMount() {
-    const { activities } = this.props;
-    if (activities.length > 0) {
-      changingRoutes(activities);
+    const { planBuilder } = this.props;
+    if (planBuilder.length > 0) {
+      changingRoutes(planBuilder);
     }
   }
 
   render() {
-    const { directions } = this.props;
-
-    var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
+    const { directions, activities } = this.props;
+    var markers = activities.map(function(item) {
+      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title };
+    });
+    // var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
     var centerLat = 37.7749;
     var centerLng = -122.4194;
@@ -62,8 +64,9 @@ export default class Maps extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    activities: state.planBuilder,
-    directions: state.directions
+    planBuilder: state.planBuilder,
+    directions: state.directions,
+    activities: state.activities
   }
 }
 
