@@ -6,6 +6,8 @@ import ActivitiesContainer from '../containers/ActivitiesContainer';
 import FilterContainer from '../containers/Filter';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
+import Search from '../components/Search';
+
 
 export class ActivitiesView extends React.Component {
    constructor(props) {
@@ -27,6 +29,7 @@ export class ActivitiesView extends React.Component {
   render() {
     return (
       <div className="container">
+      <Search />
         <div className="row">
           <FilterContainer />
            <ActivitiesContainer
