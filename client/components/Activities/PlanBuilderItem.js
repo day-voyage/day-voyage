@@ -8,16 +8,15 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 export default class PlanBuilderItem extends Component {
   render() {
     const { activity } = this.props;
-
     return (
-      <Card>
+      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <CardHeader
           title={activity.title}
           subtitle={activity.neighborhood}
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <ContentRemoveCircle onClick={this.props.onDeleteFromBuilderClicked}/>
+        <ContentRemoveCircle style={{marginLeft: 10}} onClick={this.props.onDeleteFromBuilderClicked}/>
         <FlatButton
           label="Up"
           onClick={this.props.onMoveUpClicked} />

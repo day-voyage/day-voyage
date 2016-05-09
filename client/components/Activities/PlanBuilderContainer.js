@@ -9,6 +9,7 @@ import { buildPlanner } from '../../redux/reducers';
 import PlanBuilderItem from './PlanBuilderItem';
 import Maps from '../Helpers/Maps';
 import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 
 class PlanBuilderContainer extends Component {
@@ -21,9 +22,9 @@ class PlanBuilderContainer extends Component {
   }
 
   render() {
-    const { activities } = this.props
+    const { activities } = this.props;
 
-    const hasActivities = activities.length > 0
+    const hasActivities = activities.length > 0;
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       <div>
@@ -46,15 +47,20 @@ class PlanBuilderContainer extends Component {
       </div>
     return (
       <div className="col-md-6">
-        <h3>Itinerary</h3>
-        <div className="row">
-          <Maps size="small" />
-        </div>
-        {nodes}
-        <FlatButton
-          label="Confirm"
-          onClick={() => this.goToConfirm()}
-          disabled={hasActivities ? false : true} />
+        <Card>
+          <h3 style={{marginLeft: 15}}>Itinerary</h3>
+          <div className="row" style={{marginBottom: 10}}>>
+            <Maps size="small" />
+          </div>
+          {nodes}
+          <div style={{marginBottom: 10}}>
+            <FlatButton
+              label="Confirm"
+              onClick={() => this.goToConfirm()}
+              style={{position: "relative", float: "right"}}
+              disabled={hasActivities ? false : true} />
+          </div>
+        </Card>
       </div>
     )
   }

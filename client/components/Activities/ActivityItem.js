@@ -29,12 +29,11 @@ export default class ActivityItem extends Component {
 
   render() {
     const { activity } = this.props;
-
     return (
-      <Card>
+      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <CardHeader
           title={activity.title}
-          subtitle={activity.neighborhood}
+          subtitle={activity.neighborhood.join(', ')}
           actAsExpander={true}
           showExpandableButton={true}
         />

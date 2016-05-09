@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../../redux/actions';
 import CreateActivity from './CreateActivity';
 import ActivityItem from './ActivityItem';
-import ActivitiesList from './ActivitiesList';
-
 import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 
 class ActivitiesContainer extends Component {
@@ -24,26 +23,35 @@ class ActivitiesContainer extends Component {
 
   render() {
     const { activities } = this.props;
-    var that = this;
+    const hasActivities = activities.length > 0;
+    const nodes = !hasActivities ?
+      <em>Start building your itinerary here!</em> :
+      <div>
+        <div>
+        {activities.map(activity => 
+          <ActivityItem
+            // key={activity.lat}
+            activity={activity}
+            onAddToBuilderClicked={() => {
+              this.props.addToBuilder(activity) }}/>
+        )}
+        </div>
+      </div>
+
 
     return (
       <div className="col-md-6">
-
-        <CreateActivity 
-          modal={this.state.modalOpen} 
-          toggleModal={this.toggleModal.bind(this)}
-          addFromCreate={(created) => this.props.addToBuilder(created)}/>
-        <ActivitiesList title="Activities">
-        <FlatButton label="Create New Activity" onClick={this.toggleModal.bind(this)} />
-          {activities.map(activity =>
-            <ActivityItem
-              // key={activity.lat}
-              activity={activity}
-              onAddToBuilderClicked={() => {
-                this.props.addToBuilder(activity);
-              }}/>
-          )}
-        </ActivitiesList>
+        <Card>
+          <CreateActivity 
+            modal={this.state.modalOpen} 
+            toggleModal={this.toggleModal.bind(this)}
+            addFromCreate={(created) => this.props.addToBuilder(created)}/>
+          <h3 style={{marginLeft: 15}}>Activities</h3>
+          <FlatButton 
+            label="Create New Activity"
+            onClick={this.toggleModal.bind(this)} />
+          {nodes}
+        </Card>
       </div> 
     )
   }
@@ -61,8 +69,7 @@ ActivitiesContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities,
-    planBuilder: state.planBuilder
+    activities: state.activities
   }
 }
 
