@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { confirmPlan, 
+import { confirmPlan,
+        addToBuilder, 
         deleteFromBuilder, 
         reorderUp, 
         reorderDown, 
         changingRoutes } from '../../redux/actions';
 import { buildPlanner } from '../../redux/reducers';
 import PlanBuilderItem from './PlanBuilderItem';
+import CreateActivity from './CreateActivity';
 import Maps from '../Helpers/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -17,19 +19,31 @@ class PlanBuilderContainer extends Component {
     router: PropTypes.object
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false
+    };
+  }
+
+  toggleModal() {
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    });
+  }
+
   goToConfirm() {
     this.context.router.push('/confirmation');
   }
 
   render() {
-    const { activities } = this.props;
-
-    const hasActivities = activities.length > 0;
+    const { planBuilder, activities } = this.props;
+    const hasActivities = planBuilder.length > 0;
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
-        {activities.map(activity => 
+        {planBuilder.map(activity => 
           <PlanBuilderItem
             // key={activity.lat}
             activity={activity}
@@ -52,6 +66,13 @@ class PlanBuilderContainer extends Component {
         </div>
         <Card>
           <h3 style={{marginLeft: 15}}>Itinerary</h3>
+          <CreateActivity 
+            modal={this.state.modalOpen} 
+            toggleModal={this.toggleModal.bind(this)}
+            addFromCreate={(created) => this.props.addToBuilder(created)}/>
+          <FlatButton 
+            label="Create Own Activity"
+            onClick={this.toggleModal.bind(this)} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton
@@ -78,11 +99,17 @@ PlanBuilderContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    activities: state.planBuilder,
+    planBuilder: state.planBuilder,
+    activities: state.activities
   }
 }
 
 export default connect(
   mapStateToProps,
-  { confirmPlan, deleteFromBuilder, reorderUp, reorderDown, changingRoutes }
+  { confirmPlan, 
+    addToBuilder,
+    deleteFromBuilder, 
+    reorderUp, 
+    reorderDown, 
+    changingRoutes }
 )(PlanBuilderContainer)
