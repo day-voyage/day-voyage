@@ -159,7 +159,7 @@ export default class CreateActivity extends Component {
               <FlatButton 
                 label="Add to itinerary" 
                 onClick={this.addNewEvent.bind(this)}/>
-              <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
+              <img src='../assets/close.png' onClick={this.toggleModal.bind(this)} />
            </form>
           </div>
         </div>

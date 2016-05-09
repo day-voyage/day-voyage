@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 
 
+
 export default class Maps extends Component {
 
   componentDidMount() {
@@ -18,7 +19,7 @@ export default class Maps extends Component {
   render() {
     const { directions, activities } = this.props;
     var markers = activities.map(function(item) {
-      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title };
+      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon };
     });
     // var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
@@ -49,6 +50,7 @@ export default class Maps extends Component {
                       <Marker
                         key={ index }
                         title={ marker.title }
+                        icon={ marker.icon }
                         {...marker} />
                     );
                   })}

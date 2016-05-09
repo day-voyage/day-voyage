@@ -68,6 +68,7 @@ export function getAllActivities(query) {
          transformed.state = activity.location.state_code;
          transformed.neighborhood = activity.location.neighborhoods;
          transformed.added = false;
+         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
 
          return transformed;
        }))
@@ -132,7 +133,7 @@ export function changingRoutes(activities) {
     }
 
     var places = activities.map(function(item) {
-      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, address: [item.address, item.city, item.state].join(', ') };
+      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, icon: item.icon, address: [item.address, item.city, item.state].join(', ') };
     });
 
     DirectionsService.route(
