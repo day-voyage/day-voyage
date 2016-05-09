@@ -4,8 +4,12 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
-
 export default class PlanBuilderItem extends Component {
+  removeItem() {
+    this.props.openSnackbar("Event has been removed from your itinerary");
+    this.props.onDeleteFromBuilderClicked();
+  }
+  
   render() {
     const { activity } = this.props;
     return (
@@ -16,7 +20,7 @@ export default class PlanBuilderItem extends Component {
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <ContentRemoveCircle style={{marginLeft: 10}} onClick={this.props.onDeleteFromBuilderClicked}/>
+        <ContentRemoveCircle style={{marginLeft: 10}} onClick={this.removeItem.bind(this)}/>
         <FlatButton
           label="Up"
           onClick={this.props.onMoveUpClicked} />

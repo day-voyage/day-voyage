@@ -25,6 +25,7 @@ export default class ActivityItem extends Component {
       buttonClicked: !this.state.buttonClicked
     });
     this.props.onAddToBuilderClicked();
+    this.props.openSnackbar("Event has been added to your itinerary");
   }
 
   render() {

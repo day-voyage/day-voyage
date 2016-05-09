@@ -33,6 +33,7 @@ class PlanBuilderContainer extends Component {
           <PlanBuilderItem
             // key={activity.lat}
             activity={activity}
+            openSnackbar={this.props.openSnackbar}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(activities.indexOf(activity));

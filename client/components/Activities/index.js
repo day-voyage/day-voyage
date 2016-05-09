@@ -9,12 +9,13 @@ export default class Activities extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      snackbar: false
+      snackbar: false,
+      message: ''
     };
   }
 
-  initiateSnackbar() {
-    this.setState({snackbar: true});
+  initiateSnackbar(message) {
+    this.setState({message: message, snackbar: true});
     var that = this;
     setTimeout(function() {
       that.setState({snackbar: false});
@@ -28,11 +29,11 @@ export default class Activities extends Component {
           <FilterContainer />
           <ActivitiesContainer 
             openSnackbar={this.initiateSnackbar.bind(this)}/>
-          <PlanBuilderContainer />
+          <PlanBuilderContainer 
+            openSnackbar={this.initiateSnackbar.bind(this)}/>
           <Snackbar
             open={this.state.snackbar}
-            message={"Event has been added!"}
-            action="undo"
+            message={this.state.message}
             autoHideDuration={2000}
           />
         </div>
