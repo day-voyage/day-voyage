@@ -44,6 +44,9 @@ export class ActivityItem extends React.Component {
   }
 
   render() {
+
+    const { activity } = this.props;
+
     return (
       <Card style={{marginLeft: 10, marginRight: 10, marginBottom: 10}}>
         <CardHeader
@@ -79,18 +82,6 @@ export class ActivityItem extends React.Component {
     )
   }
 }
-
-const mapStateToProps = (state) => ({
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivityItem);
 
 // ActivityItem.propTypes = {
 //   activity: React.PropTypes.shape({
