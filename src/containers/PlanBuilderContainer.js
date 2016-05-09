@@ -12,8 +12,8 @@ import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../actions';
+// import { bindActionCreators } from 'redux';
+// import * as actionCreators from '../actions';
 import push from 'redux-router';
 
 
@@ -55,15 +55,16 @@ class PlanBuilderContainer extends Component {
             // key={activity.lat}
             activity={activity}
             openSnackbar={this.props.openSnackbar}
-            onDeleteFromBuilderClicked={() => this.props.actions.deleteFromBuilder(activity)}
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
-              var indexOfActivity = planBuilder.activities.indexOf(activity);
+              var indexOfActivity = planBuilder.indexOf(activity);
               console.log(indexOfActivity);
-              this.props.actions.reorderUp(indexOfActivity);
-              changingRoutes(planBuilder.activities);
+              this.props.reorderUp(indexOfActivity);
+              changingRoutes(planBuilder);
             }}
             onMoveDownClicked={() => {
-              this.props.actions.reorderDown(planBuilder.activities.indexOf(activity));
+              var indexOfActivity = planBuilder.indexOf(activity);
+              this.props.reorderDown(indexOfActivity);
               changingRoutes(planBuilder.activities);
             }}/>
         )}
@@ -115,12 +116,12 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(actionCreators, dispatch)
+// });
 
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  // mapDispatchToProps
 )(PlanBuilderContainer);
