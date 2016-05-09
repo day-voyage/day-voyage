@@ -45,7 +45,8 @@ class ActivitiesContainer extends Component {
           <CreateActivity 
             modal={this.state.modalOpen} 
             toggleModal={this.toggleModal.bind(this)}
-            addFromCreate={(created) => this.props.addToBuilder(created)}/>
+            addFromCreate={(created) => this.props.addToBuilder(created)}
+            openSnackbar={this.props.openSnackbar} />
           <h3 style={{marginLeft: 15}}>Activities</h3>
           <FlatButton 
             label="Create New Activity"
