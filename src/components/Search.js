@@ -36,28 +36,29 @@ export class Search extends React.Component {
     this.setState({category: event.target.value});
   }
 
-  handleCity(event, index, value){
-    this.setState({city: value});
+  handleCity(event){
+    this.setState({city: event.target.value});
   }
 
   render() {
     return (
       <div className="col-sm-12">
         <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
-          <h5>Search Category: </h5>
           <TextField
             id="text-field-controlled"
             type="text"
             value={this.state.value}
-            placeholder="Category"
+            placeholder="Activities, Restaurants, or Places"
             style={{marginBottom: 25}}
             onChange={this.handleCategory.bind(this)} />
-          <h5>Select City: </h5>
-          <SelectField value={this.state.city} onChange={this.handleCity.bind(this)}>
-            <MenuItem value="San Francisco, CA" primaryText="San Francisco, CA" />
-            <MenuItem value="Oakland, CA" primaryText="Oakland, CA" />
-            <MenuItem value="San Jose, CA" primaryText="San Jose, CA" />
-          </SelectField><br />
+          <span> in </span>
+          <TextField
+            id="text-field-controlled"
+            type="text"
+            value={this.state.city}
+            defaultValue={this.state.city}
+            style={{marginBottom: 25}}
+            onChange={this.handleCategory.bind(this)} />
           <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
         </form>
       </div>
@@ -77,3 +78,13 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Search);
+
+
+/*
+<h5>Select City: </h5>
+<SelectField value={this.state.city} onChange={this.handleCity.bind(this)}>
+  <MenuItem value="San Francisco, CA" primaryText="San Francisco, CA" />
+  <MenuItem value="Oakland, CA" primaryText="Oakland, CA" />
+  <MenuItem value="San Jose, CA" primaryText="San Jose, CA" />
+</SelectField><br />
+ */
