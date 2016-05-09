@@ -11,7 +11,7 @@ body {
   font-size: 1rem;
   position: relative;
   width: 50%;
-  margin: 1em auto;
+  /*margin: auto;*/
   text-align: left;
 }
 .geosuggest__input {
@@ -48,6 +48,7 @@ body {
   max-height: 0;
   overflow: hidden;
   border-width: 0;
+  display: none;
 }
 
 /**
@@ -70,4 +71,8 @@ body {
 .geosuggest-item--active:hover,
 .geosuggest-item--active:focus {
   background: #ccc;
+}
+
+#address-text-field {
+  width: ;
 }

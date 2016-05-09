@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -13,12 +14,11 @@ export default class CreateActivity extends Component {
     super(props);
     this.state = {
       modalOpen: false,
-      name: '',
+      title: '',
       address: '',
-      city: '',
-      stateZip: '',
+      desc: '',
       lat: '',
-      long: '',
+      long: ''
     };
   }
 
@@ -56,54 +56,47 @@ export default class CreateActivity extends Component {
     this.props.toggleModal();
   }
 
-  handleName(event) {
-    this.setState({name: event.target.value});
+  handleTitle(event) {
+    this.setState({title: event.target.value});
   }
 
   handleAddress(event) {
     this.setState({address: event.target.value});
   }
 
-  handleCity(event) {
-    this.setState({city: event.target.value});
-  }
-
-  handleState(event) {
-    this.setState({state: event.target.value});
+  handleDesc(event) {
+    this.setState({desc: event.target.value});
   }
 
   onSuggestSelect(place) {
     console.log(place);
-    var address = place.gmaps.formatted_address.split(', ');
+    var address = place.gmaps.formatted_address.split(', ').join('\n');
 
-    var name = address[0];
-    var streetAddress = address[1];
-    var city = address[2];
-    var stateZip = address[3];
     var lat = place.location.lat;
     var long = place.location.lng;
 
-    if (address.length >= 4) {
-      this.setState({
-        name: name,
-        address: streetAddress,
-        city: city,
-        stateZip: stateZip,
-        lat: lat,
-        long: long
-      })
-    } else {
-      this.setState({
-        name: '',
-        address: '',
-        city: '',
-        stateZip: '',
-        lat: '',
-        long: ''
-      })
-    }
+    this.setState({
+      address: address,
+      lat: lat,
+      long: long
+    })
     
   }
+
+  addEvent() {
+
+    var activity = {
+      title: this.state.title,
+      address: this.state.address,
+      desc: this.state.desc,
+      lat: this.state.lat,
+      long: this.state.long,
+      category: 'personal',
+      added: true
+    }
+    this.props.addFromCreate(activity);
+    this.props.toggleModal();
+}
 
   render() {
 
@@ -116,44 +109,44 @@ export default class CreateActivity extends Component {
             <img src='../../assets/close.png' onClick={this.toggleModal.bind(this)} />
             <h2>Create your own activity</h2>
 
-            <Geosuggest
-              className="geosuggest"
-              placeholder="Start typing!"
-              initialValue="San Francisco"
-              onSuggestSelect={this.onSuggestSelect.bind(this)}
-              location={new google.maps.LatLng(37.7749295, -122.41941550000001)}
-              radius="20" />
-
-            <form style={{textAlign: "left", marginTop: 10}} className="commentForm" onSubmit={this.addEvent.bind(this)}>
-              Name: <br />
+            <form style={{textAlign: "left", marginTop: 10}} className="commentForm">
+              Title: <br />
               <TextField
+                className="text-field"
                 id="name-field"
                 type="text"
-                value={this.state.name}
+                onChange={this.handleTitle.bind(this)}
+                placeholder="Friend's Place"
                 style={{marginBottom: 25}} /><br />
 
-              Street Address: <br />
+              Description: <br />
               <TextField
-                id="address-field"
+                className="text-field"
+                id="desc-field"
                 type="text"
+                onChange={this.handleDesc.bind(this)}
+                placeholder="Dinner party"
+                style={{marginBottom: 25}} /><br />
+
+              Address: <br />
+              <Geosuggest
+                className="geosuggest"
+                placeholder="123 Grove St."
+                onSuggestSelect={this.onSuggestSelect.bind(this)}
+                location={new google.maps.LatLng(37.7749295, -122.41941550000001)}
+                radius="20" />
+
+              <TextField
+                className="text-field"
+                id="address-field"
+                disabled={true}
+                multiLine={true}
+                rows={4}
+                onChange={this.handleAddress.bind(this)}
                 value={this.state.address}
                 style={{marginBottom: 25}} /><br />
 
-              City: <br />
-              <TextField
-                id="city-field"
-                type="text"
-                value={this.state.city}
-                style={{marginBottom: 25}}/><br />
-
-              State: <br />
-              <TextField
-                id="state-zip-field"
-                type="text"
-                value={this.state.stateZip}
-                style={{marginBottom: 25}}/><br />
-
-              <FlatButton label="Submit" type="submit"/>
+              <FlatButton label="Add to itinerary" onClick={this.addEvent.bind(this)}/>
 
            </form>
           </div>

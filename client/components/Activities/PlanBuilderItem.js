@@ -36,7 +36,7 @@ PlanBuilderItem.propTypes = {
   activity: PropTypes.shape({
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired
+    city: PropTypes.string
   }).isRequired,
   onDeleteFromBuilderClicked: PropTypes.func.isRequired
 }

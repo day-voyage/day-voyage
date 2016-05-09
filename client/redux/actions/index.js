@@ -49,20 +49,12 @@ export function getAllActivities(query, router) {
          transformed.state = activity.location.state_code;
          transformed.neighborhood = activity.location.neighborhoods;
          transformed.added = false;
-         // TODO: cannot figure out how to pull a single item from neighborhood array, will have to be handled on client side
 
          return transformed;
        }))
-    .then((yelpData) => {
-      console.log('yelpData: ', yelpData);
-      return fetch('https://sleepy-crag-32675.herokuapp.com/v1/activities', {
-        method: 'GET'
-      })
-      .then((dbResults) => dbResults.json())
-      .then((dbJson) => dbJson.data.map((item) => Object.assign(item, {added: false})))
-      .then((dbArray) => dbArray.concat(yelpData))
-      .then((dbActivities) => store.dispatch(receiveActivities(dbActivities)))
-    })
+    .then((dbActivities) => 
+      store.dispatch(receiveActivities(dbActivities))
+    )
     .then(() => {
       router.push('/activities');
     })
