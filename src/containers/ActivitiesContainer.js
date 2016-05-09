@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions';
 import CreateActivity from '../components/CreateActivity';
 import ActivityItem from '../components/ActivityItem';
-import ActivitiesList from '../components/ActivityList';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 import FlatButton from 'material-ui/FlatButton';
@@ -24,7 +23,6 @@ class ActivitiesContainer extends Component {
   }
 
   render() {
-    // console.log(this.props);
     const { activities } = this.props;
     let allActivities = activities.activities;
     console.log('allActivities: >>', allActivities);
@@ -37,7 +35,7 @@ class ActivitiesContainer extends Component {
           <ActivityItem
             // key={activity.lat}
             activity={activity}
-            openSnackBar={this.props.openSnackBar}
+            openSnackbar={this.props.openSnackbar}
             onAddToBuilderClicked={() => {
               this.props.actions.addToBuilder(activity) }}/>
         )}
@@ -48,14 +46,7 @@ class ActivitiesContainer extends Component {
     return (
       <div className="col-md-6">
         <Card>
-          <CreateActivity
-            modal={this.state.modalOpen}
-            toggleModal={this.toggleModal.bind(this)}
-            addFromCreate={(created) => this.props.actions.addToBuilder(created)}/>
           <h3 style={{marginLeft: 15}}>Activities</h3>
-          <FlatButton
-            label="Create New Activity"
-            onClick={this.toggleModal.bind(this)} />
           {nodes}
         </Card>
       </div>

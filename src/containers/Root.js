@@ -12,23 +12,23 @@ injectTapEventPlugin();
 
 export default class Root extends React.Component {
 
-    static propTypes = {
-        store: React.PropTypes.object.isRequired
-    };
+  static propTypes = {
+    store: React.PropTypes.object.isRequired
+  };
 
-    render () {
-        return (
-            <div>
-                <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <Provider store={this.props.store}>
-                        <div>
-                            <ReduxRouter>
-                                {routes}
-                            </ReduxRouter>
-                        </div>
-                    </Provider>
-                </MuiThemeProvider>
-            </div>
-        );
-    }
+  render () {
+    return (
+      <div>
+        <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <Provider store={this.props.store}>
+              <div>
+                <ReduxRouter>
+                  {routes}
+                </ReduxRouter>
+              </div>
+            </Provider>
+        </MuiThemeProvider>
+      </div>
+    );
+  }
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
 import FilterContainer from '../containers/Filter';
-import PlanBuilderContainer from '../containers/PlanBuilder';
+import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
 
 export class ActivitiesView extends React.Component {
@@ -30,9 +30,9 @@ export class ActivitiesView extends React.Component {
         <div className="row">
           <FilterContainer />
            <ActivitiesContainer
-            openSnackbar={this.initiateSnackbar.bind(this)}/>
+            openSnackbar={this.initiateSnackbar.bind(this)} />
           <PlanBuilderContainer
-            openSnackbar={this.initiateSnackbar.bind(this)}/>
+            openSnackbar={this.initiateSnackbar.bind(this)} />
           <Snackbar
             open={this.state.snackbar}
             message={this.state.message}
