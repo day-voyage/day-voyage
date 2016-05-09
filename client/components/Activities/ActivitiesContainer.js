@@ -29,7 +29,10 @@ class ActivitiesContainer extends Component {
     return (
       <div className="col-md-6">
 
-        <CreateActivity modal={this.state.modalOpen} toggleModal={this.toggleModal.bind(this)}/>
+        <CreateActivity 
+          modal={this.state.modalOpen} 
+          toggleModal={this.toggleModal.bind(this)}
+          addFromCreate={(created) => this.props.addToBuilder(created)}/>
         <ActivitiesList title="Activities">
         <FlatButton label="Create New Activity" onClick={this.toggleModal.bind(this)} />
           {activities.map(activity =>
@@ -51,7 +54,7 @@ ActivitiesContainer.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired
+    city: PropTypes.string
   })).isRequired,
   addToBuilder: PropTypes.func.isRequired
 }

@@ -65,7 +65,7 @@ PlanBuilderContainer.propTypes = {
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired
+    city: PropTypes.string
   })).isRequired,
   confirmPlan: PropTypes.func.isRequired
 }
