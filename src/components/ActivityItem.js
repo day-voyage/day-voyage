@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog';
-import Maps from './Maps';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
@@ -56,8 +55,9 @@ export default class ActivityItem extends Component {
                 <FlatButton
                   onClick={this.toggleModal.bind(this)}
                   label="Close Map" />
+                  <h3>hello!</h3>
+
               </div>
-              <Maps size="small" lat={activity.lat} long={activity.long} title={activity.title} />
             </div>
           </div>
         </Dialog>
