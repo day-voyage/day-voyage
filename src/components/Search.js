@@ -58,7 +58,7 @@ export class Search extends React.Component {
             value={this.state.city}
             defaultValue={this.state.city}
             style={{marginBottom: 25}}
-            onChange={this.handleCategory.bind(this)} />
+            onChange={this.handleCity.bind(this)} />
           <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
         </form>
       </div>
@@ -67,7 +67,7 @@ export class Search extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-
+  
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -43,9 +43,9 @@ class PlanBuilderContainer extends Component {
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
-        {planBuilder.map(activity => 
+        {planBuilder.map((activity, index) => 
           <PlanBuilderItem
-            // key={activity.lat}
+            key={index}
             activity={activity}
             openSnackbar={this.props.openSnackbar}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
