@@ -76,3 +76,8 @@ body {
 #address-text-field {
   width: ;
 }
+
+#main-tabs {
+  background: white;
+  width: 50%;
+}

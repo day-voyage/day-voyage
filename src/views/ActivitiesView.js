@@ -8,13 +8,18 @@ import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
 import Search from '../components/Search';
 
+import {Tabs, Tab} from 'material-ui/Tabs';
+
+import FontIcon from 'material-ui/FontIcon';
+import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+
 
 export class ActivitiesView extends React.Component {
    constructor(props) {
     super(props);
     this.state = {
       snackbar: false,
-      message: ''
+      message: '',
     };
   }
 
@@ -29,20 +34,33 @@ export class ActivitiesView extends React.Component {
   render() {
     return (
       <div className="container">
-      <Search />
         <div className="row">
-          <FilterContainer />
-           <ActivitiesContainer
-            openSnackbar={this.initiateSnackbar.bind(this)} />
-          <PlanBuilderContainer
-            openSnackbar={this.initiateSnackbar.bind(this)} />
-          <Snackbar
-            open={this.state.snackbar}
-            message={this.state.message}
-            autoHideDuration={2000}
-          />
-        </div>
-      </div>
+        <Search />
+        <FilterContainer />
+      <Tabs>
+       <Tab icon={<FontIcon className="material-icons">map</FontIcon>}
+            label="SEARCH">
+            <ActivitiesContainer
+              openSnackbar={this.initiateSnackbar.bind(this)} />
+        </Tab>
+        <Tab
+          icon={<FontIcon className="material-icons">favorites</FontIcon>}
+          label="FAVORITES">
+          test test test
+        </Tab>
+        <Tab
+          icon={<MapsPersonPin />}
+          label="NEARBY">
+        </Tab>
+      </Tabs>
+       <PlanBuilderContainer
+          openSnackbar={this.initiateSnackbar.bind(this)} />
+        <Snackbar
+          open={this.state.snackbar}
+          message={this.state.message}
+          autoHideDuration={2000} />
+       </div>
+     </div>
     );
   }
 }
