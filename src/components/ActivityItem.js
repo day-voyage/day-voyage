@@ -39,11 +39,11 @@ export class ActivityItem extends React.Component {
       buttonClicked: !this.state.buttonClicked
     });
     this.props.onAddToBuilderClicked();
+    console.log(this.props);
+    this.props.openSnackbar("Event has been added to your itinerary");
   }
 
   render() {
-    // const { activity } = this.props;
-    // this.props;
     return (
       <Card style={{marginLeft: 10, marginRight: 10, marginBottom: 10}}>
         <CardHeader

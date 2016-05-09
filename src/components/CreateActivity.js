@@ -57,6 +57,7 @@ export default class CreateActivity extends Component {
     event.preventDefault();
     console.log("add event!");
     this.props.toggleModal();
+    this.props.openSnackbar("You've created a new event!");
   }
 
   handleTitle(event) {
