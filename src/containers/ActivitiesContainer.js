@@ -15,9 +15,9 @@ class ActivitiesContainer extends Component {
       <em>0 search results</em> :
       <div>
         <div>
-        {activities.map(activity => 
+        {activities.map((activity, index) => 
           <ActivityItem
-            // key={activity.lat}
+            key={index}
             activity={activity}
             openSnackbar={this.props.openSnackbar}
             onAddToBuilderClicked={() => {
