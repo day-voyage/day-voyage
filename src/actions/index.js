@@ -28,9 +28,7 @@ export function initApp() {
 export function receiveActivities(activities) {
   return {
     type: RECEIVE_ACTIVITIES,
-    payload: {
-      activities: activities
-    }
+    activities
   }
 }
 
@@ -85,18 +83,14 @@ export function getAllActivities(query) {
 export function addToBuilder(activity) {
   return {
     type: ADD_TO_BUILDER,
-    payload: {
-      activity: activity
-    }
+    activity
   };
 }
 
 export function deleteFromBuilder(activity) {
   return {
     type: DELETE_FROM_BUILDER,
-    payload: {
-      activity: activity
-    }
+    activity
   };
 }
 
@@ -110,18 +104,14 @@ export function confirmPlan(activities) {
 export function reorderUp(activityIndex) {
   return {
     type: REORDER_UP,
-    payload: {
-      activityIndex: activityIndex
-    }
+    activityIndex
   };
 }
 
 export function reorderDown(activityIndex) {
   return {
     type: REORDER_DOWN,
-    payload: {
-      activityIndex: activityIndex
-    }
+    activityIndex
   };
 }
 
