@@ -47,6 +47,7 @@ class PlanBuilderContainer extends Component {
           <PlanBuilderItem
             // key={activity.lat}
             activity={activity}
+            openSnackbar={this.props.openSnackbar}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(activities.indexOf(activity));
@@ -67,8 +68,9 @@ class PlanBuilderContainer extends Component {
         <Card>
           <h3 style={{marginLeft: 15}}>Itinerary</h3>
           <CreateActivity 
-            modal={this.state.modalOpen} 
+            modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
+            openSnackbar={this.props.openSnackbar}
             addFromCreate={(created) => this.props.addToBuilder(created)}/>
           <FlatButton 
             label="Create Own Activity"

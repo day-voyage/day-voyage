@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../../redux/actions';
+import CreateActivity from './CreateActivity';
 import ActivityItem from './ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 
 class ActivitiesContainer extends Component {
-
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
@@ -19,6 +19,7 @@ class ActivitiesContainer extends Component {
           <ActivityItem
             // key={activity.lat}
             activity={activity}
+            openSnackbar={this.props.openSnackbar}
             onAddToBuilderClicked={() => {
               this.props.addToBuilder(activity) }}/>
         )}

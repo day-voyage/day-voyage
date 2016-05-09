@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Modal from 'react-modal';
+import Dialog from 'material-ui/Dialog';
 import Maps from '../Helpers/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -25,6 +25,7 @@ export default class ActivityItem extends Component {
       buttonClicked: !this.state.buttonClicked
     });
     this.props.onAddToBuilderClicked();
+    this.props.openSnackbar("Event has been added to your itinerary");
   }
 
   render() {
@@ -45,9 +46,10 @@ export default class ActivityItem extends Component {
         <CardText expandable={true}>
           {activity.desc}
         </CardText>
-        <Modal
-          isOpen={this.state.modalOpen}
-          style={customStyles} >
+        <Dialog
+          open={this.state.modalOpen}
+          modal={true}
+          style={customContentStyle} >
           <div className="container">
             <div className="row">
               <div>
@@ -58,7 +60,7 @@ export default class ActivityItem extends Component {
               <Maps size="small" lat={activity.lat} long={activity.long} title={activity.title} />
             </div>
           </div>
-        </Modal>
+        </Dialog>
       </Card>
     )
   }
@@ -73,13 +75,7 @@ ActivityItem.propTypes = {
   onAddToBuilderClicked: PropTypes.func.isRequired
 }
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
+const customContentStyle = {
+  width: '60%',
+  maxWidth: 'none'
 };
