@@ -50,12 +50,12 @@ class PlanBuilderContainer extends Component {
             openSnackbar={this.props.openSnackbar}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
-              this.props.reorderUp(activities.indexOf(activity));
-              changingRoutes(activities);
+              this.props.reorderUp(planBuilder.indexOf(activity));
+              changingRoutes(planBuilder);
             }}
             onMoveDownClicked={() => {
-              this.props.reorderDown(activities.indexOf(activity));
-              changingRoutes(activities);
+              this.props.reorderDown(planBuilder.indexOf(activity));
+              changingRoutes(planBuilder);
             }}/>
         )}
         </div>
