@@ -47,11 +47,11 @@ class PlanBuilderContainer extends Component {
       </div>
     return (
       <div className="col-md-6">
+        <div className="row" style={{marginBottom: 10}}>>
+          <Maps size="small" />
+        </div>
         <Card>
           <h3 style={{marginLeft: 15}}>Itinerary</h3>
-          <div className="row" style={{marginBottom: 10}}>>
-            <Maps size="small" />
-          </div>
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton
