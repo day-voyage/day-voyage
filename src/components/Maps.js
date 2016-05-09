@@ -19,7 +19,7 @@ export default class Maps extends Component {
   render() {
     const { directions, activities } = this.props;
     var markers = activities.map(function(item) {
-      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon };
+      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added };
     });
     // var markers = [{position: {lat: parseFloat(this.props.lat), lng: parseFloat(this.props.long) }, title: this.props.title }];
 
@@ -46,13 +46,18 @@ export default class Maps extends Component {
                 defaultZoom={12}
                 defaultCenter={{lat: centerLat, lng: centerLng}}>
                   {markers.map((marker, index) => {
-                    return (
-                      <Marker
-                        key={ index }
-                        title={ marker.title }
-                        icon={ marker.icon }
-                        {...marker} />
-                    );
+                    if (!marker.added) {
+                      return (
+                        <Marker
+                          key={ index }
+                          title={ marker.title }
+                          icon={ marker.icon }
+                          {...marker} />
+                      );
+                      
+                    } else {
+                      return;
+                    }
                   })}
                   { directions && !this.props.lat ? <DirectionsRenderer directions={directions} /> : null}
               </GoogleMap>
