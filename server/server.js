@@ -22,7 +22,6 @@ var yelp = new Yelp({
 });
 
 app.get('/api/yelpSearch', function(request, response) {
-  console.log(request.query);
   yelp.search({ term: request.query.category, location: request.query.city, limit: 10, sort: 2 })
   .then(function (data) {
     response.send(data.businesses);
