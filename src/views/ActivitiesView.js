@@ -1,7 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
 import FilterContainer from '../containers/Filter';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
@@ -10,8 +8,9 @@ import Search from '../components/Search';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import FontIcon from 'material-ui/FontIcon';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+import MapsPlace from 'material-ui/svg-icons/maps/place';
+import MapsMap from 'material-ui/svg-icons/maps/map';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
 export class ActivitiesView extends React.Component {
@@ -64,23 +63,23 @@ export class ActivitiesView extends React.Component {
               value={this.state.value}>
              <Tab 
                 value="a"
-                icon={<FontIcon className="material-icons">Map</FontIcon>}
-                label="SEARCH"
+                icon={<MapsPlace />}
+                label="PLACES"
                 onClick={this.handleChangeA.bind(this)}>
                   <ActivitiesContainer
                     openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
                 value="b"
-                icon={<FontIcon className="material-icons">Favorites</FontIcon>}
-                label="FAVORITES"
+                icon={<MapsMap />}
+                label="ITINERARIES"
                 onClick={this.handleChangeB.bind(this)}>
                 test test test
               </Tab>
               <Tab
                 value="c"
-                icon={<MapsPersonPin />}
-                label="NEARBY"
+                icon={<ActionFavoriteBorder />}
+                label="FAVORITES"
                 onClick={this.handleChangeC.bind(this)}>
               </Tab>
             </Tabs>
@@ -106,11 +105,6 @@ function mapStateToProps(state) {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(ActivitiesView);
