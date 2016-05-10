@@ -9,8 +9,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 export class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
-    console.log('>>>>> router prop in login modal:', props.router);
-    const redirectRoute = props.router.location.query.next || props.router.location.pathName;
+    // console.log('>>>>>  prop in login modal:', props);
+    const { router } = props;
+    const redirectRoute = router.location.query.next || router.location.pathName;
     this.state = {
       username: '',
       password: '',
@@ -23,7 +24,11 @@ export class LoginComponent extends React.Component {
     this.setState({open: true});
   }
 
-  handleClose () {
+  handleCancel() {
+    this.setState({open: false});
+  }
+
+  handleSubmit () {
     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
     this.setState({open: false});
   }
@@ -42,17 +47,18 @@ export class LoginComponent extends React.Component {
   // }
 
   render() {
+    console.log('props in render>>>>>>>',this.props);
     const actions = [
           <FlatButton
             label="Cancel"
             primary={true}
-            onTouchTap={this.handleClose}
+            onClick={this.handleCancel.bind(this)}
           />,
           <FlatButton
             label="Submit"
             primary={true}
-            disabled={true}
-            onTouchTap={this.handleClose}
+            // disabled={true}
+            onClick={this.handleSubmit.bind(this)}
           />,
         ];
 
