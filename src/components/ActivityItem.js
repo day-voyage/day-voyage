@@ -42,7 +42,7 @@ export default class ActivityItem extends Component {
           onClick={this.clickAddButton.bind(this)}
           disabled={activity.added ? true : false}
           label={activity.added ? 'Added' : 'Add to itinerary'} />
-        {this.state.descOpen ? <CardText>{activity.desc}</CardText> : null}
+        {this.state.descOpen ? <CardText><strong>Address:</strong><br />{activity.address}<br />{activity.city}, {activity.state}<br /><br />{activity.desc}</CardText> : null}
       </Card>
     )
   }
