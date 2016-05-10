@@ -5,6 +5,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 export class LoginComponent extends React.Component {
   constructor(props) {
@@ -72,16 +73,21 @@ export class LoginComponent extends React.Component {
             modal={true}
             open={this.state.open}
           >
-            <form>
-              <input type='text'
-                onChange={this.handleUsernameChange.bind(this)}
-                placeholder='username' />
-              <br />
-              <input type='password'
-                onChange={this.handlePasswordChange.bind(this)}
-                placeholder='password' />
-              <br />
-            </form>
+          <TextField
+            className="text-field"
+            id="username-field"
+            type="text"
+            onChange={this.handleUsernameChange.bind(this)}
+            placeholder="username"
+            style={{marginBottom: 15}} />
+            <br />
+          <TextField
+            className="text-field"
+            id="password-field"
+            type="password"
+            onChange={this.handlePasswordChange.bind(this)}
+            placeholder="password"
+            style={{marginBottom: 15}} />
           </Dialog>
         </div>
     </div>
