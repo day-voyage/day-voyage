@@ -6,10 +6,11 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export class LoginModal extends React.Component {
+export class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
-    // console.log('>>>>> props in loginModal:', this.props);
+    console.log('>>>>> router prop in login modal:', props.router);
+    const redirectRoute = props.router.location.query.next || props.router.location.pathName;
     this.state = {
       username: '',
       password: '',
@@ -23,7 +24,6 @@ export class LoginModal extends React.Component {
   }
 
   handleClose () {
-    const redirectRoute = this.props.location.query.next || '/';
     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
     this.setState({open: false});
   }
@@ -58,16 +58,14 @@ export class LoginModal extends React.Component {
 
     return (
       <div>
-        {this.props.statusText ? <div>{this.props.statusText}</div> : ''}
-
         <div>
-            <RaisedButton label="Login" onTouchTap={this.handleOpen} />
-            <Dialog
-              title="Come in"
-              actions={actions}
-              modal={true}
-              open={this.state.open}
-            >
+          <FlatButton label="Login" onClick={this.handleOpen.bind(this)} />
+          <Dialog
+            title="Come in"
+            actions={actions}
+            modal={true}
+            open={this.state.open}
+          >
             <form>
               <input type='text'
                 onChange={this.handleUsernameChange.bind(this)}
@@ -78,7 +76,7 @@ export class LoginModal extends React.Component {
                 placeholder='password' />
               <br />
             </form>
-            </Dialog>
+          </Dialog>
         </div>
     </div>
     );
@@ -87,7 +85,9 @@ export class LoginModal extends React.Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticating: state.auth.isAuthenticating,
-  statusText: state.auth.statusText
+  statusText: state.auth.statusText,
+  router: state.router
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -97,4 +97,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginModal);
+)(LoginComponent);
