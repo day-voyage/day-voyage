@@ -12,6 +12,7 @@ import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import { store } '../index.js'
 
 
 class PlanBuilderContainer extends Component {
@@ -33,7 +34,7 @@ class PlanBuilderContainer extends Component {
   }
 
   goToConfirm() {
-    this.context.router.push('/confirmation');
+    store.dispatch(push('/confirmation'));
   }
 
   render() {
