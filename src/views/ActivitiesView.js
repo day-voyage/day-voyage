@@ -5,9 +5,7 @@ import FilterContainer from '../containers/Filter';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
 import Search from '../components/Search';
-
 import {Tabs, Tab} from 'material-ui/Tabs';
-
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsMap from 'material-ui/svg-icons/maps/map';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
@@ -20,6 +18,8 @@ export class ActivitiesView extends React.Component {
       snackbar: false,
       message: '',
       value: 'a'
+      minPrice: 0,
+      maxPrice: 100
     };
   }
 
@@ -55,7 +55,15 @@ export class ActivitiesView extends React.Component {
       <div className="container">
         <div className="row">
           <Search />
-          <FilterContainer />
+          <FilterContainer minPrice={this.state.minPrice} maxPrice={this.state.maxPrice} />
+           <ActivitiesContainer
+            openSnackbar={this.initiateSnackbar.bind(this)} />
+          <PlanBuilderContainer
+            openSnackbar={this.initiateSnackbar.bind(this)} />
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.message}
+            autoHideDuration={2000}/>
         </div>
         <div className="row">
           <div className="col-md-6">
