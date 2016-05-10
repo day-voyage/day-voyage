@@ -109,12 +109,10 @@ export default class CreateActivity extends Component {
       <Dialog
         open={this.props.modal}
         modal={true}
-        contentStyle={customContentStyle}
-        autoScrollBodyContent={true}
-        style={customContentStyle} >
-        <div className="container">
-          <div className="row">
-            <h2>Create your own activity</h2>
+        contentStyle={modalStyle}
+        autoScrollBodyContent={true}>
+          <div>
+            <h2 style={{marginTop: 10, marginBottom: 30}}>Create your own activity</h2>
 
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm">
               Title: <br />
@@ -137,7 +135,6 @@ export default class CreateActivity extends Component {
 
               Address: <br />
               <Geosuggest
-                className="geosuggest"
                 placeholder="123 Grove St."
                 onSuggestSelect={this.onSuggestSelect.bind(this)}
                 location={new google.maps.LatLng(37.7749295, -122.41941550000001)}
@@ -162,13 +159,11 @@ export default class CreateActivity extends Component {
               <img src='../assets/close.png' onClick={this.toggleModal.bind(this)} />
            </form>
           </div>
-        </div>
       </Dialog>
     )
   }
 }
 
-const customContentStyle = {
-  width: '60%',
-  maxWidth: 'none'
-};
+const modalStyle = {
+  width: '50%'
+}

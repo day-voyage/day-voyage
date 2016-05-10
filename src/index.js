@@ -5,6 +5,8 @@ import Root from './containers/Root';
 import configureStore from './store/configureStore';
 import {loginUserSuccess} from './actions';
 
+require('./styles/styles.css');
+
 const target = document.getElementById('root');
 export const store = configureStore(window.__INITIAL_STATE__);
 

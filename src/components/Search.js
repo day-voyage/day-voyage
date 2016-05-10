@@ -51,7 +51,7 @@ export class Search extends React.Component {
             placeholder="Activities, Restaurants, or Places"
             style={{marginBottom: 25}}
             onChange={this.handleCategory.bind(this)} />
-          <span> in </span>
+          <span>  in  </span>
           <TextField
             id="text-field-controlled"
             type="text"
@@ -67,7 +67,7 @@ export class Search extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+
 });
 
 const mapDispatchToProps = (dispatch) => ({
