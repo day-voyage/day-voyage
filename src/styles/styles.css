@@ -7,18 +7,20 @@ body {
  * The geosuggest module
  */
 .geosuggest {
-  font-size: 18px;
-  font-size: 1rem;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
   position: relative;
-  width: 50%;
+  /*width: 50%;*/
   /*margin: 1em auto;*/
   text-align: left;
 }
 .geosuggest__input {
   width: 100%;
-  border: 2px solid transparent;
-  box-shadow: 0 0 1px #3d464d;
-  padding: .5em 1em;
+  border: none;
+  box-shadow: none;
+  border-bottom: 1px solid rgb(228,228,228);
+  padding-left: 2px;
+  padding-bottom: 4px;
   -webkit-transition: border 0.2s, box-shadow 0.2s;
           transition: border 0.2s, box-shadow 0.2s;
 }
@@ -73,11 +75,12 @@ body {
   background: #ccc;
 }
 
-#address-text-field {
-  width: ;
-}
-
 #main-tabs {
   background: white;
   width: 50%;
+}
+
+
+.commentForm .text-field {
+  width: 100% !important;
 }

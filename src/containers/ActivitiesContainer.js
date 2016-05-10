@@ -27,12 +27,10 @@ class ActivitiesContainer extends Component {
       </div>
 
     return (
-      <div className="col-md-6">
-        <Card>
-          <h3 style={{marginLeft: 15}}>Activities</h3>
-          {nodes}
-        </Card>
-      </div> 
+      <Card>
+        <h3 style={{marginLeft: 15}}>Activities</h3>
+        {nodes}
+      </Card>
     )
   }
 }

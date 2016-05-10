@@ -61,7 +61,7 @@ class PlanBuilderContainer extends Component {
         </div>
       </div>
     return (
-      <div className="col-md-6">
+      <div>
         <div className="row" style={{marginBottom: 10}}>>
           <Maps 
             size="small" />

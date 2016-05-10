@@ -35,30 +35,36 @@ export class ActivitiesView extends React.Component {
     return (
       <div className="container">
         <div className="row">
-        <Search />
-        <FilterContainer />
-      <Tabs>
-       <Tab icon={<FontIcon className="material-icons">map</FontIcon>}
-            label="SEARCH">
-            <ActivitiesContainer
+          <Search />
+          <FilterContainer />
+        </div>
+        <div className="row">
+          <div className="col-md-5">
+            <Tabs>
+             <Tab icon={<FontIcon className="material-icons">map</FontIcon>}
+                  label="SEARCH">
+                  <ActivitiesContainer
+                    openSnackbar={this.initiateSnackbar.bind(this)} />
+              </Tab>
+              <Tab
+                icon={<FontIcon className="material-icons">favorites</FontIcon>}
+                label="FAVORITES">
+                test test test
+              </Tab>
+              <Tab
+                icon={<MapsPersonPin />}
+                label="NEARBY">
+              </Tab>
+            </Tabs>
+          </div>
+          <div className="col-md-7">
+            <PlanBuilderContainer
               openSnackbar={this.initiateSnackbar.bind(this)} />
-        </Tab>
-        <Tab
-          icon={<FontIcon className="material-icons">favorites</FontIcon>}
-          label="FAVORITES">
-          test test test
-        </Tab>
-        <Tab
-          icon={<MapsPersonPin />}
-          label="NEARBY">
-        </Tab>
-      </Tabs>
-       <PlanBuilderContainer
-          openSnackbar={this.initiateSnackbar.bind(this)} />
-        <Snackbar
-          open={this.state.snackbar}
-          message={this.state.message}
-          autoHideDuration={2000} />
+            <Snackbar
+              open={this.state.snackbar}
+              message={this.state.message}
+              autoHideDuration={2000} />
+          </div>
        </div>
      </div>
     );
