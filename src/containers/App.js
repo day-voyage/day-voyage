@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logoutAndRedirect } from '../actions';
+import LoginComponent from '../components/LoginComponent';
 
 // import '../styles/core.scss';
 
@@ -14,6 +15,21 @@ import { logoutAndRedirect } from '../actions';
 })
 
 export default class CoreLayout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: 'false'
+    };
+  }
+
+  toggleModal () {
+    this.setState({
+      'modalOpen': !this.state.modalOpen
+    });
+  }
+
+
+
   render () {
     const {dispatch} = this.props;
     return (
@@ -26,7 +42,10 @@ export default class CoreLayout extends React.Component {
             <div id="navbar">
               <ul className="nav navbar-nav navbar-right">
                 <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/login">Login</Link></li>
+                <LoginComponent
+                  modal={this.state.modalOpen}
+                  toggleModal={this.toggleModal.bind(this)}
+                />
                 {this.props.isAuthenticated
                  ? <li><a href='#' onClick={() => this.props.dispatch(logoutAndRedirect())}>Logout</a> </li>
                  : ''
