@@ -1,7 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
 import FilterContainer from '../containers/Filter';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
@@ -10,8 +8,9 @@ import Search from '../components/Search';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import FontIcon from 'material-ui/FontIcon';
-import MapsPersonPin from 'material-ui/svg-icons/maps/person-pin';
+import MapsPlace from 'material-ui/svg-icons/maps/place';
+import MapsMap from 'material-ui/svg-icons/maps/map';
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
 export class ActivitiesView extends React.Component {
@@ -20,6 +19,7 @@ export class ActivitiesView extends React.Component {
     this.state = {
       snackbar: false,
       message: '',
+      value: 'a'
     };
   }
 
@@ -31,6 +31,25 @@ export class ActivitiesView extends React.Component {
     }, 2000);
   }
 
+  handleChangeA(value) {
+     this.setState({
+       value: 'a',
+     });
+   };
+
+  handleChangeB(value) {
+     this.setState({
+       value: 'b',
+     });
+   };
+
+   handleChangeC(value) {
+      this.setState({
+        value: 'c',
+      });
+    };
+
+
   render() {
     return (
       <div className="container">
@@ -39,25 +58,33 @@ export class ActivitiesView extends React.Component {
           <FilterContainer />
         </div>
         <div className="row">
-          <div className="col-md-5">
-            <Tabs>
-             <Tab icon={<FontIcon className="material-icons">map</FontIcon>}
-                  label="SEARCH">
+          <div className="col-md-6">
+            <Tabs 
+              value={this.state.value}>
+             <Tab 
+                value="a"
+                icon={<MapsPlace />}
+                label="PLACES"
+                onClick={this.handleChangeA.bind(this)}>
                   <ActivitiesContainer
                     openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
-                icon={<FontIcon className="material-icons">favorites</FontIcon>}
-                label="FAVORITES">
+                value="b"
+                icon={<MapsMap />}
+                label="ITINERARIES"
+                onClick={this.handleChangeB.bind(this)}>
                 test test test
               </Tab>
               <Tab
-                icon={<MapsPersonPin />}
-                label="NEARBY">
+                value="c"
+                icon={<ActionFavoriteBorder />}
+                label="FAVORITES"
+                onClick={this.handleChangeC.bind(this)}>
               </Tab>
             </Tabs>
           </div>
-          <div className="col-md-7">
+          <div className="col-md-6">
             <PlanBuilderContainer
               openSnackbar={this.initiateSnackbar.bind(this)} />
             <Snackbar
@@ -78,11 +105,6 @@ function mapStateToProps(state) {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
 )(ActivitiesView);
