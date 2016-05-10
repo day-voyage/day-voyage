@@ -25,6 +25,9 @@ export default class FilterContainer extends Component {
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <MenuItem>Menu Item</MenuItem>
           <MenuItem>Menu Item 2</MenuItem>
+        
+
+
         </Drawer>
       </div>
     );
