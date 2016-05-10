@@ -17,7 +17,6 @@ export class ActivitiesView extends React.Component {
     this.state = {
       snackbar: false,
       message: '',
-      value: 'a'
       minPrice: 0,
       maxPrice: 100
     };
