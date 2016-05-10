@@ -6,9 +6,22 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 
 export default class PlanBuilderItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      descOpen: false
+    };
+  }
+
   removeItem() {
     this.props.openSnackbar("Event has been removed from your itinerary");
     this.props.onDeleteFromBuilderClicked();
+  }
+
+  toggleDesc() {
+    this.setState({
+      descOpen: !this.state.descOpen
+    });
   }
 
   render() {
@@ -19,6 +32,7 @@ export default class PlanBuilderItem extends Component {
         <CardHeader
           title={activity.title}
           subtitle={activity.neighborhood}
+          onClick={this.toggleDesc.bind(this)}
           key={activity.i}
           actAsExpander={true}
           showExpandableButton={true}
@@ -30,9 +44,7 @@ export default class PlanBuilderItem extends Component {
         <FlatButton
           label="Down"
           onClick={this.props.onMoveDownClicked} />
-        <CardText expandable={true}>
-          {activity.desc}
-        </CardText>
+        {this.state.descOpen ? <CardText>{activity.desc}</CardText> : null}
       </Card>
     )
   }
