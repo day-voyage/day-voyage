@@ -20,6 +20,7 @@ export class ActivitiesView extends React.Component {
     this.state = {
       snackbar: false,
       message: '',
+      value: 'a'
     };
   }
 
@@ -31,6 +32,25 @@ export class ActivitiesView extends React.Component {
     }, 2000);
   }
 
+  handleChangeA(value) {
+     this.setState({
+       value: 'a',
+     });
+   };
+
+  handleChangeB(value) {
+     this.setState({
+       value: 'b',
+     });
+   };
+
+   handleChangeC(value) {
+      this.setState({
+        value: 'c',
+      });
+    };
+
+
   render() {
     return (
       <div className="container">
@@ -40,20 +60,28 @@ export class ActivitiesView extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-5">
-            <Tabs>
-             <Tab icon={<FontIcon className="material-icons">map</FontIcon>}
-                  label="SEARCH">
+            <Tabs 
+              value={this.state.value}>
+             <Tab 
+                value="a"
+                icon={<FontIcon className="material-icons">Map</FontIcon>}
+                label="SEARCH"
+                onClick={this.handleChangeA.bind(this)}>
                   <ActivitiesContainer
                     openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
-                icon={<FontIcon className="material-icons">favorites</FontIcon>}
-                label="FAVORITES">
+                value="b"
+                icon={<FontIcon className="material-icons">Favorites</FontIcon>}
+                label="FAVORITES"
+                onClick={this.handleChangeB.bind(this)}>
                 test test test
               </Tab>
               <Tab
+                value="c"
                 icon={<MapsPersonPin />}
-                label="NEARBY">
+                label="NEARBY"
+                onClick={this.handleChangeC.bind(this)}>
               </Tab>
             </Tabs>
           </div>
