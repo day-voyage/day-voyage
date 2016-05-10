@@ -8,15 +8,9 @@ export default class ActivityItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
-      buttonClicked: false
+      buttonClicked: false,
+      descOpen: false
     };
-  }
-
-  toggleModal() {
-    this.setState({
-      modalOpen: !this.state.modalOpen
-    });
   }
 
   clickAddButton() {
@@ -27,6 +21,12 @@ export default class ActivityItem extends Component {
     this.props.openSnackbar("Event has been added to your itinerary");
   }
 
+  toggleDesc() {
+    this.setState({
+      descOpen: !this.state.descOpen
+    });
+  }
+
   render() {
     const { activity } = this.props;
     return (
@@ -34,6 +34,7 @@ export default class ActivityItem extends Component {
         <CardHeader
           title={activity.title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
+          onClick={this.toggleDesc.bind(this)}
           actAsExpander={true}
           showExpandableButton={true}
         />
@@ -41,26 +42,7 @@ export default class ActivityItem extends Component {
           onClick={this.clickAddButton.bind(this)}
           disabled={activity.added ? true : false}
           label={activity.added ? 'Added' : 'Add to itinerary'} />
-        <img src='../../assets/open.png' onClick={this.toggleModal.bind(this)} />
-        <CardText expandable={true}>
-          {activity.desc}
-        </CardText>
-        <Dialog
-          open={this.state.modalOpen}
-          modal={true}
-          style={customContentStyle} >
-          <div className="container">
-            <div className="row">
-              <div>
-                <FlatButton
-                  onClick={this.toggleModal.bind(this)}
-                  label="Close Map" />
-                  <h3>hello!</h3>
-
-              </div>
-            </div>
-          </div>
-        </Dialog>
+        {this.state.descOpen ? <CardText>{activity.desc}</CardText> : null}
       </Card>
     )
   }
