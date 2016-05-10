@@ -31,7 +31,7 @@ export default class PlanBuilderItem extends Component {
       <Card>
         <CardHeader
           title={activity.title}
-          subtitle={activity.neighborhood}
+          subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}
           key={activity.i}
           actAsExpander={true}
@@ -44,7 +44,7 @@ export default class PlanBuilderItem extends Component {
         <FlatButton
           label="Down"
           onClick={this.props.onMoveDownClicked} />
-        {this.state.descOpen ? <CardText>{activity.desc}</CardText> : null}
+        {this.state.descOpen ? <CardText><strong>Address:</strong><br />{activity.address}<br />{activity.city}, {activity.state}<br /><br />{activity.desc}</CardText> : null}
       </Card>
     )
   }
