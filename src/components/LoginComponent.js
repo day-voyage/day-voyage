@@ -24,7 +24,7 @@ export class LoginComponent extends React.Component {
       open: false,
       value: 'login',
       snackbar: false,
-      message: ''
+      message: '',
     };
   }
 
@@ -75,6 +75,12 @@ export class LoginComponent extends React.Component {
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
   }
+
+  // componentWillReceiveProps() {
+  //   if (this.state.signUpError) {
+  //     this.initiateSnackbar('Problem logging in');
+  //   }
+  // }
 
   render() {
     const actions = [

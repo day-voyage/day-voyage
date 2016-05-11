@@ -55,7 +55,8 @@ export default createReducer(initialState, {
             'token': null,
             'username': null,
             'user_id': null,
-            'statusText': 'You have been successfully logged out.'
+            'statusText': 'You have been successfully logged out.',
+            'signUpError': false
         });
     },
     [SIGNUP_USER]: (state, payload) => {
@@ -66,7 +67,8 @@ export default createReducer(initialState, {
     [SIGNUP_USER_FAILURE]: (state, payload) => {
         return Object.assign({}, state, {
             'isSigningUp': false,
-            'statusText': `Problem signing you up. ${payload.status} ${payload.statusText}`
+            'statusText': `Problem signing you up. ${payload.status} ${payload.statusText}`,
+            'signUpError': true
         });
     },
     [SIGNUP_USER_REQUEST]: (state, payload) => {

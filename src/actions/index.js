@@ -320,6 +320,7 @@ export function signUpUserFailure(error) {
     payload: {
       status: error.response.status,
       statusText: error.response.statusText,
+      signUpError: true
     }
   };
 }

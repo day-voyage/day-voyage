@@ -7,12 +7,15 @@ import { logoutAndRedirect } from '../actions';
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
 import { push } from 'redux-router';
+import Snackbar from 'material-ui/Snackbar';
 
 // import '../styles/core.scss';
 
 @connect((state) => {
   return {
-   isAuthenticated: state.auth.isAuthenticated
+   isAuthenticated: state.auth.isAuthenticated,
+   statusText: state.auth.statusText,
+   signUpError: state.auth.signUpError,
   };
 })
 
@@ -20,7 +23,9 @@ export default class CoreLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: 'false'
+      modalOpen: 'false',
+      snackbar: false,
+      message: ''
     };
   }
 
@@ -30,10 +35,25 @@ export default class CoreLayout extends React.Component {
     });
   }
 
+  initiateSnackbar(message) {
+    this.setState({message: message, snackbar: true});
+    var that = this;
+    setTimeout(() => this.setState({snackbar: false}), 2000)
+  }
 
+  // shouldComponentUpdate() {
+  //   console.log('component should update props');
+  //   if (this.state.signUpError) {
+  //     this.initiateSnackbar('Problem sign up');
+  //   }
+  // }
 
   render () {
     const {dispatch} = this.props;
+    if (this.state.signUpError) {
+      console.log('inside if')
+      this.inititiateSnackbar('Problem signing you up');
+    }
     return (
       <div>
         <nav className="navbar navbar-default">
@@ -73,6 +93,10 @@ export default class CoreLayout extends React.Component {
               {this.props.children}
             </div>
           </div>
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.statusText}
+            autoHideDuration={2000} />
         </div>
       </div>
     );
