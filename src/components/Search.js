@@ -2,11 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
-import { Provider } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
 import CircularProgress from 'material-ui/CircularProgress';
 
@@ -23,7 +20,7 @@ export class Search extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var that = this;
     navigator.geolocation.getCurrentPosition((position) => {
       var lat = position.coords.latitude;
@@ -136,13 +133,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Search);
-
-
-/*
-<h5>Select City: </h5>
-<SelectField value={this.state.city} onChange={this.handleCity.bind(this)}>
-  <MenuItem value="San Francisco, CA" primaryText="San Francisco, CA" />
-  <MenuItem value="Oakland, CA" primaryText="Oakland, CA" />
-  <MenuItem value="San Jose, CA" primaryText="San Jose, CA" />
-</SelectField><br />
- */

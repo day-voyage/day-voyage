@@ -1,33 +1,37 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../actions';
-import ActivityItem from '../components/ActivityItem';
-import FlatButton from 'material-ui/FlatButton';
+import {GridList} from 'material-ui/GridList';
 import { Card } from 'material-ui/Card';
+import DBActivityItem from '../components/DBActivityItem';
 
 
-class ActivitiesContainer extends Component {
+
+class DBResultsContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
     return (
       <Card>
-        <h3 style={{marginLeft: 15}}>Activities</h3>
-        {!hasActivities ? <em>0 search results</em> :
-          activities.map((activity, index) =>
-            <ActivityItem
-              key={index}
-              activity={activity}
-              openSnackbar={this.props.openSnackbar}
-              onAddToBuilderClicked={() => {
-                this.props.addToBuilder(activity) }}/>
-        )}
+        <GridList
+          cellHeight={200}
+          style={styles.gridList}>
+          {!hasActivities ? <em>0 search results</em> :
+            activities.map((activity, index) =>
+              <DBActivityItem
+                key={index}
+                activity={activity}
+                openSnackbar={this.props.openSnackbar}
+                onAddToBuilderClicked={() => {
+                  this.props.addToBuilder(activity) }}/>
+          )}
+        </GridList>
       </Card>
     )
   }
 }
 
-ActivitiesContainer.propTypes = {
+DBResultsContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
@@ -46,18 +50,12 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   { addToBuilder }
-)(ActivitiesContainer)
+)(DBResultsContainer)
 
 const styles = {
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
   gridList: {
-    width: 500,
+    width: 550,
     height: 500,
-    overflowY: 'auto',
     marginBottom: 24,
   },
 };
