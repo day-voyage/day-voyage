@@ -115,6 +115,7 @@ export default class FilterContainer extends Component {
     var cityOptions = this.state.neighborhood.map((city, index) => {
       return ( 
           <Checkbox
+          key={ index }
           label={city.location}
           defaultChecked={city.visible}
           style={this.state.checkBox.marginBottom}
@@ -125,6 +126,7 @@ export default class FilterContainer extends Component {
     var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
       return ( 
           <Checkbox
+          key={ index }
           label={cuisine.type}
           defaultChecked={true}
           style={this.state.checkBox.marginBottom}

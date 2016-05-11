@@ -19,7 +19,7 @@ export default class Maps extends Component {
   render() {
     const { directions, activities } = this.props;
     var markers = activities.map(function(item) {
-      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added };
+      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added, visible: item.visible };
     });
 
     var centerLat = markers.slice().map((item) => item.position.lat).reduce((a, b) => a + b)/markers.length;
@@ -40,7 +40,7 @@ export default class Maps extends Component {
                 defaultZoom={12}
                 defaultCenter={{lat: centerLat, lng: centerLng}}>
                   {markers.map((marker, index) => {
-                    if (!marker.added) {
+                    if (!marker.added && marker.visible) {
                       return (
                         <Marker
                           key={ index }

@@ -15,6 +15,7 @@ export default function directions(state = initialState.directions, action) {
       return action.directions;
     case RECEIVE_ROUTES:
       return state;
+
     default:
       return state;
   }
@@ -31,6 +32,3 @@ export default function directions(state = initialState.directions, action) {
 //     return state;
 //   }
 // })
-
-
-
