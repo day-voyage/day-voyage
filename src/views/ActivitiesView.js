@@ -58,7 +58,7 @@ export class ActivitiesView extends Component {
           <FilterContainer />
         </div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <Tabs 
               value={this.state.value}>
              <Tab 
@@ -84,7 +84,7 @@ export class ActivitiesView extends Component {
               </Tab>
             </Tabs>
           </div>
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <PlanBuilderContainer
               openSnackbar={this.initiateSnackbar.bind(this)} />
             <Snackbar

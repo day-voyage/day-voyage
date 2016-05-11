@@ -29,10 +29,10 @@ export class ConfirmView extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <Maps size="small" />
           </div>
-          <div className="col-md-6">
+          <div className="col-sm-6">
             <ConfirmContainer openSnackbar={this.initiateSnackbar.bind(this)}/>
             <Snackbar
               open={this.state.snackbar}
