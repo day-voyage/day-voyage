@@ -1,3 +1,1 @@
-var YELP_API_KEY = "ENTER YELP API KEY HERE";
-
-module.exports = YELP_API_KEY;
+window.YELP_API_KEY = 'ENTER API KEY HERE';
