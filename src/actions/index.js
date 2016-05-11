@@ -18,7 +18,9 @@ import {
   SIGNUP_USER_FAILURE,
   SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
-  RECEIVE_PROTECTED_DATA
+  RECEIVE_PROTECTED_DATA,
+  CHECK_CITY,
+  UNCHECK_CITY
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -79,6 +81,8 @@ export function getAllActivities(query, location) {
         transformed.neighborhood = activity.location.neighborhoods;
         transformed.added = false;
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
+        transformed.visible = true;
+        transformed.notes= '';
         return transformed;
       });
       return withoutLocation;
@@ -392,3 +396,16 @@ export function fetchProtectedData(token) {
     //    }
 }
 
+export function checkCity(city) {
+  return {
+    type: CHECK_CITY,
+    city
+  }
+}
+
+export function unCheckCity(city) {
+  return {
+    type: UNCHECK_CITY,
+    city
+  }
+}

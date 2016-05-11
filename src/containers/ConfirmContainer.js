@@ -33,8 +33,8 @@ export class ConfirmContainer extends Component {
     return (
       <Card>
       <TextField
-          hintText="Name Your Itinerary"
-          onChange={this.handleTitle.bind(this)}
+        hintText="Name Your Itinerary"
+        onChange={this.handleTitle.bind(this)}
       /><br />
         <div>
         {planBuilder.map((activity, index) => 

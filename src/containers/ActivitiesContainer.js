@@ -10,17 +10,20 @@ class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
+    
     return (
       <Card>
         <h3 style={{marginLeft: 15}}>Activities</h3>
         {!hasActivities ? <em>0 search results</em> :
           activities.map((activity, index) =>
-            <ActivityItem
-              key={index}
-              activity={activity}
-              openSnackbar={this.props.openSnackbar}
-              onAddToBuilderClicked={() => {
-                this.props.addToBuilder(activity) }}/>
+            if (activity.visible) {
+              <ActivityItem
+                key={index}
+                activity={activity}
+                openSnackbar={this.props.openSnackbar}
+                onAddToBuilderClicked={() => {
+                  this.props.addToBuilder(activity) }}/>
+            }
         )}
       </Card>
     )

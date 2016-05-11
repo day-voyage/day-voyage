@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
 import DBResultsContainer from '../containers/DBResultsContainer';
-import FilterContainer from '../containers/Filter';
+import FilterContainer from '../containers/FilterContainer';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
 import Search from '../components/Search';
