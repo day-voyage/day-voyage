@@ -17,6 +17,7 @@ export class ConfirmView extends Component {
     };
   }
 
+
   initiateSnackbar(message) {
     this.setState({message: message, snackbar: true});
     var that = this;

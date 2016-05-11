@@ -50,15 +50,22 @@ export function changeRoutes(route) {
   };
 }
 
+/**
+ * Get Yelp search results
+ */
 export function getAllActivities(query, location) {
   return (dispatch) => {
-    // do Yelp search based on query city (may be geolocation or typed in) and category
+    /**
+    * do Yelp search based on query city (may be geolocation or typed in) and category
+    */
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
     .then((yelpResults) => yelpResults.json())
     .then((yelpData) => {
-      // transform data to correct format for activities
+      /**
+      * transform data to correct format for activities
+      */
       var withoutLocation = yelpData.map((activity, i) => {
         let transformed = Object.create(null);
         transformed.title = activity.name;
@@ -77,9 +84,13 @@ export function getAllActivities(query, location) {
       return withoutLocation;
     })
     .then((noLocation) => {
-      // if current location was included
+      /**
+      * if current location was included
+      */
       if (location !== null) {
-        // check distances of all activities from current location using Google distance matrix api
+        /**
+        * check distances of all activities from current location using Google distance matrix api
+        */
         var coords = noLocation.slice().map((info) => {
           return [info.lat, info.long].join('%2C');
         }).join('%7C');
@@ -87,20 +98,28 @@ export function getAllActivities(query, location) {
           method: 'GET'
         }).then((distanceResults) => distanceResults.json())
         .then((distances) => {
-          // add distance key to each activity
+          /**
+          * add distance key to each activity
+          */
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
           });
-          // dispatch activities with new distance key
+          /** 
+          * dispatch activities with new distance key
+          */
           dispatch(receiveActivities(withLocation));
         })
         .then(() => {
-          // route to activities page
+          /**
+          * route to activities page
+          */
           dispatch(push('/activities'));
         })
         .catch(e => console.log(e));
-      // otherwise if no location is set, just dispatch activities without distance
+      /**
+      * otherwise if no location is set, just dispatch activities without distance
+      */
       } else {
         dispatch(receiveActivities(noLocation));
       }

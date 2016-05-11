@@ -38,6 +38,7 @@ export class Search extends React.Component {
     });
   }
 
+ 
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...

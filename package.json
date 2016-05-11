@@ -9,7 +9,10 @@
     "dev": "NODE_ENV=development node --harmony bin/webpack-dev-server",
     "mocha": "mocha --recursive --compilers js:babel-core/register",
     "mocha:watch": "npm run mocha -- --watch",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel/register --colors --reporter dot test/"
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel/register --colors --reporter dot test/",
+    "lint": "eslint app",
+    "doc": "esdoc -c esdoc.json",
+    "postinstall": "npm run build && npm run doc"
   },
   "repository": {},
   "author": "Sweaty Figs",
@@ -65,6 +68,7 @@
     "babel-runtime": "^5.8.20",
     "chai-as-promised": "^5.1.0",
     "css-loader": "^0.21.0",
+    "esdoc": "^0.4.7",
     "eslint": "^1.0.0",
     "eslint-config-airbnb": "0.1.0",
     "eslint-plugin-react": "^3.3.1",
