@@ -28,7 +28,7 @@ export default class Maps extends Component {
     }
 
     return (
-      <div className={styles[this.props.size].divClass}>
+      <div>
         <section style={styles[this.props.size].mapSize}>
           <GoogleMapLoader
             containerElement={
@@ -77,7 +77,7 @@ var styles = {
   large: {
     mapSize: {
       height: "500px",
-      width: "500px"
+      // width: "500px"
     },
     mapPosition: {
       height: "100%",
@@ -89,7 +89,7 @@ var styles = {
   small: {
     mapSize: {
       height: "400px",
-      width: "650px"
+      // width: "650px"
     },
     mapPosition: {
       height: "100%",
