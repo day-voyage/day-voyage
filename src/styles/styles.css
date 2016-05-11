@@ -84,3 +84,20 @@ body {
 .commentForm .text-field {
   width: 100% !important;
 }
+
+/**
+ * Item Card
+ */
+.item-card > div {
+  display: flex;
+}
+.item-card .card-content { flex: 1; }
+.item-card .reorder-btns {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+.item-card .hide-info-btn {
+  display: block !important;
+  margin-top: 15px !important;
+}

@@ -38,6 +38,8 @@ export class ConfirmView extends Component {
               open={this.state.snackbar}
               message={this.state.message}
               autoHideDuration={2000} />
+              
+              <div class="addthis_sharing_toolbox"></div>
           </div>
         </div>
       </div>
