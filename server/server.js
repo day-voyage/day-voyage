@@ -30,8 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //TODO: is this necessary
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
 
-
-// Yelp stuff
+// Yelp Search
 var yelp = new Yelp({
   consumer_key: yelpAPIKey.key,
   consumer_secret: yelpAPIKey.keySecret,
@@ -49,6 +48,7 @@ app.get('/api/yelpSearch', function(request, response) {
   });
 });
 
+// Google Distance Matrix
 app.get('/api/distancematrix', function(request, response) {
   axios.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + request.query.location + "&destinations=" + request.query.results + "&key=AIzaSyCsZxoX3rnuvxE9pcO6jEVEdiF9WN5kib8")
     .then((res) => {
@@ -62,6 +62,17 @@ app.get('/api/distancematrix', function(request, response) {
     });
 });
 
+// Google Reverse Geocode
+app.get('/api/reversegeocode', function(request, response) {
+  axios.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+ request.query.location +"&sensor=true&key=AIzaSyCsZxoX3rnuvxE9pcO6jEVEdiF9WN5kib8")
+    .then((res) => {
+      var geolocationCity = res.data.results[0];
+      response.send(geolocationCity);
+    })
+    .catch(function (res) {
+      console.log(res);
+    });
+});
 
 app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../src/index.html'));

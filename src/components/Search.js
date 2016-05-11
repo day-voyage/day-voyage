@@ -42,7 +42,21 @@ export class Search extends React.Component {
   searchActivities(event) {
     event.preventDefault();
     // TODO: refactor below
-    this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, this.state.location);
+    if (this.state.location) {
+      var latLng = [this.state.lat,this.state.lng].join(',');
+      fetch(`/api/reversegeocode?location=${latLng}`, {
+        method: 'GET'
+      })
+      .then((cityData) => cityData.json())
+      .then((cityInfo) => {
+        var city = cityInfo.formatted_address.split(", ")[1];
+        this.props.actions.getAllActivities({city: city, category: this.state.category}, this.state.location);
+      });
+    } else {
+      this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, this.state.location);
+    }
+
+
   }
 
   handleCategory(event) {
@@ -65,30 +79,42 @@ export class Search extends React.Component {
 
   render() {
     return (
-      <div className="col-sm-12">
-        <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
-          <TextField
-            id="text-field-controlled"
-            type="text"
-            value={this.state.value}
-            placeholder="Activities, Restaurants, or Places"
-            style={{marginBottom: 25}}
-            onChange={this.handleCategory.bind(this)} />
-          {!this.state.location ? <span>  in  </span> : null}
-          {!this.state.location ? <TextField
-            id="text-field-controlled"
-            type="text"
-            value={this.state.city}
-            defaultValue={this.state.city}
-            style={{marginBottom: 25}}
-            onChange={this.handleCity.bind(this)} /> : null}
-          <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
-        </form>
-        {this.state.lat ? <Checkbox
-          label="Use Current Location"
-          labelPosition="left"
-          style={{maxWidth: 190, align: "right"}}
-          onCheck={this.checkBox.bind(this)} />: <CircularProgress />}
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
+            <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
+              <TextField
+                id="text-field-controlled"
+                type="text"
+                value={this.state.value}
+                placeholder="Activities, Restaurants, or Places"
+                style={{marginBottom: 25}}
+                onChange={this.handleCategory.bind(this)} />
+              {!this.state.location ? <span>  in  </span> : null}
+              {!this.state.location ? <TextField
+                id="text-field-controlled"
+                type="text"
+                value={this.state.city}
+                defaultValue={this.state.city}
+                style={{marginBottom: 25}}
+                onChange={this.handleCity.bind(this)} /> : null}
+              <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
+            </form>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-5">
+          </div>
+          <div className="col-sm-2">
+            {this.state.lat ? <Checkbox
+              label="Use Current Location"
+              labelPosition="left"
+              style={{maxWidth: 200}}
+              onCheck={this.checkBox.bind(this)} />: <CircularProgress />}
+          </div>
+          <div className="col-sm-5">
+          </div>
+        </div>
       </div>
     );
   }
