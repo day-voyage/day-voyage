@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import { App } from '../containers';
-import { ActivitiesView, HomeView, LoginView, ProfileView, ConfirmView } from '../views';
+import { ActivitiesView, HomeView, ProfileView, ConfirmView } from '../views';
 import { requireAuthentication } from '../components/AuthenticatedComponent';
 
 export default(
@@ -12,4 +12,3 @@ export default(
         <Route path="activities" component={ ActivitiesView } />
     </Route>
 );
-        // <Route path="login" component={ LoginView }/>
