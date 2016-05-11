@@ -15,6 +15,7 @@
   "author": "Sweaty Figs",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.11.0",
     "babel": "^5.8.23",
     "babel-core": "^6.8.0",
     "body-parser": "^1.14.1",

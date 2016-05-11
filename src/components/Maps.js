@@ -15,12 +15,18 @@ export default class Maps extends Component {
 
   render() {
     const { directions, activities } = this.props;
-    var markers = activities.map(function(item) {
-      return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added };
-    });
+    var markers = [];
+    var centerLat = 37.7749;
+    var centerLng = -122.4194;
+    
+    if (activities.length !== 0) {
+      markers = activities.map(function(item) {
+        return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added };
+      });
 
-    var centerLat = markers.slice().map((item) => item.position.lat).reduce((a, b) => a + b)/markers.length;
-    var centerLng = markers.slice().map((item) => item.position.lng).reduce((a, b) => a + b)/markers.length;
+      centerLat = markers.slice().map((item) => item.position.lat).reduce((a, b) => a + b)/markers.length;
+      centerLng = markers.slice().map((item) => item.position.lng).reduce((a, b) => a + b)/markers.length;
+    }
 
     return (
       <div className={styles[this.props.size].divClass}>
