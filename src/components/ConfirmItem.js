@@ -23,33 +23,6 @@ export default class ConfirmItem extends Component {
                       activity.address + '  ' + String.fromCharCode(183) + '  ':
                       ''
 
-// return (
-//       <Card className="confirm-item-card">
-//         <CardHeader 
-//           title={order + '   ' + activity.title}
-//           subtitle={address + activity.neighborhood}
-//           key={activity.i}
-//         />
-//         <CardActions style={{display: "flex"}}>
-//           <IconButton 
-//             tooltip="Move Up"
-//             onClick={this.props.onMoveUpClicked}>
-//             <HardwareKeyboardArrowUp />
-//           </IconButton>
-//           <IconButton 
-//             tooltip="Move Down"
-//             onClick={this.props.onMoveDownClicked}>
-//             <HardwareKeyboardArrowDown />
-//           </IconButton>
-//           <div style={{flex: 1}}></div>
-//           <FlatButton 
-//             label="Remove"
-//             style={{color: '#F44336'}}
-//             onClick={this.removeItem.bind(this)} />
-//         </CardActions>
-//       </Card>
-    // )
-
     return (
       <Card className="item-card">
         <div className="card-content">

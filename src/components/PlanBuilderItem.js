@@ -30,32 +30,6 @@ export default class PlanBuilderItem extends Component {
     const { activity, order } = this.props;
 
     var title = activity.distance ? order + '   ' + activity.title + ' - ' + activity.distance + " away" : order + '   ' + activity.title;
-    // return (
-    //   <Card>
-    //     <CardHeader
-    //       title={title}
-    //       subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
-    //       onClick={this.toggleDesc.bind(this)}
-    //       key={activity.i}
-    //       actAsExpander={true}
-    //       showExpandableButton={true}
-    //     />
-    //     <ContentRemoveCircle onClick={this.removeItem.bind(this)}/>
-    //     <FlatButton
-    //       label="Up"
-    //       onClick={this.props.onMoveUpClicked} />
-    //     <FlatButton
-    //       label="Down"
-    //       onClick={this.props.onMoveDownClicked} />
-    //       {this.state.descOpen ? 
-    //         <CardText>
-    //           <strong>Address:</strong><br />
-    //           {activity.address}<br />
-    //           {activity.city}, {activity.state}<br /><br />
-    //           {activity.desc}
-    //         </CardText> : null}
-    //   </Card>
-    // )
 
     if (this.state.descOpen) {
       var cardDesc = <div>
