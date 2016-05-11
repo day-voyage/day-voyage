@@ -15,10 +15,11 @@ export function requireAuthentication(Component) {
     }
 
     checkAuth (isAuthenticated) {
+      console.log('props from auth comp', this.props);
       if (!isAuthenticated) {
         let redirectAfterLogin = this.props.location.pathname;
         this.props
-          .dispatch(push(`/login?next=${redirectAfterLogin}`));
+          .dispatch(push(`/?next=${redirectAfterLogin}`));
       }
     }
 
@@ -37,7 +38,7 @@ export function requireAuthentication(Component) {
 
   const mapStateToProps = (state) => ({
     token: state.auth.token,
-    userName: state.auth.userName,
+    userName: state.auth.user_id,
     isAuthenticated: state.auth.isAuthenticated
   });
 

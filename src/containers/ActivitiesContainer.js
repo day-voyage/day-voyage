@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../actions';
-import CreateActivity from '../components/CreateActivity';
+import CreateActivity from '../components/CreateActivity'; //TODO: create activity is not being used here
 import ActivityItem from '../components/ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -15,7 +15,7 @@ class ActivitiesContainer extends Component {
       <em>0 search results</em> :
       <div>
         <div>
-        {activities.map((activity, index) => 
+        {activities.map((activity, index) =>
           <ActivityItem
             key={index}
             activity={activity}

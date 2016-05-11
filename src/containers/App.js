@@ -4,16 +4,41 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logoutAndRedirect } from '../actions';
+import LoginComponent from '../components/LoginComponent';
+import FlatButton from 'material-ui/FlatButton';
+import { push } from 'redux-router';
+import Snackbar from 'material-ui/Snackbar';
 
 // import '../styles/core.scss';
 
 @connect((state) => {
   return {
-   isAuthenticated: state.auth.isAuthenticated
+   isAuthenticated: state.auth.isAuthenticated,
   };
 })
 
 export default class CoreLayout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: 'false',
+      snackbar: false,
+      message: ''
+    };
+  }
+
+  toggleModal () {
+    this.setState({
+      'modalOpen': !this.state.modalOpen
+    });
+  }
+
+  initiateSnackbar(message) {
+    this.setState({message: message, snackbar: true});
+    var that = this;
+    setTimeout(() => this.setState({snackbar: false}), 2000)
+  }
+
   render () {
     const {dispatch} = this.props;
     return (
@@ -24,14 +49,29 @@ export default class CoreLayout extends React.Component {
               <Link className="navbar-brand" to="/">Figs break no sweat</Link>
             </div>
             <div id="navbar">
-              <ul className="nav navbar-nav navbar-right">
-                <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/login">Login</Link></li>
+              <div className="nav navbar-nav navbar-right">
                 {this.props.isAuthenticated
-                 ? <li><a href='#' onClick={() => this.props.dispatch(logoutAndRedirect())}>Logout</a> </li>
-                 : ''
-                }
-              </ul>
+                  ?
+                    <span>
+                      <FlatButton
+                        label="Profile"
+                        onClick={() => this.props.dispatch(push('/profile'))}
+                      />
+                      <FlatButton
+                        label="Logout"
+                        onClick={() => this.props.dispatch(logoutAndRedirect())}
+                      />
+                    </span>
+                  :
+                  <span>
+                    <LoginComponent
+                      modal={this.state.modalOpen}
+                      toggleModal={this.toggleModal.bind(this)}
+                      openSnackbar={this.initiateSnackbar.bind(this)}
+                    />
+                  </span>
+                  }
+              </div>
             </div>
           </div>
         </nav>
@@ -41,6 +81,10 @@ export default class CoreLayout extends React.Component {
               {this.props.children}
             </div>
           </div>
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.message}
+            autoHideDuration={2000} />
         </div>
       </div>
     );

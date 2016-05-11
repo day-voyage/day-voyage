@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Dialog from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 

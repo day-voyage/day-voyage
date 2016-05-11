@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addToBuilder, 
-        deleteFromBuilder, 
-        reorderUp, 
-        reorderDown, 
+import { addToBuilder,
+        deleteFromBuilder,
+        reorderUp,
+        reorderDown,
         changingRoutes,
         goToConfirm } from '../actions';
 import { buildPlanner } from '../reducers';
@@ -19,7 +19,7 @@ import { Link } from 'react-router';
 
 class PlanBuilderContainer extends Component {
   static contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.objectt
   }
 
   constructor(props) {
@@ -68,12 +68,12 @@ class PlanBuilderContainer extends Component {
         </div>
         <Card>
           <h3 style={{marginLeft: 15}}>Itinerary</h3>
-          <CreateActivity 
+          <CreateActivity
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
             addFromCreate={(created) => this.props.addToBuilder(created)}/>
-          <FlatButton 
+          <FlatButton
             label="Create Own Activity"
             onClick={this.toggleModal.bind(this)} /><br />
           {nodes}
@@ -89,7 +89,7 @@ class PlanBuilderContainer extends Component {
       </div>
     )
   }
-} 
+}
 
 PlanBuilderContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
@@ -110,9 +110,10 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   { addToBuilder,
-    deleteFromBuilder, 
-    reorderUp, 
-    reorderDown, 
+    deleteFromBuilder,
+    reorderUp,
+    reorderDown,
     changingRoutes,
     goToConfirm }
 )(PlanBuilderContainer)
+

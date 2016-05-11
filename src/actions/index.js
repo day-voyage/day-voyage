@@ -14,6 +14,9 @@ import {
   LOGIN_USER_FAILURE,
   LOGIN_USER_SUCCESS,
   LOGOUT_USER,
+  SIGNUP_USER_REQUEST,
+  SIGNUP_USER_FAILURE,
+  SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA
 } from '../constants';
@@ -78,7 +81,7 @@ export function getAllActivities(query, location) {
       if (location !== null) {
         // check distances of all activities from current location using Google distance matrix api
         var coords = noLocation.slice().map((info) => {
-          return [info.lat, info.long].join('%2C'); 
+          return [info.lat, info.long].join('%2C');
         }).join('%7C');
         fetch(`/api/distancematrix?location=${location.lat+','+location.lng}&results=${coords}`, {
           method: 'GET'
@@ -226,7 +229,7 @@ export function logoutAndRedirect() {
     }
 }
 
-export function loginUser(username, password, redirect="/") {
+export function loginUser(username, password, redirect="/", snackbar) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         console.log('username is:', username, 'password is:', password);
@@ -247,6 +250,7 @@ export function loginUser(username, password, redirect="/") {
                     dispatch(push(redirect));
                 } catch (e) {
                     console.log(e);
+                    snackbar('Problem logging you in');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
@@ -257,6 +261,7 @@ export function loginUser(username, password, redirect="/") {
             })
             .catch(error => {
                console.log('>>>>', error);
+               snackbar('Error logging you in');
                let response = {
                 status: 401,
                 statusText: `Unauthorized`
@@ -267,6 +272,66 @@ export function loginUser(username, password, redirect="/") {
                dispatch(loginUserFailure(resError));
             })
     }
+}
+
+export function signUpUser(username, password, email, redirect='/profile', snackbar) {
+  // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
+  return function(dispatch) {
+    dispatch(signUpUserRequest());
+    return fetch('http://sleepy-crag-32675.herokuapp.com/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+      })
+    })
+    .then(checkHttpStatus)
+    .then(parseJSON)
+    .then(response => {
+      try {
+          dispatch(loginUser(username, password, redirect));
+        } catch (e) {
+          snackbar('Problem signing you up');
+          dispatch(signUpUserFailure({
+            response: {
+              status: 403,
+              statusText: `Error Signing Up`
+            }
+          }));
+        }
+      })
+    .catch(error => {
+      snackbar('Problem signing you up');
+      let response = {
+        status: 401,
+        statusText: `Error with sign up request`
+      };
+      let resError = Object.assign({}, {
+        response: response
+      });
+      dispatch(signUpUserFailure(resError));
+    })
+  }
+}
+
+export function signUpUserFailure(error) {
+  return {
+    type: SIGNUP_USER_FAILURE,
+    payload: {
+      status: error.response.status,
+      statusText: error.response.statusText
+    }
+  };
+}
+
+export function signUpUserRequest() {
+  return {
+    type: SIGNUP_USER_REQUEST
+  }
 }
 
 export function receiveProtectedData(data) {
