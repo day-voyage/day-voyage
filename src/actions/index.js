@@ -27,7 +27,6 @@ export function initApp() {
 }
 
 export function receiveActivities(activities) {
-  console.log("receive activities---->", activities);
   return {
     type: RECEIVE_ACTIVITIES,
     activities
@@ -88,7 +87,6 @@ export function getAllActivities(query, location) {
             activity.distance = distances[i];
             return activity;
           });
-          console.log("with location", withLocation);
           dispatch(receiveActivities(withLocation));
         });
       } else {
