@@ -14,8 +14,6 @@ import Snackbar from 'material-ui/Snackbar';
 @connect((state) => {
   return {
    isAuthenticated: state.auth.isAuthenticated,
-   statusText: state.auth.statusText,
-   signUpError: state.auth.signUpError,
   };
 })
 
@@ -41,19 +39,8 @@ export default class CoreLayout extends React.Component {
     setTimeout(() => this.setState({snackbar: false}), 2000)
   }
 
-  // shouldComponentUpdate() {
-  //   console.log('component should update props');
-  //   if (this.state.signUpError) {
-  //     this.initiateSnackbar('Problem sign up');
-  //   }
-  // }
-
   render () {
     const {dispatch} = this.props;
-    if (this.state.signUpError) {
-      console.log('inside if')
-      this.inititiateSnackbar('Problem signing you up');
-    }
     return (
       <div>
         <nav className="navbar navbar-default">
@@ -80,6 +67,7 @@ export default class CoreLayout extends React.Component {
                     <LoginComponent
                       modal={this.state.modalOpen}
                       toggleModal={this.toggleModal.bind(this)}
+                      openSnackbar={this.initiateSnackbar.bind(this)}
                     />
                   </span>
                   }
@@ -95,7 +83,7 @@ export default class CoreLayout extends React.Component {
           </div>
           <Snackbar
             open={this.state.snackbar}
-            message={this.state.statusText}
+            message={this.state.message}
             autoHideDuration={2000} />
         </div>
       </div>

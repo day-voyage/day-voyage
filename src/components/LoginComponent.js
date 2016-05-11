@@ -7,7 +7,6 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Snackbar from 'material-ui/Snackbar';
 
 
 export class LoginComponent extends React.Component {
@@ -22,16 +21,8 @@ export class LoginComponent extends React.Component {
       email: '',
       redirectTo: redirectRoute,
       open: false,
-      value: 'login',
-      snackbar: false,
-      message: '',
+      value: 'login'
     };
-  }
-
-  initiateSnackbar(message) {
-    this.setState({message: message, snackbar: true});
-    var that = this;
-    setTimeout(() => this.setState({snackbar: false}), 2000)
   }
 
   selectLoginTab() {
@@ -54,12 +45,12 @@ export class LoginComponent extends React.Component {
     this.setState({open: false});
   }
 
-  handleSubmit () {
+  handleSubmit (e) {
+    e.preventDefault();
     if (this.state.value === 'login') {
-     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
+     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo, this.props.openSnackbar);
    } else if (this.state.value === 'signup') {
-     // TODO: perform signup action
-     this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, '/profile', this.initiateSnackbar.bind(this));
+     this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, '/profile', this.props.openSnackbar);
    }
     this.setState({open: false});
   }
@@ -75,12 +66,6 @@ export class LoginComponent extends React.Component {
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
   }
-
-  // componentWillReceiveProps() {
-  //   if (this.state.signUpError) {
-  //     this.initiateSnackbar('Problem logging in');
-  //   }
-  // }
 
   render() {
     const actions = [
@@ -164,10 +149,6 @@ export class LoginComponent extends React.Component {
                     style={{marginBottom: 15}} />
               </Tab>
             </Tabs>
-            <Snackbar
-              open={this.state.snackbar}
-              message={this.state.statusText}
-              autoHideDuration={2000} />
           </Dialog>
         </div>
     </div>

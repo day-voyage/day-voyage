@@ -229,7 +229,7 @@ export function logoutAndRedirect() {
     }
 }
 
-export function loginUser(username, password, redirect="/") {
+export function loginUser(username, password, redirect="/", snackbar) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         console.log('username is:', username, 'password is:', password);
@@ -250,6 +250,7 @@ export function loginUser(username, password, redirect="/") {
                     dispatch(push(redirect));
                 } catch (e) {
                     console.log(e);
+                    snackbar('Problem logging you in');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
@@ -260,6 +261,7 @@ export function loginUser(username, password, redirect="/") {
             })
             .catch(error => {
                console.log('>>>>', error);
+               snackbar('Error logging you in');
                let response = {
                 status: 401,
                 statusText: `Unauthorized`
@@ -272,7 +274,7 @@ export function loginUser(username, password, redirect="/") {
     }
 }
 
-export function signUpUser(username, password, email, redirect='/profile') {
+export function signUpUser(username, password, email, redirect='/profile', snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
@@ -293,6 +295,7 @@ export function signUpUser(username, password, email, redirect='/profile') {
       try {
           dispatch(loginUser(username, password, redirect));
         } catch (e) {
+          snackbar('Problem signing you up');
           dispatch(signUpUserFailure({
             response: {
               status: 403,
@@ -302,6 +305,7 @@ export function signUpUser(username, password, email, redirect='/profile') {
         }
       })
     .catch(error => {
+      snackbar('Problem signing you up');
       let response = {
         status: 401,
         statusText: `Error with sign up request`
@@ -319,8 +323,7 @@ export function signUpUserFailure(error) {
     type: SIGNUP_USER_FAILURE,
     payload: {
       status: error.response.status,
-      statusText: error.response.statusText,
-      signUpError: true
+      statusText: error.response.statusText
     }
   };
 }
