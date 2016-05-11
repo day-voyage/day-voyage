@@ -8,14 +8,22 @@ import { addToBuilder,
         saveToDb} from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem'
+import TextField from 'material-ui/TextField';
+import Card from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
 
 export class ConfirmContainer extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      abcExample: ''
+      itinTitle: ''
     };
+  }
+
+  handleTitle(event) {
+    this.setState({itinTitle: event.target.value});
   }
 
   render() {
@@ -23,7 +31,11 @@ export class ConfirmContainer extends Component {
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     
     return (
-      <div>
+      <Card>
+      <TextField
+        hintText="Name Your Itinerary"
+        onChange={this.handleTitle.bind(this)}
+      /><br />
         <div>
         {planBuilder.map((activity, index) => 
           <ConfirmItem
@@ -34,18 +46,18 @@ export class ConfirmContainer extends Component {
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
-              changingRoutes(planBuilder);
+              
             }}
             onMoveDownClicked={() => {
               this.props.reorderDown(planBuilder.indexOf(activity));
-              changingRoutes(planBuilder)}}/>
+              }}/>
         )}
         </div>
-        <button
-          onClick={() => this.props.saveToDb(activities)}>
+        <FlatButton
+          onClick={() => this.props.saveToDb(planBuilder, this.state.itinTitle)}>
           Save Itinerary
-        </button>
-      </div>
+        </FlatButton>
+      </Card>
     )
   }
 
