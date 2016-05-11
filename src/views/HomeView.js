@@ -9,7 +9,7 @@ export default class HomeView extends Component {
       <div>
         <h1>GoodTimes</h1>
         <p><Link to='/activities'>My smooth moves</Link></p>
-        <Search></Search>
+        <Search />
       </div>
     );
   }
