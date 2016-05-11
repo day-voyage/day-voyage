@@ -6,6 +6,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import {Tabs, Tab} from 'material-ui/Tabs';
+
 
 export class LoginComponent extends React.Component {
   constructor(props) {
@@ -16,9 +18,23 @@ export class LoginComponent extends React.Component {
     this.state = {
       username: '',
       password: '',
+      email: '',
       redirectTo: redirectRoute,
-      open: false
+      open: false,
+      value: 'login'
     };
+  }
+
+  selectLoginTab() {
+    this.setState({
+      value: 'login'
+    });
+  }
+
+  selectSignupTab() {
+    this.setState({
+      value: 'signup'
+    });
   }
 
   handleOpen () {
@@ -30,7 +46,11 @@ export class LoginComponent extends React.Component {
   }
 
   handleSubmit () {
-    this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
+    if (this.state.value === login) {
+     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
+   } else if (this.state.value === 'signup') {
+     // TODO: perform signup action
+   }
     this.setState({open: false});
   }
 
@@ -42,13 +62,11 @@ export class LoginComponent extends React.Component {
     this.setState({ password: e.target.value });
   }
 
-  // login(e) {
-  //   e.preventDefault();
-  //   this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
-  // }
+  handleEmailChange(e) {
+    this.setState({ email: e.target.value });
+  }
 
   render() {
-    console.log('props in render>>>>>>>',this.props);
     const actions = [
           <FlatButton
             label="Cancel"
@@ -72,22 +90,64 @@ export class LoginComponent extends React.Component {
             actions={actions}
             modal={true}
             open={this.state.open}
-          >
-          <TextField
-            className="text-field"
-            id="username-field"
-            type="text"
-            onChange={this.handleUsernameChange.bind(this)}
-            placeholder="username"
-            style={{marginBottom: 15}} />
-            <br />
-          <TextField
-            className="text-field"
-            id="password-field"
-            type="password"
-            onChange={this.handlePasswordChange.bind(this)}
-            placeholder="password"
-            style={{marginBottom: 15}} />
+            >
+            <Tabs
+              value={this.state.value}>
+              <Tab
+                value="login"
+                label="LOGIN"
+                onClick={this.selectLoginTab.bind(this)}>
+                  <TextField
+                    className="text-field"
+                    id="username-field"
+                    type="text"
+                    onChange={this.handleUsernameChange.bind(this)}
+                    placeholder="username"
+                    style={{
+                      marginBottom: 15,
+                      marginTop: 30
+                    }} />
+                  <br />
+                  <TextField
+                    className="text-field"
+                    id="password-field"
+                    type="password"
+                    onChange={this.handlePasswordChange.bind(this)}
+                    placeholder="password"
+                    style={{marginBottom: 15}} />
+              </Tab>
+              <Tab
+                value="signup"
+                label="SIGNUP"
+                onClick={this.selectSignupTab.bind(this)}>
+                  <TextField
+                    className="text-field"
+                    id="username-field"
+                    type="text"
+                    onChange={this.handleUsernameChange.bind(this)}
+                    placeholder="username"
+                    style={{
+                      marginBottom: 15,
+                      marginTop: 30
+                    }} />
+                  <br />
+                  <TextField
+                    className="text-field"
+                    id="email-field"
+                    type="text"
+                    onChange={this.handleEmailChange.bind(this)}
+                    placeholder="email"
+                    style={{marginBottom: 15}} />
+                  <br />
+                  <TextField
+                    className="text-field"
+                    id="password-field"
+                    type="password"
+                    onChange={this.handlePasswordChange.bind(this)}
+                    placeholder="password"
+                    style={{marginBottom: 15}} />
+              </Tab>
+            </Tabs>
           </Dialog>
         </div>
     </div>
