@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { confirmPlan,
-        addToBuilder, 
+import { addToBuilder, 
         deleteFromBuilder, 
         reorderUp, 
         reorderDown, 
-        changingRoutes } from '../actions';
+        changingRoutes,
+        goToConfirm } from '../actions';
 import { buildPlanner } from '../reducers';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { store } from '../index.js';
+import { Link } from 'react-router';
+
 
 
 class PlanBuilderContainer extends Component {
@@ -32,21 +35,19 @@ class PlanBuilderContainer extends Component {
     });
   }
 
-  goToConfirm() {
-    this.context.router.push('/confirmation');
-  }
-
   render() {
     const { planBuilder, activities } = this.props;
     const hasActivities = planBuilder.length > 0;
+    const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
-        {planBuilder.map((activity, index) => 
+        {planBuilder.map((activity, index) =>
           <PlanBuilderItem
             key={index}
             activity={activity}
+            order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
@@ -63,8 +64,7 @@ class PlanBuilderContainer extends Component {
     return (
       <div>
         <div className="row" style={{marginBottom: 10}}>>
-          <Maps 
-            size="small" />
+          <Maps size="small" />
         </div>
         <Card>
           <h3 style={{marginLeft: 15}}>Itinerary</h3>
@@ -78,11 +78,12 @@ class PlanBuilderContainer extends Component {
             onClick={this.toggleModal.bind(this)} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
-            <FlatButton
-              label="Confirm"
-              onClick={() => this.goToConfirm()}
-              style={{position: "relative", float: "right"}}
-              disabled={hasActivities ? false : true} />
+              <FlatButton
+                label="Confirm"
+                onClick={this.props.goToConfirm}
+                style={{position: "relative", float: "right"}}
+                disabled={hasActivities ? false : true} />
+
           </div>
         </Card>
       </div>
@@ -96,8 +97,7 @@ PlanBuilderContainer.propTypes = {
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
     city: PropTypes.string
-  })).isRequired,
-  confirmPlan: PropTypes.func.isRequired
+  })).isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -109,10 +109,10 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { confirmPlan, 
-    addToBuilder,
+  { addToBuilder,
     deleteFromBuilder, 
     reorderUp, 
     reorderDown, 
-    changingRoutes }
+    changingRoutes,
+    goToConfirm }
 )(PlanBuilderContainer)

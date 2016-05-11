@@ -21,16 +21,3 @@ export default function directions(state = initialState.directions, action) {
 }
 
 
-// export default createReducer(initialState, {
-//   [CHANGE_ROUTES]: (state, payload) => {
-//     return Object.assign({}, state, {
-//       directions: payload.directions
-//     })
-//   },
-//   [RECEIVE_ROUTES]: (state, payload) => {
-//     return state;
-//   }
-// })
-
-
-

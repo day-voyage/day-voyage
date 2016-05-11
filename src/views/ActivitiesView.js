@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
 import FilterContainer from '../containers/Filter';
@@ -13,7 +13,7 @@ import MapsMap from 'material-ui/svg-icons/maps/map';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 
-export class ActivitiesView extends React.Component {
+export class ActivitiesView extends Component {
    constructor(props) {
     super(props);
     this.state = {

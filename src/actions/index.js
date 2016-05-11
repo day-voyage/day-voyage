@@ -96,11 +96,10 @@ export function deleteFromBuilder(activity) {
   };
 }
 
-export function confirmPlan(activities) {
-  return {
-    type: CONFIRM_REQUEST,
-    activities
-  };
+export function goToConfirm() {
+  return dispatch => {
+    dispatch(push('/confirm'));
+  }
 }
 
 export function reorderUp(activityIndex) {
