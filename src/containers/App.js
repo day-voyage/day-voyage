@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { logoutAndRedirect } from '../actions';
 import LoginComponent from '../components/LoginComponent';
+import FlatButton from 'material-ui/FlatButton';
+import { push } from 'redux-router';
 
 // import '../styles/core.scss';
 
@@ -40,17 +42,27 @@ export default class CoreLayout extends React.Component {
               <Link className="navbar-brand" to="/">Figs break no sweat</Link>
             </div>
             <div id="navbar">
-              <ul className="nav navbar-nav navbar-right">
-                <li><Link to="/profile">Profile</Link></li>
-                <LoginComponent
-                  modal={this.state.modalOpen}
-                  toggleModal={this.toggleModal.bind(this)}
-                />
+              <div className="nav navbar-nav navbar-right">
+                <span>
+                  <LoginComponent
+                    modal={this.state.modalOpen}
+                    toggleModal={this.toggleModal.bind(this)}
+                  />
+                </span>
                 {this.props.isAuthenticated
-                 ? <li><a href='#' onClick={() => this.props.dispatch(logoutAndRedirect())}>Logout</a> </li>
-                 : ''
-                }
-              </ul>
+                  ? <span>
+                      <FlatButton
+                        label="Profile"
+                        onClick={() => this.props.dispatch(push('/profile'))}
+                      />
+                      <FlatButton
+                        label="Logout"
+                        onClick={() => this.props.dispatch(logoutAndRedirect())}
+                      />
+                    </span>
+                  : ''
+                  }
+              </div>
             </div>
           </div>
         </nav>
