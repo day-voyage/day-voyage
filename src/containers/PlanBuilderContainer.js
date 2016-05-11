@@ -63,7 +63,7 @@ class PlanBuilderContainer extends Component {
       </div>
     return (
       <div>
-        <div className="row" style={{marginBottom: 10}}>>
+        <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
         <Card>

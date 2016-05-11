@@ -77,7 +77,7 @@ export default class CoreLayout extends React.Component {
         </nav>
         <div className='container'>
           <div className='row'>
-            <div className='col-xs-12'>
+            <div className='col-sm-12'>
               {this.props.children}
             </div>
           </div>

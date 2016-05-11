@@ -84,7 +84,7 @@ var styles = {
       width: "100%",
       position: "absolute"
     },
-    divClass: "col-md-8"
+    divClass: "col-sm-8"
   },
   small: {
     mapSize: {
@@ -96,7 +96,7 @@ var styles = {
       width: "100%"
       // position: "absolute"
     },
-    divClass: "col-md-4"
+    divClass: "col-sm-4"
   }
 }
 
