@@ -32,6 +32,12 @@
 
 ## Development
 
+To babelify and generate a bundle:
+From within the root directory:
+```sh
+npm start dev
+```
+
 ### Installing Dependencies
 
 From within the root directory:
