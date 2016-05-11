@@ -1,10 +1,7 @@
-// import { browserHistory } from 'react-router';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
-// import { createStore, combineReducers, applyMiddleware } from 'redux';
-// import { getAllActivities } from '../actions';
 import { Provider } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
@@ -12,8 +9,6 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
 import CircularProgress from 'material-ui/CircularProgress';
-
-// import {orange500, blue500} from 'material-ui/styles/colors';
 
 export class Search extends React.Component {
   constructor(props) {
@@ -23,7 +18,8 @@ export class Search extends React.Component {
       city: "San Francisco, CA",
       lat: null,
       lng: null,
-      location: null
+      location: null,
+      geolocation: true
     };
   }
 
@@ -36,6 +32,12 @@ export class Search extends React.Component {
         lat: lat, 
         lng: lng
       });
+    }, (error) => {
+      if (error.code === error.PERMISSION_DENIED) {
+        that.setState({
+          geolocation: false
+        });
+      }
     });
   }
 
@@ -79,6 +81,12 @@ export class Search extends React.Component {
   }
 
   render() {
+    var spinner = this.state.lat ? 
+      <Checkbox
+        label="Use Current Location"
+        labelPosition="left"
+        style={{maxWidth: 200}}
+        onCheck={this.checkBox.bind(this)} />: <CircularProgress />
     return (
       <div className="container">
         <div className="row">
@@ -107,11 +115,7 @@ export class Search extends React.Component {
           <div className="col-sm-5">
           </div>
           <div className="col-sm-2">
-            {this.state.lat ? <Checkbox
-              label="Use Current Location"
-              labelPosition="left"
-              style={{maxWidth: 200}}
-              onCheck={this.checkBox.bind(this)} />: <CircularProgress />}
+            {this.state.geolocation ? spinner : null}
           </div>
           <div className="col-sm-5">
           </div>
