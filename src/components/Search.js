@@ -41,8 +41,9 @@ export class Search extends React.Component {
 
   searchActivities(event) {
     event.preventDefault();
-    // TODO: refactor below
+    // if doing search by geolocation...
     if (this.state.location) {
+      // use reverse geocoding to change our location to city name
       var latLng = [this.state.lat,this.state.lng].join(',');
       fetch(`/api/reversegeocode?location=${latLng}`, {
         method: 'GET'
@@ -50,13 +51,13 @@ export class Search extends React.Component {
       .then((cityData) => cityData.json())
       .then((cityInfo) => {
         var city = cityInfo.formatted_address.split(", ")[1];
+        // run redux action getAllActivities with our geolocation city, category, and current location (lat and lng)
         this.props.actions.getAllActivities({city: city, category: this.state.category}, this.state.location);
       });
+      // otherwise run redux action getAllActivities with typed in city and category
     } else {
-      this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, this.state.location);
+      this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, null);
     }
-
-
   }
 
   handleCategory(event) {
@@ -121,7 +122,6 @@ export class Search extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-
 });
 
 const mapDispatchToProps = (dispatch) => ({

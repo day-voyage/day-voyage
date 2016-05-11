@@ -49,14 +49,15 @@ export function changeRoutes(route) {
 
 export function getAllActivities(query, location) {
   return (dispatch) => {
+    // do Yelp search based on query city (may be geolocation or typed in) and category
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
     .then((yelpResults) => yelpResults.json())
     .then((yelpData) => {
+      // transform data to correct format for activities
       var withoutLocation = yelpData.map((activity, i) => {
         let transformed = Object.create(null);
-        // transformed.yelpRating = activity.rating;
         transformed.title = activity.name;
         transformed.category = activity.categories[0];
         transformed.desc = activity.snippet_text;
@@ -71,33 +72,43 @@ export function getAllActivities(query, location) {
         return transformed;
       });
       return withoutLocation;
-      
     })
     .then((noLocation) => {
+      // if current location was included
       if (location !== null) {
+        // check distances of all activities from current location using Google distance matrix api
         var coords = noLocation.slice().map((info) => {
           return [info.lat, info.long].join('%2C'); 
         }).join('%7C');
-        var myLocation = [location.lat, location.lng].join(',');
-        fetch(`/api/distancematrix?results=${coords}&location=${myLocation}`, {
+        fetch(`/api/distancematrix?location=${location.lat+','+location.lng}&results=${coords}`, {
           method: 'GET'
         }).then((distanceResults) => distanceResults.json())
         .then((distances) => {
+          // add distance key to each activity
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
           });
+          // dispatch activities with new distance key
           dispatch(receiveActivities(withLocation));
-        });
+        })
+        .then(() => {
+          // route to activities page
+          dispatch(push('/activities'));
+        })
+        .catch(e => console.log(e));
+      // otherwise if no location is set, just dispatch activities without distance
       } else {
         dispatch(receiveActivities(noLocation));
       }
     })
     .then(() => {
-      dispatch(push('/activities'));
+      if (location === null) {
+        dispatch(push('/activities'));
+      }
     })
     .catch(e => console.log(e));
-  }
+  };
 }
 
 export function addToBuilder(activity) {
