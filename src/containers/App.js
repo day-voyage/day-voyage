@@ -43,14 +43,9 @@ export default class CoreLayout extends React.Component {
             </div>
             <div id="navbar">
               <div className="nav navbar-nav navbar-right">
-                <span>
-                  <LoginComponent
-                    modal={this.state.modalOpen}
-                    toggleModal={this.toggleModal.bind(this)}
-                  />
-                </span>
                 {this.props.isAuthenticated
-                  ? <span>
+                  ?
+                    <span>
                       <FlatButton
                         label="Profile"
                         onClick={() => this.props.dispatch(push('/profile'))}
@@ -60,7 +55,13 @@ export default class CoreLayout extends React.Component {
                         onClick={() => this.props.dispatch(logoutAndRedirect())}
                       />
                     </span>
-                  : ''
+                  :
+                  <span>
+                    <LoginComponent
+                      modal={this.state.modalOpen}
+                      toggleModal={this.toggleModal.bind(this)}
+                    />
+                  </span>
                   }
               </div>
             </div>
