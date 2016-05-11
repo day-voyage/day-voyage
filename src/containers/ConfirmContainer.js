@@ -33,8 +33,8 @@ export class ConfirmContainer extends Component {
     return (
       <Card>
       <TextField
-            hintText="Name Your Itinerary"
-            onChange={this.handleTitle.bind(this)}
+          hintText="Name Your Itinerary"
+          onChange={this.handleTitle.bind(this)}
       /><br />
         <div>
         {planBuilder.map((activity, index) => 
@@ -54,7 +54,7 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.props.saveToDb(activities)}>
+          onClick={() => this.props.saveToDb(planBuilder, this.state.itinTitle)}>
           Save Itinerary
         </FlatButton>
       </Card>

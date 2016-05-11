@@ -73,6 +73,10 @@ export default class CreateActivity extends Component {
     this.setState({private: !this.state.private});
   }
 
+  handleCost(event) {
+    this.setState({cost: event.target.value})
+  }
+
   onSuggestSelect(place) {
     console.log(place);
     var address = place.gmaps.formatted_address.split(', ').join('\n');
@@ -102,6 +106,10 @@ export default class CreateActivity extends Component {
     this.props.addFromCreate(activity);
     this.props.toggleModal();
     this.props.openSnackbar("Event has been created");
+
+    if (!this.state.private) {
+      // DB TODO: save to DB
+    }
   }
 
   render() {
@@ -130,7 +138,17 @@ export default class CreateActivity extends Component {
                 id="desc-field"
                 type="text"
                 onChange={this.handleDesc.bind(this)}
-                placeholder="Dinner party"
+                placeholder="Birthday Party"
+                style={{marginBottom: 25}} /><br />
+
+              Estimated Cost: <br />
+              $
+              <TextField
+                className="text-field"
+                id="desc-field"
+                type="number"
+                onChange={this.handleCost.bind(this)}
+                placeholder="20"
                 style={{marginBottom: 25}} /><br />
 
               Address: <br />
