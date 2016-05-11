@@ -6,22 +6,13 @@ import { addToBuilder,
         reorderDown,
         changingRoutes,
         goToConfirm } from '../actions';
-import { buildPlanner } from '../reducers';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import { store } from '../index.js';
-import { Link } from 'react-router';
-
-
+import { Card } from 'material-ui/Card';
 
 class PlanBuilderContainer extends Component {
-  static contextTypes = {
-    router: PropTypes.objectt
-  }
-
   constructor(props) {
     super(props);
     this.state = {

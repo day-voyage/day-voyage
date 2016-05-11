@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ActivitiesContainer from '../containers/ActivitiesContainer';
+import DBResultsContainer from '../containers/DBResultsContainer';
 import FilterContainer from '../containers/Filter';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
@@ -74,7 +75,8 @@ export class ActivitiesView extends Component {
                 icon={<MapsMap />}
                 label="ITINERARIES"
                 onClick={this.handleChangeB.bind(this)}>
-                test test test
+                  <DBResultsContainer 
+                    openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
                 value="c"

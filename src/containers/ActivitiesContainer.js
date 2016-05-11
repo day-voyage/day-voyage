@@ -1,35 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../actions';
-import CreateActivity from '../components/CreateActivity'; //TODO: create activity is not being used here
 import ActivityItem from '../components/ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import { Card } from 'material-ui/Card';
 
 
 class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
-    const nodes = !hasActivities ?
-      <em>0 search results</em> :
-      <div>
-        <div>
-        {activities.map((activity, index) =>
-          <ActivityItem
-            key={index}
-            activity={activity}
-            openSnackbar={this.props.openSnackbar}
-            onAddToBuilderClicked={() => {
-              this.props.addToBuilder(activity) }}/>
-        )}
-        </div>
-      </div>
-
     return (
       <Card>
         <h3 style={{marginLeft: 15}}>Activities</h3>
-        {nodes}
+        {!hasActivities ? <em>0 search results</em> :
+          activities.map((activity, index) =>
+            <ActivityItem
+              key={index}
+              activity={activity}
+              openSnackbar={this.props.openSnackbar}
+              onAddToBuilderClicked={() => {
+                this.props.addToBuilder(activity) }}/>
+        )}
       </Card>
     )
   }
