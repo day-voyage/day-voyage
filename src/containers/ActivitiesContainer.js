@@ -15,14 +15,17 @@ class ActivitiesContainer extends Component {
       <em>0 search results</em> :
       <div>
         <div>
-        {activities.map((activity, index) => 
-          <ActivityItem
+        {activities.map((activity, index) => {
+          if (activity.visible) {
+          return <ActivityItem
             key={index}
             activity={activity}
             openSnackbar={this.props.openSnackbar}
             onAddToBuilderClicked={() => {
               this.props.addToBuilder(activity) }}/>
-        )}
+          }
+        }
+      )}
         </div>
       </div>
 

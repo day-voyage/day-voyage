@@ -1,6 +1,6 @@
 export ActivitiesContainer from './ActivitiesContainer';
 export App from './App';
-export Filter from './Filter';
+export FilterContainer from './Filter';
 export PlanBuilderContainer from './PlanBuilderContainer';
 export Root from './Root';
 export UpdateProfile from './UpdateProfile';

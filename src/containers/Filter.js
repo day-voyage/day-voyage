@@ -1,13 +1,19 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
+
+
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Slider from 'material-ui/Slider';
-
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
+import {
+  checkCity,
+  unCheckCity
+} from '../actions'
 
 export default class FilterContainer extends Component {
   constructor(props) {
@@ -15,20 +21,8 @@ export default class FilterContainer extends Component {
     this.state = {
       drawerOpen: false,
       priceSlider: this.props.maxPrice / 2,
-      cities: [
-        {location: 'Downtown',
-        visible: true},
-        {location: 'The Mission',
-        visible: true},
-        {location: 'Fillmore District',
-        visible: true},
-        {location: 'Hayes Valley',
-        visible: true},
-        {location: 'Marina District',
-        visible: true},
-        {location: 'Presidio Heights',
-        visible: true}
-      ],
+      neighborhood: [],
+      cuisines: [],
       checkBox: {
         marginBottom: 16
       }
@@ -46,23 +40,99 @@ export default class FilterContainer extends Component {
     console.log(this.state.priceSlider)
   }
 
-  handleCity(event, value) {
-    console.log('event ', event.target.value)
-    console.log('value ', event.target)
+  componentWillMount() {
+    const { activities } = this.props;
+
+    var cities_id = []
+    var citiesArr = []    
+    var cuisineArr = []
+    var cuisines_id = []
+
+    activities.map((activity) => {
+      for (var i = 0; i < activity.neighborhood.length; i++){
+        if (cities_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
+          cities_id.push(activity.neighborhood[i].toUpperCase())
+          citiesArr.push({location: activity.neighborhood[i].toUpperCase(), visible: true})
+        }
+      }
+    })
+
+    activities.map((activity) => {
+      for (var i = 0; i < activity.category.length; i++) {
+        if (cuisines_id.indexOf(activity.category[i].toUpperCase()) === -1) {
+          cuisines_id.push(activity.category[i].toUpperCase())
+          cuisineArr.push({type: activity.category[i].toUpperCase(), visible: true}) 
+        }       
+      }
+    })
+
+    this.setState({
+      neighborhood: citiesArr
+    })
+
+    this.setState({
+      cuisines: cuisineArr
+    })
+
+  }
+
+  handleCuisine(cuisine) {
+    var cuisineArr = this.state.cuisines;
+    var index = 0;
+
+    // step through array, toggle visible
+    for(var i = 0; i < cuisineArr.length; i++) {
+      if(cuisineArr[i].type === cuisine && cuisineArr[i].visible === true) {
+        cuisineArr[i].visible = false;
+
+        console.log('toggle to false')
+
+      } else if (cuisineArr[i].type === cuisine && cuisineArr[i].visible === false) {
+        cuisineArr[i].visible = true;
+        
+      }
+    }
+  }
+
+  handleCity(city) {    
+    var citiesArr = this.state.neighborhood;
+    var index = 0;
+
+    // step through array, toggle visible
+    for(var i = 0; i < citiesArr.length; i++) {
+      if(citiesArr[i].location === city && citiesArr[i].visible === true) {
+        citiesArr[i].visible = false;
+        this.props.unCheckCity(city)
+      } else if (citiesArr[i].location === city && citiesArr[i].visible === false) {
+        citiesArr[i].visible = true;
+        this.props.checkCity(city)
+      }
+    }
   }
 
   render() {
-    
-    var cityOptions = (this.state.cities.map((city) => {
-              return (
-                <Checkbox index={city.id}
-                  label={city.location}
-                  defaultChecked={true}
-                  style={this.state.checkBox.marginBottom}
-                  onCheck={this.handleCity.bind(this)} />
-              )
-          }))
 
+    var cityOptions = this.state.neighborhood.map((city, index) => {
+      return ( 
+          <Checkbox
+          label={city.location}
+          defaultChecked={city.visible}
+          style={this.state.checkBox.marginBottom}
+          onCheck={(e) => this.handleCity(city.location)} />
+        )
+    })
+
+    var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
+      return ( 
+          <Checkbox
+          label={cuisine.type}
+          defaultChecked={true}
+          style={this.state.checkBox.marginBottom}
+          onCheck={(e) => this.handleCuisine(cuisine.type)} />
+        )
+    })
+
+    
     return (
       <div>
         <FlatButton label="Filter" onClick={this.toggleDrawer.bind(this)} />
@@ -78,16 +148,26 @@ export default class FilterContainer extends Component {
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
-
-
             <div>
             <MenuItem>Neighborhood</MenuItem>
-              {cityOptions}
+            {cityOptions}
+            </div>
+
+            <div>
+            <MenuItem>Cuisines</MenuItem>
+            {cuisineOptions}
             </div>
         
-
         </Drawer>
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    activities: state.activities
+  }
+}
+
+export default connect(mapStateToProps, { checkCity, unCheckCity })(FilterContainer)
