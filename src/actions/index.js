@@ -81,7 +81,7 @@ export function getAllActivities(query, location) {
       if (location !== null) {
         // check distances of all activities from current location using Google distance matrix api
         var coords = noLocation.slice().map((info) => {
-          return [info.lat, info.long].join('%2C'); 
+          return [info.lat, info.long].join('%2C');
         }).join('%7C');
         fetch(`/api/distancematrix?location=${location.lat+','+location.lng}&results=${coords}`, {
           method: 'GET'
@@ -319,7 +319,7 @@ export function signUpUserFailure(error) {
     type: SIGNUP_USER_FAILURE,
     payload: {
       status: error.response.status,
-      statusText: error.response.statusText
+      statusText: error.response.statusText,
     }
   };
 }

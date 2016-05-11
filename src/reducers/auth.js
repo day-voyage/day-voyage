@@ -19,7 +19,6 @@ const initialState = {
     statusText: null,
     username: null,
     isSigningUp: null,
-    // isSignedUp: null
 };
 
 export default createReducer(initialState, {
