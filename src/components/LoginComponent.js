@@ -46,10 +46,11 @@ export class LoginComponent extends React.Component {
   }
 
   handleSubmit () {
-    if (this.state.value === login) {
+    if (this.state.value === 'login') {
      this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo);
    } else if (this.state.value === 'signup') {
      // TODO: perform signup action
+     this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, '/profile');
    }
     this.setState({open: false});
   }
@@ -158,8 +159,8 @@ export class LoginComponent extends React.Component {
 const mapStateToProps = (state) => ({
   isAuthenticating: state.auth.isAuthenticating,
   statusText: state.auth.statusText,
-  router: state.router
-
+  router: state.router,
+  isSigningUp: state.auth.isSigningUp
 });
 
 const mapDispatchToProps = (dispatch) => ({

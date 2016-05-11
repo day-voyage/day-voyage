@@ -14,6 +14,9 @@ import {
   LOGIN_USER_FAILURE,
   LOGIN_USER_SUCCESS,
   LOGOUT_USER,
+  SIGNUP_USER_REQUEST,
+  SIGNUP_USER_FAILURE,
+  SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA
 } from '../constants';
@@ -267,6 +270,64 @@ export function loginUser(username, password, redirect="/") {
                dispatch(loginUserFailure(resError));
             })
     }
+}
+
+export function signUpUser(username, password, email, redirect='/profile') {
+  // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
+  return function(dispatch) {
+    dispatch(signUpUserRequest());
+    return fetch('http://sleepy-crag-32675.herokuapp.com/v1/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+      })
+    })
+    .then(checkHttpStatus)
+    .then(parseJSON)
+    .then(response => {
+      try {
+          dispatch(loginUser(username, password, redirect));
+        } catch (e) {
+          dispatch(signUpUserFailure({
+            response: {
+              status: 403,
+              statusText: `Error Signing Up`
+            }
+          }));
+        }
+      })
+    .catch(error => {
+      let response = {
+        status: 401,
+        statusText: `Error with sign up request`
+      };
+      let resError = Object.assign({}, {
+        response: response
+      });
+      dispatch(signUpUserFailure(resError));
+    })
+  }
+}
+
+export function signUpUserFailure(error) {
+  return {
+    type: SIGNUP_USER_FAILURE,
+    payload: {
+      status: error.response.status,
+      statusText: error.response.statusText
+    }
+  };
+}
+
+export function signUpUserRequest() {
+  return {
+    type: SIGNUP_USER_REQUEST
+  }
 }
 
 export function receiveProtectedData(data) {
