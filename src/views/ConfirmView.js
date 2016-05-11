@@ -17,6 +17,7 @@ export class ConfirmView extends Component {
     };
   }
 
+
   initiateSnackbar(message) {
     this.setState({message: message, snackbar: true});
     var that = this;
@@ -39,7 +40,7 @@ export class ConfirmView extends Component {
               message={this.state.message}
               autoHideDuration={2000} />
               
-              <div class="addthis_sharing_toolbox"></div>
+
           </div>
         </div>
       </div>
