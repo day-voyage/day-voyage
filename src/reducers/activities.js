@@ -21,21 +21,3 @@ export default function activities(state = [], action) {
       return state
   }
 }
-
-// export default createReducer(initialState, {
-//   [RECEIVE_ACTIVITIES]: (state, payload) => {
-//     return Object.assign({}, state, {
-//       'activities': payload.activities
-//     });
-//   },
-//   [ADD_TO_BUILDER]: (state, payload) => {
-//     return Object.assign({}, state, {
-//       added: payload.activity.added
-//     });
-//   },
-//   [DELETE_FROM_BUILDER]: (state, payload) => {
-//     return Object.assign({}, state, {
-//       added: payload.activity.added
-//     });
-//   }
-// });

@@ -25,12 +25,12 @@ export default class PlanBuilderItem extends Component {
   }
 
   render() {
-    const { activity } = this.props;
+    const { activity, order } = this.props;
 
     return (
       <Card>
         <CardHeader
-          title={activity.title}
+          title={order + '   ' + activity.title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}
           key={activity.i}
@@ -44,7 +44,13 @@ export default class PlanBuilderItem extends Component {
         <FlatButton
           label="Down"
           onClick={this.props.onMoveDownClicked} />
-        {this.state.descOpen ? <CardText><strong>Address:</strong><br />{activity.address}<br />{activity.city}, {activity.state}<br /><br />{activity.desc}</CardText> : null}
+          {this.state.descOpen ? 
+            <CardText>
+              <strong>Address:</strong><br />
+              {activity.address}<br />
+              {activity.city}, {activity.state}<br /><br />
+              {activity.desc}
+            </CardText> : null}
       </Card>
     )
   }

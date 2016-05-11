@@ -1,8 +1,8 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Search from '../components/Search';
 
-export default class HomeView extends React.Component {
+export default class HomeView extends Component {
 
   render () {
     return (
