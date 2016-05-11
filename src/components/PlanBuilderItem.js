@@ -27,10 +27,11 @@ export default class PlanBuilderItem extends Component {
   render() {
     const { activity, order } = this.props;
 
+    var title = activity.distance ? order + '   ' + activity.title + ' - ' + activity.distance + " away" : order + '   ' + activity.title;
     return (
       <Card>
         <CardHeader
-          title={order + '   ' + activity.title}
+          title={title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}
           key={activity.i}

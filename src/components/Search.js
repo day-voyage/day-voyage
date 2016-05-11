@@ -10,26 +10,40 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Checkbox from 'material-ui/Checkbox';
+import CircularProgress from 'material-ui/CircularProgress';
+
 // import {orange500, blue500} from 'material-ui/styles/colors';
 
 export class Search extends React.Component {
-  // static contextTypes = {
-  //   router: React.PropTypes.object
-  // }
-
   constructor(props) {
     super(props);
     this.state = {
       category: "",
-      city: "San Francisco, CA"
-    }
+      city: "San Francisco, CA",
+      lat: null,
+      lng: null,
+      location: null
+    };
+  }
+
+  componentWillMount() {
+    var that = this;
+    navigator.geolocation.getCurrentPosition((position) => {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+      that.setState({
+        lat: lat, 
+        lng: lng
+      });
+    });
   }
 
   searchActivities(event) {
     event.preventDefault();
-    // console.log(this.context.router);
     // TODO: refactor below
-    this.props.actions.getAllActivities({city: this.state.city, category: this.state.category});
+    console.log(this.state.location);
+    this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, this.state.location);
   }
 
   handleCategory(event) {
@@ -38,6 +52,16 @@ export class Search extends React.Component {
 
   handleCity(event){
     this.setState({city: event.target.value});
+  }
+
+  checkBox() {
+    setTimeout(function() {
+      var set = !this.state.location ? {lat: this.state.lat, lng: this.state.lng} : null;
+        this.setState({
+          location: set
+        });
+    }.bind(this), 0
+    );
   }
 
   render() {
@@ -51,16 +75,21 @@ export class Search extends React.Component {
             placeholder="Activities, Restaurants, or Places"
             style={{marginBottom: 25}}
             onChange={this.handleCategory.bind(this)} />
-          <span>  in  </span>
-          <TextField
+          {!this.state.location ? <span>  in  </span> : null}
+          {!this.state.location ? <TextField
             id="text-field-controlled"
             type="text"
             value={this.state.city}
             defaultValue={this.state.city}
             style={{marginBottom: 25}}
-            onChange={this.handleCity.bind(this)} />
+            onChange={this.handleCity.bind(this)} /> : null}
           <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
         </form>
+        {this.state.lat ? <Checkbox
+          label="Use Current Location"
+          labelPosition="left"
+          style={{maxWidth: 190, align: "right"}}
+          onCheck={this.checkBox.bind(this)} />: <CircularProgress />}
       </div>
     );
   }

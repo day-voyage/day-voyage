@@ -29,10 +29,11 @@ export default class ActivityItem extends Component {
 
   render() {
     const { activity } = this.props;
+    var title = activity.distance ? activity.title + ' - ' + activity.distance + " away" : activity.title;
     return (
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <CardHeader
-          title={activity.title}
+          title={title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}
           actAsExpander={true}

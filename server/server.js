@@ -9,6 +9,7 @@ const app = express();
 
 const config = require('../webpack.config');
 const compiler = webpack(config);
+const axios = require('axios');
 
 var path = require('path');
 var Yelp = require('yelp');
@@ -39,7 +40,6 @@ var yelp = new Yelp({
 });
 
 app.get('/api/yelpSearch', function(request, response) {
-  console.log(request.query);
   yelp.search({ term: request.query.category, location: request.query.city, limit: 10, sort: 2 })
   .then(function (data) {
     response.send(data.businesses);
@@ -47,6 +47,19 @@ app.get('/api/yelpSearch', function(request, response) {
   .catch(function (err) {
     console.error(err);
   });
+});
+
+app.get('/api/distancematrix', function(request, response) {
+  axios.get("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + request.query.location + "&destinations=" + request.query.results + "&key=AIzaSyCsZxoX3rnuvxE9pcO6jEVEdiF9WN5kib8")
+    .then((res) => {
+      var distances = res.data.rows[0].elements.map(function(data) {
+        return data.distance.text;
+      });
+      response.send(distances);
+    })
+    .catch(function (res) {
+      console.log(res);
+    });
 });
 
 

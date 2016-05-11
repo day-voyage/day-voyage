@@ -27,6 +27,7 @@ export function initApp() {
 }
 
 export function receiveActivities(activities) {
+  console.log("receive activities---->", activities);
   return {
     type: RECEIVE_ACTIVITIES,
     activities
@@ -47,34 +48,53 @@ export function changeRoutes(route) {
   };
 }
 
-export function getAllActivities(query) {
+export function getAllActivities(query, location) {
   return (dispatch) => {
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
-    .then((results) => results.json())
-    .then((data) =>
-       data.map((activity) => {
-         let transformed = Object.create(null);
-
-         // transformed.yelpRating = activity.rating;
-         transformed.title = activity.name;
-         transformed.category = activity.categories[0];
-         transformed.desc = activity.snippet_text;
-         transformed.lat = activity.location.coordinate.latitude;
-         transformed.long = activity.location.coordinate.longitude;
-         transformed.address = activity.location.address[0];
-         transformed.city = activity.location.city;
-         transformed.state = activity.location.state_code;
-         transformed.neighborhood = activity.location.neighborhoods;
-         transformed.added = false;
-         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
-
-         return transformed;
-       }))
-    .then((dbActivities) =>
-      dispatch(receiveActivities(dbActivities))
-    )
+    .then((yelpResults) => yelpResults.json())
+    .then((yelpData) => {
+      var withoutLocation = yelpData.map((activity, i) => {
+        let transformed = Object.create(null);
+        // transformed.yelpRating = activity.rating;
+        transformed.title = activity.name;
+        transformed.category = activity.categories[0];
+        transformed.desc = activity.snippet_text;
+        transformed.lat = activity.location.coordinate.latitude;
+        transformed.long = activity.location.coordinate.longitude;
+        transformed.address = activity.location.address[0];
+        transformed.city = activity.location.city;
+        transformed.state = activity.location.state_code;
+        transformed.neighborhood = activity.location.neighborhoods;
+        transformed.added = false;
+        transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
+        return transformed;
+      });
+      return withoutLocation;
+      
+    })
+    .then((noLocation) => {
+      if (location !== null) {
+        var coords = noLocation.slice().map((info) => {
+          return [info.lat, info.long].join('%2C'); 
+        }).join('%7C');
+        var myLocation = [location.lat, location.lng].join(',');
+        fetch(`/api/distancematrix?results=${coords}&location=${myLocation}`, {
+          method: 'GET'
+        }).then((distanceResults) => distanceResults.json())
+        .then((distances) => {
+          var withLocation = noLocation.map((activity, i) => {
+            activity.distance = distances[i];
+            return activity;
+          });
+          console.log("with location", withLocation);
+          dispatch(receiveActivities(withLocation));
+        });
+      } else {
+        dispatch(receiveActivities(noLocation));
+      }
+    })
     .then(() => {
       dispatch(push('/activities'));
     })
