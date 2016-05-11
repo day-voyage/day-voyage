@@ -41,16 +41,28 @@ export default class PlanBuilderItem extends Component {
             label="Hide"
             className="hide-info-btn"
             onClick={this.toggleDesc.bind(this)} />
+          <FlatButton 
+              label="Remove"
+              style={{color: '#F44336'}}
+              onClick={this.removeItem.bind(this)} />
         </div>
     } else {
       var cardDesc = 
+      <div>
         <FlatButton 
           label="Show more"
           className="more-info-btn"
           onClick={this.toggleDesc.bind(this)} />
+        <FlatButton 
+              label="Remove"
+              style={{color: '#F44336'}}
+              onClick={this.removeItem.bind(this)} />
+      </div>
     }
     return (
-      <Card className="item-card">
+      <Card 
+        className="item-card"
+        style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <div className="card-content">
           <CardHeader
             title={title}

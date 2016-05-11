@@ -88,6 +88,12 @@ body {
 /**
  * Item Card
  */
+
+.item-card {
+  margin-left: 10;
+  margin-right: 10;
+  margin-bottom: 10;
+}
 .item-card > div {
   display: flex;
 }

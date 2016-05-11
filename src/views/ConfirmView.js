@@ -39,7 +39,7 @@ export class ConfirmView extends Component {
               message={this.state.message}
               autoHideDuration={2000} />
               
-              <div class="addthis_sharing_toolbox"></div>
+
           </div>
         </div>
       </div>

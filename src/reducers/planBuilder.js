@@ -37,6 +37,7 @@ export default function planBuilder(state = [], action) {
         var index = action.activityIndex;
         var newIndex = action.activityIndex - 1;
         newState[index] = newState.splice(newIndex, 1, newState[index])[0];
+        changingRoutes(newState)
         return newState;
       }
     case REORDER_DOWN:
@@ -47,6 +48,7 @@ export default function planBuilder(state = [], action) {
         var index = action.activityIndex;
         var newIndex = action.activityIndex + 1;
         newState[index] = newState.splice(newIndex, 1, newState[index])[0];
+        changingRoutes(newState)
         return newState;
       }
     default:

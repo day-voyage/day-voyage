@@ -14,7 +14,6 @@ export default class ConfirmItem extends Component {
   removeItem() {
     this.props.openSnackbar("Event has been removed from your itinerary");
     this.props.onDeleteFromBuilderClicked();
-    console.log('delete from confirm clicked');
   }
 
   render() {
@@ -24,7 +23,9 @@ export default class ConfirmItem extends Component {
                       ''
 
     return (
-      <Card className="item-card">
+      <Card 
+        className="item-card"
+        style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <div className="card-content">
           <CardHeader 
             title={order + '   ' + activity.title}

@@ -43,11 +43,11 @@ class PlanBuilderContainer extends Component {
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
-              changingRoutes(planBuilder);
+              
             }}
             onMoveDownClicked={() => {
               this.props.reorderDown(planBuilder.indexOf(activity));
-              changingRoutes(planBuilder);
+              
             }}/>
         )}
         </div>
