@@ -15,6 +15,7 @@ const node = (
 );
 
 let token = localStorage.getItem('token');
+token = JSON.parse(token);
 if (token !== null) {
     store.dispatch(loginUserSuccess(token));
 }
