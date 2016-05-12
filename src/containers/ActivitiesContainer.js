@@ -10,28 +10,23 @@ class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
-    const nodes = !hasActivities ?
-      <em>0 search results</em> :
-      <div>
-        <div>
-        {activities.map((activity, index) => {
-          if (activity.visible) {
-          return <ActivityItem
-            key={index}
-            activity={activity}
-            openSnackbar={this.props.openSnackbar}
-            onAddToBuilderClicked={() => {
-              this.props.addToBuilder(activity) }}/>
-          }
-        }
-      )}
-        </div>
-      </div>
-
+    if (activities[0].distance) {
+      activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
+    }
     return (
       <Card>
         <h3 style={{marginLeft: 15}}>Activities</h3>
-        {nodes}
+        {!hasActivities ? <em>0 search results</em> :
+          activities.map((activity, index) => {
+            if (activity.visible) {
+              return <ActivityItem
+                key={index}
+                activity={activity}
+                openSnackbar={this.props.openSnackbar}
+                onAddToBuilderClicked={() => {
+                  this.props.addToBuilder(activity) }}/>
+            }
+        })}
       </Card>
     )
   }
