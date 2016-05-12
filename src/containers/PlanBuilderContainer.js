@@ -26,6 +26,15 @@ class PlanBuilderContainer extends Component {
     });
   }
 
+  checkIfLoggedIn() {
+    var token = localStorage.getItem('token');
+    if (token) {
+      this.props.goToConfirm();
+    } else {
+      this.props.openSnackbar("Please sign in or create a profile to continue");
+    }
+  }
+
   render() {
     const { planBuilder, activities } = this.props;
     const hasActivities = planBuilder.length > 0;
@@ -69,12 +78,11 @@ class PlanBuilderContainer extends Component {
             onClick={this.toggleModal.bind(this)} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
-              <FlatButton
-                label="Confirm"
-                onClick={this.props.goToConfirm}
-                style={{position: "relative", float: "right"}}
-                disabled={hasActivities ? false : true} />
-
+            <FlatButton
+              label="Confirm"
+              onClick={this.checkIfLoggedIn.bind(this)}
+              style={{position: "relative", float: "right"}}
+              disabled={hasActivities ? false : true} />
           </div>
         </Card>
       </div>

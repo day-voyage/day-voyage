@@ -44,9 +44,9 @@ export class LoginComponent extends React.Component {
   handleSubmit (e) {
     e.preventDefault();
     if (this.state.value === 'login') {
-     this.props.actions.loginUser(this.state.username, this.state.password, this.state.redirectTo, this.props.openSnackbar);
+     this.props.actions.loginUser(this.state.username, this.state.password, this.props.openSnackbar);
    } else if (this.state.value === 'signup') {
-     this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, '/profile', this.props.openSnackbar);
+     this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, this.props.openSnackbar);
    }
     this.toggleOpen();
   }
