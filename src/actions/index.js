@@ -207,8 +207,9 @@ export function changingRoutes(activities) {
 }
 
 
-export function loginUserSuccess(token) {
+export function loginUserSuccess(token, snackbar) {
   localStorage.setItem('token', token);
+  snackbar("You have successfully logged in");
   return {
     type: LOGIN_USER_SUCCESS,
     payload: {
@@ -244,17 +245,17 @@ export function logout() {
 
 // pay attention to this fn signature...
 // appear returns a function that takes dispatch as a param
-export function logoutAndRedirect() {
+export function logoutAndRedirect(snackbar) {
     return (dispatch, state) => {
         dispatch(logout());
         dispatch(push('/'));
+        snackbar("You have successfully logged out");
     }
 }
 
 export function loginUser(username, password, redirect="/", snackbar) {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        console.log('username is:', username, 'password is:', password);
         return fetch('http://sleepy-crag-32675.herokuapp.com/v1/access_tokens', {
             method: 'POST',
             // credentials: 'include',
@@ -266,13 +267,12 @@ export function loginUser(username, password, redirect="/", snackbar) {
             .then(checkHttpStatus)
             .then(parseJSON)
             .then(response => {
-                console.log('response token is:', response.data[0]);
                 try {
-                    dispatch(loginUserSuccess(response.data[0]));
+                    dispatch(loginUserSuccess(response.data[0], snackbar));
                     dispatch(push(redirect));
                 } catch (e) {
                     console.log(e);
-                    snackbar('Problem logging you in');
+                    snackbar('The user name and password you have entered do not match our records');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
@@ -283,7 +283,7 @@ export function loginUser(username, password, redirect="/", snackbar) {
             })
             .catch(error => {
                console.log('>>>>', error);
-               snackbar('Error logging you in');
+               snackbar('The user name and password you have entered do not match our records');
                let response = {
                 status: 401,
                 statusText: `Unauthorized`
@@ -317,7 +317,7 @@ export function signUpUser(username, password, email, redirect='/profile', snack
       try {
           dispatch(loginUser(username, password, redirect));
         } catch (e) {
-          snackbar('Problem signing you up');
+          snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
             response: {
               status: 403,
@@ -327,7 +327,7 @@ export function signUpUser(username, password, email, redirect='/profile', snack
         }
       })
     .catch(error => {
-      snackbar('Problem signing you up');
+      snackbar('Please enter a valid username, password, or email');
       let response = {
         status: 401,
         statusText: `Error with sign up request`
