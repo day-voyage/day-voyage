@@ -18,6 +18,12 @@ export default class ConfirmItem extends Component {
     };
   }
 
+  toggleDesc(evt) {
+    this.setState({
+      descOpen: !this.state.descOpen
+    });
+  }
+
   removeItem() {
     this.props.openSnackbar("Event has been removed from your itinerary");
     this.props.onDeleteFromBuilderClicked();
