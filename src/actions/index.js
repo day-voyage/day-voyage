@@ -502,13 +502,61 @@ export function editDescription(activityIndex, text) {
 }
 
 
+export function unCheckCity(city) {
+  return {
+    type: UNCHECK_CITY,
+    city
+  }
+}
 
+// API requests
+/*
+   Get all plans from database
+ */
+export function getAllPlans() {
+  fetch('http://localhost:8080/v1/plans')
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
 
+/*
 
+ */
+export function getPlansByUser(id) {
+  console.log('getting plans by user');
+  fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
 
+export function getActivitiesUnderBudget(amount) {
+  console.log('getting activities under budget');
+  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
+
+// getPlans for a specific user
+
+// get Activities for a specific plan
+//
+// get all Activiites under a certain amount
+
+// getYelpActivities
+
+// getUserGeneratedActivities
+//
+// get
 
 export function testPlan() {
     return (dispatch) => {
         dispatch(push('/plan/1'));
     }
 }
+

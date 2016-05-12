@@ -18,6 +18,7 @@ export function createReducer(initialState, reducerMap) {
 }
 
 export function checkHttpStatus(response) {
+  //TODO: adjust the error that are being put onto the response object
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
