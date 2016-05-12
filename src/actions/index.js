@@ -209,7 +209,9 @@ export function changingRoutes(activities) {
 
 export function loginUserSuccess(token, snackbar) {
   localStorage.setItem('token', token);
-  snackbar("You have successfully logged in");
+  if (snackbar) {
+    snackbar("You have successfully logged in");
+  }
   return {
     type: LOGIN_USER_SUCCESS,
     payload: {
@@ -282,8 +284,7 @@ export function loginUser(username, password, redirect="/", snackbar) {
                 }
             })
             .catch(error => {
-               console.log('>>>>', error);
-               snackbar('The user name and password you have entered do not match our records');
+               // snackbar('The user name and password you have entered do not match our records');
                let response = {
                 status: 401,
                 statusText: `Unauthorized`
