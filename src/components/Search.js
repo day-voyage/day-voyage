@@ -26,7 +26,7 @@ export class Search extends React.Component {
       var lat = position.coords.latitude;
       var lng = position.coords.longitude;
       that.setState({
-        lat: lat, 
+        lat: lat,
         lng: lng
       });
     }, (error) => {
@@ -38,7 +38,7 @@ export class Search extends React.Component {
     });
   }
 
- 
+
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...
@@ -78,12 +78,18 @@ export class Search extends React.Component {
     );
   }
 
+
   testing() {
     this.props.actions.testPlan();
   }
 
+  triggerAPItest() {
+    console.log('triggering API test');
+    this.props.actions.searchActivities('thio');
+  }
+
   render() {
-    var spinner = this.state.lat ? 
+    var spinner = this.state.lat ?
       <Checkbox
         label="Use Current Location"
         labelPosition="left"
@@ -113,6 +119,7 @@ export class Search extends React.Component {
             </form>
           </div>
         </div>
+        <button onClick={this.triggerAPItest.bind(this)}>test API</button>
         <div className="row">
           <div className="col-sm-5">
           <button onClick={this.testing.bind(this)}>TEST BUTTON</button>

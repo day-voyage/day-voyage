@@ -542,7 +542,31 @@ export function getActivitiesUnderBudget(amount) {
   })
 }
 
+/**
+ *  Search activities by category
+ */
+
+export function searchActivities(searchTerm, location) {
+  fetch(`http://localhost:8080/v1/activities?categories__contains=${searchTerm}`)
+    .then(parseJSON)
+    .then(response => {
+      console.log(response);;
+    })
+}
+
+/**
+ * [createPlan description]
+ * @param  {[type]} plan       [description]
+ * @param  {[type]} activities [description]
+ * @return {[type]}            [description]
+ */
+export function createPlan(plan, activities) {
+
+}
+
+
 // getPlans for a specific user
+
 
 // get Activities for a specific plan
 //
@@ -581,6 +605,7 @@ export function createPlan(accessToken) {
 
 
 }
+
 
 
 
