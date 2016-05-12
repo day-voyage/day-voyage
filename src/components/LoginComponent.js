@@ -37,12 +37,8 @@ export class LoginComponent extends React.Component {
     });
   }
 
-  handleOpen () {
-    this.setState({open: true});
-  }
-
-  handleCancel() {
-    this.setState({open: false});
+  toggleOpen () {
+    this.setState({open: !this.state.open});
   }
 
   handleSubmit (e) {
@@ -52,7 +48,7 @@ export class LoginComponent extends React.Component {
    } else if (this.state.value === 'signup') {
      this.props.actions.signUpUser(this.state.username, this.state.password, this.state.email, '/profile', this.props.openSnackbar);
    }
-    this.setState({open: false});
+    this.toggleOpen();
   }
 
   handleUsernameChange(e) {
@@ -72,7 +68,7 @@ export class LoginComponent extends React.Component {
           <FlatButton
             label="Cancel"
             primary={true}
-            onClick={this.handleCancel.bind(this)}
+            onClick={this.toggleOpen.bind(this)}
           />,
           <FlatButton
             label="Submit"
@@ -85,7 +81,7 @@ export class LoginComponent extends React.Component {
     return (
       <div>
         <div>
-          <FlatButton label="Login" onClick={this.handleOpen.bind(this)} />
+          <FlatButton label="Login" onClick={this.toggleOpen.bind(this)} />
           <Dialog
             title="Come in"
             actions={actions}
@@ -147,6 +143,7 @@ export class LoginComponent extends React.Component {
                     onChange={this.handlePasswordChange.bind(this)}
                     placeholder="password"
                     style={{marginBottom: 15}} />
+                  <span style={{color: "#808080"}}><h6>Password must be at least 5 characters</h6></span>
               </Tab>
             </Tabs>
           </Dialog>
