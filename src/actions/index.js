@@ -560,3 +560,27 @@ export function testPlan() {
     }
 }
 
+export function createPlan(accessToken) {
+  fetch(`http://localhost:8080/v1/activities/${accessToken}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify()
+  }
+  // post to plans with
+  //  user_id
+  //  activity_id -- need an array of activity ids, so send request to add activities with the plan_id
+  //  title
+  //  desc
+  //
+  // take plan fields add to plans
+  // save activities with plan_id
+  //
+  // NEED TO ADD ACCESS TOKEN
+
+
+}
+
+
+
