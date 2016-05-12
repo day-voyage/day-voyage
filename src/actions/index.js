@@ -255,7 +255,7 @@ export function logoutAndRedirect(snackbar) {
     }
 }
 
-export function loginUser(username, password, redirect="/", snackbar) {
+export function loginUser(username, password, snackbar) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         return fetch('http://sleepy-crag-32675.herokuapp.com/v1/access_tokens', {
@@ -271,7 +271,6 @@ export function loginUser(username, password, redirect="/", snackbar) {
             .then(response => {
                 try {
                     dispatch(loginUserSuccess(response.data[0], snackbar));
-                    dispatch(push(redirect));
                 } catch (e) {
                     console.log(e);
                     snackbar('The user name and password you have entered do not match our records');
@@ -297,7 +296,7 @@ export function loginUser(username, password, redirect="/", snackbar) {
     }
 }
 
-export function signUpUser(username, password, email, redirect='/profile', snackbar) {
+export function signUpUser(username, password, email, snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
@@ -316,7 +315,7 @@ export function signUpUser(username, password, email, redirect='/profile', snack
     .then(parseJSON)
     .then(response => {
       try {
-          dispatch(loginUser(username, password, redirect));
+          dispatch(loginUser(username, password));
         } catch (e) {
           snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
