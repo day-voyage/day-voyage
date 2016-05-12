@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
 
 import IconButton from 'material-ui/IconButton';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline'
@@ -14,7 +15,9 @@ export default class ConfirmItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      descOpen: false
+      descOpen: false,
+      description: '',
+      edited: false
     };
   }
 
@@ -29,6 +32,18 @@ export default class ConfirmItem extends Component {
     this.props.onDeleteFromBuilderClicked();
   }
 
+  handleDesc(event){
+    this.setState({
+      description: event.target.value,
+      edited: true
+    })
+  }
+
+  handleSave(){
+    this.props.editDescChange(this.state.description);
+    this.setState({edited: false});
+  }
+
   render() {
     const { activity, order } = this.props
     const address = activity.address ? 
@@ -36,10 +51,20 @@ export default class ConfirmItem extends Component {
 
     if (this.state.descOpen) {
       var cardDesc = <div>
-          <strong>Address:</strong><br />
-          {activity.address}<br />
-          {activity.city}, {activity.state}<br /><br />
-          {activity.desc}
+          <strong>Description:</strong><br />
+          <TextField
+            id="text-field-default"
+            defaultValue={activity.desc}
+            onChange={this.handleDesc.bind(this)}
+            multiLine={true}
+            rows={2}
+            rowsMax={4}
+            />
+           <FlatButton 
+            label="Save"
+            className="save-info-btn"
+            disabled={!this.state.edited}
+            onClick={this.handleSave.bind(this)} /> <br />
           <FlatButton 
             label="Hide"
             className="hide-info-btn"
@@ -80,6 +105,9 @@ export default class ConfirmItem extends Component {
               <ContentRemoveCircleOutline />
             </IconButton>
           </CardActions>
+          <CardText>
+            {cardDesc}
+          </CardText>
         </div>
         <div className="reorder-btns">
           <IconButton 
