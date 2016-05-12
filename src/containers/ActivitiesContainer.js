@@ -10,7 +10,7 @@ class ActivitiesContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
-    if (activities[0].distance) {
+    if (hasActivities && activities[0].distance) {
       activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
     }
     return (
