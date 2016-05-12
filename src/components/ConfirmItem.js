@@ -57,8 +57,7 @@ export default class ConfirmItem extends Component {
             defaultValue={activity.desc}
             onChange={this.handleDesc.bind(this)}
             multiLine={true}
-            rows={2}
-            rowsMax={4}
+            rows={4}
             />
            <FlatButton 
             label="Save"
