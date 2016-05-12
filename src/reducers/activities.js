@@ -2,8 +2,7 @@ import { createReducer } from '../utils';
 import { RECEIVE_ACTIVITIES,
          ADD_TO_BUILDER,
          DELETE_FROM_BUILDER,
-         CHECK_CITY,
-         UNCHECK_CITY } from '../constants';
+         CHECK_AREA } from '../constants';
 import { pushState } from 'redux-router';
 
 
@@ -19,20 +18,16 @@ export default function activities(state = [], action) {
       action.activity.added = false;
       action.activity.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
       return state;
-    case CHECK_CITY:
+    case CHECK_AREA:
       var newState = state.slice()
       newState.forEach((activity) => {
-        if (activity.neighborhood[0].toUpperCase() === action.city.toUpperCase()) {
-          activity.visible = true;
+        var isVisible = false;
+        for (var i = 0; i < activity.neighborhood.length; i++) {
+          if (action.neighborhoods.indexOf(activity.neighborhood[i].toUpperCase()) >= 0) {
+            isVisible = true;
+          }
         }
-      })
-      return newState;
-    case UNCHECK_CITY:
-      var newState = state.slice()
-      newState.forEach((activity) => {
-        if (activity.neighborhood[0].toUpperCase() === action.city.toUpperCase()) {
-          activity.visible = false;
-        }
+        activity.visible = isVisible;
       })
       return newState;
     default:

@@ -19,8 +19,7 @@ import {
   SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
-  CHECK_CITY,
-  UNCHECK_CITY
+  CHECK_AREA
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -396,16 +395,10 @@ export function fetchProtectedData(token) {
     //    }
 }
 
-export function checkCity(city) {
+export function checkArea(neighborhoods) {
   return {
-    type: CHECK_CITY,
-    city
+    type: CHECK_AREA,
+    neighborhoods
   }
 }
 
-export function unCheckCity(city) {
-  return {
-    type: UNCHECK_CITY,
-    city
-  }
-}

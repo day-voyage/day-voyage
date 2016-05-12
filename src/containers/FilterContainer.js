@@ -12,8 +12,7 @@ import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 
 import {
-  checkCity,
-  unCheckCity
+  checkArea,
 } from '../actions'
 
 export default class FilterContainer extends Component {
@@ -44,21 +43,18 @@ export default class FilterContainer extends Component {
   componentWillMount() {
     const { activities } = this.props;
 
-    var cities_id = []
-    var citiesArr = []    
+    var areas_id = []
+    var areasArray = []    
     var cuisineArr = []
     var cuisines_id = []
 
-    activities.map((activity) => {
+    activities.forEach((activity) => {
       for (var i = 0; i < activity.neighborhood.length; i++){
-        if (cities_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
-          cities_id.push(activity.neighborhood[i].toUpperCase())
-          citiesArr.push({location: activity.neighborhood[i].toUpperCase(), visible: true})
+        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
+          areas_id.push(activity.neighborhood[i].toUpperCase())
+          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true})
         }
       }
-    })
-
-    activities.map((activity) => {
       for (var i = 0; i < activity.category.length; i++) {
         if (cuisines_id.indexOf(activity.category[i].toUpperCase()) === -1) {
           cuisines_id.push(activity.category[i].toUpperCase())
@@ -67,8 +63,12 @@ export default class FilterContainer extends Component {
       }
     })
 
+    areasArray.sort((a, b) => a.location > b.location)
+    cuisineArr.sort((a, b) => a.type > b.type)
+
+
     this.setState({
-      neighborhood: citiesArr
+      neighborhood: areasArray
     })
 
     this.setState({
@@ -95,44 +95,47 @@ export default class FilterContainer extends Component {
     }
   }
 
-  handleCity(city) {    
-    var citiesArr = this.state.neighborhood;
+  handleArea(area) {    
+    var areasArray = this.state.neighborhood;
     var index = 0;
-
     // step through array, toggle visible
-    for(var i = 0; i < citiesArr.length; i++) {
-      if(citiesArr[i].location === city && citiesArr[i].visible === true) {
-        citiesArr[i].visible = false;
-        this.props.unCheckCity(city)
-      } else if (citiesArr[i].location === city && citiesArr[i].visible === false) {
-        citiesArr[i].visible = true;
-        this.props.checkCity(city)
+    for(var i = 0; i < areasArray.length; i++) {
+      if(areasArray[i].location === area) {
+        areasArray[i].visible = !areasArray[i].visible;
       }
     }
+
+    var checkedAreas = 
+      areasArray.filter(item => item.visible === true)
+                .map(item => item.location);
+
+console.log('checkedAreas: ', checkedAreas);
+
+    this.props.checkArea(checkedAreas);
   }
 
   render() {
 
-    var cityOptions = this.state.neighborhood.map((city, index) => {
+    var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
-          <Checkbox
+        <Checkbox
           key={ index }
-          label={city.location}
-          defaultChecked={city.visible}
+          label={area.location}
+          defaultChecked={area.visible}
           style={this.state.checkBox.marginBottom}
-          onCheck={(e) => this.handleCity(city.location)} />
+          onCheck={(e) => this.handleArea(area.location)} />
         )
     })
 
     var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
       return ( 
-          <Checkbox
+        <Checkbox
           key={ index }
           label={cuisine.type}
           defaultChecked={true}
           style={this.state.checkBox.marginBottom}
           onCheck={(e) => this.handleCuisine(cuisine.type)} />
-        )
+      )
     })
 
     
@@ -153,7 +156,7 @@ export default class FilterContainer extends Component {
 
             <div>
             <MenuItem>Neighborhood</MenuItem>
-            {cityOptions}
+            {areaOptions}
             </div>
 
             <div>
@@ -173,4 +176,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkCity, unCheckCity })(FilterContainer)
+export default connect(mapStateToProps, { checkArea })(FilterContainer)
