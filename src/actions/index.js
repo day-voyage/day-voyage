@@ -19,7 +19,8 @@ import {
   SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
-  CHECK_AREA
+  CHECK_AREA,
+  EDIT_DESC
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -167,13 +168,6 @@ export function reorderDown(activityIndex) {
   return {
     type: REORDER_DOWN,
     activityIndex
-  };
-}
-
-export function saveToDb(activities) {
-  return {
-    type: SAVE_TO_DB,
-    activities
   };
 }
 
@@ -399,6 +393,23 @@ export function checkArea(neighborhoods) {
   return {
     type: CHECK_AREA,
     neighborhoods
+  }
+}
+
+// TODO: hook up to database
+export function saveActivityToDb(activity) {
+  console.log('saveActivityToDb called');
+  return {
+    type: 'TEST',
+    activity
+  }
+}
+
+export function editDescription(activityIndex, text) {
+  return {
+    type: EDIT_DESC,
+    activityIndex: activityIndex,
+    text: text
   }
 }
 

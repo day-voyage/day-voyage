@@ -4,9 +4,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
+
 
 export default class CreateActivity extends Component {
 
@@ -15,8 +18,10 @@ export default class CreateActivity extends Component {
     this.state = {
       modalOpen: false,
       title: '',
-      address: '',
       desc: '',
+      category: 'active',
+      cost: 0,
+      address: '',
       lat: '',
       long: '',
       private: false
@@ -61,21 +66,27 @@ export default class CreateActivity extends Component {
     this.setState({title: event.target.value});
   }
 
-  handleAddress(event) {
-    this.setState({address: event.target.value});
-  }
-
   handleDesc(event) {
     this.setState({desc: event.target.value});
+  }
+
+  handleCategory(event, index, value){
+    this.setState({category: value})
+    console.log('category: ', category);
+  }
+
+  handleCost(event) {
+    this.setState({cost: event.target.value})
+  }
+
+  handleAddress(event) {
+    this.setState({address: event.target.value});
   }
 
   handlePrivate() {
     this.setState({private: !this.state.private});
   }
 
-  handleCost(event) {
-    this.setState({cost: event.target.value})
-  }
 
   onSuggestSelect(place) {
     console.log(place);
@@ -87,29 +98,32 @@ export default class CreateActivity extends Component {
     this.setState({
       address: address,
       lat: lat,
-      long: long
+      long: long,
+      categoryDropdown: 1,
     })
     
   }
 
   addNewEvent() {
     var activity = {
-      title: this.state.title,
-      address: this.state.address,
+      plan_id: null,
+      user_id: null,
+      user_gen: true,
+      private: this.state.private,
       desc: this.state.desc,
       lat: this.state.lat,
       long: this.state.long,
-      category: 'personal',
-      private: this.state.private,
+      address: this.state.address,
+      title: this.state.title,
+      costPerPerson: this.state.cost,
+      isYelp: false,
+      categories: this.state.category,
       added: true
     };
     this.props.addFromCreate(activity);
     this.props.toggleModal();
     this.props.openSnackbar("Event has been created");
-
-    if (!this.state.private) {
-      // DB TODO: save to DB
-    }
+    this.props.saveToDb(activity);
   }
 
   render() {
@@ -140,6 +154,21 @@ export default class CreateActivity extends Component {
                 onChange={this.handleDesc.bind(this)}
                 placeholder="Birthday Party"
                 style={{marginBottom: 25}} /><br />
+
+              Category: <br />
+              <DropDownMenu
+                 value={this.state.category}
+                 onChange={this.handleCategory}
+                 style={{width: 200}}
+                 autoWidth={true}
+               >
+                 <MenuItem value={'active'} primaryText="Active" />
+                 <MenuItem value={'arts & entertainment'} primaryText="Arts & Entertainment" />
+                 <MenuItem value={'food'} primaryText="Food" />
+                 <MenuItem value={'nightlife'} primaryText="Nightlife" />
+                 <MenuItem value={'personal'} primaryText="Personal" />
+                 <MenuItem value={'shopping'} primaryText="Shopping" />
+               </DropDownMenu> <br />
 
               Estimated Cost: <br />
               $

@@ -5,7 +5,8 @@ import { addToBuilder,
         reorderUp, 
         reorderDown, 
         changingRoutes,
-        saveToDb} from '../actions';
+        editDescription,
+        saveToDb } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem'
 import TextField from 'material-ui/TextField';
@@ -13,17 +14,18 @@ import Card from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
 
+
 export class ConfirmContainer extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      itinTitle: ''
+      planTitle: ''
     };
   }
 
   handleTitle(event) {
-    this.setState({itinTitle: event.target.value});
+    this.setState({planTitle: event.target.value});
   }
 
   render() {
@@ -43,6 +45,7 @@ export class ConfirmContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
+            editDescChange={(text) => this.props.editDescription(index, text)}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
@@ -54,7 +57,7 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.props.saveToDb(planBuilder, this.state.itinTitle)}>
+          onClick={() => this.props.saveToDb(planBuilder, this.state.planTitle)}>
           Save Itinerary
         </FlatButton>
       </Card>
@@ -87,5 +90,7 @@ export default connect(
     reorderUp, 
     reorderDown, 
     changingRoutes,
-    saveToDb }
+    editDescription,
+    saveToDb,
+    editDescription }
 )(ConfirmContainer)

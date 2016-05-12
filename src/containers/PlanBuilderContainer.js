@@ -5,7 +5,8 @@ import { addToBuilder,
         reorderUp,
         reorderDown,
         changingRoutes,
-        goToConfirm } from '../actions';
+        goToConfirm,
+        saveActivityToDb } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
@@ -72,7 +73,8 @@ class PlanBuilderContainer extends Component {
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
-            addFromCreate={(created) => this.props.addToBuilder(created)}/>
+            addFromCreate={(activity) => this.props.addToBuilder(activity)}
+            saveToDb={(activity) => this.props.saveActivityToDb(activity)}/>
           <FlatButton
             label="Create Own Activity"
             onClick={this.toggleModal.bind(this)} /><br />
@@ -113,6 +115,7 @@ export default connect(
     reorderUp,
     reorderDown,
     changingRoutes,
-    goToConfirm }
+    goToConfirm,
+    saveActivityToDb }
 )(PlanBuilderContainer)
 
