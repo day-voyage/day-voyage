@@ -108,7 +108,7 @@ export function getAllActivities(query, location) {
             activity.distance = distances[i];
             return activity;
           });
-          /** 
+          /**
           * dispatch activities with new distance key
           */
           dispatch(receiveActivities(withLocation));
@@ -208,7 +208,7 @@ export function changingRoutes(activities) {
 
 
 export function loginUserSuccess(token, snackbar) {
-  localStorage.setItem('token', token);
+  localStorage.setItem('token', JSON.stringify(token));
   if (snackbar) {
     snackbar("You have successfully logged in");
   }
