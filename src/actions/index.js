@@ -602,6 +602,20 @@ export function searchActivities(searchTerm, city, cb) {
     .catch(err => console.log(`Error searching activities: ${err}`));
 }
 
+export function deleteActivity(activityID, cb) {
+  fetch(`http://localhost:8080/v1/activities/${activityID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(parseJSON)
+  .then(response => {
+    console.log('response in delete activity:', response);
+    cb(response);
+  })
+  .catch(error => console.log(`Error deleting activity: ${error}`));
+}
 /*
    Get all plans from database
  */
@@ -627,8 +641,13 @@ export function getPlansByUser(id, cb) {
 }
 
 // TODO: update activities in plan, join?
-export function updatePlan(planID, updates, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`, {
+export function updatePlan(planID, planUpdates, activities, cb) {
+  // add activities to plan
+  let token = localStorage.getItem('token');
+  let access_token = JSON.parse(token).access_token;
+  let updates = Object.assign({}, planUpdates, {activities: activities});
+  console.log(updates);
+  fetch(`http://localhost:8080/v1/plans/?access_token=${access_token}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -636,7 +655,7 @@ export function updatePlan(planID, updates, cb) {
     body: JSON.stringify(updates)
   })
   .then(parseJSON)
-  .then(response => cb(response))
+  .then(data => cb(data))
   .catch(error => console.log(`Error updating plan: ${err}`))
 }
 
@@ -647,9 +666,9 @@ export function updatePlan(planID, updates, cb) {
  * @return {[type]}            [promise with response from db]
  */
 export function createPlan(plan, activities, cb) {
-  console.log(localStorage.getItem('token'));
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
+  console.log(access_token);
   let reqBody = {
     plan: plan,
     access_token: access_token,
@@ -673,7 +692,6 @@ export function createPlan(plan, activities, cb) {
     type: SAVE_PLAN_CONFIRM
   }
 }
-
 
 // getYelpActivities
 
