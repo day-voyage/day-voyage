@@ -8,7 +8,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import { checkArea, checkCuisine } from '../actions';
+import { checkArea, checkCuisine, checkBudget } from '../actions';
 
 export default class FilterContainer extends Component {
   constructor(props) {
@@ -17,9 +17,9 @@ export default class FilterContainer extends Component {
       drawerOpen: false,
       neighborhood: [],
       cuisines: [],
-      minPrice: 0,
-      maxPrice: 1000,
-      priceSlider: 50
+      minPrice: 35,
+      maxPrice: 40,
+      priceSlider: 40
     };
   }
 
@@ -62,19 +62,17 @@ export default class FilterContainer extends Component {
   }
 
   handleSlider(event, value) {
-    this.setState({priceSlider: value});
-    console.log(this.state.priceSlider);
+    var budget = value;
+
+    this.setState({priceSlider: budget});
+    
+    ///this.props.checkBudget(budget)
+    console.log(budget);
+    this.props.checkBudget(budget);
+
+
+
   }
-
-
-
-    // for(var i = 0; i < cuisineArr.length; i++) {
-    //   if(cuisineArr[i].type === cuisine && cuisineArr[i].visible === true) {
-    //     cuisineArr[i].visible = false;
-    //   } else if (cuisineArr[i].type === cuisine && cuisineArr[i].visible === false) {
-    //     cuisineArr[i].visible = true;
-    //   }
-    // }
 
   handleCuisine(cuisine) {
     var cuisineArr = this.state.cuisines;
@@ -148,8 +146,8 @@ export default class FilterContainer extends Component {
           <Slider
             min={this.state.minPrice}
             max={this.state.maxPrice}
-            step={25}
-            defaultValue={this.state.maxPrice / 2}
+            step={0.01}
+            defaultValue={this.state.maxPrice}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
@@ -175,4 +173,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkArea, checkCuisine })(FilterContainer)
+export default connect(mapStateToProps, { checkArea, checkCuisine, checkBudget })(FilterContainer)

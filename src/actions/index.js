@@ -21,6 +21,7 @@ import {
   RECEIVE_PROTECTED_DATA,
   CHECK_AREA,
   CHECK_CUISINE,
+  CHECK_BUDGET,
   EDIT_DESC,
   SAVE_CONFIRM_DB,
   DELETE_CONFIRM_DB
@@ -86,6 +87,7 @@ export function getAllActivities(query, location) {
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
         transformed.visArea = true;
         transformed.visCuisine = true;
+        transformed.visBudget = true;
         transformed.notes= '';
         return transformed;
       });
@@ -404,6 +406,15 @@ export function checkCuisine(cuisines) {
   return {
     type: CHECK_CUISINE,
     cuisines
+  }
+}
+
+export function checkBudget(budget) {
+  console.log(budget)
+
+  return {
+    type: CHECK_BUDGET,
+    budget
   }
 }
 
