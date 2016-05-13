@@ -511,6 +511,21 @@ export function unCheckCity(city) {
 
 // API requests
 
+export function updateUser(userID, updates) {
+  fetch(`http://localhost:8080/v1/users/${userID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => console.log(`Error updating user: ${err}`))
+}
+
 
 export function getActivitiesByUser(id) {
   console.log(`<><> getting activities for user_id ${id}`);
@@ -519,6 +534,7 @@ export function getActivitiesByUser(id) {
   .then(response => {
     console.log(response);
   })
+  .catch(err => console.log(`Error getting activities by userID: ${err}`))
 }
 export function getActivitiesUnderBudget(amount) {
   console.log('getting activities under budget');
@@ -527,6 +543,7 @@ export function getActivitiesUnderBudget(amount) {
   .then(response => {
     console.log(response);
   })
+  .catch(err => console.log(`Error getting activities under budget: ${err}`))
 }
 /**
  *  Search activities by category
@@ -538,6 +555,7 @@ export function searchActivities(searchTerm, location) {
     .then(response => {
       console.log(response);;
     })
+    .catch(err => console.log(`Error searching activities: ${err}`))
 }
 
 export function updateActivity(activityID, updates) {
@@ -565,12 +583,34 @@ export function getAllPlans() {
   })
 }
 
+export function getActivitiesByPlan(planID) {
+  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
 /*
 
  */
 export function getPlansByUser(id) {
   console.log('getting plans by user');
   fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
+
+
+export function updatePlan(planID, updates) {
+  fetch(`http://localhost:8080/v1/plans/${planID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
   .then(parseJSON)
   .then(response => {
     console.log(response);
