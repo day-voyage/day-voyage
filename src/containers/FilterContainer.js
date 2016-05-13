@@ -8,7 +8,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import { checkArea } from '../actions';
+import { checkArea, checkCuisine } from '../actions';
 
 export default class FilterContainer extends Component {
   constructor(props) {
@@ -66,18 +66,26 @@ export default class FilterContainer extends Component {
     console.log(this.state.priceSlider);
   }
 
+
+
+    // for(var i = 0; i < cuisineArr.length; i++) {
+    //   if(cuisineArr[i].type === cuisine && cuisineArr[i].visible === true) {
+    //     cuisineArr[i].visible = false;
+    //   } else if (cuisineArr[i].type === cuisine && cuisineArr[i].visible === false) {
+    //     cuisineArr[i].visible = true;
+    //   }
+    // }
+
   handleCuisine(cuisine) {
     var cuisineArr = this.state.cuisines;
     var index = 0;
-
     // step through array, toggle visible
     for(var i = 0; i < cuisineArr.length; i++) {
-      if(cuisineArr[i].type === cuisine && cuisineArr[i].visible === true) {
-        cuisineArr[i].visible = false;
-      } else if (cuisineArr[i].type === cuisine && cuisineArr[i].visible === false) {
-        cuisineArr[i].visible = true;
+      if(cuisineArr[i].type === cuisine) {
+        cuisineArr[i].visible = !cuisineArr[i].visible;
       }
     }
+
 
     var checkedCuisines = 
       cuisineArr.filter(item => item.visible === true)
@@ -85,6 +93,7 @@ export default class FilterContainer extends Component {
 
       console.log('checkedCuisines: ', checkedCuisines)
 
+      this.props.checkCuisine(checkedCuisines)
   }
 
   handleArea(area) {    
@@ -107,7 +116,6 @@ export default class FilterContainer extends Component {
   }
 
   render() {
-
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
         <Checkbox
@@ -124,7 +132,7 @@ export default class FilterContainer extends Component {
         <Checkbox
           key={ index }
           label={cuisine.type}
-          defaultChecked={true}
+          defaultChecked={cuisine.visible}
           style={{marginBottom: 16}}
           onCheck={(e) => this.handleCuisine(cuisine.type)} />
       )
@@ -167,4 +175,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkArea })(FilterContainer)
+export default connect(mapStateToProps, { checkArea, checkCuisine })(FilterContainer)

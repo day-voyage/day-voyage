@@ -23,7 +23,7 @@ export default class Maps extends Component {
       centerLat = activities.map((item) => item.lat).reduce((a, b) => a + b)/activities.length;
       centerLng = activities.map((item) => item.long).reduce((a, b) => a + b)/activities.length;
       markers = activities.map(function(item) {
-        return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added, visible: item.visible };
+        return {position: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }, title: item.title, icon: item.icon, added: item.added, visible: item.visArea && item.visCuisine };
       });
     }
 
