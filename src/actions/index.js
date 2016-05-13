@@ -24,7 +24,8 @@ import {
   CHECK_BUDGET,
   EDIT_DESC,
   SAVE_ACTIVITY_CONFIRM,
-  DELETE_ACTIVITY_CONFIRM
+  DELETE_ACTIVITY_CONFIRM,
+  SAVE_PLAN_CONFIRM
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -428,6 +429,12 @@ export function saveActivityConfirm(activity, activity_db_id) {
   }
 }
 
+export function savePlanConfirm() {
+  return {
+    type: SAVE_PLAN_CONFIRM
+  }
+}
+
 export function deleteConfirm() {
   return {
     type: DELETE_ACTIVITY_CONFIRM
@@ -489,24 +496,42 @@ export function deleteActivityFromDb(activityId, access_token) {
     }
 }
 
-export function savePlannerToDb(plan, access_token) {
+//TODO: perhaps do separate requests and keep only unique ids
+//maybe use a hash or a set
+//save to a search cache?
+
+export function updateActivity(activityID, updates, access_token) {
+  fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
+}
+
+
+export function savePlanToDb(plan, access_token) {
   return dispatch => {
-    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+    return fetch('http://localhost:8080/v1/plans?access_token=' + access_token, {
         method: 'POST',
 
         headers: {
             'Content-Type': 'application/json'
         },
-            body: JSON.stringify(activity)
+            body: JSON.stringify(plan)
         })
         .then(checkHttpStatus)
         .then(parseJSON)
         .then(response => {
             try {
-              dispatch(saveConfirm())
+              dispatch(savePlanConfirm())
             } catch (e) {
               console.log(e);
-              snackbar('There was an error saving the activity');
+              snackbar('There was an error saving the plan');
             }
         })
         .catch(error => {
@@ -575,22 +600,6 @@ export function searchActivities(searchTerm, city, cb) {
     .then(parseJSON)
     .then(response => cb(response))
     .catch(err => console.log(`Error searching activities: ${err}`));
-}
-//TODO: perhaps do separate requests and keep only unique ids
-//maybe use a hash or a set
-//save to a search cache?
-
-export function updateActivity(activityID, cb) {
-  fetch(`http://localhost:8080/v1/activities/${activityID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updates)
-  })
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(err => console.log(`Error updating activities: ${err}`));
 }
 
 /*

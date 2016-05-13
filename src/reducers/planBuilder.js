@@ -6,7 +6,8 @@ import {
   REORDER_DOWN,
   EDIT_DESC,
   SAVE_ACTIVITY_CONFIRM,
-  DELETE_ACTIVITY_CONFIRM
+  DELETE_ACTIVITY_CONFIRM,
+  SAVE_PLAN_CONFIRM
 } from '../constants'
 import {
   changingRoutes
@@ -64,6 +65,8 @@ export default function planBuilder(state = [], action) {
       newState[index].id = action.activity_db_id
       return newState;
     case DELETE_ACTIVITY_CONFIRM:
+      return state
+    case SAVE_PLAN_CONFIRM:
       return state
     default:
       return state

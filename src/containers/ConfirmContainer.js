@@ -6,14 +6,14 @@ import { addToBuilder,
         reorderDown, 
         changingRoutes,
         editDescription,
-        saveToDb } from '../actions';
+        savePlanToDb } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem'
 import TextField from 'material-ui/TextField';
 import Card from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-
+var shortid = require('shortid');
 
 export class ConfirmContainer extends Component {
 
@@ -35,8 +35,14 @@ export class ConfirmContainer extends Component {
   // }
 
   render() {
-    const { planBuilder } = this.props;
+    const { planBuilder, auth } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // [{"name":"user_id","type":"int"},
+    // {"name":"clientside_id", "type":"string"},
+    // {"name":"title","type":"string"},
+    // {"name":"desc","type":"string"},
+    // {"name":"likes","type":"int"}])
     
     return (
       <Card>
@@ -63,7 +69,13 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.props.savePlanToDb(planBuilder, this.state.planTitle)}>
+          onClick={() => this.props.savePlanToDb(Object.assign({}, {
+            user_id: auth.token.user_id,
+            clientside_id: shortid.generate(),
+            title: this.state.plantitle,
+            desc: '',
+            likes: 0
+          }), auth.token.access_token)}>
           Save Itinerary
         </FlatButton>
       </Card>
@@ -86,6 +98,7 @@ export class ConfirmContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     planBuilder: state.planBuilder,
+    auth: state.auth
   }
 }
 
@@ -97,6 +110,6 @@ export default connect(
     reorderDown, 
     changingRoutes,
     editDescription,
-    saveToDb,
+    savePlanToDb,
     editDescription }
 )(ConfirmContainer)
