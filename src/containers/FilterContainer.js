@@ -15,21 +15,12 @@ export default class FilterContainer extends Component {
     super(props);
     this.state = {
       drawerOpen: false,
-      priceSlider: this.props.maxPrice / 2,
       neighborhood: [],
-      cuisines: []
+      cuisines: [],
+      minPrice: 0,
+      maxPrice: 1000,
+      priceSlider: 50
     };
-  }
-
-  toggleDrawer() {
-    this.setState({
-      drawerOpen: !this.state.drawerOpen
-    });
-  }
-
-  handleSlider(event, value) {
-    this.setState({priceSlider: value});
-    console.log(this.state.priceSlider);
   }
 
   componentWillMount() {
@@ -58,11 +49,21 @@ export default class FilterContainer extends Component {
     areasArray.sort((a, b) => a.location > b.location);
     cuisineArr.sort((a, b) => a.type > b.type);
 
-
     this.setState({
       neighborhood: areasArray,
       cuisines: cuisineArr
     });
+  }
+
+  toggleDrawer() {
+    this.setState({
+      drawerOpen: !this.state.drawerOpen
+    });
+  }
+
+  handleSlider(event, value) {
+    this.setState({priceSlider: value});
+    console.log(this.state.priceSlider);
   }
 
   handleCuisine(cuisine) {
@@ -77,6 +78,13 @@ export default class FilterContainer extends Component {
         cuisineArr[i].visible = true;
       }
     }
+
+    var checkedCuisines = 
+      cuisineArr.filter(item => item.visible === true)
+                .map(item => item.type);
+
+      console.log('checkedCuisines: ', checkedCuisines)
+
   }
 
   handleArea(area) {    
@@ -93,7 +101,7 @@ export default class FilterContainer extends Component {
       areasArray.filter(item => item.visible === true)
                 .map(item => item.location);
 
-console.log('checkedAreas: ', checkedAreas);
+    console.log('checkedAreas: ', checkedAreas);
 
     this.props.checkArea(checkedAreas);
   }
@@ -121,7 +129,6 @@ console.log('checkedAreas: ', checkedAreas);
           onCheck={(e) => this.handleCuisine(cuisine.type)} />
       )
     })
-
     
     return (
       <div>
@@ -131,10 +138,10 @@ console.log('checkedAreas: ', checkedAreas);
           <div>
           <MenuItem>Budget ${this.state.priceSlider}</MenuItem>
           <Slider
-            min={this.props.minPrice}
-            max={this.props.maxPrice}
-            step={1}
-            defaultValue={this.props.maxPrice / 2}
+            min={this.state.minPrice}
+            max={this.state.maxPrice}
+            step={25}
+            defaultValue={this.state.maxPrice / 2}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
