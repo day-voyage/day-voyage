@@ -87,7 +87,7 @@ export class Search extends React.Component {
     console.log('triggering API test');
     // this.props.actions.searchActivities('ethio', 'san francisco', activities => console.log(activities));
 
-    this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+    // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
     // this.props.actions.getPlansByUser(2);
 
@@ -105,7 +105,7 @@ export class Search extends React.Component {
 
     // this.props.actions.deleteActivity(13, (result) => console.log(result));
 
-    // this.props.actions.updatePlan(2, [{id: 3, title:'fuck yeah that was fun'}], result => console.log(result));
+    this.props.actions.updatePlan(2, [{id: 3, title:'fuck yeah that was fun'}, {id: 4, title:'oh yeah real fun', desc: 'you think u funny'}], result => console.log(result));
   }
 
   render() {

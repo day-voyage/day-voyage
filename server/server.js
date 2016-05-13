@@ -88,7 +88,22 @@ app.post('/db/plan', function (request, response) {
     .catch(error => {
       console.log(`Error posting plans to db from server: ${error}`);
       response.send(error);
-    })
+    });
+});
+
+app.put('db/plan', function(request, response) {
+  let plan = requesst.body.plan;
+  let access_token = request.body.access_token;
+  let activities = request.body.activities;
+  let reqBody = Object.assign(plan, {
+    activities: activities
+  });
+  axios.put(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
+  .then(data => response.send(data.data))
+  .catch(error => {
+    console.log(error);
+    response.send(error);
+  });
 });
 
 app.get('*', function (request, response){
