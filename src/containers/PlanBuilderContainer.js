@@ -41,7 +41,7 @@ class PlanBuilderContainer extends Component {
     this.props.deleteFromBuilder(activity);
 
     if (activity.user_gen) {
-      this.props.deleteActivityFromDb(activity.activity_id, accessToken);
+      this.props.deleteActivityFromDb(activity.id, accessToken);
     }
   }
 
