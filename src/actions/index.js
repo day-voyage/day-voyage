@@ -511,7 +511,7 @@ export function unCheckCity(city) {
 
 // API requests
 
-export function updateUser(userID, updates) {
+export function updateUser(userID, updates, cb) {
   fetch(`http://localhost:8080/v1/users/${userID}`, {
     method: 'PUT',
     headers: {
@@ -520,45 +520,39 @@ export function updateUser(userID, updates) {
     body: JSON.stringify(updates)
   })
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
   .catch(err => console.log(`Error updating user: ${err}`))
 }
 
 
-export function getActivitiesByUser(id) {
-  console.log(`<><> getting activities for user_id ${id}`);
+export function getActivitiesByUser(id, cb) {
+  // console.log(`<><> getting activities for user_id ${id}`);
   fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
-  .catch(err => console.log(`Error getting activities by userID: ${err}`))
+  .then(response => cb(response))
+  .catch(err => console.log(`Error getting activities by userID: ${err}`));
 }
-export function getActivitiesUnderBudget(amount) {
+
+export function getActivitiesUnderBudget(amount, cb) {
   console.log('getting activities under budget');
   fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
   .catch(err => console.log(`Error getting activities under budget: ${err}`))
 }
+
 /**
  *  Search activities by category
  */
 
-export function searchActivities(searchTerm, location) {
+export function searchActivities(searchTerm, location, cb) {
   fetch(`http://localhost:8080/v1/activities?categories__contains=${searchTerm}`)
     .then(parseJSON)
-    .then(response => {
-      console.log(response);;
-    })
-    .catch(err => console.log(`Error searching activities: ${err}`))
+    .then(response => cb(response))
+    .catch(err => console.log(`Error searching activities: ${err}`));
 }
 
-export function updateActivity(activityID, updates) {
+export function updateActivity(activityID, cb) {
   fetch(`http://localhost:8080/v1/activities/${activityID}`, {
     method: 'PUT',
     headers: {
@@ -567,43 +561,36 @@ export function updateActivity(activityID, updates) {
     body: JSON.stringify(updates)
   })
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
 }
 
 /*
    Get all plans from database
  */
-export function getAllPlans() {
+export function getAllPlans(cb) {
   fetch('http://localhost:8080/v1/plans')
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting all plans: ${err}`));
 }
 
-export function getActivitiesByPlan(planID) {
+export function getActivitiesByPlan(planID, cb) {
   fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities by planID: ${err}`));
 }
-/*
 
- */
-export function getPlansByUser(id) {
-  console.log('getting plans by user');
+export function getPlansByUser(id, cb) {
   fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting plans by userID: ${err}`));
 }
 
 
-export function updatePlan(planID, updates) {
+export function updatePlan(planID, updates, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`, {
     method: 'PUT',
     headers: {
@@ -612,9 +599,8 @@ export function updatePlan(planID, updates) {
     body: JSON.stringify(updates)
   })
   .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
+  .then(response => cb(response))
+  .catch(error => console.log(`Error updating plan: ${err}`))
 }
 
 /**
@@ -623,8 +609,7 @@ export function updatePlan(planID, updates) {
  * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
  * @return {[type]}            [promise with response from db]
  */
-export function createPlan(plan, activities) {
-  // POST request with
+export function createPlan(plan, activities, cb) {
   console.log(localStorage.getItem('token'));
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
@@ -646,22 +631,15 @@ export function createPlan(plan, activities) {
       body: reqBody
     })
     .then(parseJSON)
-    .then(response => {
-      console.log(response);;
-    })
+    .then(response => cb(response))
+    .catch(error => console.log(`Error creating plan: ${err}`))
 }
 
-
-// getPlans for a specific user
-
-
-// get Activities for a specific plan
-//
-// get all Activiites under a certain amount
 
 // getYelpActivities
 
 // getUserGeneratedActivities
+
 //
 // get
 
@@ -671,27 +649,7 @@ export function testPlan() {
     }
 }
 
-export function createPlan(accessToken) {
-  fetch(`http://localhost:8080/v1/activities/${accessToken}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify()
-  }
-  // post to plans with
-  //  user_id
-  //  activity_id -- need an array of activity ids, so send request to add activities with the plan_id
-  //  title
-  //  desc
-  //
-  // take plan fields add to plans
-  // save activities with plan_id
-  //
-  // NEED TO ADD ACCESS TOKEN
-
-
-}
+// TODO: helper to build query String
 
 
 

@@ -97,7 +97,7 @@ export class Search extends React.Component {
 
     // this.props.actions.updateUser(2, {username: 'Iamsam'});
 
-    this.props.actions.getActivitiesByPlan(2);
+    this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
   }
 
   render() {
