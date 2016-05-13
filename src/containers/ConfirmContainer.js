@@ -6,7 +6,8 @@ import { addToBuilder,
         reorderDown, 
         changingRoutes,
         editDescription,
-        createPlan } from '../actions';
+        createPlan,
+        deleteActivityFromDb } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem'
 import TextField from 'material-ui/TextField';
@@ -28,11 +29,11 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
-  // handleSubmit() {
-  //   var plan = {
-      
-  //   }
-  // }
+  deleteActivity(activity) {
+    this.props.deleteFromBuilder(activity);
+
+    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+  }
 
   render() {
     const { planBuilder, auth } = this.props;
@@ -63,7 +64,7 @@ export class ConfirmContainer extends Component {
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
             editDescChange={(text) => this.props.editDescription(index, text)}
-            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
+            onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
               
@@ -78,7 +79,7 @@ export class ConfirmContainer extends Component {
             user_id: auth.token.user_id,
             clientside_id: shortid.generate(),
             title: this.state.planTitle,
-            desc: '',
+            desc: this.props.planDesc,
             likes: 0
           }), activityIds, response => console.log('saved to db, response: ', response))}>
           Save Itinerary
@@ -116,5 +117,6 @@ export default connect(
     changingRoutes,
     editDescription,
     createPlan,
-    editDescription }
+    editDescription,
+    deleteActivityFromDb }
 )(ConfirmContainer)
