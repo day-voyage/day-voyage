@@ -75,29 +75,19 @@ app.get('/api/reversegeocode', function(request, response) {
 });
 
 app.post('/db/plan', function (request, response) {
-  console.log('<><><> inside db/createPlan, req body:', request.body);
   let plan = request.body.plan;
   let access_token = request.body.access_token;
-  console.log('access_token is:', access_token);
   let activities = request.body.activities;
-  console.log('<><><> plan is:', plan);
   let reqBody = Object.assign(plan, {
     activities: activities
   });
-  console.log('><><>< reqBody is:', plan);
-  reqBody = JSON.stringify(reqBody);
-  axios({
-    method: 'post',
-    url: `http://localhost:8080/v1/plans?access_token=${access_token}`,
-    data: reqBody
-  })
-    .then(response => {
-      console.log('response from server after post request:', response);
-      response.send(response);
+  axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
+    .then(data => {
+      response.send(data.data);
   })
     .catch(error => {
-      let err = JSON.stringify(error);
-      console.log(`Error posting plans to db from server: ${err}`);
+      console.log(`Error posting plans to db from server: ${error}`);
+      response.send(error);
     })
 });
 

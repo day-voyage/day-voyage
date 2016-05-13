@@ -616,16 +616,12 @@ export function createPlan(plan, activities, cb) {
   console.log(localStorage.getItem('token'));
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
-  // let reqBody = Object.assign(plan, {
-  //   activities: activities,
-  //   access_token: access_token
-  // });
   let reqBody = {
     plan: plan,
     access_token: access_token,
     activities: activities
   };
-  console.log('<><><> reqbody in client createPlan:\n',reqBody);
+  // console.log('<><><> reqbody in client createPlan:\n',reqBody);
   fetch(`/db/plan`, {
       method: 'POST',
       headers: {
@@ -635,7 +631,6 @@ export function createPlan(plan, activities, cb) {
     })
     .then(parseJSON)
     .then(response => {
-      console.log('got response from axios');
       cb(response);
   })
     .catch(error => console.log(`Error creating plan: ${err}`))
