@@ -89,6 +89,7 @@ export function getAllActivities(query, location) {
         transformed.visArea = true;
         transformed.visCuisine = true;
         transformed.visBudget = true;
+        transformed.budget = Math.random() * 100;
         transformed.notes= '';
         return transformed;
       });

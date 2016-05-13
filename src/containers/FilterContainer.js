@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import { checkArea, checkCuisine, checkBudget } from '../actions';
+import { sliderclass } from './styles.css';
 
 export default class FilterContainer extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ export default class FilterContainer extends Component {
       drawerOpen: false,
       neighborhood: [],
       cuisines: [],
-      minPrice: 35,
-      maxPrice: 40,
-      priceSlider: 40
+      minPrice: 0,
+      maxPrice: 0,
+      priceSlider: 0
     };
   }
 
@@ -30,18 +31,26 @@ export default class FilterContainer extends Component {
     var areasArray = [];    
     var cuisineArr = [];
     var cuisines_id = [];
+    var maxBudget = 0;
+
+    console.log(activities)
 
     activities.forEach((activity) => {
       for (var i = 0; i < activity.neighborhood.length; i++){
         if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
           areas_id.push(activity.neighborhood[i].toUpperCase());
           areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
+            if(activity.budget > maxBudget) {
+              maxBudget = activity.budget;
+              console.log('maxBudget ', maxBudget)
+              console.log('activityBudget ', activity.budget)
+            }
         }
       }
       for (var i = 0; i < activity.category.length; i++) {
-        if (cuisines_id.indexOf(activity.category[i].toUpperCase()) === -1) {
-          cuisines_id.push(activity.category[i].toUpperCase());
-          cuisineArr.push({type: activity.category[i].toUpperCase(), visible: true}) ;
+        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
+          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
+          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
         }       
       }
     })
@@ -51,7 +60,9 @@ export default class FilterContainer extends Component {
 
     this.setState({
       neighborhood: areasArray,
-      cuisines: cuisineArr
+      cuisines: cuisineArr,
+      maxPrice: Math.round(maxBudget) + 10,
+      priceSlider: Math.round(maxBudget) + 10
     });
   }
 
@@ -62,7 +73,7 @@ export default class FilterContainer extends Component {
   }
 
   handleSlider(event, value) {
-    var budget = value;
+    var budget = Math.round(value);
 
     this.setState({priceSlider: budget});
     
@@ -120,7 +131,7 @@ export default class FilterContainer extends Component {
           key={ index }
           label={area.location}
           defaultChecked={area.visible}
-          style={{marginBottom: 16}}
+          style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}
           onCheck={(e) => this.handleArea(area.location)} />
         )
     })
@@ -131,7 +142,7 @@ export default class FilterContainer extends Component {
           key={ index }
           label={cuisine.type}
           defaultChecked={cuisine.visible}
-          style={{marginBottom: 16}}
+          style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}
           onCheck={(e) => this.handleCuisine(cuisine.type)} />
       )
     })
@@ -142,11 +153,16 @@ export default class FilterContainer extends Component {
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>
-          <MenuItem>Budget ${this.state.priceSlider}</MenuItem>
+          
+          
+          <MenuItem>
+          Budget ${this.state.priceSlider}</MenuItem>
           <Slider
+            style={{marginLeft: 25, marginRight: 25}}
             min={this.state.minPrice}
             max={this.state.maxPrice}
             step={0.01}
+            className="slider-class"
             defaultValue={this.state.maxPrice}
             onChange={this.handleSlider.bind(this)}/>
           </div>
