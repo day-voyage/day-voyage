@@ -50,7 +50,6 @@ export class ActivitiesView extends Component {
       });
     };
 
-
   render() {
     return (
       <div className="container">

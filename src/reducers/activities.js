@@ -48,7 +48,7 @@ export default function activities(state = [], action) {
       var newState = state.slice()
       newState.forEach((activity) => {
         var isVisible = false;
-        if (action.budget > activity.lat) {
+        if (action.budget > activity.budget) {
           isVisible = true;
         }
         activity.visBudget = isVisible
