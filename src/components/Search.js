@@ -85,9 +85,9 @@ export class Search extends React.Component {
 
   triggerAPItest() {
     console.log('triggering API test');
-    this.props.actions.searchActivities('ethio', 'san francisco', activities => console.log(activities));
+    // this.props.actions.searchActivities('ethio', 'san francisco', activities => console.log(activities));
 
-    // this.props.actions.createPlan({desc: 'Whodat fun'}, [{id: 19}]);
+    this.props.actions.createPlan({desc: 'Whodat fun'}, [{id: 19}], response => console.log('Posted it!', response));
 
     // this.props.actions.getPlansByUser(2);
 

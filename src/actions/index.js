@@ -631,10 +631,13 @@ export function createPlan(plan, activities, cb) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: reqBody
+      body: JSON.stringify(reqBody)
     })
     .then(parseJSON)
-    .then(response => cb(response))
+    .then(response => {
+      console.log('got response from axios');
+      cb(response);
+  })
     .catch(error => console.log(`Error creating plan: ${err}`))
 }
 
