@@ -21,5 +21,6 @@ export default createConstants(
  'FETCH_PROTECTED_DATA_REQUEST',
  'RECEIVE_PROTECTED_DATA',
  'CHECK_AREA',
- 'EDIT_DESC'
+ 'EDIT_DESC',
+ 'SAVE_CONFIRM'
 );

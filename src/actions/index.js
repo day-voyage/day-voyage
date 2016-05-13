@@ -20,7 +20,8 @@ import {
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
   CHECK_AREA,
-  EDIT_DESC
+  EDIT_DESC,
+  SAVE_CONFIRM
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -396,14 +397,40 @@ export function checkArea(neighborhoods) {
   }
 }
 
-// TODO: hook up to database
-export function saveActivityToDb(activity) {
-  console.log('saveActivityToDb called');
+export function saveConfirm() {
   return {
-    type: 'TEST',
-    activity
+    type: SAVE_CONFIRM
   }
 }
+
+// TODO: hook up to database
+export function saveActivityToDb(activity, access_token) {
+  return dispatch => {
+
+    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+        method: 'POST',
+        // credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify(activity)
+        })
+        .then(checkHttpStatus)
+        .then(parseJSON)
+        .then(response => {
+            try {
+              dispatch(saveConfirm())
+            } catch (e) {
+              console.log(e);
+              snackbar('There was an error saving the activity');
+            }
+        })
+        .catch(error => {
+           console.log(error);
+        })
+    }
+}
+
 
 export function editDescription(activityIndex, text) {
   return {

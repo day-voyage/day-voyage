@@ -37,7 +37,7 @@ class PlanBuilderContainer extends Component {
   }
 
   render() {
-    const { planBuilder, activities } = this.props;
+    const { planBuilder, activities, auth } = this.props;
     const hasActivities = planBuilder.length > 0;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nodes = !hasActivities ?
@@ -74,7 +74,7 @@ class PlanBuilderContainer extends Component {
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
             addFromCreate={(activity) => this.props.addToBuilder(activity)}
-            saveToDb={(activity) => this.props.saveActivityToDb(activity)}/>
+            saveToDb={(activity) => this.props.saveActivityToDb(activity, auth.token.access_token)}/>
           <FlatButton
             label="Create Own Activity"
             onClick={this.toggleModal.bind(this)} /><br />
@@ -104,7 +104,8 @@ PlanBuilderContainer.propTypes = {
 const mapStateToProps = (state) => {
   return {
     planBuilder: state.planBuilder,
-    activities: state.activities
+    activities: state.activities,
+    auth: state.auth
   }
 }
 
