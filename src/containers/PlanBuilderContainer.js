@@ -37,12 +37,10 @@ class PlanBuilderContainer extends Component {
     }
   }
 
-  deleteActivity(activity, accessToken) {
+  deleteActivity(activity) {
     this.props.deleteFromBuilder(activity);
 
-    if (activity.user_gen) {
-      this.props.deleteActivityFromDb(activity.id, accessToken);
-    }
+    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
   }
 
   render() {
@@ -59,7 +57,7 @@ class PlanBuilderContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
-            onDeleteFromBuilderClicked={() => this.deleteActivity(activity, auth.token.access_token)}
+            onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
               

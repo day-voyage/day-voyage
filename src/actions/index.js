@@ -469,30 +469,22 @@ export function saveActivityToDb(activity, access_token) {
     }
 }
 
-export function deleteActivityFromDb(activityId, access_token) {
+export function deleteActivityFromDb(activityId, cb) {
   return dispatch => {
 
-    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
-        method: 'DELETE',
-
-        headers: {
-            'Content-Type': 'application/json'
-        },
-            body: JSON.stringify({id: activityId})
-        })
-        .then(checkHttpStatus)
-        .then(parseJSON)
-        .then(response => {
-            try {
-              dispatch(deleteConfirm())
-            } catch (e) {
-              console.log(e);
-              snackbar('There was an error deleting the activity');
-            }
-        })
-        .catch(error => {
-           console.log(error);
-        })
+    return fetch(`http://localhost:8080/v1/activities/${activityId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(parseJSON)
+    .then(response => {
+      console.log('response in delete activity:', response);
+      cb(response);
+    })
+    .then(() => dispatch(deleteConfirm()))
+    .catch(error => console.log(`Error deleting activity: ${error}`));
     }
 }
 
@@ -600,21 +592,6 @@ export function searchActivities(searchTerm, city, cb) {
     .then(parseJSON)
     .then(response => cb(response))
     .catch(err => console.log(`Error searching activities: ${err}`));
-}
-
-export function deleteActivity(activityID, cb) {
-  fetch(`http://localhost:8080/v1/activities/${activityID}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(parseJSON)
-  .then(response => {
-    console.log('response in delete activity:', response);
-    cb(response);
-  })
-  .catch(error => console.log(`Error deleting activity: ${error}`));
 }
 /*
    Get all plans from database
