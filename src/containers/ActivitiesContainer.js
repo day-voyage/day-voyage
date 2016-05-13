@@ -18,7 +18,7 @@ class ActivitiesContainer extends Component {
         <h3 style={{marginLeft: 15}}>Activities</h3>
         {!hasActivities ? <em>0 search results</em> :
           activities.map((activity, index) => {
-            if (activity.visible) {
+            if (activity.visArea && activity.visCuisine && activity.visBudget) {
               return <ActivityItem
                 key={index}
                 activity={activity}

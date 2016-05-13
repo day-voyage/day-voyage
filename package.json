@@ -8,7 +8,7 @@
     "compile": "NODE_ENV=production webpack",
     "start": "npm run dev",
     "dev": "NODE_ENV=development node --harmony bin/webpack-dev-server",
-    "mocha": "mocha test/actions --compilers js:babel-core/register --recursive",
+    "mocha": "mocha --compilers js:babel-core/register --recursive",
     "mocha:watch": "npm run mocha -- --watch",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel/register --colors --reporter dot test/",
     "lint": "eslint app",
