@@ -666,30 +666,28 @@ export function updatePlan(planID, planUpdates, activities, cb) {
  * @return {[type]}            [promise with response from db]
  */
 export function createPlan(plan, activities, cb) {
-  let token = localStorage.getItem('token');
-  let access_token = JSON.parse(token).access_token;
-  console.log(access_token);
-  let reqBody = {
-    plan: plan,
-    access_token: access_token,
-    activities: activities
-  };
-  // console.log('<><><> reqbody in client createPlan:\n',reqBody);
-  fetch(`/db/plan`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(reqBody)
-    })
-    .then(parseJSON)
-    .then(response => {
-      cb(response);
-  })
-    .catch(error => console.log(`Error creating plan: ${err}`))
-
-  return {
-    type: SAVE_PLAN_CONFIRM
+  return dispatch => {
+    let token = localStorage.getItem('token');
+    let access_token = JSON.parse(token).access_token;
+    let reqBody = {
+      plan: plan,
+      access_token: access_token,
+      activities: activities
+    };
+    // console.log('<><><> reqbody in client createPlan:\n',reqBody);
+    return fetch(`/db/plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reqBody)
+      })
+      .then(parseJSON)
+      .then(response => {
+        cb(response);
+      })
+      .then(() => dispatch(savePlanConfirm()))
+      .catch(error => console.log(`Error creating plan: ${err}`))
   }
 }
 
