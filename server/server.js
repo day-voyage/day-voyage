@@ -91,7 +91,7 @@ app.post('/db/plan', function (request, response) {
     })
     .then(parseJSON)
     .then(response => response.send(response))
-    .catch(error => console.log(`Error posting plans to db from server`);
+    .catch(error => console.log(`Error posting plans to db from server`));
 });
 
 app.get('*', function (request, response){

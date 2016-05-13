@@ -545,12 +545,15 @@ export function getActivitiesUnderBudget(amount, cb) {
  *  Search activities by category
  */
 
-export function searchActivities(searchTerm, location, cb) {
-  fetch(`http://localhost:8080/v1/activities?categories__contains=${searchTerm}`)
+export function searchActivities(searchTerm, city, cb) {
+  fetch(`http://localhost:8080/v1/activities?categories__icontains=${searchTerm}&city__icontains=${city}`)
     .then(parseJSON)
     .then(response => cb(response))
     .catch(err => console.log(`Error searching activities: ${err}`));
 }
+//TODO: perhaps do separate requests and keep only unique ids
+//maybe use a hash or a set
+//save to a search cache?
 
 export function updateActivity(activityID, cb) {
   fetch(`http://localhost:8080/v1/activities/${activityID}`, {
@@ -589,7 +592,7 @@ export function getPlansByUser(id, cb) {
   .catch(error => console.log(`Error getting plans by userID: ${err}`));
 }
 
-
+// TODO: update activities in plan, join?
 export function updatePlan(planID, updates, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`, {
     method: 'PUT',
