@@ -15,11 +15,6 @@
     "doc": "esdoc -c esdoc.json",
     "postinstall": "npm run build && npm run doc"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
-  },
   "repository": {},
   "author": "Sweaty Figs",
   "license": "MIT",
