@@ -20,6 +20,8 @@ import {
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
   CHECK_AREA,
+  CHECK_CUISINE,
+  CHECK_BUDGET,
   EDIT_DESC,
   SAVE_CONFIRM_DB,
   DELETE_CONFIRM_DB
@@ -83,7 +85,9 @@ export function getAllActivities(query, location) {
         transformed.neighborhood = activity.location.neighborhoods;
         transformed.added = false;
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
-        transformed.visible = true;
+        transformed.visArea = true;
+        transformed.visCuisine = true;
+        transformed.visBudget = true;
         transformed.notes= '';
         return transformed;
       });
@@ -395,6 +399,22 @@ export function checkArea(neighborhoods) {
   return {
     type: CHECK_AREA,
     neighborhoods
+  }
+}
+
+export function checkCuisine(cuisines) {
+  return {
+    type: CHECK_CUISINE,
+    cuisines
+  }
+}
+
+export function checkBudget(budget) {
+  console.log(budget)
+
+  return {
+    type: CHECK_BUDGET,
+    budget
   }
 }
 

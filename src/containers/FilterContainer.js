@@ -8,28 +8,19 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import { checkArea } from '../actions';
+import { checkArea, checkCuisine, checkBudget } from '../actions';
 
 export default class FilterContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       drawerOpen: false,
-      priceSlider: this.props.maxPrice / 2,
       neighborhood: [],
-      cuisines: []
+      cuisines: [],
+      minPrice: 35,
+      maxPrice: 40,
+      priceSlider: 40
     };
-  }
-
-  toggleDrawer() {
-    this.setState({
-      drawerOpen: !this.state.drawerOpen
-    });
-  }
-
-  handleSlider(event, value) {
-    this.setState({priceSlider: value});
-    console.log(this.state.priceSlider);
   }
 
   componentWillMount() {
@@ -58,25 +49,49 @@ export default class FilterContainer extends Component {
     areasArray.sort((a, b) => a.location > b.location);
     cuisineArr.sort((a, b) => a.type > b.type);
 
-
     this.setState({
       neighborhood: areasArray,
       cuisines: cuisineArr
     });
   }
 
+  toggleDrawer() {
+    this.setState({
+      drawerOpen: !this.state.drawerOpen
+    });
+  }
+
+  handleSlider(event, value) {
+    var budget = value;
+
+    this.setState({priceSlider: budget});
+    
+    ///this.props.checkBudget(budget)
+    console.log(budget);
+    this.props.checkBudget(budget);
+
+
+
+  }
+
   handleCuisine(cuisine) {
     var cuisineArr = this.state.cuisines;
     var index = 0;
-
     // step through array, toggle visible
     for(var i = 0; i < cuisineArr.length; i++) {
-      if(cuisineArr[i].type === cuisine && cuisineArr[i].visible === true) {
-        cuisineArr[i].visible = false;
-      } else if (cuisineArr[i].type === cuisine && cuisineArr[i].visible === false) {
-        cuisineArr[i].visible = true;
+      if(cuisineArr[i].type === cuisine) {
+        cuisineArr[i].visible = !cuisineArr[i].visible;
       }
     }
+
+
+    var checkedCuisines = 
+      cuisineArr.filter(item => item.visible === true)
+                .map(item => item.type);
+
+      console.log('checkedCuisines: ', checkedCuisines)
+
+      this.props.checkCuisine(checkedCuisines)
   }
 
   handleArea(area) {    
@@ -93,13 +108,12 @@ export default class FilterContainer extends Component {
       areasArray.filter(item => item.visible === true)
                 .map(item => item.location);
 
-console.log('checkedAreas: ', checkedAreas);
+    console.log('checkedAreas: ', checkedAreas);
 
     this.props.checkArea(checkedAreas);
   }
 
   render() {
-
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
         <Checkbox
@@ -116,12 +130,11 @@ console.log('checkedAreas: ', checkedAreas);
         <Checkbox
           key={ index }
           label={cuisine.type}
-          defaultChecked={true}
+          defaultChecked={cuisine.visible}
           style={{marginBottom: 16}}
           onCheck={(e) => this.handleCuisine(cuisine.type)} />
       )
     })
-
     
     return (
       <div>
@@ -131,10 +144,10 @@ console.log('checkedAreas: ', checkedAreas);
           <div>
           <MenuItem>Budget ${this.state.priceSlider}</MenuItem>
           <Slider
-            min={this.props.minPrice}
-            max={this.props.maxPrice}
-            step={1}
-            defaultValue={this.props.maxPrice / 2}
+            min={this.state.minPrice}
+            max={this.state.maxPrice}
+            step={0.01}
+            defaultValue={this.state.maxPrice}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
@@ -160,4 +173,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkArea })(FilterContainer)
+export default connect(mapStateToProps, { checkArea, checkCuisine, checkBudget })(FilterContainer)

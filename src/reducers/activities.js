@@ -2,7 +2,9 @@ import { createReducer } from '../utils';
 import { RECEIVE_ACTIVITIES,
          ADD_TO_BUILDER,
          DELETE_FROM_BUILDER,
-         CHECK_AREA } from '../constants';
+         CHECK_AREA,
+         CHECK_CUISINE,
+         CHECK_BUDGET } from '../constants';
 import { pushState } from 'redux-router';
 
 
@@ -27,10 +29,32 @@ export default function activities(state = [], action) {
             isVisible = true;
           }
         }
-        activity.visible = isVisible;
+        activity.visArea = isVisible;
+      })
+      return newState;
+    case CHECK_CUISINE:
+      var newState = state.slice()
+      newState.forEach((activity) => {
+        var isVisible = false;
+        for (var i = 0; i < activity.category.length; i++) {
+          if (action.cuisines.indexOf(activity.category[i].toUpperCase()) >= 0) {
+            isVisible = true;
+          }
+        }
+        activity.visCuisine = isVisible;
+      })
+      return newState;
+    case CHECK_BUDGET:
+      var newState = state.slice()
+      newState.forEach((activity) => {
+        var isVisible = false;
+        if (action.budget > activity.lat) {
+          isVisible = true;
+        }
+        activity.visBudget = isVisible
       })
       return newState;
     default:
-      return state
+      return state;
   }
 }
