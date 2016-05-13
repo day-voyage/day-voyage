@@ -85,7 +85,7 @@ export class Search extends React.Component {
 
   triggerAPItest() {
     console.log('triggering API test');
-    this.props.actions.searchActivities('thio');
+    this.props.actions.createPlan({desc: 'Whodat fun'}, [{id: 19}]);
   }
 
   render() {

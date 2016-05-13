@@ -556,12 +556,28 @@ export function searchActivities(searchTerm, location) {
 
 /**
  * [createPlan description]
- * @param  {[type]} plan       [description]
- * @param  {[type]} activities [description]
- * @return {[type]}            [description]
+ * @param  {[type]} plan       [object]
+ * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
+ * @return {[type]}            [promise]
  */
 export function createPlan(plan, activities) {
-
+  // POST request with
+  console.log(localStorage.getItem('token'));
+  let token = localStorage.getItem('token');
+  let access_token = JSON.parse(token).access_token;
+  let reqBody = Object.assign(plan, {activities: activities});
+  console.log(reqBody);
+  fetch(`http://localhost:8080/v1/plans?access_token=${access_token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      console.log(response);;
+    })
 }
 
 

@@ -78,6 +78,35 @@ app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../src/index.html'));
 });
 
+app.post('/db/createPlan', (request, response) => {
+  /**
+   * [createPlan description]
+   * @param  {[type]} plan       [object]
+   * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
+   * @return {[type]}            [promise]
+   */
+  // console.log(localStorage.getItem('token'));
+  // let token = localStorage.getItem('token');
+  // let access_token = JSON.parse(token).access_token;
+  // let reqBody = Object.assign(plan, {activities: activities});
+  // console.log(reqBody);
+  console.log('request is:',request);
+  let access_token = request.params.access_token;
+  fetch(`http://localhost:8080/v1/plans?access_token=${access_token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      response.send(response);
+    })
+    .catch(error => { console.log(error) });
+});
+
+
 
 const port = process.env.PORT || 3000;
 
