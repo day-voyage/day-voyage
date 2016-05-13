@@ -23,8 +23,8 @@ import {
   CHECK_CUISINE,
   CHECK_BUDGET,
   EDIT_DESC,
-  SAVE_CONFIRM_DB,
-  DELETE_CONFIRM_DB
+  SAVE_ACTIVITY_CONFIRM,
+  DELETE_ACTIVITY_CONFIRM
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -402,6 +402,7 @@ export function checkArea(neighborhoods) {
   }
 }
 
+
 export function checkCuisine(cuisines) {
   return {
     type: CHECK_CUISINE,
@@ -418,15 +419,18 @@ export function checkBudget(budget) {
   }
 }
 
-export function saveConfirm() {
+export function saveActivityConfirm(activity, activity_db_id) {
+
   return {
-    type: SAVE_CONFIRM_DB
+    type: SAVE_ACTIVITY_CONFIRM,
+    activity: activity,
+    activity_db_id: activity_db_id
   }
 }
 
 export function deleteConfirm() {
   return {
-    type: DELETE_CONFIRM_DB
+    type: DELETE_ACTIVITY_CONFIRM
   }
 }
 
@@ -444,8 +448,9 @@ export function saveActivityToDb(activity, access_token) {
         .then(checkHttpStatus)
         .then(parseJSON)
         .then(response => {
+          console.log('here is the response upon saving', response);
             try {
-              dispatch(saveConfirm())
+              dispatch(saveActivityConfirm(activity, response.data[0].id))
             } catch (e) {
               console.log(e);
               snackbar('There was an error saving the activity');
@@ -466,7 +471,7 @@ export function deleteActivityFromDb(activityId, access_token) {
         headers: {
             'Content-Type': 'application/json'
         },
-            body: JSON.stringify({activity_id: activityId})
+            body: JSON.stringify({id: activityId})
         })
         .then(checkHttpStatus)
         .then(parseJSON)

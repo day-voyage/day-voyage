@@ -1,14 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addToBuilder, changingRoutes } from '../actions';
+import { addToBuilder, 
+        changingRoutes,
+        saveActivityToDb } from '../actions';
 import ActivityItem from '../components/ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
 import { Card } from 'material-ui/Card';
 
+var shortid = require('shortid');
+
 
 class ActivitiesContainer extends Component {
+
   render() {
-    const { activities } = this.props;
+    const { activities, auth } = this.props;
     const hasActivities = activities.length > 0;
     if (hasActivities && activities[0].distance) {
       activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
@@ -24,7 +29,13 @@ class ActivitiesContainer extends Component {
                 activity={activity}
                 openSnackbar={this.props.openSnackbar}
                 onAddToBuilderClicked={() => {
-                  this.props.addToBuilder(activity) }}/>
+                  this.props.addToBuilder(activity);
+                  this.props.saveActivityToDb(Object.assign(activity, {
+                    isYelp: true,
+                    user_gen: false,
+                    clientside_id: shortid.generate()
+                  }), auth.token.access_token);
+                }}/>
             }
         })}
       </Card>
@@ -44,11 +55,13 @@ ActivitiesContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities
+    activities: state.activities,
+    auth: state.auth
   }
 }
 
 export default connect(
   mapStateToProps,
-  { addToBuilder }
+  { addToBuilder,
+    saveActivityToDb }
 )(ActivitiesContainer)

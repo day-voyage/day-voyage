@@ -109,7 +109,7 @@ export default class CreateActivity extends Component {
     console.log(this.user_id)
     var activity = {
       // plan_id: null,
-      activity_id: shortid.generate(),
+      clientside_id: shortid.generate(),
       user_id: this.user_id,
       user_gen: true,
       private: this.state.private,
