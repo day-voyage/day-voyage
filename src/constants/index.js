@@ -22,5 +22,6 @@ export default createConstants(
  'RECEIVE_PROTECTED_DATA',
  'CHECK_AREA',
  'EDIT_DESC',
- 'SAVE_CONFIRM'
+ 'SAVE_CONFIRM_DB',
+ 'DELETE_CONFIRM_DB'
 );

@@ -6,7 +6,8 @@ import { addToBuilder,
         reorderDown,
         changingRoutes,
         goToConfirm,
-        saveActivityToDb } from '../actions';
+        saveActivityToDb,
+        deleteActivityFromDb } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
@@ -36,6 +37,14 @@ class PlanBuilderContainer extends Component {
     }
   }
 
+  deleteActivity(activity, accessToken) {
+    this.props.deleteFromBuilder(activity);
+
+    if (activity.user_gen) {
+      this.props.deleteActivityFromDb(activity.activity_id, accessToken);
+    }
+  }
+
   render() {
     const { planBuilder, activities, auth } = this.props;
     const hasActivities = planBuilder.length > 0;
@@ -50,7 +59,7 @@ class PlanBuilderContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
-            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
+            onDeleteFromBuilderClicked={() => this.deleteActivity(activity, auth.token.access_token)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
               
@@ -74,7 +83,8 @@ class PlanBuilderContainer extends Component {
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
             addFromCreate={(activity) => this.props.addToBuilder(activity)}
-            saveToDb={(activity) => this.props.saveActivityToDb(activity, auth.token.access_token)}/>
+            saveToDb={(activity) => this.props.saveActivityToDb(activity, auth.token.access_token)}
+            user_id={auth.user_id}/>
           <FlatButton
             label="Create Own Activity"
             onClick={this.toggleModal.bind(this)} /><br />
@@ -117,6 +127,7 @@ export default connect(
     reorderDown,
     changingRoutes,
     goToConfirm,
-    saveActivityToDb }
+    saveActivityToDb,
+    deleteActivityFromDb }
 )(PlanBuilderContainer)
 

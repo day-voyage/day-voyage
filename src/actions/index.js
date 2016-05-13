@@ -21,7 +21,8 @@ import {
   RECEIVE_PROTECTED_DATA,
   CHECK_AREA,
   EDIT_DESC,
-  SAVE_CONFIRM
+  SAVE_CONFIRM_DB,
+  DELETE_CONFIRM_DB
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -253,7 +254,7 @@ export function logoutAndRedirect(snackbar) {
 export function loginUser(username, password, snackbar) {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        return fetch('http://sleepy-crag-32675.herokuapp.com/v1/access_tokens', {
+        return fetch('http://localhost:8080/v1/access_tokens', {
             method: 'POST',
             // credentials: 'include',
             headers: {
@@ -295,7 +296,7 @@ export function signUpUser(username, password, email, snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
-    return fetch('http://sleepy-crag-32675.herokuapp.com/v1/users', {
+    return fetch('http://localhost:8080/v1/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -399,17 +400,22 @@ export function checkArea(neighborhoods) {
 
 export function saveConfirm() {
   return {
-    type: SAVE_CONFIRM
+    type: SAVE_CONFIRM_DB
   }
 }
 
-// TODO: hook up to database
+export function deleteConfirm() {
+  return {
+    type: DELETE_CONFIRM_DB
+  }
+}
+
 export function saveActivityToDb(activity, access_token) {
   return dispatch => {
 
     return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
         method: 'POST',
-        // credentials: 'include',
+
         headers: {
             'Content-Type': 'application/json'
         },
@@ -430,6 +436,61 @@ export function saveActivityToDb(activity, access_token) {
         })
     }
 }
+
+export function deleteActivityFromDb(activityId, access_token) {
+  return dispatch => {
+
+    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+        method: 'DELETE',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({activity_id: activityId})
+        })
+        .then(checkHttpStatus)
+        .then(parseJSON)
+        .then(response => {
+            try {
+              dispatch(deleteConfirm())
+            } catch (e) {
+              console.log(e);
+              snackbar('There was an error deleting the activity');
+            }
+        })
+        .catch(error => {
+           console.log(error);
+        })
+    }
+}
+
+export function savePlannerToDb(plan, access_token) {
+  return dispatch => {
+    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+        method: 'POST',
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify(activity)
+        })
+        .then(checkHttpStatus)
+        .then(parseJSON)
+        .then(response => {
+            try {
+              dispatch(saveConfirm())
+            } catch (e) {
+              console.log(e);
+              snackbar('There was an error saving the activity');
+            }
+        })
+        .catch(error => {
+           console.log(error);
+        })
+    }
+}
+
+
 
 
 export function editDescription(activityIndex, text) {

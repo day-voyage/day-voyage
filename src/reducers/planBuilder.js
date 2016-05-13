@@ -5,7 +5,8 @@ import {
   REORDER_UP,
   REORDER_DOWN,
   EDIT_DESC,
-  SAVE_CONFIRM
+  SAVE_CONFIRM_DB,
+  DELETE_CONFIRM_DB
 } from '../constants'
 import {
   changingRoutes
@@ -57,7 +58,9 @@ export default function planBuilder(state = [], action) {
       var newState = state.slice();
       newState[action.activityIndex].desc = action.text;
       return newState;
-    case SAVE_CONFIRM:
+    case SAVE_CONFIRM_DB:
+      return state
+    case DELETE_CONFIRM_DB:
       return state
     default:
       return state
