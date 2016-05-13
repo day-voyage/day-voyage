@@ -60,6 +60,7 @@
     "redux-logger": "^2.0.4",
     "redux-router": "^1.0.0-beta8",
     "redux-thunk": "^1.0.0",
+    "shortid": "^2.2.6",
     "sinon": "^1.17.4",
     "sinon-chai": "^2.8.0",
     "webpack-dev-middleware": "^1.2.0",

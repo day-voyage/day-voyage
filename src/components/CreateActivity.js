@@ -9,6 +9,7 @@ import Geosuggest from 'react-geosuggest/module/Geosuggest';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
+var shortid = require('shortid');
 
 
 export default class CreateActivity extends Component {
@@ -24,7 +25,7 @@ export default class CreateActivity extends Component {
       address: '',
       lat: '',
       long: '',
-      private: false
+      private: false,
     };
   }
 
@@ -105,9 +106,11 @@ export default class CreateActivity extends Component {
   }
 
   addNewEvent() {
+    console.log(this.user_id)
     var activity = {
-      plan_id: null,
-      user_id: null,
+      // plan_id: null,
+      activity_id: shortid.generate(),
+      user_id: this.user_id,
       user_gen: true,
       private: this.state.private,
       desc: this.state.desc,

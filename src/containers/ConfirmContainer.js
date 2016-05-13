@@ -28,6 +28,12 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
+  // handleSubmit() {
+  //   var plan = {
+      
+  //   }
+  // }
+
   render() {
     const { planBuilder } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -57,7 +63,7 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.props.saveToDb(planBuilder, this.state.planTitle)}>
+          onClick={() => this.props.savePlanToDb(planBuilder, this.state.planTitle)}>
           Save Itinerary
         </FlatButton>
       </Card>
