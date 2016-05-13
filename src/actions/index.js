@@ -668,6 +668,10 @@ export function createPlan(plan, activities, cb) {
       cb(response);
   })
     .catch(error => console.log(`Error creating plan: ${err}`))
+
+  return {
+    type: SAVE_PLAN_CONFIRM
+  }
 }
 
 

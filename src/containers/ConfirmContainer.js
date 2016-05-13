@@ -6,7 +6,7 @@ import { addToBuilder,
         reorderDown, 
         changingRoutes,
         editDescription,
-        savePlanToDb } from '../actions';
+        createPlan } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem'
 import TextField from 'material-ui/TextField';
@@ -43,6 +43,11 @@ export class ConfirmContainer extends Component {
     // {"name":"title","type":"string"},
     // {"name":"desc","type":"string"},
     // {"name":"likes","type":"int"}])
+
+    var activityIds = [];
+    for (var i = 0; i < planBuilder.length; i++) {
+      activityIds.push({id: planBuilder[i].id});
+    }
     
     return (
       <Card>
@@ -69,13 +74,13 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.props.savePlanToDb(Object.assign({}, {
+          onClick={() => this.props.createPlan(Object.assign({}, {
             user_id: auth.token.user_id,
             clientside_id: shortid.generate(),
-            title: this.state.plantitle,
+            title: this.state.planTitle,
             desc: '',
             likes: 0
-          }), auth.token.access_token)}>
+          }), activityIds, response => console.log('saved to db, response: ', response))}>
           Save Itinerary
         </FlatButton>
       </Card>
@@ -110,6 +115,6 @@ export default connect(
     reorderDown, 
     changingRoutes,
     editDescription,
-    savePlanToDb,
+    createPlan,
     editDescription }
 )(ConfirmContainer)
