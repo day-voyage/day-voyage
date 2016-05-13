@@ -79,7 +79,7 @@ export class ConfirmContainer extends Component {
             user_id: auth.token.user_id,
             clientside_id: shortid.generate(),
             title: this.state.planTitle,
-            desc: '',
+            desc: this.props.planDesc,
             likes: 0
           }), activityIds, response => console.log('saved to db, response: ', response))}>
           Save Itinerary
