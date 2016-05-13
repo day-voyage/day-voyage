@@ -74,6 +74,26 @@ app.get('/api/reversegeocode', function(request, response) {
     });
 });
 
+app.post('/db/plan', function (request, response) {
+  console.log('<><><> inside db/createPlan, req.body:', request.body);
+  let plan = request.body.plan;
+  let access_token = request.body.access_token;
+  console.log('<><><> plan is:', plan);
+  let reqBody = Object.assign(plan, {
+    activities: activities
+  });
+  fetch(`http://localhost:8080/v1/plans?access_token=${access_token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => response.send(response))
+    .catch(error => console.log(`Error posting plans to db from server`));
+});
+
 app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../src/index.html'));
 });

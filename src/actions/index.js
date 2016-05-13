@@ -502,13 +502,158 @@ export function editDescription(activityIndex, text) {
 }
 
 
+export function unCheckCity(city) {
+  return {
+    type: UNCHECK_CITY,
+    city
+  }
+}
+
+// API requests
+
+export function updateUser(userID, updates, cb) {
+  fetch(`http://localhost:8080/v1/users/${userID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating user: ${err}`))
+}
 
 
+export function getActivitiesByUser(id, cb) {
+  // console.log(`<><> getting activities for user_id ${id}`);
+  fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error getting activities by userID: ${err}`));
+}
+
+export function getActivitiesUnderBudget(amount, cb) {
+  console.log('getting activities under budget');
+  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error getting activities under budget: ${err}`))
+}
+
+/**
+ *  Search activities by category
+ */
+
+export function searchActivities(searchTerm, city, cb) {
+  fetch(`http://localhost:8080/v1/activities?categories__icontains=${searchTerm}&city__icontains=${city}`)
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(err => console.log(`Error searching activities: ${err}`));
+}
+//TODO: perhaps do separate requests and keep only unique ids
+//maybe use a hash or a set
+//save to a search cache?
+
+export function updateActivity(activityID, cb) {
+  fetch(`http://localhost:8080/v1/activities/${activityID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
+}
+
+/*
+   Get all plans from database
+ */
+export function getAllPlans(cb) {
+  fetch('http://localhost:8080/v1/plans')
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting all plans: ${err}`));
+}
+
+export function getActivitiesByPlan(planID, cb) {
+  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities by planID: ${err}`));
+}
+
+export function getPlansByUser(id, cb) {
+  fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting plans by userID: ${err}`));
+}
+
+// TODO: update activities in plan, join?
+export function updatePlan(planID, updates, cb) {
+  fetch(`http://localhost:8080/v1/plans/${planID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error updating plan: ${err}`))
+}
+
+/**
+ * [createPlan description]
+ * @param  {[type]} plan       [object]
+ * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
+ * @return {[type]}            [promise with response from db]
+ */
+export function createPlan(plan, activities, cb) {
+  console.log(localStorage.getItem('token'));
+  let token = localStorage.getItem('token');
+  let access_token = JSON.parse(token).access_token;
+  // let reqBody = Object.assign(plan, {
+  //   activities: activities,
+  //   access_token: access_token
+  // });
+  let reqBody = {
+    plan: plan,
+    access_token: access_token,
+    activities: activities
+  };
+  console.log('<><><> reqbody in client createPlan:\n',reqBody);
+  fetch(`/db/plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: reqBody
+    })
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(error => console.log(`Error creating plan: ${err}`))
+}
 
 
+// getYelpActivities
+
+// getUserGeneratedActivities
+
+//
+// get
 
 export function testPlan() {
     return (dispatch) => {
         dispatch(push('/plan/1'));
     }
 }
+
+// TODO: helper to build query String
+
+
+
+
