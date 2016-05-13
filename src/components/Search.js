@@ -78,6 +78,10 @@ export class Search extends React.Component {
     );
   }
 
+  testing() {
+    this.props.actions.testPlan();
+  }
+
   render() {
     var spinner = this.state.lat ? 
       <Checkbox
@@ -111,6 +115,7 @@ export class Search extends React.Component {
         </div>
         <div className="row">
           <div className="col-sm-5">
+          <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
           </div>
           <div className="col-sm-2">
             {this.state.geolocation ? spinner : null}

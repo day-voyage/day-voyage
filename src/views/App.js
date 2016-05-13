@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import NavContainer from './NavContainer';
+import NavContainer from '../containers/NavContainer';
 import Snackbar from 'material-ui/Snackbar';
 
 
