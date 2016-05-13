@@ -74,24 +74,14 @@ app.get('/api/reversegeocode', function(request, response) {
     });
 });
 
-app.get('*', function (request, response){
-  response.sendFile(path.join(__dirname + '/../src/index.html'));
-});
-
-app.post('/db/createPlan', (request, response) => {
-  /**
-   * [createPlan description]
-   * @param  {[type]} plan       [object]
-   * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
-   * @return {[type]}            [promise]
-   */
-  // console.log(localStorage.getItem('token'));
-  // let token = localStorage.getItem('token');
-  // let access_token = JSON.parse(token).access_token;
-  // let reqBody = Object.assign(plan, {activities: activities});
-  // console.log(reqBody);
-  console.log('request is:',request);
-  let access_token = request.params.access_token;
+app.post('/db/plan', function (request, response) {
+  console.log('<><><> inside db/createPlan, req.body:', request.body);
+  let plan = request.body.plan;
+  let access_token = request.body.access_token;
+  console.log('<><><> plan is:', plan);
+  let reqBody = Object.assign(plan, {
+    activities: activities
+  });
   fetch(`http://localhost:8080/v1/plans?access_token=${access_token}`, {
       method: 'POST',
       headers: {
@@ -106,6 +96,9 @@ app.post('/db/createPlan', (request, response) => {
     .catch(error => { console.log(error) });
 });
 
+app.get('*', function (request, response){
+  response.sendFile(path.join(__dirname + '/../src/index.html'));
+});
 
 
 const port = process.env.PORT || 3000;

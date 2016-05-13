@@ -510,6 +510,50 @@ export function unCheckCity(city) {
 }
 
 // API requests
+
+
+export function getActivitiesByUser(id) {
+  console.log(`<><> getting activities for user_id ${id}`);
+  fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
+export function getActivitiesUnderBudget(amount) {
+  console.log('getting activities under budget');
+  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
+/**
+ *  Search activities by category
+ */
+
+export function searchActivities(searchTerm, location) {
+  fetch(`http://localhost:8080/v1/activities?categories__contains=${searchTerm}`)
+    .then(parseJSON)
+    .then(response => {
+      console.log(response);;
+    })
+}
+
+export function updateActivity(activityID, updates) {
+  fetch(`http://localhost:8080/v1/activities/${activityID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updates)
+  })
+  .then(parseJSON)
+  .then(response => {
+    console.log(response);
+  })
+}
+
 /*
    Get all plans from database
  */
@@ -533,46 +577,33 @@ export function getPlansByUser(id) {
   })
 }
 
-export function getActivitiesUnderBudget(amount) {
-  console.log('getting activities under budget');
-  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
-  .then(parseJSON)
-  .then(response => {
-    console.log(response);
-  })
-}
-
-/**
- *  Search activities by category
- */
-
-export function searchActivities(searchTerm, location) {
-  fetch(`http://localhost:8080/v1/activities?categories__contains=${searchTerm}`)
-    .then(parseJSON)
-    .then(response => {
-      console.log(response);;
-    })
-}
-
 /**
  * [createPlan description]
  * @param  {[type]} plan       [object]
  * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
- * @return {[type]}            [promise]
+ * @return {[type]}            [promise with response from db]
  */
 export function createPlan(plan, activities) {
   // POST request with
   console.log(localStorage.getItem('token'));
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
-  let reqBody = Object.assign(plan, {activities: activities});
-  console.log(reqBody);
-  fetch(`http://localhost:8080/v1/plans?access_token=${access_token}`, {
+  // let reqBody = Object.assign(plan, {
+  //   activities: activities,
+  //   access_token: access_token
+  // });
+  let reqBody = {
+    plan: plan,
+    access_token: access_token,
+    activities: activities
+  };
+  console.log('<><><> reqbody in client createPlan:\n',reqBody);
+  fetch(`/db/plan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(reqBody)
+      body: reqBody
     })
     .then(parseJSON)
     .then(response => {
