@@ -413,3 +413,14 @@ export function editDescription(activityIndex, text) {
   }
 }
 
+
+
+
+
+
+
+export function testPlan() {
+    return (dispatch) => {
+        dispatch(push('/plan/1'));
+    }
+}
