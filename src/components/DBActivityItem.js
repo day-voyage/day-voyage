@@ -25,7 +25,7 @@ export default class DBActivityItem extends Component {
     return (
       <GridTile
         title={title}
-        subtitle={<span><b>{activity.neighborhood ? activity.neighborhood.join(', ') : ''}</b></span>}
+        subtitle={<span><b>{activity.neighborhood ? activity.neighborhood : ''}</b></span>}
         actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
         onClick={this.clickAddButton.bind(this)} >
         <img src="http://www.organicfacts.net/wp-content/uploads/2013/05/Fig2.jpg" />
