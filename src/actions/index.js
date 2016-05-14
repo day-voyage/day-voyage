@@ -589,74 +589,20 @@ export function getActivitiesUnderBudget(amount, cb) {
  */
 
 export function searchActivities(searchTerm, city, cb) {
-  let activityHash = {};
-  let columns = ['title','categories', 'desc'];
-  let matches;
+  //TODO: maybe cache calls to a particular city
 
-  function getActivities(column, searchInput) {
-    fetch(`http://localhost:8080/v1/activities?${column}__icontains=${searchInput}&city__icontains=${city}`)
-      .then(parseJSON)
-      .then(result => {
-        let res = result;
-        console.log(result);
-        console.log(column, '\n', searchInput);
-        if (result.data.length !== 0) {
-          result.data.forEach((activity) => {
-            console.log('activity is',activity);
-            activityHash[activity.id] = activity;
-          });
+  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}`)
+    .then(parseJSON)
+    .then(result => {
+      let activities = result.data;
+      let matches = activities.filter((activity) => {
+        let query = new RegExp(searchTerm, 'gi');
+        if (query.test(activity.desc) || query.test(activity.categories) || query.test(activity.title)) {
+          return activity;
         }
-        console.log(activityHash);
-        return result;
-      })
-    }
-
-    return columns.map((col, i) => {
-      if (i === columns.length - 1) {
-        // let matches = Object.keys(activityHash).map((id) => activityHash[id]);
-        getActivities(col, searchTerm);
-        console.log('matches are',matches);
-        console.log('activity hash ', activityHash);
-        return cb(activityHash);
-      } else {
-        return  getActivities(col, searchTerm);
-      }
-    })
-
-    // console.log('activity hash is:',activityHash);
-    // matches = Object.keys(activityHash).map((id) => activityHash[id]);
-    // console.log('matches is', matches);
-    // cb(matches);
-    // .then((categories) => {
-    //   return fetch(`http://localhost:8080/v1/activities?desc__icontains=${searchTerm}&city__icontains=${city}`)
-    //   .then(desc => {
-    //     console.log('desc is', desc);
-    //     if (desc.data.length !== 0) {
-    //       desc.data.forEach((activity) => {
-    //         console.log('activity is',activity);
-    //         activityHash[activity.activity_id] = activity;
-    //       });
-    //     }
-    //   console.log(activityHash);
-
-    //     return desc;
-    //   })
-    // })
-    // .then((desc) => {
-    //   return fetch(`http://localhost:8080/v1/activities?title__icontains=${searchTerm}&city__icontains=${city}`)
-    //   .then(title => {
-    //     console.log('title is', title);
-    //     if (title.data.length !== 0) {
-    //       title.data.forEach((activity) => {
-    //         console.log('activity is',activity);
-    //         activityHash[activity.activity_id] = activity;
-    //       });
-    //     }
-    //     return title;
-    //   })
-    // })
-    // .then((title) => cb(Object.values(activityHash)))
-    // .catch(error => console.log(`Error searching activities: ${error}`));
+      });
+      cb(matches);
+    });
 }
 /*
    Get all plans from database
