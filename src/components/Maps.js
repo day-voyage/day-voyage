@@ -5,6 +5,12 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions';
 
 export default class Maps extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      markers: null 
+    };
+  }
 
   componentDidMount() {
     const { planBuilder } = this.props;
@@ -18,7 +24,7 @@ export default class Maps extends Component {
     var centerLat = 37.7749;
     var centerLng = -122.4194;
     var markers = [];
-    
+
     if (activities.length > 0) {
       centerLat = activities.map((item) => item.lat).reduce((a, b) => a + b)/activities.length;
       centerLng = activities.map((item) => item.long).reduce((a, b) => a + b)/activities.length;

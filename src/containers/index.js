@@ -7,3 +7,4 @@ export UpdateProfile from './UpdateProfile';
 export UserProfile from './UserProfile';
 export ConfirmContainer from './ConfirmContainer';
 export FilterContainer from './FilterContainer';
+export PlanContainer from './PlanContainer';
