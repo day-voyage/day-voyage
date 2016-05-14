@@ -97,7 +97,7 @@ export default class CreateActivity extends Component {
     // var address = place.gmaps.formatted_address.split(', ').join('\n');
     var streetNum;
     var street;
-    var neighborhood;
+    var neighborhood = [];
     var city;
     var statePlace;
 
@@ -106,7 +106,7 @@ export default class CreateActivity extends Component {
 
       if (type === 'street_number') streetNum = component.long_name;
       else if (type === 'route') street = component.long_name;
-      else if (type === 'neighborhood') neighborhood = component.long_name;
+      else if (type === 'neighborhood') neighborhood.push(component.long_name);
       else if (type === 'locality') city = component.long_name;
       else if (type === 'administrative_area_level_1') statePlace = component.short_name;
     })

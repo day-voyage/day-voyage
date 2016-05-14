@@ -66,7 +66,7 @@ export default class PlanBuilderItem extends Component {
         <div className="card-content">
           <CardHeader
             title={title}
-            subtitle={activity.neighborhood ? activity.neighborhood : ''}
+            subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
             key={activity.i}
             actAsExpander={true}
