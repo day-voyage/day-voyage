@@ -595,14 +595,26 @@ export function searchActivities(searchTerm, city, cb) {
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
-      let matches = activities.filter((activity) => {
-        let query = new RegExp(searchTerm, 'gi');
-        if (query.test(activity.desc) || query.test(activity.categories) || query.test(activity.title)) {
-          return activity;
-        }
-      });
+      let query = new RegExp(searchTerm, 'gi');
+      let matches = activities.filter((activity) => query.test(activity.desc) || query.test(activity.categories) || query.test(activity.title))
       cb(matches);
-    });
+      })
+    .catch(error => console.log(error));
+
+}
+
+export function searchPlans(searchTerm, city, cb) {
+
+  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}`)
+    .then(parseJSON)
+    .then(result => {
+      let plans = result.data;
+      let query = new RegExp(searchTerm, 'gi');
+      let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+      cb(matches);
+      })
+    .catch(error => console.log(error));
+
 }
 /*
    Get all plans from database
