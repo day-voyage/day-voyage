@@ -601,7 +601,7 @@ export function getAllPlans(cb) {
   fetch('http://localhost:8080/v1/plans')
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(error => console.log(`Error getting all plans: ${err}`));
+  .catch(error => console.log(`Error getting all plans: ${error}`));
 }
 
 export function getActivitiesByPlan(planID, cb) {
@@ -615,23 +615,34 @@ export function getPlansByUser(id, cb) {
   fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(error => console.log(`Error getting plans by userID: ${err}`));
+  .catch(error => console.log(`Error getting plans by userID: ${error}`));
 }
 
-// TODO: update activities in plan, join?
+export function getPlanWithActivities(planID, cb) {
+  fetch(`http://localhost:8080/v1/plans/${planID}`)
+   .then(parseJSON)
+   .then(data => {
+      getActivitiesByPlan(planID, (activityData) => {
+        // console.log(activityData);
+        let plan = {
+          plan: data.data[0],
+          activities: activityData.data
+        };
+        cb(plan);
+      });
+   })
+   .catch(error => console.log(error));
+}
+
 export function updatePlan(planID, planUpdates, activities, cb) {
-  // add activities to plan
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
-  // let updates = Object.assign({}, planUpdates, {activities: activities});
-  // console.log(updates);
   let reqBody = {
     plan: planUpdates,
     access_token: access_token,
     activities: activities,
     plan_id: planID
   };
-  console.log('about to send req body to server:',reqBody);
   fetch(`db/updateplan`, {
     method: 'POST',
     headers: {
