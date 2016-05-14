@@ -73,7 +73,7 @@ export class Search extends React.Component {
     setTimeout(function() {
       var set = !this.state.location ? {lat: this.state.lat, lng: this.state.lng} : null;
         this.setState({
-          location: set
+          location: set,
         });
     }.bind(this), 0
     );
@@ -94,8 +94,8 @@ export class Search extends React.Component {
 
     // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // this.props.actions.getPlansByUser(2);
-
+    // this.props.actions.getPlansByUser(2, result => console.log(result));
+    
     // this.props.actions.getActivitiesByUser(2);
 
     // this.props.actions.updateActivity(2, {duration: 100});
@@ -104,7 +104,7 @@ export class Search extends React.Component {
 
     // this.props.actions.updateUser(2, {username: 'Iamsam'});
 
-    // this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
+    this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
 
     // this.props.actions.deleteActivity(13, (result) => console.log(result));
 
@@ -114,13 +114,12 @@ export class Search extends React.Component {
 
     // this.props.actions.getAllPlans(plans => console.log(plans));
 
-    // this.props.actions.queryTable('activities', {isYelp: true, city: 'San Francisco', 'title':'heaven'}, (result) => console.log(result));
-
+    // this.props.actions.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
     // this.props.actions.deletePlan(4, (plan) => console.log(plan));
 
     // this.props.actions.getComments('user', 4, comment => console.log(comment));
 
-    this.props.actions.getComments('activity', 3, comment => console.log(comment));
+    // this.props.actions.getComments('activity', 3, comment => console.log(comment));
 
 
   }
@@ -183,7 +182,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actionCreators, dispatch)
+  actions: bindActionCreators(actionCreators, dispatch),
 });
 
 const style = {

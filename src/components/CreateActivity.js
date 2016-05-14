@@ -20,9 +20,12 @@ export default class CreateActivity extends Component {
       modalOpen: false,
       title: '',
       desc: '',
-      category: 'active',
       cost: 0,
       address: '',
+      city: '',
+      neighborhood: '',
+      statePlace: '',
+      completeAddress: '',
       lat: '',
       long: '',
       private: false,
@@ -91,24 +94,43 @@ export default class CreateActivity extends Component {
 
   onSuggestSelect(place) {
     console.log(place);
-    var address = place.gmaps.formatted_address.split(', ').join('\n');
+    // var address = place.gmaps.formatted_address.split(', ').join('\n');
+    var streetNum;
+    var street;
+    var neighborhood = [];
+    var city;
+    var statePlace;
+
+    place.gmaps.address_components.forEach((component) => {
+      var type = component.types[0];
+
+      if (type === 'street_number') streetNum = component.long_name;
+      else if (type === 'route') street = component.long_name;
+      else if (type === 'neighborhood') neighborhood.push(component.long_name);
+      else if (type === 'locality') city = component.long_name;
+      else if (type === 'administrative_area_level_1') statePlace = component.short_name;
+    })
 
     var lat = place.location.lat;
     var long = place.location.lng;
 
     this.setState({
-      address: address,
+      address: streetNum + ' ' + street,
+      neighborhood: neighborhood,
+      city: city,
+      state: statePlace,
+      completeAddress: 'Street: ' + streetNum + ' ' + street + '\nCity: ' + city + '\nState: ' + statePlace,
       lat: lat,
-      long: long,
-      categoryDropdown: 1,
+      long: long
     })
     
   }
 
   addNewEvent() {
-    console.log(this.user_id)
+    var e = document.getElementById('create-activity-category');
+    var selectedCategory = e.options[e.selectedIndex].value;
+
     var activity = {
-      // plan_id: null,
       clientside_id: shortid.generate(),
       user_id: this.user_id,
       user_gen: true,
@@ -117,10 +139,13 @@ export default class CreateActivity extends Component {
       lat: this.state.lat,
       long: this.state.long,
       address: this.state.address,
+      city: this.state.city,
+      neighborhood: this.state.neighborhood,
+      state: this.state.statePlace,
       title: this.state.title,
       costPerPerson: this.state.cost,
       isYelp: false,
-      categories: this.state.category,
+      categories: selectedCategory,
       added: true
     };
     this.props.addFromCreate(activity);
@@ -159,19 +184,14 @@ export default class CreateActivity extends Component {
                 style={{marginBottom: 25}} /><br />
 
               Category: <br />
-              <DropDownMenu
-                 value={this.state.category}
-                 onChange={this.handleCategory}
-                 style={{width: 200}}
-                 autoWidth={true}
-               >
-                 <MenuItem value={'active'} primaryText="Active" />
-                 <MenuItem value={'arts & entertainment'} primaryText="Arts & Entertainment" />
-                 <MenuItem value={'food'} primaryText="Food" />
-                 <MenuItem value={'nightlife'} primaryText="Nightlife" />
-                 <MenuItem value={'personal'} primaryText="Personal" />
-                 <MenuItem value={'shopping'} primaryText="Shopping" />
-               </DropDownMenu> <br />
+              <select id="create-activity-category">
+                <option value="Active">Active</option>
+                <option value="Arts & Entertainment">Arts & Entertainment</option>
+                <option value="Food">Food</option>
+                <option value="Nightlife">Nightlife</option>
+                <option value="Personal">Personal</option>
+                <option value="Shopping">Shopping</option>
+              </select><br />
 
               Estimated Cost: <br />
               $
@@ -194,9 +214,9 @@ export default class CreateActivity extends Component {
                 id="address-field"
                 disabled={true}
                 multiLine={true}
-                rows={4}
+                rows={3}
                 onChange={this.handleAddress.bind(this)}
-                value={this.state.address}
+                value={this.state.completeAddress}
                 style={{marginBottom: 25}} /><br />
               <Toggle
                 label="Private"

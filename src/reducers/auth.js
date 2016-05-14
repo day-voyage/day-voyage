@@ -34,8 +34,8 @@ export default createReducer(initialState, {
             'isAuthenticated': true,
             'token': payload.token,
             'user_id': payload.token.user_id,
-            'statusText': 'You have been successfully logged in.',
-            'username': payload.token.username
+            'username': payload.token.username,
+            'statusText': 'You have been successfully logged in.'
         });
 
     },
