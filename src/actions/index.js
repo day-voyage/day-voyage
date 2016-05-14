@@ -481,7 +481,6 @@ export function deleteActivityFromDb(activityId, cb) {
     })
     .then(parseJSON)
     .then(response => {
-      console.log('response in delete activity:', response);
       cb(response);
     })
     .then(() => dispatch(deleteConfirm()))
@@ -565,6 +564,20 @@ export function updateUser(userID, updates, cb) {
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error updating user: ${error}`))
+}
+
+export function deleteUser(userID, cb) {
+
+  fetch(`http://localhost:8080/v1/users/${userID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(error));
+
 }
 
 
@@ -707,12 +720,19 @@ export function createPlan(plan, activities, cb) {
   }
 }
 
-// getYelpActivities
+export function deletePlan(planID, cb) {
+  fetch(`http://localhost:8080/v1/plans/${planID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(error));
+}
 
-// getUserGeneratedActivities
 
-//
-// get
 
 export function testPlan() {
     return (dispatch) => {
@@ -720,7 +740,6 @@ export function testPlan() {
     }
 }
 
-// TODO: helper to build query String
 /**
  * [queryTable description]
  * @param  {[type]}   table   [description]
