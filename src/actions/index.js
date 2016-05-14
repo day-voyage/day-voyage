@@ -60,7 +60,7 @@ export function changeRoutes(route) {
 /**
  * Get Yelp search results
  */
-export function getAllActivities(query, location) {
+export function getYelpActivities(query, location) {
   return (dispatch) => {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
