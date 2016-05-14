@@ -5,7 +5,8 @@ import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
-import CircularProgress from 'material-ui/CircularProgress';
+import LinearProgress from 'material-ui/LinearProgress';
+
 
 export class Search extends React.Component {
   constructor(props) {
@@ -114,7 +115,14 @@ export class Search extends React.Component {
         label="Use Current Location"
         labelPosition="left"
         style={{maxWidth: 200}}
-        onCheck={this.checkBox.bind(this)} />: <CircularProgress />
+        onCheck={this.checkBox.bind(this)} /> :
+        <div>
+          getting your current location... <br />
+          <LinearProgress 
+            mode="indeterminate"
+            color={"#FF9800"} 
+            syle={{width: 100}}/>
+        </div>
     return (
       <div className="container">
         <div className="row">
@@ -161,6 +169,13 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actionCreators, dispatch)
 });
+
+const style = {
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+};
 
 export default connect(
   mapStateToProps,

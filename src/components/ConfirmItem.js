@@ -10,10 +10,19 @@ import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-cir
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
-
+/**
+* template for individual confirm items, 'dumb' child component of ConfirmContainer
+*/
 export default class ConfirmItem extends Component {
   constructor(props) {
     super(props);
+
+    /**
+     * @type {object}
+     * @property {boolean} descOpen toggles card expansion
+     * @property {string} description of itinerary that user inputs
+     * @property {boolean} edited toggles
+     */
     this.state = {
       descOpen: false,
       description: '',
