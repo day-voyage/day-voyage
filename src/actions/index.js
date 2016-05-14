@@ -623,14 +623,21 @@ export function updatePlan(planID, planUpdates, activities, cb) {
   // add activities to plan
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
-  let updates = Object.assign({}, planUpdates, {activities: activities});
-  console.log(updates);
-  fetch(`http://localhost:8080/v1/plans/?access_token=${access_token}`, {
-    method: 'PUT',
+  // let updates = Object.assign({}, planUpdates, {activities: activities});
+  // console.log(updates);
+  let reqBody = {
+    plan: planUpdates,
+    access_token: access_token,
+    activities: activities,
+    plan_id: planID
+  };
+  console.log('about to send req body to server:',reqBody);
+  fetch(`db/updateplan`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(updates)
+    body: JSON.stringify(reqBody)
   })
   .then(parseJSON)
   .then(data => cb(data))
