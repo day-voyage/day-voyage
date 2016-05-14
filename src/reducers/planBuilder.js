@@ -7,7 +7,8 @@ import {
   EDIT_DESC,
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
-  SAVE_PLAN_CONFIRM
+  SAVE_PLAN_CONFIRM,
+  QUERY_DB
 } from '../constants'
 import {
   changingRoutes
@@ -67,6 +68,8 @@ export default function planBuilder(state = [], action) {
     case DELETE_ACTIVITY_CONFIRM:
       return state
     case SAVE_PLAN_CONFIRM:
+      return state
+    case QUERY_DB:
       return state
     default:
       return state

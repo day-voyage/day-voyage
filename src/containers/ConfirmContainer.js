@@ -44,18 +44,18 @@ export class ConfirmContainer extends Component {
     setTimeout(() => this.setState({snackbar: false}), 2000);
   }
 
-  saveItinerary() {
+  saveItinerary(user_id, activity_ids) {
     if (this.state.planTitle.length === 0) {
       this.toggleSnackbar("Please name your itinerary");
     } else {
       this.toggleModal();
       this.props.createPlan(Object.assign({}, {
-        user_id: auth.token.user_id,
+        user_id: user_id,
         clientside_id: shortid.generate(),
         title: this.state.planTitle,
         desc: '',
         likes: 0
-      }), activityIds, (response) => console.log('saved to db, response: ', response));
+      }), activity_ids, (response) => console.log('saved to db, response: ', response));
     }
   }
 

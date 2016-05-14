@@ -5,7 +5,9 @@ import * as actionCreators from '../actions';
 
 export class ProfileView extends React.Component {
 
-  render () {
+  // this.props.actions.
+
+  render() {
     return (
         <div>
             {this.props.isFetching === true
@@ -23,23 +25,12 @@ export class ProfileView extends React.Component {
 const mapStateToProps = (state) => ({
   data: state.data.data,
   isFetching: state.data.isFetching,
-  auth: state.auth
+  auth: state.auth,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  actions : bindActionCreators(actionCreators, dispatch)
+  actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);
-
-
-
-    // componentWillMount () {
-    //     this.fetchData();
-    // }
-
-    // fetchData () {
-    //     let token = this.props.token;
-    //     this.props.actions.fetchProtectedData(token);
-    // }
 
