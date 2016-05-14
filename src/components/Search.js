@@ -86,7 +86,11 @@ export class Search extends React.Component {
 
   triggerAPItest() {
     console.log('triggering API test');
-    // this.props.actions.searchActivities('ethio', 'san francisco', activities => console.log(activities));
+
+    // this.props.actions.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
+
+    // this.props.actions.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
+
 
     // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
@@ -104,13 +108,15 @@ export class Search extends React.Component {
 
     // this.props.actions.deleteActivity(13, (result) => console.log(result));
 
-    // this.props.actions.deleteActivity(13, (result) => console.log(result));
-
     // this.props.actions.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
     // this.props.actions.getPlanWithActivities(2, (result) => console.log(result));
 
-    this.props.actions.getAllPlans(plans => console.log(plans));
+    // this.props.actions.getAllPlans(plans => console.log(plans));
+
+    // this.props.actions.queryTable('activities', {isYelp: true, city: 'San Francisco', 'title':'heaven'}, (result) => console.log(result));
+
+    this.props.actions.deletePlan(4, (plan) => console.log(plan));
 
   }
 
@@ -123,9 +129,9 @@ export class Search extends React.Component {
         onCheck={this.checkBox.bind(this)} /> :
         <div>
           getting your current location... <br />
-          <LinearProgress 
+          <LinearProgress
             mode="indeterminate"
-            color={"#FF9800"} 
+            color={"#FF9800"}
             syle={{width: 100}}/>
         </div>
     return (

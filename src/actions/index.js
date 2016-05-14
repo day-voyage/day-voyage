@@ -481,7 +481,6 @@ export function deleteActivityFromDb(activityId, cb) {
     })
     .then(parseJSON)
     .then(response => {
-      console.log('response in delete activity:', response);
       cb(response);
     })
     .then(() => dispatch(deleteConfirm()))
@@ -564,7 +563,21 @@ export function updateUser(userID, updates, cb) {
   })
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(err => console.log(`Error updating user: ${err}`))
+  .catch(error => console.log(`Error updating user: ${error}`))
+}
+
+export function deleteUser(userID, cb) {
+
+  fetch(`http://localhost:8080/v1/users/${userID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(error));
+
 }
 
 
@@ -573,7 +586,7 @@ export function getActivitiesByUser(id, cb) {
   fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(err => console.log(`Error getting activities by userID: ${err}`));
+  .catch(error => console.log(`Error getting activities by userID: ${error}`));
 }
 
 export function getActivitiesUnderBudget(amount, cb) {
@@ -581,7 +594,7 @@ export function getActivitiesUnderBudget(amount, cb) {
   fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(err => console.log(`Error getting activities under budget: ${err}`))
+  .catch(error => console.log(`Error getting activities under budget: ${error}`))
 }
 
 /**
@@ -589,10 +602,32 @@ export function getActivitiesUnderBudget(amount, cb) {
  */
 
 export function searchActivities(searchTerm, city, cb) {
-  fetch(`http://localhost:8080/v1/activities?categories__icontains=${searchTerm}&city__icontains=${city}`)
+  //TODO: maybe cache calls to a particular city
+
+  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}`)
     .then(parseJSON)
-    .then(response => cb(response))
-    .catch(err => console.log(`Error searching activities: ${err}`));
+    .then(result => {
+      let activities = result.data;
+      let query = new RegExp(searchTerm, 'gi');
+      let matches = activities.filter((activity) => query.test(activity.desc) || query.test(activity.categories) || query.test(activity.title))
+      cb(matches);
+      })
+    .catch(error => console.log(error));
+
+}
+
+export function searchPlans(searchTerm, city, cb) {
+
+  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}`)
+    .then(parseJSON)
+    .then(result => {
+      let plans = result.data;
+      let query = new RegExp(searchTerm, 'gi');
+      let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+      cb(matches);
+      })
+    .catch(error => console.log(error));
+
 }
 /*
    Get all plans from database
@@ -608,11 +643,11 @@ export function getActivitiesByPlan(planID, cb) {
   fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities by planID: ${err}`));
+  .catch(error => console.log(`Error getting activities by planID: ${error}`));
 }
 
-export function getPlansByUser(id, cb) {
-  fetch(`http://localhost:8080/v1/plans?user__id=${id}`)
+export function getPlansByUser(userID, cb) {
+  fetch(`http://localhost:8080/v1/plans?user__id=${userID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
@@ -623,7 +658,6 @@ export function getPlanWithActivities(planID, cb) {
    .then(parseJSON)
    .then(data => {
       getActivitiesByPlan(planID, (activityData) => {
-        // console.log(activityData);
         let plan = {
           plan: data.data[0],
           activities: activityData.data
@@ -652,7 +686,7 @@ export function updatePlan(planID, planUpdates, activities, cb) {
   })
   .then(parseJSON)
   .then(data => cb(data))
-  .catch(error => console.log(`Error updating plan: ${err}`))
+  .catch(error => console.log(`Error updating plan: ${error}`))
 }
 
 /**
@@ -670,29 +704,35 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
-    // console.log('<><><> reqbody in client createPlan:\n',reqBody);
-    return fetch(`/db/plan`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(reqBody)
-      })
-      .then(parseJSON)
-      .then(response => {
-        cb(response);
-      })
-      .then(() => dispatch(savePlanConfirm()))
-      .catch(error => console.log(`Error creating plan: ${err}`))
+    fetch(`/db/plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      cb(response);
+    })
+    .then(() => dispatch(savePlanConfirm()))
+    .catch(error => console.log(`Error creating plan: ${error}`))
   }
 }
 
-// getYelpActivities
+export function deletePlan(planID, cb) {
+  fetch(`http://localhost:8080/v1/plans/${planID}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(error));
+}
 
-// getUserGeneratedActivities
 
-//
-// get
 
 export function testPlan() {
     return (dispatch) => {
@@ -700,8 +740,35 @@ export function testPlan() {
     }
 }
 
-// TODO: helper to build query String
-
+/**
+ * [queryTable description]
+ * @param  {[type]}   table   [description]
+ * @param  {[type]}   queries [description]
+ * @param  {Function} cb      [description]
+ * @return {[type]}           [description]
+ */
+export function queryTable(table, queries, cb) {
+  let queryString = '?';
+  let contains = '__icontains='
+  let is = '__is=';
+  var keys = Object.keys(queries);
+  keys.forEach((key, i) => {
+    let queryValue = queries[key];
+    if (typeof queryValue === 'string') {
+      queryString+=`${key}${contains}${queryValue}`;
+    } else {
+      queryString+=`${key}${is}${queryValue}`;
+    }
+    if (!(i === keys.length - 1)) {
+      queryString+='&'
+    }
+  });
+  let url = `http://localhost:8080/v1/${table}${queryString}`;
+  fetch(url)
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(error => console.log(error));
+}
 
 
 
