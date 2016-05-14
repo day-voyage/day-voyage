@@ -95,7 +95,7 @@ export class Search extends React.Component {
     // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
     // this.props.actions.getPlansByUser(2, result => console.log(result));
-
+    
     // this.props.actions.getActivitiesByUser(2);
 
     // this.props.actions.updateActivity(2, {duration: 100});
@@ -104,7 +104,7 @@ export class Search extends React.Component {
 
     // this.props.actions.updateUser(2, {username: 'Iamsam'});
 
-    // this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
+    this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
 
     // this.props.actions.deleteActivity(13, (result) => console.log(result));
 
