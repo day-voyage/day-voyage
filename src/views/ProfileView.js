@@ -4,14 +4,14 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 
 export class ProfileView extends React.Component {
+
   render () {
     return (
         <div>
             {this.props.isFetching === true
                 ? <h1>Loading data...</h1>
                 : <div>
-                    <h1>You're Profile
-                        {this.props.user_id}!</h1>
+                    <h1>{this.props.auth.username}'s Profile</h1>
                     <h3>{this.props.data}</h3>
                 </div>
             }
@@ -22,7 +22,8 @@ export class ProfileView extends React.Component {
 
 const mapStateToProps = (state) => ({
   data: state.data.data,
-  isFetching: state.data.isFetching
+  isFetching: state.data.isFetching,
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch) => ({
