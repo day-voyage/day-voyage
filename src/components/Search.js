@@ -116,7 +116,12 @@ export class Search extends React.Component {
 
     // this.props.actions.queryTable('activities', {isYelp: true, city: 'San Francisco', 'title':'heaven'}, (result) => console.log(result));
 
-    this.props.actions.deletePlan(4, (plan) => console.log(plan));
+    // this.props.actions.deletePlan(4, (plan) => console.log(plan));
+
+    // this.props.actions.getComments('user', 4, comment => console.log(comment));
+
+    this.props.actions.getComments('activity', 3, comment => console.log(comment));
+
 
   }
 
