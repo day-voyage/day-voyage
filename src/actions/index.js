@@ -609,7 +609,10 @@ export function searchActivities(searchTerm, city, cb) {
     .then(result => {
       let activities = result.data;
       let query = new RegExp(searchTerm, 'gi');
-      let matches = activities.filter((activity) => query.test(activity.desc) || query.test(activity.categories) || query.test(activity.title))
+      let matches = activities.filter((activity) => {
+        let categoryString = activity.categories.join(',');
+        return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
+        });
       cb(matches);
       })
     .catch(error => console.log(error));
@@ -770,5 +773,14 @@ export function queryTable(table, queries, cb) {
     .catch(error => console.log(error));
 }
 
+
+export function getComments(type, id, cb) {
+  let queryString = `?${type}_id=${id}`;
+  let url = `http://localhost:8080/v1/comments${queryString}`;
+  fetch(url)
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(error => console.log(error));
+}
 
 
