@@ -665,6 +665,7 @@ export function getPlanWithActivities(planID, cb) {
           plan: data.data[0],
           activities: activityData.data
         };
+        console.log(plan);
         cb(plan);
       });
    })

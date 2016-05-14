@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import NavContainer from '../containers/NavContainer';
+import PlanContainer from '../containers/PlanContainer';
 import Snackbar from 'material-ui/Snackbar';
+import { getPlanWithActivities } from '../actions';
 
 
-export default class CoreLayout extends React.Component {
+export default class CoreLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
       snackbar: false,
-      message: ''
+      message: '',
+      plan: null
     };
+  }
+
+  componentWillMount() {
+    if (this.props.children.props.location.query.plan) {
+      var plan_id = this.props.children.props.location.query.plan;
+      getPlanWithActivities(plan_id, (data) => this.setState({
+        plan: data
+      }));
+    }
   }
 
   initiateSnackbar(message) {
@@ -21,11 +33,14 @@ export default class CoreLayout extends React.Component {
   }
 
   render () {
+    var plan = this.props.children.props.location.query.plan ? <PlanContainer plan={this.state.plan}/> : null;
+
     const {dispatch} = this.props;
     return (
       <div>
         <NavContainer 
           openSnackbar={this.initiateSnackbar.bind(this)}/>
+        {plan}
         <Snackbar
           open={this.state.snackbar}
           message={this.state.message}
