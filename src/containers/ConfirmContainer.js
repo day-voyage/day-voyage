@@ -36,10 +36,10 @@ export class ConfirmContainer extends Component {
     });
   }
 
-  saveItinerary() {
+  saveItinerary(userId, activityIds) {
     this.toggleModal();
     this.props.createPlan(Object.assign({}, {
-      user_id: auth.token.user_id,
+      user_id: userId,
       clientside_id: shortid.generate(),
       title: this.state.planTitle,
       desc: '',
@@ -134,7 +134,7 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={this.saveItinerary.bind(this)}>
+          onClick={() => this.saveItinerary(auth.token.user_id, activityIds)}>
           Save Itinerary
         </FlatButton>
         <Dialog
