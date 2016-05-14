@@ -86,7 +86,7 @@ export class Search extends React.Component {
 
   triggerAPItest() {
     console.log('triggering API test');
-    // this.props.actions.searchActivities('ethio', 'san francisco', activities => console.log(activities));
+    this.props.actions.searchActivities('ethi', 'san francisco', activities => console.log(activities));
 
     // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
@@ -110,7 +110,7 @@ export class Search extends React.Component {
 
     // this.props.actions.getAllPlans(plans => console.log(plans));
 
-    this.props.actions.queryTable('activities', {isYelp: true, city: 'San Francisco', 'title':'heaven'}, (result) => console.log(result));
+    // this.props.actions.queryTable('activities', {isYelp: true, city: 'San Francisco', 'title':'heaven'}, (result) => console.log(result));
 
   }
 
