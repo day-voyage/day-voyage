@@ -32,6 +32,19 @@
 
 ## Development
 
+To babelify and generate a bundle:
+From within the root directory:
+```sh
+npm start dev
+```
+
+To generate docs:
+```sh
+npm start doc
+```
+Refer to http://en.blog.koba04.com/2015/06/28/esdoc-documentation-for-react-and-es6/ for how to
+document
+
 ### Installing Dependencies
 
 From within the root directory:

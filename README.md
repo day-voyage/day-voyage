@@ -1,3 +1,0 @@
-# sweaty-figs
-Tourist App
-
