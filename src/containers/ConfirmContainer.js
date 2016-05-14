@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import { addToBuilder, 
         deleteFromBuilder, 
         reorderUp, 
@@ -9,12 +9,14 @@ import { addToBuilder,
         createPlan,
         deleteActivityFromDb } from '../actions';
 import { bindActionCreators } from 'redux';
-import ConfirmItem from '../components/ConfirmItem'
+import ConfirmItem from '../components/ConfirmItem';
+import SavePlan from '../components/SavePlan';
 import TextField from 'material-ui/TextField';
 import Card from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Snackbar from 'material-ui/Snackbar';
 
 var shortid = require('shortid');
 
@@ -25,8 +27,8 @@ export class ConfirmContainer extends Component {
     this.state = {
       planTitle: '',
       modalOpen: false,
-      email: null,
-      emails: []
+      snackbar: false,
+      message: '',
     };
   }
 
@@ -36,55 +38,30 @@ export class ConfirmContainer extends Component {
     });
   }
 
-  saveItinerary(userId, activityIds) {
-    this.toggleModal();
-    this.props.createPlan(Object.assign({}, {
-      user_id: userId,
-      clientside_id: shortid.generate(),
-      title: this.state.planTitle,
-      desc: '',
-      likes: 0
-    }), activityIds, (response) => console.log('saved to db, response: ', response));
+  toggleSnackbar(message) {
+    this.setState({message: message, snackbar: true});
+    var that = this;
+    setTimeout(() => this.setState({snackbar: false}), 2000);
+  }
+
+  saveItinerary() {
+    if (this.state.planTitle.length === 0) {
+      this.toggleSnackbar("Please name your itinerary");
+    } else {
+      this.toggleModal();
+      this.props.createPlan(Object.assign({}, {
+        user_id: auth.token.user_id,
+        clientside_id: shortid.generate(),
+        title: this.state.planTitle,
+        desc: '',
+        likes: 0
+      }), activityIds, (response) => console.log('saved to db, response: ', response));
+    }
   }
 
   handleTitle(event) {
     this.setState({planTitle: event.target.value});
   }
-
-  handleEmail(event) {
-    this.setState({
-      email: event.target.value
-    });
-  }
-
-  selectConfirmTab() {
-    this.setState({
-      value: 'confirm'
-    });
-  }
-
-  selectShareTab() {
-    this.setState({
-      value: 'share'
-    });
-  }
-
-  addEmail() {
-    var emailsArr = this.state.emails.slice();
-    emailsArr.push(this.state.email.trim());
-    this.setState({
-      emails: emailsArr
-    });
-  }
-
-  removeEmail(email){
-    console.log(email);
-  }
-
-  emailPlan() {
-    window.open(`mailto:${this.state.emails.join(',')}?Subject=${this.state.planTitle}`);
-  }
-
 
   deleteActivity(activity) {
     this.props.deleteFromBuilder(activity);
@@ -101,20 +78,11 @@ export class ConfirmContainer extends Component {
       activityIds.push({id: planBuilder[i].id});
     }
 
-    const actions = [
-          <FlatButton
-            label="Thanks"
-            primary={true}
-            onClick={this.toggleModal.bind(this)}
-          />
-        ];
-    
     return (
       <Card>
-      <TextField
-        hintText="Name Your Itinerary"
-        onChange={this.handleTitle.bind(this)}
-      /><br />
+        <TextField
+          hintText="Name Your Itinerary"
+          onChange={this.handleTitle.bind(this)}/><br />
         <div>
         {planBuilder.map((activity, index) => 
           <ConfirmItem
@@ -137,65 +105,18 @@ export class ConfirmContainer extends Component {
           onClick={() => this.saveItinerary(auth.token.user_id, activityIds)}>
           Save Itinerary
         </FlatButton>
-        <Dialog
-          title="You have saved your itinerary!"
-          actions={actions}
-          modal={true}
-          open={this.state.modalOpen}>
-          <Tabs
-            value={this.state.value}>
-            <Tab
-              value="confirm"
-              label="CONFIRM"
-              onClick={this.selectConfirmTab.bind(this)}>
-                Tab One
-            </Tab>
-            <Tab
-              value="share"
-              label="SHARE"
-              onClick={this.selectShareTab.bind(this)}>
-              <div className="container">
-              <div className="row">
-                <h3>Share with your Facebook friends</h3>
-                <p>add link here</p>
-              </div>
-                <div className="row">
-                  <h3>Email your itinerary to your friends!</h3>
-                  <div className="col-sm-4">
-                    <TextField
-                      className="text-field"
-                      id="send-field"
-                      type="send"
-                      onChange={this.handleEmail.bind(this)}
-                      placeholder="Email"
-                      style={{marginBottom: 15}} /><br />
-                    <br />
-                    <FlatButton
-                      label="Add"
-                      primary={true}
-                      onClick={this.addEmail.bind(this)}
-                    />
-                    <FlatButton
-                      label="Email Itinerary"
-                      primary={true}
-                      onClick={this.emailPlan.bind(this)}
-                    />
-                  </div>
-                  <div className="col-sm-4" style={{marginTop: 15}}>
-                    {this.state.emails.length > 0 ? <b>Emails Added<br /></b> : null}
-                    {this.state.emails.length > 0 ? this.state.emails.map((email) => {
-                      return <em onClick={this.removeEmail.bind(this, email)}>{email}<br/></em>
-                    }) : null}
-                  </div>
-                </div>
-              </div>
-            </Tab>
-          </Tabs>
-        </Dialog>
+        <SavePlan
+          toggleModal={this.toggleModal.bind(this)}
+          toggleSnackbar={this.toggleSnackbar.bind(this)}
+          planTitle={this.state.planTitle}
+          modalOpen={this.state.modalOpen}/>
+        <Snackbar
+          open={this.state.snackbar}
+          message={this.state.message}
+          autoHideDuration={2000} />
       </Card>
     )
   }
-
 }
 
 const mapStateToProps = (state) => {
