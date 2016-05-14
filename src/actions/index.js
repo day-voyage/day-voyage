@@ -619,8 +619,9 @@ export function updatePlan(planID, planUpdates, activities, cb) {
     activities: activities,
     plan_id: planID
   };
-  fetch(`db/plan`, {
-    method: 'PUT',
+  console.log('about to send req body to server:',reqBody);
+  fetch(`db/updateplan`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },

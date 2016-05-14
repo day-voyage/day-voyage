@@ -89,9 +89,10 @@ app.post('/db/plan', function (request, response) {
       console.log(`Error posting plans to db from server: ${error}`);
       response.send(error);
     });
-})
-.put('db/plan', function(request, response) {
-  console.log('<><> inside put<>');
+});
+
+app.post('/db/updateplan', function(request, response) {
+  console.log('<><> inside post to update db <>');
   let plan = request.body.plan;
   let plan_id = request.body.plan_id;
   let access_token = request.body.access_token;
