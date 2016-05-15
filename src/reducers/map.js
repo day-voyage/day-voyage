@@ -8,7 +8,6 @@ const initialState = {
   directions: null,
 };
 
-
 export default function directions(state = initialState.directions, action) {
   switch (action.type) {
     case CHANGE_ROUTES:
@@ -19,5 +18,3 @@ export default function directions(state = initialState.directions, action) {
       return state;
   }
 }
-
-
