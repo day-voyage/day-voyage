@@ -175,7 +175,7 @@ export class Search extends React.Component {
     );
 
     /* TEST BUTTONS */
-    /*
+    
       <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       <div className="row">
         <div className="col-sm-5">
@@ -187,7 +187,7 @@ export class Search extends React.Component {
         <div className="col-sm-5">
         </div>
       </div> 
-    */
+    
   }
 }
 
