@@ -45,9 +45,9 @@ export default class CoreLayout extends Component {
           open={this.state.snackbar}
           message={this.state.message}
           autoHideDuration={2000} />
-        <div className='container'>
-          <div className='row'>
-            <div className='col-sm-12'>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
               {this.props.children}
             </div>
           </div>

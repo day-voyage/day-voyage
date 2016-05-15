@@ -215,36 +215,6 @@ export function updatePlan(planID, planUpdates, activities, cb) {
   .catch(error => console.log(`Error updating plan: ${error}`))
 }
 
-/**
- * [createPlan description]
- * @param  {[type]} plan       [object]
- * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
- * @return {[type]}            [promise with response from db]
- */
-export function createPlan(plan, activities, cb) {
-  return dispatch => {
-    let token = localStorage.getItem('token');
-    let access_token = JSON.parse(token).access_token;
-    let reqBody = {
-      plan: plan,
-      access_token: access_token,
-      activities: activities
-    };
-    fetch(`/db/plan`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(reqBody)
-    })
-    .then(parseJSON)
-    .then(response => {
-      cb(response);
-    })
-    .then(() => dispatch(savePlanConfirm()))
-    .catch(error => console.log(`Error creating plan: ${error}`))
-  }
-}
 
 export function deletePlan(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`, {

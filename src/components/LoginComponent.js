@@ -67,7 +67,6 @@ export class LoginComponent extends React.Component {
     const actions = [
           <FlatButton
             label="Cancel"
-            primary={true}
             onClick={this.toggleOpen.bind(this)}
           />,
           <FlatButton

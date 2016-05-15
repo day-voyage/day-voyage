@@ -31,36 +31,33 @@ export default class CoreLayout extends React.Component {
   render () {
     const {dispatch} = this.props;
     return (
-      <nav className="navbar navbar-default">
-        <div className="container">
-          <div className="navbar-header">
-            <Link className="navbar-brand" to="/">Figs break no sweat</Link>
-          </div>
-          <div id="navbar">
-            <div className="nav navbar-nav navbar-right">
-              {this.props.isAuthenticated
-                ?
-                  <span>
-                    <FlatButton
-                      label="Profile"
-                      onClick={() => this.props.dispatch(push('/profile'))}
-                    />
-                    <FlatButton
-                      label="Logout"
-                      onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
-                    />
-                  </span>
-                :
-                <span>
-                  <LoginComponent
-                    modal={this.state.modalOpen}
-                    toggleModal={this.toggleModal.bind(this)}
-                    openSnackbar={this.props.openSnackbar}
-                  />
-                </span>
-                }
-            </div>
-          </div>
+      <nav className="app-navbar">
+        <div className="app-navbar__header">
+            <Link className="app-title" to="/">GoodTimes</Link>
+        </div>
+        <div className="app-navbar__actions">
+          {this.props.isAuthenticated
+            ?
+              <span>
+                <FlatButton
+                  label="Profile"
+                  onClick={() => this.props.dispatch(push('/profile'))}
+                />
+                <FlatButton
+                  label="Logout"
+                  secondary="true"
+                  onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
+                />
+              </span>
+            :
+              <span>
+                <LoginComponent
+                  modal={this.state.modalOpen}
+                  toggleModal={this.toggleModal.bind(this)}
+                  openSnackbar={this.props.openSnackbar}
+                />
+              </span>
+          }
         </div>
       </nav>
     );

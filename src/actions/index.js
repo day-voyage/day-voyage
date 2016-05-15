@@ -84,7 +84,7 @@ export function getYelpActivities(query, location) {
         transformed.address = activity.location.address[0];
         transformed.city = activity.location.city;
         transformed.state = activity.location.state_code;
-        transformed.neighborhood = activity.location.neighborhoods;
+        transformed.neighborhood = activity.location.neighborhoods || [];
         transformed.added = false;
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
         transformed.visArea = true;
@@ -100,7 +100,11 @@ export function getYelpActivities(query, location) {
       /**
       * if current location was included
       */
+          console.log('nolocation: ', noLocation);
+          console.log('location: ', location);
+
       if (location !== null) {
+        console.log('inside location !== null');
         /**
         * check distances of all activities from current location using Google distance matrix api
         */
@@ -114,6 +118,8 @@ export function getYelpActivities(query, location) {
           /**
           * add distance key to each activity
           */
+          console.log('distances: ', distances);
+          console.log('nolocation: ', noLocation);
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
@@ -507,30 +513,35 @@ export function updateActivity(activityID, updates, access_token) {
 }
 
 
-export function savePlanToDb(plan, access_token) {
+/**
+ * [createPlan description]
+ * @param  {[type]} plan       [object]
+ * @param  {[type]} activities [an array of activity objects, include any properties to be updated]
+ * @return {[type]}            [promise with response from db]
+ */
+export function createPlan(plan, activities, cb) {
   return dispatch => {
-    return fetch('http://localhost:8080/v1/plans?access_token=' + access_token, {
-        method: 'POST',
-
-        headers: {
-            'Content-Type': 'application/json'
-        },
-            body: JSON.stringify(plan)
-        })
-        .then(checkHttpStatus)
-        .then(parseJSON)
-        .then(response => {
-            try {
-              dispatch(savePlanConfirm())
-            } catch (e) {
-              console.log(e);
-              snackbar('There was an error saving the plan');
-            }
-        })
-        .catch(error => {
-           console.log(error);
-        })
-    }
+    let token = localStorage.getItem('token');
+    let access_token = JSON.parse(token).access_token;
+    let reqBody = {
+      plan: plan,
+      access_token: access_token,
+      activities: activities
+    };
+    fetch(`/db/plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      cb(response);
+    })
+    .then(() => dispatch(savePlanConfirm()))
+    .catch(error => console.log(`Error creating plan: ${error}`))
+  }
 }
 
 
