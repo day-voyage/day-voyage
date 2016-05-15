@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
 // createConstants creates a hash with all of the constants
+/**
+ * Creates hash of all constants
+ * @param  {...String} constants [string describing action]
+ * @return {Object}    [hash of constants]
+ */
 export function createConstants(...constants) {
   return constants.reduce((acc, constant) => {
     acc[constant] = constant;
@@ -10,6 +15,12 @@ export function createConstants(...constants) {
   }, {});
 }
 
+/**
+ * Composes a hash with reducer functions
+ * @param  {Object} initialState
+ * @param  {Object} reducerMap
+ * @return {Object} hash with reducer functions by action
+ */
 export function createReducer(initialState, reducerMap) {
   return (state = initialState, action) => {
     const reducer = reducerMap[action.type];
@@ -17,6 +28,11 @@ export function createReducer(initialState, reducerMap) {
   };
 }
 
+/**
+ * Checks status of API responses
+ * @param  {Object} response
+ * @return {Object} response || error
+ */
 export function checkHttpStatus(response) {
   //TODO: adjust the error that are being put onto the response object
   if (response.status >= 200 && response.status < 300) {
@@ -32,6 +48,10 @@ export function parseJSON(response) {
   return response.json();
 }
 
+/** Remove state if included with user input */
+export function parseCity(cityInput) {
+  return cityInput.replace(/,.*/, '');
+}
 // API helpers to communti
 
 // export function updateActivity(activityID, updates, access_token) {
@@ -127,6 +147,8 @@ export function getActivitiesUnderBudget(amount, cb) {
 export function searchActivities(searchTerm, city, cb) {
   //TODO: maybe cache calls to a particular city
 
+  city = parseCity(city);
+
   fetch(`http://localhost:8080/v1/activities?city__icontains=${city}`)
     .then(parseJSON)
     .then(result => {
@@ -142,7 +164,14 @@ export function searchActivities(searchTerm, city, cb) {
 
 }
 
+/**
+ * Seach for plans
+ * @param  {String}   searchTerm
+ * @param  {String}   city
+ * @param  {Function} cb
+ */
 export function searchPlans(searchTerm, city, cb) {
+  city = parseCity(city);
 
   fetch(`http://localhost:8080/v1/plans?city__icontains=${city}`)
     .then(parseJSON)
@@ -155,9 +184,8 @@ export function searchPlans(searchTerm, city, cb) {
     .catch(error => console.log(error));
 
 }
-/*
-   Get all plans from database
- */
+
+
 export function getAllPlans(cb) {
   fetch('http://localhost:8080/v1/plans')
   .then(parseJSON)
@@ -165,6 +193,11 @@ export function getAllPlans(cb) {
   .catch(error => console.log(`Error getting all plans: ${error}`));
 }
 
+/**
+ * Get all activities for a given plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
 export function getActivitiesByPlan(planID, cb) {
   fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
   .then(parseJSON)
@@ -172,6 +205,11 @@ export function getActivitiesByPlan(planID, cb) {
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
 }
 
+/**
+ * Get all plans for a given user
+ * @param  {int}   userID
+ * @param  {Function} cb
+ */
 export function getPlansByUser(userID, cb) {
   fetch(`http://localhost:8080/v1/plans?user__id=${userID}`)
   .then(parseJSON)
@@ -179,6 +217,11 @@ export function getPlansByUser(userID, cb) {
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
 }
 
+/**
+ * Get a single plan, including activities associated with plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
 export function getPlanWithActivities(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`)
    .then(parseJSON)
@@ -194,6 +237,13 @@ export function getPlanWithActivities(planID, cb) {
    .catch(error => console.log(error));
 }
 
+/**
+ * Update plan
+ * @param  {Int}   planID
+ * @param  {Object}   planUpdates hash with plan updates
+ * @param  {Array}   activities  array of activity ojects to update
+ * @param  {Function} cb
+ */
 export function updatePlan(planID, planUpdates, activities, cb) {
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
@@ -215,7 +265,42 @@ export function updatePlan(planID, planUpdates, activities, cb) {
   .catch(error => console.log(`Error updating plan: ${error}`))
 }
 
+/**
+ * Create plan in db
+ * @param  {object} plan       [object that matches plan schema]
+ * @param  {Array} activities  [array of activity objects]
+ * @param  {Function} cb
+ */
+export function createPlan(plan, activities, cb) {
+  return dispatch => {
+    let token = localStorage.getItem('token');
+    let access_token = JSON.parse(token).access_token;
+    let reqBody = {
+      plan: plan,
+      access_token: access_token,
+      activities: activities
+    };
+    fetch(`/db/plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      cb(response);
+    })
+    .then(() => dispatch(savePlanConfirm()))
+    .catch(error => console.log(`Error creating plan: ${error}`))
+  }
+}
 
+/**
+ * Delete plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
 export function deletePlan(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`, {
     method: 'DELETE',
@@ -229,17 +314,16 @@ export function deletePlan(planID, cb) {
 }
 
 /**
- * [queryTable description]
- * @param  {[type]}   table   [description]
- * @param  {[type]}   queries [description]
- * @param  {Function} cb      [description]
- * @return {[type]}           [description]
+ * Run custom queries on tables
+ * @param  {string}    table
+ * @param  {Object}    queries attributes for object to match
+ * @param  {Function}  cb
  */
 export function queryTable(table, queries, cb) {
   let queryString = '?';
-  let contains = '__icontains='
+  let contains = '__icontains=';
   let is = '__is=';
-  var keys = Object.keys(queries);
+  const keys = Object.keys(queries);
   keys.forEach((key, i) => {
     let queryValue = queries[key];
     if (typeof queryValue === 'string') {
@@ -258,7 +342,12 @@ export function queryTable(table, queries, cb) {
     .catch(error => console.log(error));
 }
 
-
+/**
+ * Get comments from DB
+ * @param  {String}   type user, activity, plan
+ * @param  {int}   id   id of type
+ * @param  {Function} cb   callback to execute with response
+ */
 export function getComments(type, id, cb) {
   let queryString = `?${type}_id=${id}`;
   let url = `http://localhost:8080/v1/comments${queryString}`;

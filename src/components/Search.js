@@ -90,7 +90,7 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
+    utils.searchActivities('food', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
     // utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
 
@@ -113,7 +113,7 @@ export class Search extends React.Component {
 
     // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
-    utils.getPlanWithActivities(2, (result) => console.log(result));
+    // utils.getPlanWithActivities(2, (result) => console.log(result));
 
     // utils.getAllPlans(plans => console.log(plans));
 
