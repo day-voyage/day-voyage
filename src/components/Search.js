@@ -145,17 +145,6 @@ export class Search extends React.Component {
 
     return (
       <div className="search">
-      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
-      <div className="row">
-        <div className="col-sm-5">
-        <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
-        </div>
-        <div className="col-sm-2">
-          {this.state.geolocation ? spinner : null}
-        </div>
-        <div className="col-sm-5">
-        </div>
-      </div> 
         <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
           <div className="search-form__inputs">
             <ActionSearch className="hidden-xs" />
@@ -186,9 +175,19 @@ export class Search extends React.Component {
     );
 
     /* TEST BUTTONS */
-    
-
-    
+    /*
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
+      <div className="row">
+        <div className="col-sm-5">
+        <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+        </div>
+        <div className="col-sm-2">
+          {this.state.geolocation ? spinner : null}
+        </div>
+        <div className="col-sm-5">
+        </div>
+      </div> 
+    */
   }
 }
 
