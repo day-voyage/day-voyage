@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import NavContainer from '../containers/NavContainer';
 import PlanContainer from '../containers/PlanContainer';
 import Snackbar from 'material-ui/Snackbar';
-import { getPlanWithActivities } from '../actions';
+import { getPlanWithActivities } from '../utils';
 
 
 export default class CoreLayout extends Component {
