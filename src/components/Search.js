@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
+import * as utils from '../utils';
 
 
 export class Search extends React.Component {
@@ -87,39 +88,39 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // this.props.actions.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
 
-    // this.props.actions.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
+    // utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
 
 
-    // this.props.actions.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+    // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // this.props.actions.getPlansByUser(2, result => console.log(result));
-    
-    // this.props.actions.getActivitiesByUser(2);
+    // utils.getPlansByUser(2, result => console.log(result));
 
-    // this.props.actions.updateActivity(2, {duration: 100});
+    // utils.getActivitiesByUser(2);
 
-    // this.props.actions.updatePlan(2, {desc: `Now that's what I call a description`, title: 'Afternoon delight'});
+    // utils.updateActivity(2, {duration: 100});
 
-    // this.props.actions.updateUser(2, {username: 'Iamsam'});
+    // utils.updatePlan(2, {desc: `Now that's what I call a description`, title: 'Afternoon delight'});
 
-    this.props.actions.getActivitiesByPlan(2, activities => console.log(activities));
+    // utils.updateUser(2, {username: 'Iamsam'});
 
-    // this.props.actions.deleteActivity(13, (result) => console.log(result));
+    // utils.getActivitiesByPlan(2, activities => console.log(activities));
 
-    // this.props.actions.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+    // utils.deleteActivity(13, (result) => console.log(result));
 
-    // this.props.actions.getPlanWithActivities(2, (result) => console.log(result));
+    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
-    // this.props.actions.getAllPlans(plans => console.log(plans));
+    utils.getPlanWithActivities(2, (result) => console.log(result));
 
-    // this.props.actions.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
-    // this.props.actions.deletePlan(4, (plan) => console.log(plan));
+    // utils.getAllPlans(plans => console.log(plans));
 
-    // this.props.actions.getComments('user', 4, comment => console.log(comment));
+    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
+    // utils.deletePlan(4, (plan) => console.log(plan));
 
-    // this.props.actions.getComments('activity', 3, comment => console.log(comment));
+    // utils.getComments('user', 4, comment => console.log(comment));
+
+    // utils.getComments('activity', 3, comment => console.log(comment));
 
 
   }
