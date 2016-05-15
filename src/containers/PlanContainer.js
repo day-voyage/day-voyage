@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import PlanItem from '../components/PlanItem';
-import Maps from '../components/Maps';
+import PlanMaps from '../components/PlanMaps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader } from 'material-ui/Card';
 
@@ -27,7 +27,7 @@ export default class PlanContainer extends Component {
           <div className="col-sm-6">
           <div style={{marginTop: 20}}>
           </div>
-            <Maps size="small" activities={this.props.plan ? this.props.plan.activities : null}/>
+            <PlanMaps size="small" activities={this.props.plan ? this.props.plan.activities : null}/>
           </div>
         </div>
       </div>
