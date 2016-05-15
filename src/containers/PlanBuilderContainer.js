@@ -74,8 +74,8 @@ class PlanBuilderContainer extends Component {
         <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
+        <h3 style={{marginLeft: 15}}>Itinerary</h3>
         <Card>
-          <h3 style={{marginLeft: 15}}>Itinerary</h3>
           <CreateActivity
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}

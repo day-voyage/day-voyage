@@ -216,10 +216,14 @@ export function changingRoutes(activities) {
 }
 
 
-export function loginUserSuccess(token, snackbar) {
+export function loginUserSuccess(token, snackbar, signedup) {
   localStorage.setItem('token', JSON.stringify(token));
   if (snackbar) {
-    snackbar("You have successfully logged in");
+    if (signedup) {
+      snackbar("Congratulations, you have signed up!");
+    } else {
+      snackbar("You have successfully logged in");
+    }
   }
   return {
     type: LOGIN_USER_SUCCESS,
@@ -264,7 +268,7 @@ export function logoutAndRedirect(snackbar) {
     }
 }
 
-export function loginUser(username, password, snackbar) {
+export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         return fetch('http://localhost:8080/v1/access_tokens', {
@@ -279,7 +283,7 @@ export function loginUser(username, password, snackbar) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(loginUserSuccess(response.data[0], snackbar));
+                    dispatch(loginUserSuccess(response.data[0], snackbar, signedup));
                 } catch (e) {
                     console.log(e);
                     snackbar('The user name and password you have entered do not match our records');
@@ -324,7 +328,7 @@ export function signUpUser(username, password, email, snackbar) {
     .then(parseJSON)
     .then(response => {
       try {
-          dispatch(loginUser(username, password));
+          dispatch(loginUser(username, password, snackbar, true));
         } catch (e) {
           snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
@@ -566,5 +570,3 @@ export function queryDb() {
     type: QUERY_DB
   };
 }
-
-
