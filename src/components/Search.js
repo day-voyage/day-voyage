@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
+import ActionSearch from 'material-ui/svg-icons/action/search';
 import * as utils from '../utils';
 
 
@@ -126,56 +128,66 @@ export class Search extends React.Component {
   }
 
   render() {
+
     var spinner = this.state.lat ?
       <Checkbox
-        label="Use Current Location"
-        labelPosition="left"
-        style={{maxWidth: 200}}
+        label="Use current location"
+        iconStyle={checkboxIconStyle}
+        labelStyle={checkboxLabelStyle}
         onCheck={this.checkBox.bind(this)} /> :
         <div>
           getting your current location... <br />
           <LinearProgress
             mode="indeterminate"
             color={"#FF9800"}
-            syle={{width: 100}}/>
+            style={{width: 100}}/>
         </div>
+
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
-              <TextField
-                id="text-field-controlled"
+      <div className="search">
+        <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
+          <div className="search-form__inputs">
+            <ActionSearch className="hidden-xs" />
+            <TextField
+              type="text"
+              className="search-form__activity-input"
+              value={this.state.value}
+              placeholder="Activities, Restaurants, or Places"
+              onChange={this.handleCategory.bind(this)} />
+            <div className="search-form__separator">in</div>
+            <TextField
                 type="text"
-                value={this.state.value}
-                placeholder="Activities, Restaurants, or Places"
-                style={{marginBottom: 25}}
-                onChange={this.handleCategory.bind(this)} />
-              {!this.state.location ? <span>  in  </span> : null}
-              {!this.state.location ? <TextField
-                id="text-field-controlled"
-                type="text"
+                className="search-form__city-input"
                 value={this.state.city}
                 defaultValue={this.state.city}
-                style={{marginBottom: 25}}
-                onChange={this.handleCity.bind(this)} /> : null}
-              <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
-            </form>
+                disabled={this.state.location}
+                onChange={this.handleCity.bind(this)} />
+            <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
           </div>
-        </div>
-        <button onClick={this.triggerAPItest.bind(this)}>test API</button>
-        <div className="row">
-          <div className="col-sm-5">
-          <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+          <div className="search__location-checkbox">
+            { spinner }
           </div>
-          <div className="col-sm-2">
-            {this.state.geolocation ? spinner : null}
-          </div>
-          <div className="col-sm-5">
-          </div>
+        </form>
+        <div className="search__call-to-action">
+          <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
       </div>
     );
+
+    /* TEST BUTTONS */
+    /*
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
+      <div className="row">
+        <div className="col-sm-5">
+        <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+        </div>
+        <div className="col-sm-2">
+          {this.state.geolocation ? spinner : null}
+        </div>
+        <div className="col-sm-5">
+        </div>
+      </div> 
+    */
   }
 }
 
@@ -186,12 +198,14 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actionCreators, dispatch),
 });
 
-const style = {
-  refresh: {
-    display: 'inline-block',
-    position: 'relative',
-  },
+const checkboxIconStyle = {
+  // fill: '#424242'
 };
+
+const checkboxLabelStyle = {
+  color: '#424242',
+  'font-weight': 'normal'
+}
 
 export default connect(
   mapStateToProps,

@@ -4,6 +4,101 @@ body {
 }
 
 /**
+ * Navbar Styleing
+ */
+.app-navbar {
+  margin-bottom: 10px;
+  padding: 8px 32px;
+  background: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+.app-navbar__header {
+  flex: 1;
+  display: flex;
+}
+.app-navbar__header .app-title, 
+.app-navbar__header .app-title:active {
+  color: rgba(0,0,0,.7);
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+.app-navbar__header .app-title:hover,
+.app-navbar__header .app-title:focus {
+  color: rgba(0,0,0,.85);
+  text-decoration: none;
+}
+.app-navbar__actions {
+  display: flex;
+}
+
+/**
+ * Home Page
+ */
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.home__tagline {
+  margin: 48px 0;
+  color: #424242;
+} 
+.home .search__call-to-action {
+  display: flex;
+}
+
+/**
+ * Search Component
+ */
+
+.search {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.search-form {
+  display: flex;
+  flex-direction: column;
+}
+.search-form__inputs {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+.search-form__activity-input {
+  margin-left: 18px;
+  flex: 1 1 450px;
+}
+.search-form__separator {
+  height: 100%;
+  margin-left: 36px;
+  margin-right: 36px;
+  font-size: 18px;
+}
+.search__location-checkbox {
+  margin-top: 4px;
+  width: 256px;
+  align-self: flex-end;
+}
+.search__call-to-action {
+  margin-top: 48px;
+  display: none;
+  justify-content: center;
+}
+.search__call-to-action .search-btn {
+  min-width: 250px;
+}
+
+
+/**
  * The geosuggest module
  */
 .geosuggest {
@@ -80,11 +175,6 @@ body {
   width: 50%;
 }
 
-
-.commentForm .text-field {
-  width: 100% !important;
-}
-
 /**
  * Item Card
  */
@@ -107,3 +197,9 @@ body {
   display: block !important;
   margin-top: 15px !important;
 }
+
+
+/**
+ *  Other Styles
+ */
+

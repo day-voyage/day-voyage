@@ -84,7 +84,7 @@ export function getYelpActivities(query, location) {
         transformed.address = activity.location.address[0];
         transformed.city = activity.location.city;
         transformed.state = activity.location.state_code;
-        transformed.neighborhood = activity.location.neighborhoods;
+        transformed.neighborhood = activity.location.neighborhoods || [];
         transformed.added = false;
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
         transformed.visArea = true;
@@ -100,7 +100,11 @@ export function getYelpActivities(query, location) {
       /**
       * if current location was included
       */
+          console.log('nolocation: ', noLocation);
+          console.log('location: ', location);
+
       if (location !== null) {
+        console.log('inside location !== null');
         /**
         * check distances of all activities from current location using Google distance matrix api
         */
@@ -114,6 +118,8 @@ export function getYelpActivities(query, location) {
           /**
           * add distance key to each activity
           */
+          console.log('distances: ', distances);
+          console.log('nolocation: ', noLocation);
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
