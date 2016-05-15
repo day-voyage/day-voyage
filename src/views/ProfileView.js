@@ -12,10 +12,14 @@ export class ProfileView extends React.Component {
     };
   }
 
+  getPlan(userId) {
+    this.props.getPlansByUser(userId, response => console.log(response));
+  }
+
   render() {
     const { data, auth } = this.props;
-    this.props.getPlansByUser(auth.user_id, response => console.log(response));
-    // var exampleAct = this.props.getActivitiesByPlan() 
+    this.getPlan(auth.user_id);
+
     return (
         <div>
             {this.props.isFetching === true
