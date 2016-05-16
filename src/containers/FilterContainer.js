@@ -95,7 +95,6 @@ export default class FilterContainer extends Component {
       }
     }
 
-
     var checkedCuisines = 
       cuisineArr.filter(item => item.visible === true)
                 .map(item => item.type);
@@ -125,6 +124,7 @@ export default class FilterContainer extends Component {
   }
 
   render() {
+
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
         <Checkbox
