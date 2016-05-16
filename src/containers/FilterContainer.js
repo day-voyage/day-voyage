@@ -24,46 +24,21 @@ export default class FilterContainer extends Component {
     };
   }
 
-  ComponentWillUpdate () {
+  componentWillMount() {
     const { activities } = this.props;
-
-    var areas_id = [];
-    var areasArray = [];    
-    var cuisineArr = [];
-    var cuisines_id = [];
-    var maxBudget = 0;
+    let maxBudget = 0;
 
     activities.forEach((activity) => {
-      for (var i = 0; i < activity.neighborhood.length; i++){
-        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
-          areas_id.push(activity.neighborhood[i].toUpperCase());
-          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
-            if(activity.budget > maxBudget) {
-              maxBudget = activity.budget;
-              console.log('maxBudget ', maxBudget)
-              console.log('activityBudget ', activity.budget)
+      for (var i = 0; i < activities.length; i++){
+          if(activity.budget > maxBudget) {
+            maxBudget = activity.budget;
             }
-        }
-      }
-      for (var i = 0; i < activity.category.length; i++) {
-        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
-          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
-          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
-        }       
-      }
-    })
+          }
+      })
 
-    areasArray.sort((a, b) => a.location > b.location);
-    cuisineArr.sort((a, b) => a.type > b.type);
-
-    this.setState({
-      neighborhood: areasArray,
-      cuisines: cuisineArr,
-      maxPrice: Math.round(maxBudget) + 10,
-      priceSlider: Math.round(maxBudget) + 10
-    });
+    this.setState({priceSlider: Math.round(maxBudget) + 1})
   }
-
+     
   toggleDrawer() {
     this.setState({
       drawerOpen: !this.state.drawerOpen
@@ -75,8 +50,6 @@ export default class FilterContainer extends Component {
 
     this.setState({priceSlider: budget});
     
-    ///this.props.checkBudget(budget)
-    console.log(budget);
     this.props.checkBudget(budget);
   }
 
@@ -90,12 +63,9 @@ export default class FilterContainer extends Component {
       }
     }
 
-
     var checkedCuisines = 
       cuisineArr.filter(item => item.visible === true)
                 .map(item => item.type);
-
-      console.log('checkedCuisines: ', checkedCuisines)
 
       this.props.checkCuisine(checkedCuisines)
   }
@@ -120,9 +90,39 @@ export default class FilterContainer extends Component {
   }
 
   render() {
+    const { activities } = this.props;
 
-    var areaOptions = this.state.neighborhood.map((area, index) => {
-      return ( 
+    var areas_id = [];
+    var areasArray = [];    
+    var cuisineArr = [];
+    var cuisines_id = [];
+    var maxBudget = 0;
+
+    console.log(activities)
+
+    activities.forEach((activity) => {
+      for (var i = 0; i < activity.neighborhood.length; i++){
+        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
+          areas_id.push(activity.neighborhood[i].toUpperCase());
+          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
+            if(activity.budget > maxBudget) {
+              maxBudget = activity.budget + 1;
+            }
+          }
+      }
+      for (var i = 0; i < activity.category.length; i++) {
+        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
+          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
+          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
+        }       
+      }
+    })
+
+    areasArray.sort((a, b) => a.location > b.location);
+    cuisineArr.sort((a, b) => a.type > b.type);
+
+    var areaOptions = areasArray.map((area, index) => {
+      return (
         <Checkbox
           key={ index }
           label={area.location}
@@ -132,8 +132,8 @@ export default class FilterContainer extends Component {
         )
     })
 
-    var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
-      return ( 
+    var cuisineOptions = cuisineArr.map((cuisine, index) => {
+      return (
         <Checkbox
           key={ index }
           label={cuisine.type}
@@ -148,18 +148,16 @@ export default class FilterContainer extends Component {
         <FlatButton label="Filter" onClick={this.toggleDrawer.bind(this)} />
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
-          <div>
-          
-          
+          <div>          
           <MenuItem>
-          Budget ${this.state.priceSlider}</MenuItem>
+          Budget ${(this.state.priceSlider)}</MenuItem>
           <Slider
             style={{marginLeft: 25, marginRight: 25}}
-            min={this.state.minPrice}
-            max={this.state.maxPrice}
+            min={0}
+            max={maxBudget}
             step={0.01}
             className="slider-class"
-            defaultValue={this.state.maxPrice}
+            defaultValue={this.state.priceSlider}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
