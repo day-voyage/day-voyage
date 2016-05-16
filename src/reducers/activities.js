@@ -11,9 +11,7 @@ import { pushState } from 'redux-router';
 export default function activities(state = [], action) {
   switch (action.type) {
     case 'RECEIVE_ACTIVITIES':
-      var newState = state.slice()
-      newState = newState.concat(action.activities)
-      return newState;
+      return action.activities;
     case ADD_TO_BUILDER:
       action.activity.added = true;
       action.activity.icon = '';
