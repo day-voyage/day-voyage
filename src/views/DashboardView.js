@@ -22,16 +22,6 @@ export class DashboardView extends React.Component {
       this.setState({
             plans: results
           })
-      console.log(this.state.plans);
-      // for (var i = 0; i < response.data.length; i++) {
-      //   getPlan(response.data[i].id, plan => {
-      //     results.push(plan);
-      //     this.setState({
-      //       plans: results
-      //     })
-      //   });
-      // }
-
     });
 
   }

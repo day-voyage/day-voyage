@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -75,9 +76,9 @@ export default class DashboardPlanItem extends Component {
           showExpandableButton={true}
         />
         <div>
-        <FlatButton
-          onClick={() => }
-          label={'View map'} />
+        <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
+          <FlatButton label={'View map'} />
+        </a>
           <FlatButton
             onClick={() => {
               activities.forEach(activity => {
@@ -90,7 +91,6 @@ export default class DashboardPlanItem extends Component {
             }}
             label={'Copy this plan'} />
             {this.state.descOpen? mappedActivities : null}
-          
           </div>
       </Card>
     )
