@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import AutoComplete from 'material-ui/AutoComplete';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
 import ActionSearch from 'material-ui/svg-icons/action/search';
@@ -42,7 +42,6 @@ export class Search extends React.Component {
     });
   }
 
-
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...
@@ -65,11 +64,11 @@ export class Search extends React.Component {
   }
 
   handleCategory(event) {
-    this.setState({category: event.target.value});
+    this.setState({category: event});
   }
 
   handleCity(event){
-    this.setState({city: event.target.value});
+    this.setState({city: event});
   }
 
   checkBox() {
@@ -81,7 +80,6 @@ export class Search extends React.Component {
     }.bind(this), 0
     );
   }
-
 
   testing() {
     this.props.actions.testPlan();
@@ -149,20 +147,28 @@ export class Search extends React.Component {
         <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
           <div className="search-form__inputs">
             <ActionSearch className="hidden-xs" />
-            <TextField
-              type="text"
+            <AutoComplete
+              floatingLabelText="Activities, Restaurants, or Places"
+              fullWidth={true}
+              style={{width: '450px'}}
               className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={catSearch}
+              maxSearchResults={6}
               value={this.state.value}
-              placeholder="Activities, Restaurants, or Places"
-              onChange={this.handleCategory.bind(this)} />
+              onUpdateInput={this.handleCategory.bind(this)} />
             <div className="search-form__separator">in</div>
-            <TextField
-                type="text"
-                className="search-form__city-input"
-                value={this.state.city}
-                defaultValue={this.state.city}
-                disabled={this.state.location}
-                onChange={this.handleCity.bind(this)} />
+            <AutoComplete
+              floatingLabelText="City"
+              fullWidth={true}
+              style={{width: '300px'}}
+              className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={citySearch}
+              maxSearchResults={3}
+              value={this.state.city}
+              disabled={this.state.location}
+              onUpdateInput={this.handleCity.bind(this)} />
             <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
           </div>
           <div className="search__location-checkbox">
@@ -207,6 +213,9 @@ const checkboxLabelStyle = {
   color: '#424242',
   'fontWeight': 'normal'
 }
+
+const catSearch = ['Active', 'Arts & Entertainment', 'Food', 'Nightlife', 'Personal', 'Shopping'];
+const citySearch = ['San Francisco', 'Oakland', 'San Jose'];
 
 export default connect(
   mapStateToProps,
