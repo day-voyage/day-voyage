@@ -145,6 +145,7 @@ export class Search extends React.Component {
 
     return (
       <div className="search">
+       <button onClick={this.triggerAPItest.bind(this)}>test API</button>
         <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
           <div className="search-form__inputs">
             <ActionSearch className="hidden-xs" />
@@ -204,7 +205,7 @@ const checkboxIconStyle = {
 
 const checkboxLabelStyle = {
   color: '#424242',
-  'font-weight': 'normal'
+  'fontWeight': 'normal'
 }
 
 export default connect(

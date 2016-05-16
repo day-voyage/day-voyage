@@ -5,6 +5,11 @@ import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader } from 'material-ui/Card';
 
 export default class PlanContainer extends Component {
+
+  printScreen() {
+    window.print();
+  }
+  
   render() {
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     return (
@@ -34,6 +39,10 @@ export default class PlanContainer extends Component {
           <div>
           </div>
             <PlanMaps size="small" activities={this.props.plan ? this.props.plan.activities : null}/>
+            <FlatButton
+              label="Print Plan"
+              primary={true}
+              onClick={this.printScreen.bind(this)} />
           </div>
         </div>
       </div>

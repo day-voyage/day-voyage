@@ -216,10 +216,14 @@ export function changingRoutes(activities) {
 }
 
 
-export function loginUserSuccess(token, snackbar) {
+export function loginUserSuccess(token, snackbar, signedup) {
   localStorage.setItem('token', JSON.stringify(token));
   if (snackbar) {
-    snackbar("You have successfully logged in");
+    if (signedup) {
+      snackbar("Congratulations, you have signed up!");
+    } else {
+      snackbar("You have successfully logged in");
+    }
   }
   return {
     type: LOGIN_USER_SUCCESS,
@@ -229,8 +233,9 @@ export function loginUserSuccess(token, snackbar) {
   }
 }
 
-export function loginUserFailure(error) {
+export function loginUserFailure(error, snackbar) {
   localStorage.removeItem('token');
+  snackbar('The user name and password you have entered do not match our records');
   console.log(error);
   return {
     type: LOGIN_USER_FAILURE,
@@ -264,7 +269,7 @@ export function logoutAndRedirect(snackbar) {
     }
 }
 
-export function loginUser(username, password, snackbar) {
+export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         return fetch('http://localhost:8080/v1/access_tokens', {
@@ -279,16 +284,15 @@ export function loginUser(username, password, snackbar) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(loginUserSuccess(response.data[0], snackbar));
+                    dispatch(loginUserSuccess(response.data[0], snackbar, signedup));
                 } catch (e) {
                     console.log(e);
-                    snackbar('The user name and password you have entered do not match our records');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
                           statusText: 'Invalid token'
                         }
-                    }));
+                    }, snackbar));
                 }
             })
             .catch(error => {
@@ -300,7 +304,7 @@ export function loginUser(username, password, snackbar) {
                let resError = Object.assign({}, {
                 response: response
               });
-               dispatch(loginUserFailure(resError));
+               dispatch(loginUserFailure(resError, snackbar));
             })
     }
 }
@@ -324,7 +328,7 @@ export function signUpUser(username, password, email, snackbar) {
     .then(parseJSON)
     .then(response => {
       try {
-          dispatch(loginUser(username, password));
+          dispatch(loginUser(username, password, snackbar, true));
         } catch (e) {
           snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
@@ -437,9 +441,10 @@ export function saveActivityConfirm(activity, activity_db_id) {
   }
 }
 
-export function savePlanConfirm() {
+export function savePlanConfirm(planId) {
   return {
-    type: SAVE_PLAN_CONFIRM
+    type: SAVE_PLAN_CONFIRM,
+    planId
   }
 }
 
@@ -528,6 +533,7 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
+    console.log(activities);
     fetch(`/db/plan`, {
       method: 'POST',
       headers: {
@@ -538,8 +544,9 @@ export function createPlan(plan, activities, cb) {
     .then(parseJSON)
     .then(response => {
       cb(response);
+      var planId = response.data[0].id
+      dispatch(savePlanConfirm(planId));
     })
-    .then(() => dispatch(savePlanConfirm()))
     .catch(error => console.log(`Error creating plan: ${error}`))
   }
 }
@@ -566,5 +573,3 @@ export function queryDb() {
     type: QUERY_DB
   };
 }
-
-
