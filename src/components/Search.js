@@ -97,7 +97,6 @@ export class Search extends React.Component {
 
     // utils.getPlansByUser(11, result => console.log(result));
 
-
     // utils.getActivitiesByUser(2, (result) => console.log(result));
 
     // utils.updateActivity(2, {duration: 100});
@@ -123,6 +122,11 @@ export class Search extends React.Component {
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
+    utils.createComment({
+      content: 'Yo momma so fat... she got up from the couch and the decks on the bay bridge collapsed',
+      user_id: 3,
+      plan_id: 5
+    }, (result) => console.log('result', result));
 
   }
 

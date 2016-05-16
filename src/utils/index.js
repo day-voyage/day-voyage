@@ -373,3 +373,19 @@ export function getComments(type, id, cb) {
     .then(response => cb(response))
     .catch(error => console.log(error));
 }
+
+export function createComment(comment, cb) {
+  let url = `http://localhost:8080/v1/comments`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(comment),
+  })
+  .then(parseJSON)
+  .then((response) => cb(response))
+  .catch(error => console.log(error));
+}
+
+

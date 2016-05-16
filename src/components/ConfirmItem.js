@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 
@@ -55,7 +54,7 @@ export default class ConfirmItem extends Component {
 
   render() {
     const { activity, order } = this.props
-    const address = activity.address ? 
+    const address = activity.address ?
                       activity.address + '  ' + String.fromCharCode(183) + '  ':''
 
     if (this.state.descOpen) {
@@ -68,28 +67,28 @@ export default class ConfirmItem extends Component {
             multiLine={true}
             rows={4}
             />
-           <FlatButton 
+           <FlatButton
             label="Save"
             className="save-info-btn"
             disabled={!this.state.edited}
             onClick={this.handleSave.bind(this)} /> <br />
-          <FlatButton 
+          <FlatButton
             label="Hide"
             className="hide-info-btn"
             onClick={this.toggleDesc.bind(this)} />
-          <FlatButton 
+          <FlatButton
               label="Remove"
               style={{color: '#F44336'}}
               onClick={this.removeItem.bind(this)} />
         </div>
     } else {
-      var cardDesc = 
+      var cardDesc =
       <div>
-        <FlatButton 
+        <FlatButton
           label="Show more"
           className="more-info-btn"
           onClick={this.toggleDesc.bind(this)} />
-        <FlatButton 
+        <FlatButton
               label="Remove"
               style={{color: '#F44336'}}
               onClick={this.removeItem.bind(this)} />
@@ -97,33 +96,26 @@ export default class ConfirmItem extends Component {
     }
 
     return (
-      <Card 
+      <Card
         className="item-card"
         style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <div className="card-content">
-          <CardHeader 
+          <CardHeader
             title={order + '   ' + activity.title}
             subtitle={address + activity.neighborhood}
             key={activity.i}
           />
-          <CardActions>
-            <IconButton
-              tooltip="Remove"
-              onClick={this.removeItem.bind(this)}>
-              <ContentRemoveCircleOutline />
-            </IconButton>
-          </CardActions>
           <CardText>
             {cardDesc}
           </CardText>
         </div>
         <div className="reorder-btns">
-          <IconButton 
+          <IconButton
             tooltip="Move Up"
             onClick={this.props.onMoveUpClicked}>
             <HardwareKeyboardArrowUp />
           </IconButton>
-          <IconButton 
+          <IconButton
             tooltip="Move Down"
             onClick={this.props.onMoveDownClicked}>
             <HardwareKeyboardArrowDown />
