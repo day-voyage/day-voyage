@@ -41,7 +41,7 @@ export default class CoreLayout extends React.Component {
               <span>
                 <FlatButton
                   label="Dashboard"
-                  onClick={() => this.props.dispatch(push('/profile'))}
+                  onClick={() => this.props.dispatch(push('/dashboard'))}
                 />
                 <FlatButton
                   label="Logout"
