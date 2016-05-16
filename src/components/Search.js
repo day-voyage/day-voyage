@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
