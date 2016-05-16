@@ -105,18 +105,22 @@ export class Search extends React.Component {
 
     // utils.updateUser(2, {username: 'Iamsam'});
 
-    // utils.getActivitiesByPlan(2, activities => console.log(activities));
+    // utils.getActivitiesByPlan(8, activities => console.log(activities));
 
-    // utils.deleteActivity(13, (result) => console.log(result));
+    utils.deleteActivity(13, (result) => console.log(result));
 
     // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
     // utils.getPlan(2, (result) => console.log(result));
 
+    // utils.getPlan(8, (result) => console.log(result));
+
+
     // utils.getAllPlans(plans => console.log(plans));
 
     // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
-    // utils.deletePlan(4, (plan) => console.log(plan));
+    
+    // utils.deletePlan(8, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
 

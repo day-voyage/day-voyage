@@ -17,12 +17,15 @@ export class DashboardView extends React.Component {
   }
 
   componentWillMount() {
-    getPlansByUser(this.props.auth.user_id, response => {
-      var results = response.data;
-      this.setState({
-            plans: results
-          })
-    });
+    this.props.isFetching === true
+      ? <h1>Loading data...</h1> :
+
+      getPlansByUser(this.props.auth.user_id, response => {
+        var results = response.data;
+        this.setState({
+          plans: results
+        })
+      });
 
   }
 
@@ -49,10 +52,7 @@ export class DashboardView extends React.Component {
   }
 }
 
-/*
-{this.props.isFetching === true
-    ? <h1>Loading data...</h1>
-*/
+
 
 const mapStateToProps = (state) => ({
   data: state.data.data,

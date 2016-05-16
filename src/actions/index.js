@@ -210,13 +210,6 @@ export function goToDashboard() {
   };
 }
 
-export function goToPlanPage(planId) {
-  return dispatch => {
-    console.log("here in dispatch");
-    dispatch(push('/dashboard'));
-  };
-}
-
 export function reorderUp(activityIndex) {
   return {
     type: REORDER_UP,
