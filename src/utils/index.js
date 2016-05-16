@@ -149,7 +149,7 @@ export function searchActivities(searchTerm, city, cb) {
 
   city = parseCity(city);
 
-  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}`)
+  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false`)
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
@@ -173,7 +173,7 @@ export function searchActivities(searchTerm, city, cb) {
 export function searchPlans(searchTerm, city, cb) {
   city = parseCity(city);
 
-  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}`)
+  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}&private__is=false`)
     .then(parseJSON)
     .then(result => {
       let plans = result.data;
@@ -225,15 +225,7 @@ export function getPlansByUser(userID, cb) {
 export function getPlanWithActivities(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`)
    .then(parseJSON)
-   .then(data => {
-      getActivitiesByPlan(planID, (activityData) => {
-        let plan = {
-          plan: data.data[0],
-          activities: activityData.data
-        };
-        cb(plan);
-      });
-   })
+   .then(data => cb(data))
    .catch(error => console.log(error));
 }
 
