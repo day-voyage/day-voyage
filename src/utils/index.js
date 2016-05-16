@@ -153,12 +153,20 @@ export function searchActivities(searchTerm, city, cb) {
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
+      let matchHash = Object.create(null);
       let query = new RegExp(searchTerm, 'gi');
       let matches = activities.filter((activity) => {
         let categoryString = activity.categories.join(',');
         return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
         });
-      cb(matches);
+      matches.forEach((activity, i) => {
+        matchHash.title = activity;
+      });
+      let uniqueMatches = [];
+      for (const title in matchHash) {
+        uniqueMatches.push(matchHash[title]);
+      }
+      cb(uniqueMatches);
       })
     .catch(error => console.log(error));
 
@@ -178,7 +186,15 @@ export function searchPlans(searchTerm, city, cb) {
     .then(result => {
       let plans = result.data;
       let query = new RegExp(searchTerm, 'gi');
+      let matchHash = Object.create(null);
       let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+      matches.forEach((activity, i) => {
+        matchHash.title = activity;
+      });
+      let uniqueMatches = [];
+      for (const title in matchHash) {
+        uniqueMatches.push(matchHash[title]);
+      }
       cb(matches);
       })
     .catch(error => console.log(error));
