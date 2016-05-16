@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { goToProfile } from '../actions';
 import Dialog from 'material-ui/Dialog';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import TextField from 'material-ui/TextField';
@@ -19,6 +20,12 @@ export default class SavePlan extends Component {
 
   openModal() {
     this.props.toggleModal();
+  }
+
+  finishSharing() {
+    console.log("finishSharing");
+    this.props.toggleModal();
+    this.props.goToProfile();
   }
 
   handleEmail(event) {
@@ -79,11 +86,10 @@ export default class SavePlan extends Component {
         <FlatButton
           label="Thanks"
           primary={true}
-          onClick={this.openModal.bind(this)}/>
+          onClick={this.finishSharing.bind(this)}/>
       ];
 
     var shareURL = encodeURIComponent(`http://localhost:3000/?plan=${this.props.plan_id}`);
-    console.log(shareURL);
 
     return (
       <Dialog
@@ -157,7 +163,7 @@ const mapStateToProps = (state) => {
     planBuilder: state.planBuilder,
   }
 }
-
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { goToProfile }
 )(SavePlan)

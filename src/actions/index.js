@@ -170,7 +170,14 @@ export function deleteFromBuilder(activity) {
 export function goToConfirm() {
   return dispatch => {
     dispatch(push('/confirm'));
-  }
+  };
+}
+
+export function goToProfile() {
+  return dispatch => {
+    console.log("here in dispatch");
+    dispatch(push('/profile'));
+  };
 }
 
 export function reorderUp(activityIndex) {
@@ -384,6 +391,7 @@ export function fetchProtectedDataRequest() {
     type: FETCH_PROTECTED_DATA_REQUEST
   }
 }
+
 
 export function fetchProtectedData(token) {
 
