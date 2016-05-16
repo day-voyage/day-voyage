@@ -24,46 +24,6 @@ export default class FilterContainer extends Component {
     };
   }
 
-  ComponentWillUpdate () {
-    const { activities } = this.props;
-
-    var areas_id = [];
-    var areasArray = [];    
-    var cuisineArr = [];
-    var cuisines_id = [];
-    var maxBudget = 0;
-
-    activities.forEach((activity) => {
-      for (var i = 0; i < activity.neighborhood.length; i++){
-        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
-          areas_id.push(activity.neighborhood[i].toUpperCase());
-          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
-            if(activity.budget > maxBudget) {
-              maxBudget = activity.budget;
-              console.log('maxBudget ', maxBudget)
-              console.log('activityBudget ', activity.budget)
-            }
-        }
-      }
-      for (var i = 0; i < activity.category.length; i++) {
-        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
-          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
-          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
-        }       
-      }
-    })
-
-    areasArray.sort((a, b) => a.location > b.location);
-    cuisineArr.sort((a, b) => a.type > b.type);
-
-    this.setState({
-      neighborhood: areasArray,
-      cuisines: cuisineArr,
-      maxPrice: Math.round(maxBudget) + 10,
-      priceSlider: Math.round(maxBudget) + 10
-    });
-  }
-
   toggleDrawer() {
     this.setState({
       drawerOpen: !this.state.drawerOpen
@@ -129,9 +89,29 @@ export default class FilterContainer extends Component {
 
     console.log(activities)
 
+    activities.forEach((activity) => {
+      for (var i = 0; i < activity.neighborhood.length; i++){
+        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
+          areas_id.push(activity.neighborhood[i].toUpperCase());
+          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
+            if(activity.budget > maxBudget) {
+              maxBudget = activity.budget;
+            }
+          }
+      }
+      for (var i = 0; i < activity.category.length; i++) {
+        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
+          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
+          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
+        }       
+      }
+    })
 
-    var areaOptions = this.state.neighborhood.map((area, index) => {
-      return ( 
+    areasArray.sort((a, b) => a.location > b.location);
+    cuisineArr.sort((a, b) => a.type > b.type);
+
+    var areaOptions = areasArray.map((area, index) => {
+      return (
         <Checkbox
           key={ index }
           label={area.location}
@@ -141,8 +121,8 @@ export default class FilterContainer extends Component {
         )
     })
 
-    var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
-      return ( 
+    var cuisineOptions = cuisineArr.map((cuisine, index) => {
+      return (
         <Checkbox
           key={ index }
           label={cuisine.type}
@@ -157,18 +137,16 @@ export default class FilterContainer extends Component {
         <FlatButton label="Filter" onClick={this.toggleDrawer.bind(this)} />
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
-          <div>
-          
-          
+          <div>          
           <MenuItem>
-          Budget ${this.state.priceSlider}</MenuItem>
+          Budget ${maxBudget}</MenuItem>
           <Slider
             style={{marginLeft: 25, marginRight: 25}}
-            min={this.state.minPrice}
-            max={this.state.maxPrice}
+            min={0}
+            max={maxBudget}
             step={0.01}
             className="slider-class"
-            defaultValue={this.state.maxPrice}
+            defaultValue={maxBudget}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
