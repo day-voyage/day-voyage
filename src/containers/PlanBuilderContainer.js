@@ -13,6 +13,7 @@ import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card } from 'material-ui/Card';
+import { isLoggedIn } from '../utils';
 
 class PlanBuilderContainer extends Component {
   constructor(props) {
@@ -28,9 +29,8 @@ class PlanBuilderContainer extends Component {
     });
   }
 
-  checkIfLoggedIn() {
-    var token = localStorage.getItem('token');
-    if (token) {
+  goToConfirm() {
+    if (!!isLoggedIn()) {
       this.props.goToConfirm();
     } else {
       this.props.openSnackbar("Please sign in or create a profile to continue");
@@ -42,6 +42,14 @@ class PlanBuilderContainer extends Component {
 
     if (!activity.plan_id){
       this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+    }
+  }
+
+  openCreate() {
+    if (!!isLoggedIn()) {
+      this.toggleModal();
+    } else {
+      this.props.openSnackbar("Please sign in or create a profile to continue");
     }
   }
 
@@ -62,11 +70,11 @@ class PlanBuilderContainer extends Component {
             onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
-              
+
             }}
             onMoveDownClicked={() => {
               this.props.reorderDown(planBuilder.indexOf(activity));
-              
+
             }}/>
         )}
         </div>
@@ -87,7 +95,7 @@ class PlanBuilderContainer extends Component {
             user_id={auth.user_id}/>
           <FlatButton
             label="Create Own Activity"
-            onClick={this.toggleModal.bind(this)} />
+            onClick={this.openCreate.bind(this)} />
           <FlatButton
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.deleteActivity(element))} /><br />
@@ -95,7 +103,7 @@ class PlanBuilderContainer extends Component {
           <div style={{marginBottom: 10}}>
             <FlatButton
               label="Confirm"
-              onClick={this.checkIfLoggedIn.bind(this)}
+              onClick={this.goToConfirm.bind(this)}
               style={{position: "relative", float: "right"}}
               disabled={hasActivities ? false : true} />
           </div>
