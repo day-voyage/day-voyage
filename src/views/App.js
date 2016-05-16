@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import NavContainer from '../containers/NavContainer';
 import PlanContainer from '../containers/PlanContainer';
 import Snackbar from 'material-ui/Snackbar';
-import { getPlanWithActivities } from '../utils';
+import { getPlan } from '../utils';
 
 
 export default class CoreLayout extends Component {
@@ -20,7 +20,7 @@ export default class CoreLayout extends Component {
   componentWillMount() {
     if (this.props.children.props.location.query.plan) {
       var plan_id = this.props.children.props.location.query.plan;
-      getPlanWithActivities(plan_id, (data) => {
+      getPlan(plan_id, (data) => {
         console.log(data);
         this.setState({
           plan: data
@@ -42,7 +42,7 @@ export default class CoreLayout extends Component {
     const {dispatch} = this.props;
     return (
       <div>
-        <NavContainer 
+        <NavContainer
           openSnackbar={this.initiateSnackbar.bind(this)}/>
         {plan}
         <Snackbar

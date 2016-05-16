@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getPlansByUser,
-        getPlanWithActivities } from '../utils';
+        getPlan } from '../utils';
 import DashboardPlanItem from '../components/DashboardPlanItem';
 import { Card } from 'material-ui/Card';
 
@@ -20,14 +20,14 @@ export class DashboardView extends React.Component {
     getPlansByUser(this.props.auth.user_id, response => {
       var results = [];
       for (var i = 0; i < response.data.length; i++) {
-        getPlanWithActivities(response.data[i].id, plan => {
+        getPlan(response.data[i].id, plan => {
           results.push(plan);
           this.setState({
             plans: results
           })
         });
       }
-     
+
     });
 
   }
