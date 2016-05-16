@@ -150,6 +150,8 @@ export class Search extends React.Component {
             <ActionSearch className="hidden-xs" />
             <AutoComplete
               floatingLabelText="Activities, Restaurants, or Places"
+              fullWidth={true}
+              style={{width: '450px'}}
               className="search-form__activity-input"
               filter={AutoComplete.fuzzyFilter}
               dataSource={catSearch}
@@ -159,7 +161,9 @@ export class Search extends React.Component {
             <div className="search-form__separator">in</div>
             <AutoComplete
               floatingLabelText="City"
-              className="search-form__city-input"
+              fullWidth={true}
+              style={{width: '400px'}}
+              className="search-form__activity-input"
               filter={AutoComplete.fuzzyFilter}
               dataSource={citySearch}
               maxSearchResults={3}
