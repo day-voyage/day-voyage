@@ -29,6 +29,7 @@ export class ConfirmContainer extends Component {
       modalOpen: false,
       snackbar: false,
       message: '',
+      plan_id: null
     };
   }
 
@@ -55,7 +56,10 @@ export class ConfirmContainer extends Component {
         title: this.state.planTitle,
         desc: '',
         likes: 0
-      }), activity_ids, (response) => console.log('saved to db, response: ', response));
+      }), activity_ids, (response) => {
+        console.log('saved to db, response: ', response);
+        this.setState({plan_id: response.data[0].id});
+      });
     }
   }
 
@@ -109,6 +113,7 @@ export class ConfirmContainer extends Component {
           toggleModal={this.toggleModal.bind(this)}
           toggleSnackbar={this.toggleSnackbar.bind(this)}
           planTitle={this.state.planTitle}
+          plan_id={this.state.plan_id}
           modalOpen={this.state.modalOpen}/>
         <Snackbar
           open={this.state.snackbar}

@@ -12,7 +12,8 @@ export default class SavePlan extends Component {
     super(props);
     this.state = {
       email: '',
-      emails: []
+      emails: [],
+      emailDesc: null
     };
   }
 
@@ -32,9 +33,9 @@ export default class SavePlan extends Component {
     });
   }
   
-  selectConfirmTab() {
+  selectEmailTab() {
     this.setState({
-      value: 'confirm'
+      value: 'email'
     });
   }
 
@@ -60,10 +61,16 @@ export default class SavePlan extends Component {
     });
   }
 
+  handleDesc(event) {
+    this.setState({
+      emailDesc: event.target.value
+    })
+  }
+
   emailPlan() {
     const { planBuilder } = this.props;
 
-    var bodyText = planBuilder.map((item) => [item.title, item.address, item.city + ", " + item.state].join('%0D%0A') + '%0D%0A').join('%0D%0A');
+    var bodyText = this.state.emailDesc + '%0D%0A%0D%0A' + planBuilder.map((item) => [item.title, item.address, item.city + ", " + item.state].join('%0D%0A') + '%0D%0A').join('%0D%0A');
     window.open(`mailto:${this.state.emails.join(',')}?subject=${this.props.planTitle}&body=${bodyText}`);
   }
 
@@ -74,6 +81,10 @@ export default class SavePlan extends Component {
           primary={true}
           onClick={this.openModal.bind(this)}/>
       ];
+
+    var shareURL = encodeURIComponent(`http://localhost:3000/?plan=${this.props.plan_id}`);
+    console.log(shareURL);
+
     return (
       <Dialog
         title="You have saved your itinerary!"
@@ -87,10 +98,18 @@ export default class SavePlan extends Component {
             label="SHARE"
             onClick={this.selectShareTab.bind(this)}>
             <div className="container">
-            <div className="row">
-              <h3>Share with your Facebook friends</h3>
-              <p>add link here</p>
+              <div className="row">
+                <h3>Share with your friends</h3>
+                <span style={{color: "#808080"}}><h6>{`http://localhost:3000/?plan=${this.props.plan_id}`}</h6></span>
+                <a target="_blank" href={ `https://www.facebook.com/sharer/sharer.php?u=` + shareURL }>Share plan through Facebook</a>
+              </div>
             </div>
+          </Tab>
+          <Tab
+            value="email"
+            label="EMAIL"
+            onClick={this.selectEmailTab.bind(this)}>
+            <div className="container">
               <div className="row">
                 <h3>Email your itinerary to your friends!</h3>
                 <div className="col-sm-4">
@@ -105,29 +124,27 @@ export default class SavePlan extends Component {
                   <FlatButton
                     label="Add"
                     primary={true}
-                    onClick={this.addEmail.bind(this)}
-                  />
+                    onClick={this.addEmail.bind(this)} />
                   <FlatButton
                     label="Email Itinerary"
                     primary={true}
                     disabled={this.state.emails.length < 1}
-                    onClick={this.emailPlan.bind(this)}
-                  />
+                    onClick={this.emailPlan.bind(this)} />
                 </div>
                 <div className="col-sm-4" style={{marginTop: 15}}>
                   {this.state.emails.length > 0 ? <b>Emails Added<br /></b> : null}
                   {this.state.emails.length > 0 ? this.state.emails.map((email) => {
                     return <em onClick={this.removeEmail.bind(this, email)}>{email}<br/></em>
                   }) : null}
+                  <br />
+                  <TextField
+                    onChange={this.handleDesc.bind(this)}
+                    placeholder="Tell your friends about your plan!"
+                    multiLine={true}
+                    rows={3} />
                 </div>
               </div>
             </div>
-          </Tab>
-          <Tab
-            value="confirm"
-            label="CONFIRM"
-            onClick={this.selectConfirmTab.bind(this)}>
-              Tab One
           </Tab>
         </Tabs>
       </Dialog>

@@ -233,8 +233,9 @@ export function loginUserSuccess(token, snackbar, signedup) {
   }
 }
 
-export function loginUserFailure(error) {
+export function loginUserFailure(error, snackbar) {
   localStorage.removeItem('token');
+  snackbar('The user name and password you have entered do not match our records');
   console.log(error);
   return {
     type: LOGIN_USER_FAILURE,
@@ -286,13 +287,12 @@ export function loginUser(username, password, snackbar, signedup) {
                     dispatch(loginUserSuccess(response.data[0], snackbar, signedup));
                 } catch (e) {
                     console.log(e);
-                    snackbar('The user name and password you have entered do not match our records');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
                           statusText: 'Invalid token'
                         }
-                    }));
+                    }, snackbar));
                 }
             })
             .catch(error => {
@@ -304,7 +304,7 @@ export function loginUser(username, password, snackbar, signedup) {
                let resError = Object.assign({}, {
                 response: response
               });
-               dispatch(loginUserFailure(resError));
+               dispatch(loginUserFailure(resError, snackbar));
             })
     }
 }
@@ -532,6 +532,7 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
+    console.log(activities);
     fetch(`/db/plan`, {
       method: 'POST',
       headers: {
