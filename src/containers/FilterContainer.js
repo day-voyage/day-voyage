@@ -124,6 +124,16 @@ export default class FilterContainer extends Component {
   }
 
   render() {
+    const { activities } = this.props;
+
+    var areas_id = [];
+    var areasArray = [];    
+    var cuisineArr = [];
+    var cuisines_id = [];
+    var maxBudget = 0;
+
+    console.log(activities)
+
 
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
