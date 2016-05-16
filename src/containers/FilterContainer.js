@@ -24,6 +24,21 @@ export default class FilterContainer extends Component {
     };
   }
 
+  componentWillMount() {
+    const { activities } = this.props;
+    let maxBudget = 0;
+
+    activities.forEach((activity) => {
+      for (var i = 0; i < activities.length; i++){
+          if(activity.budget > maxBudget) {
+            maxBudget = activity.budget;
+            }
+          }
+      })
+
+    this.setState({priceSlider: Math.round(maxBudget) + 1})
+  }
+     
   toggleDrawer() {
     this.setState({
       drawerOpen: !this.state.drawerOpen
@@ -35,8 +50,6 @@ export default class FilterContainer extends Component {
 
     this.setState({priceSlider: budget});
     
-    ///this.props.checkBudget(budget)
-    console.log(budget);
     this.props.checkBudget(budget);
   }
 
@@ -53,8 +66,6 @@ export default class FilterContainer extends Component {
     var checkedCuisines = 
       cuisineArr.filter(item => item.visible === true)
                 .map(item => item.type);
-
-      console.log('checkedCuisines: ', checkedCuisines)
 
       this.props.checkCuisine(checkedCuisines)
   }
@@ -139,14 +150,14 @@ export default class FilterContainer extends Component {
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>          
           <MenuItem>
-          Budget ${maxBudget}</MenuItem>
+          Budget ${(this.state.priceSlider)}</MenuItem>
           <Slider
             style={{marginLeft: 25, marginRight: 25}}
             min={0}
             max={maxBudget}
             step={0.01}
             className="slider-class"
-            defaultValue={maxBudget}
+            defaultValue={this.state.priceSlider}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
