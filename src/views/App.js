@@ -20,10 +20,10 @@ export default class CoreLayout extends Component {
   componentWillMount() {
     if (this.props.children.props.location.query.plan) {
       var plan_id = this.props.children.props.location.query.plan;
-      getPlan(plan_id, (data) => {
-        console.log(data);
+      getPlan(plan_id, (results) => {
+        console.log(results);
         this.setState({
-          plan: data
+          plan: results.data[0]
         });
       });
     }
