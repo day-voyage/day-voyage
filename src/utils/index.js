@@ -126,7 +126,7 @@ export function deleteUser(userID, cb) {
 
 export function getActivitiesByUser(id, cb) {
   // console.log(`<><> getting activities for user_id ${id}`);
-  fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
+  fetch(`http://localhost:8080/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by userID: ${error}`));
@@ -198,12 +198,12 @@ export function getAllPlans(cb) {
  * @param  {int}   planID
  * @param  {Function} cb
  */
-export function getActivitiesByPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities by planID: ${error}`));
-}
+// export function getActivitiesByPlan(planID, cb) {
+//   fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+//   .then(parseJSON)
+//   .then(response => cb(response))
+//   .catch(error => console.log(`Error getting activities by planID: ${error}`));
+// }
 
 /**
  * Get all plans for a given user
@@ -211,7 +211,7 @@ export function getActivitiesByPlan(planID, cb) {
  * @param  {Function} cb
  */
 export function getPlansByUser(userID, cb) {
-  fetch(`http://localhost:8080/v1/plans?user__id=${userID}`)
+  fetch(`http://localhost:8080/v1/plans?user_id=${userID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
@@ -225,7 +225,12 @@ export function getPlansByUser(userID, cb) {
 export function getPlan(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`)
    .then(parseJSON)
-   .then(data => cb(data))
+   .then(data => {
+      getComments('plan', planID, comments => {
+        data.data[0].comments = comments.data;
+        cb(data);
+      });
+    })
    .catch(error => console.log(error));
 }
 
