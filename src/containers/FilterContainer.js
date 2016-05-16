@@ -90,7 +90,6 @@ export default class FilterContainer extends Component {
       }
     }
 
-
     var checkedCuisines = 
       cuisineArr.filter(item => item.visible === true)
                 .map(item => item.type);
