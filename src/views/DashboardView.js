@@ -21,7 +21,6 @@ export class DashboardView extends React.Component {
       var results = [];
       for (var i = 0; i < response.data.length; i++) {
         getPlanWithActivities(response.data[i].id, plan => {
-          console.log(plan);
           results.push(plan);
           this.setState({
             plans: results
@@ -41,7 +40,6 @@ export class DashboardView extends React.Component {
           <h1>{auth.username}'s Profile</h1>
           <h3>Itineraries</h3>
           <Card>
-          <button onClick={() => this.getPlans(auth.user_id)}>Get Plans</button>
           {this.state.plans.map((item, index) => {
             return <DashboardPlanItem
               key={index}

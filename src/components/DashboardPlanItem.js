@@ -25,7 +25,7 @@ export default class DashboardPlanItem extends Component {
      * @property {boolean} descOpen toggles card expansion
      */
     this.state = {
-      buttonClicked: false,
+      copied: false,
       descOpen: false
     };
   }
@@ -34,6 +34,13 @@ export default class DashboardPlanItem extends Component {
     this.setState({
       descOpen: !this.state.descOpen
     });
+  }
+
+  toggleCopy() {
+    this.setState({
+      copied: true
+    })
+    console.log(this.state.copied);
   }
 
   render() {
@@ -50,14 +57,16 @@ export default class DashboardPlanItem extends Component {
         />
         <div>
           <FlatButton
-            onClick={() => activities.forEach(activity => {
-              this.props.addToBuilder(activity);
-              this.props.saveActivityToDb(Object.assign(activity, {
-                plan_id: null,
-                clientside_id: shortid.generate()
-              }), auth.token.access_token);
-            })}
-            label={'Build off of this plan'} />
+            onClick={() => {
+              activities.forEach(activity => {
+                this.props.addToBuilder(activity);
+                this.props.saveActivityToDb(Object.assign(activity, {
+                  plan_id: null,
+                  clientside_id: shortid.generate()
+                }), auth.token.access_token);
+              })
+            }}
+            label={'Copy this plan'} />
           {activities.map((activity, index) => {
               return <DashboardActivityItem
                 key={index}
