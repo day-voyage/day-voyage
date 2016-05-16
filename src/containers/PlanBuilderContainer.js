@@ -6,7 +6,6 @@ import { addToBuilder,
         reorderDown,
         changingRoutes,
         goToConfirm,
-        saveActivityToDb,
         deleteActivityFromDb } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
@@ -37,14 +36,6 @@ class PlanBuilderContainer extends Component {
     }
   }
 
-  deleteActivity(activity) {
-    this.props.deleteFromBuilder(activity);
-
-    if (!activity.plan_id){
-      this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
-    }
-  }
-
   openCreate() {
     if (!!isLoggedIn()) {
       this.toggleModal();
@@ -67,7 +58,7 @@ class PlanBuilderContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
-            onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
 
@@ -91,7 +82,6 @@ class PlanBuilderContainer extends Component {
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
             addFromCreate={(activity) => this.props.addToBuilder(activity)}
-            saveToDb={(activity) => this.props.saveActivityToDb(activity, auth.token.access_token)}
             user_id={auth.user_id}/>
           <FlatButton
             label="Create Own Activity"
@@ -138,7 +128,6 @@ export default connect(
     reorderDown,
     changingRoutes,
     goToConfirm,
-    saveActivityToDb,
     deleteActivityFromDb }
 )(PlanBuilderContainer)
 

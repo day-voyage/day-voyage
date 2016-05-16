@@ -6,7 +6,6 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder, 
         changingRoutes,
-        saveActivityToDb,
         deleteActivityFromDb } from '../actions';
 import { deletePlan } from '../utils';
 import DashboardActivityItem from '../components/DashboardActivityItem';
@@ -33,10 +32,6 @@ export default class DashboardPlanItem extends Component {
     };
   }
 
-  componentWillMount() {
-
-  }
-
   toggleDesc() {
     this.setState({
       descOpen: !this.state.descOpen
@@ -61,10 +56,6 @@ export default class DashboardPlanItem extends Component {
             openSnackbar={this.props.openSnackbar}
             onAddToBuilderClicked={() => {
               this.props.addToBuilder(activity);
-              this.props.saveActivityToDb(Object.assign(activity, {
-                plan_id: null,
-                clientside_id: shortid.generate()
-              }), auth.token.access_token);
             }}/>
           }
         )
@@ -87,10 +78,6 @@ export default class DashboardPlanItem extends Component {
             onClick={() => {
               activities.forEach(activity => {
                 this.props.addToBuilder(activity);
-                this.props.saveActivityToDb(Object.assign(activity, {
-                  plan_id: null,
-                  clientside_id: shortid.generate()
-                }), auth.token.access_token);
               })
             }}
             label={'Copy this plan'} />
@@ -124,6 +111,5 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   { addToBuilder,
-    saveActivityToDb,
     deleteActivityFromDb }
 )(DashboardPlanItem)

@@ -151,7 +151,6 @@ export default class CreateActivity extends Component {
     this.props.addFromCreate(activity);
     this.props.toggleModal();
     this.props.openSnackbar("Event has been created");
-    this.props.saveToDb(activity);
   }
 
   render() {
