@@ -24,7 +24,7 @@ export default class FilterContainer extends Component {
     };
   }
 
-  loadActivities () {
+  ComponentWillUpdate () {
     const { activities } = this.props;
 
     var areas_id = [];
@@ -78,7 +78,6 @@ export default class FilterContainer extends Component {
     ///this.props.checkBudget(budget)
     console.log(budget);
     this.props.checkBudget(budget);
-
   }
 
   handleCuisine(cuisine) {
@@ -121,8 +120,6 @@ export default class FilterContainer extends Component {
   }
 
   render() {
-
-    
 
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
