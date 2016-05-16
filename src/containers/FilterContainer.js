@@ -24,7 +24,7 @@ export default class FilterContainer extends Component {
     };
   }
 
-  componentWillMount() {
+  ComponentWillUpdate () {
     const { activities } = this.props;
 
     var areas_id = [];
@@ -32,8 +32,6 @@ export default class FilterContainer extends Component {
     var cuisineArr = [];
     var cuisines_id = [];
     var maxBudget = 0;
-
-    console.log(activities)
 
     activities.forEach((activity) => {
       for (var i = 0; i < activity.neighborhood.length; i++){
@@ -80,9 +78,6 @@ export default class FilterContainer extends Component {
     ///this.props.checkBudget(budget)
     console.log(budget);
     this.props.checkBudget(budget);
-
-
-
   }
 
   handleCuisine(cuisine) {
@@ -125,6 +120,7 @@ export default class FilterContainer extends Component {
   }
 
   render() {
+
     var areaOptions = this.state.neighborhood.map((area, index) => {
       return ( 
         <Checkbox
