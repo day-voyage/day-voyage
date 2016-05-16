@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addToBuilder, changingRoutes } from '../actions';
 import {GridList} from 'material-ui/GridList';
 import { Card } from 'material-ui/Card';
-import DBActivityItem from '../components/DBActivityItem';
+import ActivityItem from '../components/ActivityItem';
 
 
 
@@ -11,22 +11,32 @@ class DBResultsContainer extends Component {
   render() {
     const { activities } = this.props;
     const hasActivities = activities.length > 0;
+    if (hasActivities && activities[0].distance) {
+      activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
+    }
     return (
-      <Card>
-        <GridList
-          cellHeight={200}
-          style={styles.gridList}>
+      <div>
+        <h3 style={{marginLeft: 15}}>Activities</h3>
+        <Card>
           {!hasActivities ? <em>0 search results</em> :
-            activities.map((activity, index) =>
-              <DBActivityItem
-                key={index}
-                activity={activity}
-                openSnackbar={this.props.openSnackbar}
-                onAddToBuilderClicked={() => {
-                  this.props.addToBuilder(activity) }}/>
-          )}
-        </GridList>
-      </Card>
+            activities.map((activity, index) => {
+              if (activity.visArea && activity.visCuisine && activity.visBudget) {
+                return <ActivityItem
+                  key={index}
+                  activity={activity}
+                  openSnackbar={this.props.openSnackbar}
+                  onAddToBuilderClicked={() => {
+                    this.props.addToBuilder(activity);
+                    this.props.saveActivityToDb(Object.assign(activity, {
+                      isYelp: true,
+                      user_gen: false,
+                      clientside_id: shortid.generate()
+                    }), auth.token.access_token);
+                  }}/>
+              }
+          })}
+        </Card>
+      </div>
     )
   }
 }
