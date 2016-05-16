@@ -66,6 +66,7 @@ export function getYelpActivities(query, location) {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
+    console.log('query', query);
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
