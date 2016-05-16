@@ -15,6 +15,10 @@ export function createConstants(...constants) {
   }, {});
 }
 
+export function isLoggedIn() {
+  var token = localStorage.getItem('token');
+  return !!token ? true : false;
+}
 /**
  * Composes a hash with reducer functions
  * @param  {Object} initialState

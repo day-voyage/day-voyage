@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-
+import { isLoggedIn } from '../utils';
 
 /**
 * template for individual activity items, 'dumb' child component of Activity
@@ -27,8 +27,13 @@ export default class ActivityItem extends Component {
     this.setState({
       buttonClicked: !this.state.buttonClicked
     });
-    this.props.onAddToBuilderClicked();
-    this.props.openSnackbar("Event has been added to your itinerary");
+    let loggedIn = isLoggedIn();
+    if (loggedIn) {
+      this.props.onAddToBuilderClicked();
+      this.props.openSnackbar("Event has been added to your itinerary");
+    } else {
+      this.props.openSnackbar('Please login to add activity to your itinerary');
+    }
   }
 
   toggleDesc() {
