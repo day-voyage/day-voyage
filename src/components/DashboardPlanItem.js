@@ -37,7 +37,7 @@ export default class DashboardPlanItem extends Component {
   }
 
   render() {
-    const { plan, activities } = this.props;
+    const { auth, plan, activities } = this.props;
 
     return (
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
@@ -48,21 +48,31 @@ export default class DashboardPlanItem extends Component {
           actAsExpander={true}
           showExpandableButton={true}
         />
-        {activities.map((activity, index) => {
-            return <DashboardActivityItem
-              key={index}
-              activity={activity}
-              openSnackbar={this.props.openSnackbar}
-              onAddToBuilderClicked={() => {
-                this.props.addToBuilder(activity);
-                this.props.saveActivityToDb(Object.assign(activity, {
-                  isYelp: true,
-                  user_gen: false,
-                  clientside_id: shortid.generate()
-                }), auth.token.access_token);
-              }}/>
-            }
-          )}
+        <div>
+          <FlatButton
+            onClick={() => activities.forEach(activity => {
+              this.props.addToBuilder(activity);
+              this.props.saveActivityToDb(Object.assign(activity, {
+                plan_id: null,
+                clientside_id: shortid.generate()
+              }), auth.token.access_token);
+            })}
+            label={'Build off of this plan'} />
+          {activities.map((activity, index) => {
+              return <DashboardActivityItem
+                key={index}
+                activity={activity}
+                openSnackbar={this.props.openSnackbar}
+                onAddToBuilderClicked={() => {
+                  this.props.addToBuilder(activity);
+                  this.props.saveActivityToDb(Object.assign(activity, {
+                    plan_id: null,
+                    clientside_id: shortid.generate()
+                  }), auth.token.access_token);
+                }}/>
+              }
+            )}
+          </div>
       </Card>
     )
   }
