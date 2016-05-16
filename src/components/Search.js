@@ -162,7 +162,7 @@ export class Search extends React.Component {
             <AutoComplete
               floatingLabelText="City"
               fullWidth={true}
-              style={{width: '400px'}}
+              style={{width: '300px'}}
               className="search-form__activity-input"
               filter={AutoComplete.fuzzyFilter}
               dataSource={citySearch}
