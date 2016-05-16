@@ -16,7 +16,7 @@ export default class PlanContainer extends Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h2 style={{marginLeft: 15, marginTop: 15}}>{this.props.plan ? this.props.plan.plan.title : "Plan"}</h2>
+            <h2 style={{marginLeft: 15, marginTop: 15}}>{this.props.plan ? this.props.plan.title : "Plan"}</h2>
           </div>
         </div>
         <div className="row">
@@ -24,7 +24,7 @@ export default class PlanContainer extends Component {
             <Card>
               <CardHeader
                 title="Plan Details"
-                subtitle={this.props.plan ? this.props.plan.plan.desc : null} />
+                subtitle={this.props.plan ? this.props.plan.desc : null} />
                 {this.props.plan ?
                 this.props.plan.activities.map((activity, index) =>
                   <PlanItem
