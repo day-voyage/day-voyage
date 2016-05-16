@@ -40,7 +40,9 @@ class PlanBuilderContainer extends Component {
   deleteActivity(activity) {
     this.props.deleteFromBuilder(activity);
 
-    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+    if (!activity.plan_id){
+      this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+    }
   }
 
   render() {
@@ -85,7 +87,10 @@ class PlanBuilderContainer extends Component {
             user_id={auth.user_id}/>
           <FlatButton
             label="Create Own Activity"
-            onClick={this.toggleModal.bind(this)} /><br />
+            onClick={this.toggleModal.bind(this)} />
+          <FlatButton
+            label="Clear All"
+            onClick={() => planBuilder.forEach(element => this.deleteActivity(element))} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton

@@ -68,7 +68,11 @@ export default function planBuilder(state = [], action) {
     case DELETE_ACTIVITY_CONFIRM:
       return state
     case SAVE_PLAN_CONFIRM:
-      return state
+      var newState = state.slice();
+      for (var i = 0; i < newState.length; i++) {
+        newState[i].plan_id = action.planId;
+      }
+      return newState
     case QUERY_DB:
       return state
     default:
