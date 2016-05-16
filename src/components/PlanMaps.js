@@ -14,7 +14,6 @@ export default class PlanMaps extends Component {
     var centerLng = -122.4194;
     if (this.props.activities) {
       const DirectionsService = new google.maps.DirectionsService();
-
       var places = this.props.activities.map(function(item) {
         return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, icon: item.icon};
       });

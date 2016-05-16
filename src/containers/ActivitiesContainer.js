@@ -11,7 +11,6 @@ var shortid = require('shortid');
 
 
 class ActivitiesContainer extends Component {
-
   render() {
     const { activities, auth } = this.props;
     const hasActivities = activities.length > 0;
