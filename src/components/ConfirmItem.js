@@ -65,17 +65,12 @@ export default class ConfirmItem extends Component {
             defaultValue={activity.desc}
             onChange={this.handleDesc.bind(this)}
             multiLine={true}
-            rows={4}
-            />
+            rows={4} />
            <FlatButton
             label="Save"
             className="save-info-btn"
             disabled={!this.state.edited}
             onClick={this.handleSave.bind(this)} /> <br />
-          <FlatButton
-            label="Hide"
-            className="hide-info-btn"
-            onClick={this.toggleDesc.bind(this)} />
           <FlatButton
               label="Remove"
               style={{color: '#F44336'}}
@@ -84,10 +79,6 @@ export default class ConfirmItem extends Component {
     } else {
       var cardDesc =
       <div>
-        <FlatButton
-          label="Show more"
-          className="more-info-btn"
-          onClick={this.toggleDesc.bind(this)} />
         <FlatButton
               label="Remove"
               style={{color: '#F44336'}}
@@ -104,7 +95,7 @@ export default class ConfirmItem extends Component {
             title={order + '   ' + activity.title}
             subtitle={address + activity.neighborhood}
             key={activity.i}
-          />
+            onClick={this.toggleDesc.bind(this)} />
           <CardText>
             {cardDesc}
           </CardText>

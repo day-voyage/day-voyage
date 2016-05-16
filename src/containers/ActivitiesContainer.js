@@ -20,7 +20,7 @@ class ActivitiesContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Activities</h3>
+        <h3 style={{marginLeft: 15}}>Yelp Activities</h3>
         <Card>
           {!hasActivities ? <em>0 search results</em> :
             activities.map((activity, index) => {

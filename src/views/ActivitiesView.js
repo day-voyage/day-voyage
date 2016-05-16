@@ -66,7 +66,7 @@ export class ActivitiesView extends Component {
                 icon={<MapsPlace />}
                 label="PLACES"
                 onClick={this.handleChangeA.bind(this)}>
-                  <ActivitiesContainer
+                  <DBResultsContainer 
                     openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
@@ -74,14 +74,14 @@ export class ActivitiesView extends Component {
                 icon={<MapsMap />}
                 label="ITINERARIES"
                 onClick={this.handleChangeB.bind(this)}>
-                  <DBResultsContainer 
-                    openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
                 value="c"
                 icon={<ActionFavoriteBorder />}
-                label="FAVORITES"
+                label="YELP SEARCH"
                 onClick={this.handleChangeC.bind(this)}>
+                  <ActivitiesContainer
+                    openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
             </Tabs>
           </div>

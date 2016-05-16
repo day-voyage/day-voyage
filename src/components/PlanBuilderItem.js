@@ -38,10 +38,6 @@ export default class PlanBuilderItem extends Component {
           {activity.city}, {activity.state}<br /><br />
           {activity.desc}
           <FlatButton 
-            label="Hide"
-            className="hide-info-btn"
-            onClick={this.toggleDesc.bind(this)} />
-          <FlatButton 
               label="Remove"
               style={{color: '#F44336'}}
               onClick={this.removeItem.bind(this)} />
@@ -49,10 +45,6 @@ export default class PlanBuilderItem extends Component {
     } else {
       var cardDesc = 
       <div>
-        <FlatButton 
-          label="Show more"
-          className="more-info-btn"
-          onClick={this.toggleDesc.bind(this)} />
         <FlatButton 
               label="Remove"
               style={{color: '#F44336'}}
@@ -71,7 +63,7 @@ export default class PlanBuilderItem extends Component {
             key={activity.i}
             actAsExpander={true}
             showExpandableButton={true}
-          />
+            onClick={this.toggleDesc.bind(this)} />
           <CardText>
             {cardDesc}
           </CardText>

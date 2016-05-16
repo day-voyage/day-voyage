@@ -210,13 +210,13 @@ export function changingRoutes(activities) {
     }
 
     var places = activities.map(function(item) {
-      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, icon: item.icon, address: [item.address, item.city, item.state].join(', ') };
+      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, icon: item.icon};
     });
 
     DirectionsService.route(
       {
-        origin: places[0].address,
-        destination: places[places.length-1].address,
+        origin: places[0].position,
+        destination: places[places.length-1].position,
         waypoints: places.slice(1,-1).map((item) => item.position),
         optimizeWaypoints: false,
         travelMode: google.maps.TravelMode.WALKING,

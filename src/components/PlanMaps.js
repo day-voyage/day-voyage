@@ -16,15 +16,14 @@ export default class PlanMaps extends Component {
       const DirectionsService = new google.maps.DirectionsService();
 
       var places = this.props.activities.map(function(item) {
-        return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, icon: item.icon, address: [item.address, item.city, item.state].join(', ') };
+        return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, icon: item.icon};
       });
 
-      // var places =[{position: {location: {lat: 37.7749, lng: -122.4194 }}, title: "title", address: "2434 Geary Blvd, San Francisco, CA"}];
       var that = this;
       DirectionsService.route(
         {
-          origin: places[0].address,
-          destination: places[places.length-1].address,
+          origin: places[0].position,
+          destination: places[places.length-1].position,
           waypoints: places.slice(1,-1).map((item) => item.position),
           optimizeWaypoints: false,
           travelMode: google.maps.TravelMode.WALKING,
