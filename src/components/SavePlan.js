@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { goToProfile } from '../actions';
+import { goToDashboard } from '../actions';
 import Dialog from 'material-ui/Dialog';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import TextField from 'material-ui/TextField';
@@ -25,7 +25,7 @@ export default class SavePlan extends Component {
   finishSharing() {
     console.log("finishSharing");
     this.props.toggleModal();
-    this.props.goToProfile();
+    this.props.goToDashboard();
   }
 
   handleEmail(event) {
@@ -165,5 +165,5 @@ const mapStateToProps = (state) => {
 }
 export default connect(
   mapStateToProps,
-  { goToProfile }
+  { goToDashboard }
 )(SavePlan)

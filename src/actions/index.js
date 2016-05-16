@@ -173,10 +173,17 @@ export function goToConfirm() {
   };
 }
 
-export function goToProfile() {
+export function goToDashboard() {
   return dispatch => {
     console.log("here in dispatch");
-    dispatch(push('/profile'));
+    dispatch(push('/dashboard'));
+  };
+}
+
+export function goToPlanPage(planId) {
+  return dispatch => {
+    console.log("here in dispatch");
+    dispatch(push('/dashboard'));
   };
 }
 

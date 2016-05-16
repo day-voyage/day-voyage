@@ -18,16 +18,10 @@ export class DashboardView extends React.Component {
 
   componentWillMount() {
     getPlansByUser(this.props.auth.user_id, response => {
-      var results = [];
-      for (var i = 0; i < response.data.length; i++) {
-        getPlan(response.data[i].id, plan => {
-          results.push(plan);
-          this.setState({
+      var results = response.data;
+      this.setState({
             plans: results
           })
-        });
-      }
-
     });
 
   }
@@ -43,7 +37,9 @@ export class DashboardView extends React.Component {
           {this.state.plans.map((item, index) => {
             return <DashboardPlanItem
               key={index}
-              plan={item.plan}
+              title={item.title}
+              desc={item.desc}
+              plan_id={item.id}
               activities={item.activities} />
           })}
           </Card>

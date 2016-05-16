@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
@@ -43,31 +44,14 @@ export default class DashboardPlanItem extends Component {
     console.log(this.state.copied);
   }
 
-  render() {
-    const { auth, plan, activities } = this.props;
+  goToPlanPage() {
+    
+  }
 
-    return (
-      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
-        <CardHeader
-          title={plan.title}
-          subtitle={plan.desc}
-          onClick={this.toggleDesc.bind(this)}
-          actAsExpander={true}
-          showExpandableButton={true}
-        />
-        <div>
-          <FlatButton
-            onClick={() => {
-              activities.forEach(activity => {
-                this.props.addToBuilder(activity);
-                this.props.saveActivityToDb(Object.assign(activity, {
-                  plan_id: null,
-                  clientside_id: shortid.generate()
-                }), auth.token.access_token);
-              })
-            }}
-            label={'Copy this plan'} />
-          {activities.map((activity, index) => {
+  render() {
+    const { auth, activities } = this.props;
+
+    var mappedActivities = activities.map((activity, index) => {
               return <DashboardActivityItem
                 key={index}
                 activity={activity}
@@ -80,7 +64,33 @@ export default class DashboardPlanItem extends Component {
                   }), auth.token.access_token);
                 }}/>
               }
-            )}
+            )
+
+    return (
+      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+        <CardHeader
+          title={this.props.title}
+          subtitle={this.props.desc}
+          onClick={this.toggleDesc.bind(this)}
+          actAsExpander={true}
+          showExpandableButton={true}
+        />
+        <div>
+        <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
+          <FlatButton label={'View map'} />
+        </a>
+          <FlatButton
+            onClick={() => {
+              activities.forEach(activity => {
+                this.props.addToBuilder(activity);
+                this.props.saveActivityToDb(Object.assign(activity, {
+                  plan_id: null,
+                  clientside_id: shortid.generate()
+                }), auth.token.access_token);
+              })
+            }}
+            label={'Copy this plan'} />
+            {this.state.descOpen? mappedActivities : null}
           </div>
       </Card>
     )
