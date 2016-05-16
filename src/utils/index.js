@@ -222,7 +222,7 @@ export function getPlansByUser(userID, cb) {
  * @param  {int}   planID
  * @param  {Function} cb
  */
-export function getPlanWithActivities(planID, cb) {
+export function getPlan(planID, cb) {
   fetch(`http://localhost:8080/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => cb(data))

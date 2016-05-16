@@ -113,7 +113,7 @@ export class Search extends React.Component {
 
     // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
-    // utils.getPlanWithActivities(2, (result) => console.log(result));
+    // utils.getPlan(2, (result) => console.log(result));
 
     // utils.getAllPlans(plans => console.log(plans));
 
@@ -187,7 +187,7 @@ export class Search extends React.Component {
         </div>
         <div className="col-sm-5">
         </div>
-      </div> 
+      </div>
     */
   }
 }
