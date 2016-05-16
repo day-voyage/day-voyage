@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Card } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import { createComment } from '../utils';
 
-export default class PlanContainer extends Component {
+
+export default class AddComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,11 +20,13 @@ export default class PlanContainer extends Component {
   }
 
   commentSubmit() {
-    console.log(this.state.comment);
+    const { auth } = this.props;
+    createComment({content: this.state.comment, user_id: auth.user_id, plan_id: this.props.plan.id}, 
+      (data) => console.log(data));
   }
 
   render() {
-    console.log(this.props.plan);
+    const { auth } = this.props;
     return(
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <div style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
@@ -30,6 +35,7 @@ export default class PlanContainer extends Component {
             placeholder="Add a comment"
             multiLine={true}
             fullWidth={true}
+            disabled={!auth.isAuthenticated}
             rows={3} /><br />
           <FlatButton
             label="Submit"
@@ -40,5 +46,14 @@ export default class PlanContainer extends Component {
       </Card>
     )
   }
-
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(AddComment)

@@ -9,8 +9,6 @@ export default class CommentItem extends Component {
     const date = dateArr[0];
     const time = dateArr[1].split('.')[0];
 
-
-
     return(
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <CardHeader
