@@ -106,7 +106,7 @@ export default class FilterContainer extends Component {
           areas_id.push(activity.neighborhood[i].toUpperCase());
           areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
             if(activity.budget > maxBudget) {
-              maxBudget = activity.budget;
+              maxBudget = activity.budget + 1;
             }
           }
       }
