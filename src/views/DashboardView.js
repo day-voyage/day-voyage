@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getPlansByUser,
         getPlanWithActivities } from '../utils';
-import DashboardItem from '../components/DashboardItem';
+import DashboardPlanItem from '../components/DashboardPlanItem';
 import { Card } from 'material-ui/Card';
 
 
@@ -18,7 +18,6 @@ export class DashboardView extends React.Component {
 
   componentWillMount() {
     getPlansByUser(this.props.auth.user_id, response => {
-      console.log(response);
       var results = [];
       for (var i = 0; i < response.data.length; i++) {
         getPlanWithActivities(response.data[i].id, plan => {
@@ -43,11 +42,11 @@ export class DashboardView extends React.Component {
           <h3>Itineraries</h3>
           <Card>
           <button onClick={() => this.getPlans(auth.user_id)}>Get Plans</button>
-          {this.state.plans.map((plan, index) => {
-            return <DashboardItem
+          {this.state.plans.map((item, index) => {
+            return <DashboardPlanItem
               key={index}
-              plan={plan.plan}
-              activities={plan.activities} />
+              plan={item.plan}
+              activities={item.activities} />
           })}
           </Card>
         </div>

@@ -6,7 +6,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder, 
         changingRoutes,
         saveActivityToDb } from '../actions';
-import ActivityItem from '../components/ActivityItem';
+import DashboardActivityItem from '../components/DashboardActivityItem';
 
 var shortid = require('shortid');
 
@@ -14,7 +14,7 @@ var shortid = require('shortid');
 /**
 * template for individual dashboard items, 
 */
-export default class DashboardItem extends Component {
+export default class DashboardPlanItem extends Component {
   constructor(props) {
     super(props);
 
@@ -28,14 +28,6 @@ export default class DashboardItem extends Component {
       buttonClicked: false,
       descOpen: false
     };
-  }
-
-  clickAddButton() {
-    this.setState({
-      buttonClicked: !this.state.buttonClicked
-    });
-    this.props.onAddToBuilderClicked();
-    this.props.openSnackbar("Event has been added to your itinerary");
   }
 
   toggleDesc() {
@@ -57,7 +49,7 @@ export default class DashboardItem extends Component {
           showExpandableButton={true}
         />
         {activities.map((activity, index) => {
-            return <ActivityItem
+            return <DashboardActivityItem
               key={index}
               activity={activity}
               openSnackbar={this.props.openSnackbar}
@@ -84,7 +76,6 @@ const customContentStyle = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities,
     auth: state.auth
   }
 }
@@ -93,4 +84,4 @@ export default connect(
   mapStateToProps,
   { addToBuilder,
     saveActivityToDb }
-)(DashboardItem)
+)(DashboardPlanItem)
