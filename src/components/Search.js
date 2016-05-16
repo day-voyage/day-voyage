@@ -90,12 +90,12 @@ export class Search extends React.Component {
 
     // utils.searchActivities('Bistro', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
-    utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
+    // utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
 
 
     // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.getPlansByUser(2, result => console.log(result));
+    utils.getPlansByUser(2, result => console.log(result));
 
     // utils.getActivitiesByUser(2, (result) => console.log(result));
 
