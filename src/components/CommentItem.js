@@ -15,7 +15,7 @@ export default class CommentItem extends Component {
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <CardHeader
           title={comment.user.username}
-          subtitle={date + ' ' + time} />
+          subtitle={[date, time].join(' ')} />
         <CardText>{comment.content}</CardText>
       </Card>
     )

@@ -6,7 +6,6 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 export default class PlanItem extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       descOpen: false
     };
