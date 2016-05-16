@@ -441,9 +441,10 @@ export function saveActivityConfirm(activity, activity_db_id) {
   }
 }
 
-export function savePlanConfirm() {
+export function savePlanConfirm(planId) {
   return {
-    type: SAVE_PLAN_CONFIRM
+    type: SAVE_PLAN_CONFIRM,
+    planId
   }
 }
 
@@ -543,8 +544,9 @@ export function createPlan(plan, activities, cb) {
     .then(parseJSON)
     .then(response => {
       cb(response);
+      var planId = response.data[0].id
+      dispatch(savePlanConfirm(planId));
     })
-    .then(() => dispatch(savePlanConfirm()))
     .catch(error => console.log(`Error creating plan: ${error}`))
   }
 }

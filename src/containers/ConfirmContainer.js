@@ -70,7 +70,9 @@ export class ConfirmContainer extends Component {
   deleteActivity(activity) {
     this.props.deleteFromBuilder(activity);
 
-    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+    if (!activity.plan_id){   
+      this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+    }
   }
 
   render() {

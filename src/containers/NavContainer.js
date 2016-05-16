@@ -40,7 +40,7 @@ export default class CoreLayout extends React.Component {
             ?
               <span>
                 <FlatButton
-                  label="Profile"
+                  label="Dashboard"
                   onClick={() => this.props.dispatch(push('/profile'))}
                 />
                 <FlatButton
