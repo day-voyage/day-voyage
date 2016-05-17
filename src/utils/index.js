@@ -150,7 +150,7 @@ export function getActivitiesUnderBudget(amount, cb) {
 
 export function searchActivities(searchTerm, city, cb) {
   //TODO: maybe cache calls to a particular city
-
+  // console.log('here in SearchActivities in utils', searchTerm, city);
   city = parseCity(city);
 
   fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false`)

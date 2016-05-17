@@ -1,4 +1,4 @@
-import { checkHttpStatus, parseJSON } from '../utils';
+import { checkHttpStatus, parseJSON, searchActivities } from '../utils';
 import {
   ADD_TO_BUILDER,
   DELETE_FROM_BUILDER,
@@ -26,7 +26,10 @@ import {
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
-  QUERY_DB
+  QUERY_DB,
+  RECEIVE_DBACTIVITIES,
+  DB_ADD_TO_BUILDER,
+  DB_DELETE_FROM_BUILDER
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -40,6 +43,13 @@ export function initApp() {
 export function receiveActivities(activities) {
   return {
     type: RECEIVE_ACTIVITIES,
+    activities
+  }
+}
+
+export function receiveDBActivities(activities) {
+  return {
+    type: RECEIVE_DBACTIVITIES,
     activities
   }
 }
@@ -66,7 +76,15 @@ export function getYelpActivities(query, location) {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
-    console.log('query', query);
+
+    searchActivities(query.category, query.city, (results) => {
+      console.log('results from searchActivities for DB', results);
+      dispatch(receiveDBActivities(results));
+    });
+
+
+
+
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
@@ -101,9 +119,6 @@ export function getYelpActivities(query, location) {
       /**
       * if current location was included
       */
-          console.log('nolocation: ', noLocation);
-          console.log('location: ', location);
-
       if (location !== null) {
         console.log('inside location !== null');
         /**
@@ -131,6 +146,7 @@ export function getYelpActivities(query, location) {
           dispatch(receiveActivities(withLocation));
         })
         .then(() => {
+          console.log('about to push');
           /**
           * route to activities page
           */
@@ -160,9 +176,23 @@ export function addToBuilder(activity) {
   };
 }
 
+export function DBaddToBuilder(activity) {
+  return {
+    type: DB_ADD_TO_BUILDER,
+    activity
+  };
+}
+
 export function deleteFromBuilder(activity) {
   return {
     type: DELETE_FROM_BUILDER,
+    activity
+  };
+}
+
+export function DBdeleteFromBuilder(activity) {
+  return {
+    type: DB_DELETE_FROM_BUILDER,
     activity
   };
 }
