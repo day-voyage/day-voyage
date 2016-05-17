@@ -1,6 +1,6 @@
-# Project Name
+# Good Times
 
-> Pithy project description
+Let 'em roll
 
 ## Team
 
@@ -10,7 +10,7 @@
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [UpAndRunning](#UpAndRunning)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
@@ -18,26 +18,75 @@
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
+## GIF goes here
 
-> Some usage instructions
+## Up and running
+- Install dependencies
+- Export environement
+- Start server
+- Go to API repo for instructions to set up data layer
+
+```sh
+npm install
+npm start
+```
+
+## Why good times?
 
 ## Requirements
 
+- React
+- Redux
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Postgresql 9.5.2
+- Nodal 0.1.0
+- Webpack 1.11.0
+
+
+## Application Architecture
+
+Diagram of architecture goes here
+
+## Unstacking the stack
+
+React
+- modular and reusable components making it easy to compose different views
+- Single Page Application with client side routing (challenge)
+-
+Redux - talk flux architecture, helped manage complexity over large application
+- state management allowing a single source of truth for props shared throughout app
+- reducers, store and actions - helps separate concerns
+- what each does and how specifically it helped
+
+Node
+- event loop
+
+Express
+- server side routing
+
+Webpack
+
+
+## API's
+The data powering our application.
+
+Our main DB link to it
+DP endpoints
+
+Yelp api google maps api
+
+## Challenges
+- routing
 
 ## Development
 
-To babelify and generate a bundle:
+To build webpack and generate a bundle:
 From within the root directory:
 ```sh
-npm start dev
+npm start
 ```
 
+## Deployment
 To generate docs:
 ```sh
 npm start doc
@@ -45,15 +94,6 @@ npm start doc
 Refer to http://en.blog.koba04.com/2015/06/28/esdoc-documentation-for-react-and-es6/ for how to
 document
 
-### Installing Dependencies
-
-From within the root directory:
-
-```sh
-sudo npm install -g bower
-npm install
-bower install
-```
 
 ### Roadmap
 
