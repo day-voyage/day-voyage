@@ -86,11 +86,9 @@ export function getYelpActivities(query, location) {
 
     searchActivities(query.category, query.city, (results) => {
       console.log('results from searchActivities for DB', results);
-      dispatch(receiveDBActivities(results));
+      var dbResults = results.map((activity) => Object.assign(activity, {visArea: true, visCuisine: true, visBudget: true}));
+      dispatch(receiveDBActivities(dbResults));
     });
-
-
-
 
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
