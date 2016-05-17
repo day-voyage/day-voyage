@@ -6,6 +6,7 @@ import activities from './activities';
 import dbactivities from './dbactivities';
 import directions from './map';
 import planBuilder from './planBuilder';
+import dashboard from './dashboard'
 
 export default combineReducers({
  auth,
@@ -14,5 +15,6 @@ export default combineReducers({
  dbactivities,
  directions,
  planBuilder,
+ dashboard,
  router: routerStateReducer
 });

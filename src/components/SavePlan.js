@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { goToDashboard } from '../actions';
+import { goToDashboard,
+        getDashboardActivities } from '../actions';
+import { getPlansByUser } from '../utils'
 import Dialog from 'material-ui/Dialog';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import TextField from 'material-ui/TextField';
@@ -23,8 +25,10 @@ export default class SavePlan extends Component {
   }
 
   finishSharing() {
-    console.log("finishSharing");
     this.props.toggleModal();
+    getPlansByUser(this.props.auth.user_id, response => {
+      this.props.getDashboardActivities(response.data);
+    });
     this.props.goToDashboard();
   }
 
@@ -161,9 +165,11 @@ export default class SavePlan extends Component {
 const mapStateToProps = (state) => {
   return {
     planBuilder: state.planBuilder,
+    auth: state.auth
   }
 }
 export default connect(
   mapStateToProps,
-  { goToDashboard }
+  { goToDashboard,
+    getDashboardActivities }
 )(SavePlan)

@@ -218,12 +218,12 @@ export function getAllPlans(cb) {
  * @param  {int}   planID
  * @param  {Function} cb
  */
-// export function getActivitiesByPlan(planID, cb) {
-//   fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
-//   .then(parseJSON)
-//   .then(response => cb(response))
-//   .catch(error => console.log(`Error getting activities by planID: ${error}`));
-// }
+export function getActivitiesByPlan(planID, cb) {
+  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities by planID: ${error}`));
+}
 
 /**
  * Get all plans for a given user

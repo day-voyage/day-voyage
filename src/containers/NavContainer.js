@@ -3,7 +3,10 @@ import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutAndRedirect } from '../actions';
+import { logoutAndRedirect,
+          getDashboardActivities,
+          goToDashboard } from '../actions';
+import { getPlansByUser } from '../utils'
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
 import { push } from 'redux-router';
@@ -28,6 +31,13 @@ export default class CoreLayout extends React.Component {
     });
   }
 
+  handleDashboard() {
+    getPlansByUser(this.props.auth.user_id, response => {
+      this.props.getDashboardActivities(response.data);
+    });
+    this.props.goToDashboard();
+  }
+
   render () {
     const {dispatch} = this.props;
     return (
@@ -40,8 +50,12 @@ export default class CoreLayout extends React.Component {
             ?
               <span>
                 <FlatButton
+                  label="Activities"
+                  onClick={() => this.props.dispatch(push('/activities'))}
+                />
+                <FlatButton
                   label="Dashboard"
-                  onClick={() => this.props.dispatch(push('/dashboard'))}
+                  onClick={this.handleDashboard.bind(this)}
                 />
                 <FlatButton
                   label="Logout"
@@ -63,3 +77,19 @@ export default class CoreLayout extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  dashboard: state.dashboard
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(actionCreators, dispatch),
+// });
+
+export default connect(
+  mapStateToProps,
+  { logoutAndRedirect,
+    getDashboardActivities,
+    goToDashboard }
+  )(CoreLayout);

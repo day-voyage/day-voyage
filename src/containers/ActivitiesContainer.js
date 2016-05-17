@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addToBuilder, 
-        changingRoutes,
-        saveActivityToDb } from '../actions';
+        changingRoutes } from '../actions';
 import ActivityItem from '../components/ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
 import { Card } from 'material-ui/Card';
-
-var shortid = require('shortid');
 
 
 class ActivitiesContainer extends Component {
@@ -30,11 +27,6 @@ class ActivitiesContainer extends Component {
                   openSnackbar={this.props.openSnackbar}
                   onAddToBuilderClicked={() => {
                     this.props.addToBuilder(activity);
-                    this.props.saveActivityToDb(Object.assign(activity, {
-                      isYelp: true,
-                      user_gen: false,
-                      clientside_id: shortid.generate()
-                    }), auth.token.access_token);
                   }}/>
               }
           })}
@@ -63,6 +55,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { addToBuilder,
-    saveActivityToDb }
+  { addToBuilder }
 )(ActivitiesContainer)

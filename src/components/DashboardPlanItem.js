@@ -6,7 +6,9 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder, 
         changingRoutes,
-        saveActivityToDb } from '../actions';
+        deleteActivityFromDb,
+        goToDashboard } from '../actions';
+import { deletePlan } from '../utils';
 import DashboardActivityItem from '../components/DashboardActivityItem';
 
 var shortid = require('shortid');
@@ -27,7 +29,8 @@ export default class DashboardPlanItem extends Component {
      */
     this.state = {
       copied: false,
-      descOpen: false
+      descOpen: false,
+      deleted: false
     };
   }
 
@@ -44,27 +47,30 @@ export default class DashboardPlanItem extends Component {
     console.log(this.state.copied);
   }
 
-  goToPlanPage() {
-    
+  handleDeleteClicked() {
+    this.props.onDeleteClicked();
+
+    this.props.activities.forEach(activity => {
+      this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted'));
+    });
+    deletePlan(this.props.plan_id, response => console.log('plan deleted'));
   }
 
   render() {
     const { auth, activities } = this.props;
 
-    var mappedActivities = activities.map((activity, index) => {
-              return <DashboardActivityItem
-                key={index}
-                activity={activity}
-                openSnackbar={this.props.openSnackbar}
-                onAddToBuilderClicked={() => {
-                  this.props.addToBuilder(activity);
-                  this.props.saveActivityToDb(Object.assign(activity, {
-                    plan_id: null,
-                    clientside_id: shortid.generate()
-                  }), auth.token.access_token);
-                }}/>
-              }
-            )
+    if (activities) {
+      var mappedActivities = activities.map((activity, index) => {
+          return <DashboardActivityItem
+            key={index}
+            activity={activity}
+            openSnackbar={this.props.openSnackbar}
+            onAddToBuilderClicked={() => {
+              this.props.addToBuilder(activity);
+            }}/>
+          }
+        )
+    }
 
     return (
       <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
@@ -83,14 +89,14 @@ export default class DashboardPlanItem extends Component {
             onClick={() => {
               activities.forEach(activity => {
                 this.props.addToBuilder(activity);
-                this.props.saveActivityToDb(Object.assign(activity, {
-                  plan_id: null,
-                  clientside_id: shortid.generate()
-                }), auth.token.access_token);
               })
             }}
             label={'Copy this plan'} />
-            {this.state.descOpen? mappedActivities : null}
+          <FlatButton
+            onClick={this.handleDeleteClicked.bind(this)}
+
+            label={'Delete'} />
+            {this.state.descOpen ? mappedActivities : null}
           </div>
       </Card>
     )
@@ -112,5 +118,6 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   { addToBuilder,
-    saveActivityToDb }
+    deleteActivityFromDb,
+    goToDashboard}
 )(DashboardPlanItem)
