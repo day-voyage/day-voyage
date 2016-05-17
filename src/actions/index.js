@@ -201,12 +201,12 @@ export function DBaddToBuilder(activity) {
   };
 }
 
-export function addPlanToBuilder(plan) {
-  return {
-    type: ADD_PLAN_TO_BUILDER,
-    plan
-  };
-}
+// export function addPlanToBuilder(plan) {
+//   return {
+//     type: ADD_PLAN_TO_BUILDER,
+//     plan
+//   };
+// }
 
 export function deleteFromBuilder(activity) {
   return {
@@ -226,6 +226,12 @@ export function deletePlanFromBuilder(plan) {
   return {
     type: DELETE_PLAN_FROM_BUILDER,
     plan
+  };
+}
+
+export function goToActivities() {
+  return dispatch => {
+    dispatch(push('/activities'));
   };
 }
 
