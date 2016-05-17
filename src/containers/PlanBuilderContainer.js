@@ -7,12 +7,13 @@ import { addToBuilder,
         changingRoutes,
         goToConfirm,
         deleteActivityFromDb,
-        editPrice } from '../actions';
+        editPrice,
+        receiveBudget } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
-import { Card } from 'material-ui/Card';
+import { Card, CardText } from 'material-ui/Card';
 import { isLoggedIn } from '../utils';
 import TextField from 'material-ui/TextField';
 
@@ -21,9 +22,7 @@ class PlanBuilderContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
-      budget: 0,
-      total: 0
+      modalOpen: false
     };
   }
 
@@ -50,9 +49,7 @@ class PlanBuilderContainer extends Component {
   }
 
   handleBudget(event){
-    this.setState({
-      budget: event.target.value
-    })
+    this.props.receiveBudget(event.target.value)
   }
 
   getTotalPrice() {
@@ -65,14 +62,18 @@ class PlanBuilderContainer extends Component {
   }
 
   render() {
-    const { planBuilder, activities, auth } = this.props;
+    const { planBuilder, activities, auth, data } = this.props;
     const hasActivities = planBuilder.length > 0;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nodes = !hasActivities ?
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
-        Current cost so far: ${this.getTotalPrice()}
+        Current cost so far: 
+        <span style={
+          this.getTotalPrice() <= data.budget ?
+          {color: '#009900'}:
+          {color: '#F44336'}}> ${this.getTotalPrice()}</span>
         {planBuilder.map((activity, index) =>
           <PlanBuilderItem
             key={index}
@@ -111,10 +112,12 @@ class PlanBuilderContainer extends Component {
           <FlatButton
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} /><br />
-          $<TextField
-           type="number"
-           hint="Enter a budget"
-           onChange={this.handleBudget.bind(this)}/><br />
+          <CardText>
+            Budget: $<TextField
+             type="number"
+             defaultValue={this.props.data.budget}
+             onChange={this.handleBudget.bind(this)}/><br />
+          </CardText>
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton
@@ -142,7 +145,8 @@ const mapStateToProps = (state) => {
   return {
     planBuilder: state.planBuilder,
     activities: state.activities,
-    auth: state.auth
+    auth: state.auth,
+    data: state.data
   }
 }
 
@@ -155,6 +159,7 @@ export default connect(
     changingRoutes,
     goToConfirm,
     deleteActivityFromDb,
-    editPrice }
+    editPrice,
+    receiveBudget }
 )(PlanBuilderContainer)
 

@@ -1,9 +1,12 @@
 import {createReducer} from '../utils';
-import {RECEIVE_PROTECTED_DATA, FETCH_PROTECTED_DATA_REQUEST} from '../constants';
+import {RECEIVE_PROTECTED_DATA, 
+        FETCH_PROTECTED_DATA_REQUEST,
+        RECEIVE_BUDGET} from '../constants';
 
 const initialState = {
     data: null,
-    isFetching: false
+    isFetching: false,
+    budget: 0
 };
 
 export default createReducer(initialState, {
@@ -17,5 +20,11 @@ export default createReducer(initialState, {
         return Object.assign({}, state, {
             'isFetching': true
         });
+    },
+
+    [RECEIVE_BUDGET]: (state, payload) => {
+        return Object.assign({}, state, {
+            budget: payload.budget
+        })
     }
 });
