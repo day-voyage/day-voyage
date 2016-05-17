@@ -5,6 +5,7 @@ import {
   REORDER_UP,
   REORDER_DOWN,
   EDIT_DESC,
+  EDIT_PRICE,
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
@@ -59,6 +60,10 @@ export default function planBuilder(state = [], action) {
     case EDIT_DESC:
       var newState = state.slice();
       newState[action.activityIndex].desc = action.text;
+      return newState;
+    case EDIT_PRICE:
+      var newState = state.slice();
+      newState[action.activityIndex].price = action.price;
       return newState;
     case SAVE_ACTIVITY_CONFIRM:
       var newState = state.slice();

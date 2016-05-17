@@ -6,6 +6,7 @@ import { addToBuilder,
         reorderDown, 
         changingRoutes,
         editDescription,
+        editPrice,
         createPlan,
         deleteActivityFromDb,
         saveActivityToDb,
@@ -83,6 +84,15 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
+  getTotalPrice() {
+    var total = 0;
+    this.props.planBuilder.forEach(activity => {
+      if (activity.price) { 
+        total += parseInt(activity.price) ;
+      }});
+    return total;
+  }
+
   render() {
     const { planBuilder, auth } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -93,12 +103,14 @@ export class ConfirmContainer extends Component {
           hintText="Name Your Itinerary"
           onChange={this.handleTitle.bind(this)}/><br />
         <div>
+        Current cost so far: ${this.getTotalPrice()}
         {planBuilder.map((activity, index) => 
           <ConfirmItem
             key={index}
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
+            editPriceChange={price => this.props.editPrice(index, price)}
             editDescChange={(text) => this.props.editDescription(index, text)}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
@@ -146,6 +158,7 @@ export default connect(
     editDescription,
     createPlan,
     editDescription,
+    editPrice,
     deleteActivityFromDb,
     saveActivityToDb,
     updateActivity }

@@ -7,7 +7,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder, 
         changingRoutes,
         deleteActivityFromDb,
-        goToDashboard } from '../actions';
+        goToActivities } from '../actions';
 import { deletePlan } from '../utils';
 import DashboardActivityItem from '../components/DashboardActivityItem';
 
@@ -90,6 +90,7 @@ export default class DashboardPlanItem extends Component {
               activities.forEach(activity => {
                 this.props.addToBuilder(activity);
               })
+              this.props.goToActivities();
             }}
             label={'Copy this plan'} />
           <FlatButton
@@ -119,5 +120,5 @@ export default connect(
   mapStateToProps,
   { addToBuilder,
     deleteActivityFromDb,
-    goToDashboard}
+    goToActivities}
 )(DashboardPlanItem)
