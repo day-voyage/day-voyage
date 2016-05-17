@@ -24,7 +24,7 @@ class DBResultsContainer extends Component {
         <Card>
           {!hasdbActivities ? <em>0 search results</em> :
             dbactivities.map((activity, index) => {
-              if (true) {
+              if (activity.visArea && activity.visCuisine && activity.visBudget) {
                 return <ActivityItem
                   key={index}
                   activity={activity}
