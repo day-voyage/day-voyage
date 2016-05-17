@@ -1,8 +1,8 @@
-<<<<<<< 70723762807e1aea53d453b2f65233a19ac949bd
-import { checkHttpStatus, parseJSON, searchActivities } from '../utils';
-=======
-import { checkHttpStatus, parseJSON, getPlansByUser } from '../utils';
->>>>>>> implement redux state for dashboard
+import { checkHttpStatus, 
+  parseJSON, 
+  searchActivities,
+  getPlansByUser } from '../utils';
+
 import {
   ADD_TO_BUILDER,
   DELETE_FROM_BUILDER,
