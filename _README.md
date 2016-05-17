@@ -49,22 +49,27 @@ Diagram of architecture goes here
 
 ## Unstacking the stack
 
-React
-- modular and reusable components making it easy to compose different views
-- Single Page Application with client side routing (challenge)
--
-Redux - talk flux architecture, helped manage complexity over large application
+Good Times is a Single Page Application built with React with Redux, with client side routing through React Router
+
+###### React
+- Views are created using modular and reusable view components built in React/JSX.
+- React components implement one-way reactive data flow to immediately rerender views upon changes.
+###### React Router
+- Good Times uses the React Router library for dynamic route matching to keep our UI in sync with the URL.
+- URL paths are synced seamlessly with React view components and allows for smooth transition between page routes.
+###### Redux - talk flux architecture, helped manage complexity over large application
 - state management allowing a single source of truth for props shared throughout app
 - reducers, store and actions - helps separate concerns
 - what each does and how specifically it helped
 
-Node
-- event loop
+###### Node
+- Good Times utilizes Node.js for its extensive package ecosystem through npm, including React and other libraries.
 
-Express
-- server side routing
+###### Express
+- Good Times is served using Express, which helps with server-side routing and handles API calls to the database and external APIs.
+- Utilizes middleware such as body-parser for requests and webpack-dev-middleware to serve our Webpack assets.
 
-Webpack
+###### Webpack
 
 
 ## API's
