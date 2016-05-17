@@ -34,7 +34,7 @@ export default class DBPlan extends Component {
           label="Show More Details" />
         <FlatButton
           onClick={this.props.onAddToBuilderClicked}
-          label="Add" />
+          label="Copy" />
       </Card>
     )
   }

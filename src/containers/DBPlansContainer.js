@@ -31,12 +31,6 @@ class DBPlansContainer extends Component {
                   plan.activities.forEach(activity => {
                     this.props.addToBuilder(activity);
                   })
-                  // this.props.addPlanToBuilder(plan);
-                  // this.props.saveActivityToDb(Object.assign(activity, {
-                  //   isYelp: true,
-                  //   user_gen: false,
-                  //   clientside_id: shortid.generate()
-                  // }), auth.token.access_token);
                 }}/>
           })}
         </Card>
