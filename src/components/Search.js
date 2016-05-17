@@ -54,12 +54,12 @@ export class Search extends React.Component {
       .then((cityData) => cityData.json())
       .then((cityInfo) => {
         var city = cityInfo.formatted_address.split(", ")[1];
-        // run redux action getYelpActivities with our geolocation city, category, and current location (lat and lng)
-        this.props.actions.getYelpActivities({city: city, category: this.state.category}, this.state.location);
+        // run redux action getAllActivities with our geolocation city, category, and current location (lat and lng)
+        this.props.actions.getAllActivities({city: city, category: this.state.category}, this.state.location);
       });
-      // otherwise run redux action getYelpActivities with typed in city and category
+      // otherwise run redux action getAllActivities with typed in city and category
     } else {
-      this.props.actions.getYelpActivities({city: this.state.city, category: this.state.category}, null);
+      this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, null);
     }
   }
 
@@ -152,7 +152,6 @@ export class Search extends React.Component {
 
     return (
       <div className="search">
-       <button onClick={this.triggerAPItest.bind(this)}>test API</button>
         <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
           <div className="search-form__inputs">
             <ActionSearch className="hidden-xs" />
