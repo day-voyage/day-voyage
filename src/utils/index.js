@@ -164,7 +164,7 @@ export function searchActivities(searchTerm, city, cb) {
         return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
         });
       matches.forEach((activity, i) => {
-        matchHash.title = activity;
+        matchHash[activity.title] = activity;
       });
       let uniqueMatches = [];
       for (const title in matchHash) {
@@ -192,8 +192,8 @@ export function searchPlans(searchTerm, city, cb) {
       let query = new RegExp(searchTerm, 'gi');
       let matchHash = Object.create(null);
       let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
-      matches.forEach((activity, i) => {
-        matchHash.title = activity;
+      matches.forEach((plan, i) => {
+        matchHash[plan.title] = plan;
       });
       let uniqueMatches = [];
       for (const title in matchHash) {
