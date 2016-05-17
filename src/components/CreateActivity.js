@@ -143,7 +143,7 @@ export default class CreateActivity extends Component {
       neighborhood: this.state.neighborhood,
       state: this.state.statePlace,
       title: this.state.title,
-      costPerPerson: this.state.cost,
+      price: this.state.cost,
       isYelp: false,
       categories: selectedCategory,
       added: true
