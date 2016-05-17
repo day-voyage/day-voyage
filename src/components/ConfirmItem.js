@@ -25,7 +25,8 @@ export default class ConfirmItem extends Component {
     this.state = {
       descOpen: false,
       description: '',
-      edited: false
+      descEdited: false,
+      priceEdited: false
     };
   }
 
@@ -40,16 +41,28 @@ export default class ConfirmItem extends Component {
     this.props.onDeleteFromBuilderClicked();
   }
 
-  handleDesc(event){
+  handlePrice(event){
     this.setState({
-      description: event.target.value,
-      edited: true
+      price: event.target.value,
+      priceEdited: true
     })
   }
 
-  handleSave(){
+  handleSavePrice(){
+    this.props.editPriceChange(this.state.price);
+    this.setState({priceEdited: false});
+  }
+
+  handleDesc(event){
+    this.setState({
+      description: event.target.value,
+      descEdited: true
+    })
+  }
+
+  handleSaveDesc(){
     this.props.editDescChange(this.state.description);
-    this.setState({edited: false});
+    this.setState({descEdited: false});
   }
 
   render() {
@@ -59,6 +72,17 @@ export default class ConfirmItem extends Component {
 
     if (this.state.descOpen) {
       var cardDesc = <div>
+        Estimated Cost: $
+        <TextField
+         id="text-field-default"
+         type="number"
+         defaultValue={activity.price?activity.price : '0'}
+         onChange={this.handlePrice.bind(this)}/>
+        <FlatButton
+         label="Modify"
+         className="save-info-btn"
+         disabled={!this.state.priceEdited}
+         onClick={this.handleSavePrice.bind(this)} /> <br />
           <strong>Description:</strong><br />
           <TextField
             id="text-field-default"
@@ -69,8 +93,8 @@ export default class ConfirmItem extends Component {
            <FlatButton
             label="Save"
             className="save-info-btn"
-            disabled={!this.state.edited}
-            onClick={this.handleSave.bind(this)} /> <br />
+            disabled={!this.state.descEdited}
+            onClick={this.handleSaveDesc.bind(this)} /> <br />
           <FlatButton
               label="Remove"
               style={{color: '#F44336'}}

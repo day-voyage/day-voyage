@@ -6,6 +6,7 @@ import { addToBuilder,
         reorderDown, 
         changingRoutes,
         editDescription,
+        editPrice,
         createPlan,
         deleteActivityFromDb,
         saveActivityToDb,
@@ -99,6 +100,7 @@ export class ConfirmContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
+            editPriceChange={price => this.props.editPrice(index, price)}
             editDescChange={(text) => this.props.editDescription(index, text)}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
@@ -146,6 +148,7 @@ export default connect(
     editDescription,
     createPlan,
     editDescription,
+    editPrice,
     deleteActivityFromDb,
     saveActivityToDb,
     updateActivity }

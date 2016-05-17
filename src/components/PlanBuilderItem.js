@@ -34,7 +34,6 @@ export default class PlanBuilderItem extends Component {
       price: event.target.value,
       edited: true
     })
-    console.log(this.state.price);
   }
 
   handleSave(){
