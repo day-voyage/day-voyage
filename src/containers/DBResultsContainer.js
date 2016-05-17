@@ -12,18 +12,19 @@ var shortid = require('shortid');
 
 class DBResultsContainer extends Component {
   render() {
-    const { activities, auth } = this.props;
-    const hasActivities = activities.length > 0;
-    if (hasActivities && activities[0].distance) {
-      activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
+    const { dbactivities, auth } = this.props;
+    console.log('dbActivities in DBResultsContainer', dbactivities);
+    const hasdbActivities = dbactivities.length > 0;
+    if (hasdbActivities && dbactivities[0].distance) {
+      dbactivities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
     }
     return (
       <div>
         <h3 style={{marginLeft: 15}}>Activities</h3>
         <Card>
-          {!hasActivities ? <em>0 search results</em> :
-            activities.map((activity, index) => {
-              if (activity.visArea && activity.visCuisine && activity.visBudget) {
+          {!hasdbActivities ? <em>0 search results</em> :
+            dbactivities.map((activity, index) => {
+              if (true) {
                 return <ActivityItem
                   key={index}
                   activity={activity}
@@ -45,7 +46,7 @@ class DBResultsContainer extends Component {
 }
 
 DBResultsContainer.propTypes = {
-  activities: PropTypes.arrayOf(PropTypes.shape({
+  dbactivities: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string.isRequired,
     desc: PropTypes.string.isRequired,
@@ -56,7 +57,7 @@ DBResultsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities,
+    dbactivities: state.dbactivities,
     auth: state.auth
   }
 }
