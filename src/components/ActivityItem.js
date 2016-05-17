@@ -60,7 +60,7 @@ export default class ActivityItem extends Component {
           label={activity.added ? 'Added' : 'Add to itinerary'} />
         {this.state.descOpen ? 
           <CardText>
-            <strong>Estimated cost:</strong> 
+            <strong>Estimated cost: </strong> 
               ${activity.price?activity.price:'0'}. (add activity to modify)<br />
             <strong>Address:</strong>
             <br />{activity.address}<br />
