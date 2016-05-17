@@ -1,6 +1,6 @@
-# Project Name
+# Good Times
 
-> Pithy project description
+Let 'em roll
 
 ## Team
 
@@ -10,7 +10,7 @@
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Up and running](#Up and running)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
@@ -18,24 +18,49 @@
 1. [Team](#team)
 1. [Contributing](#contributing)
 
-## Usage
+## Up and running
+> Install dependencies
+> Export environement
+> Start server
+> Go to API repo for instructions to set up data layer
 
-> Some usage instructions
+```sh
+npm install
+npm start
+```
+
+## Why good times?
 
 ## Requirements
 
+- React
+- Redux
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Postgresql 9.5.2
+- Nodal 0.1.0
+- Webpack 1.11.0
+
+
+## Application Architecture
+
+Diagram of architecture goes here
+
+## Unstacking the stack
+
+React
+- modular components to compose views
+- SPA approach with client side routing (challenge)
+Redux - talk flux architecture, helped manage complexity over large application
+- reducers, store and actions
+- what each does and how specifically it helped
+
 
 ## Development
 
-To babelify and generate a bundle:
+To build webpack and generate a bundle:
 From within the root directory:
 ```sh
-npm start dev
+npm start
 ```
 
 To generate docs:
@@ -47,13 +72,6 @@ document
 
 ### Installing Dependencies
 
-From within the root directory:
-
-```sh
-sudo npm install -g bower
-npm install
-bower install
-```
 
 ### Roadmap
 
