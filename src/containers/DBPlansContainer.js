@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addPlanToBuilder, 
         changingRoutes,
-        saveActivityToDb } from '../actions';
+        saveActivityToDb,
+        addToBuilder } from '../actions';
 import { Card } from 'material-ui/Card';
 import DBPlan from '../components/DBPlan';
 
@@ -27,12 +28,9 @@ class DBPlansContainer extends Component {
                 plan={plan}
                 openSnackbar={this.props.openSnackbar}
                 onAddToBuilderClicked={() => {
-                  this.props.addPlanToBuilder(plan);
-                  // this.props.saveActivityToDb(Object.assign(activity, {
-                  //   isYelp: true,
-                  //   user_gen: false,
-                  //   clientside_id: shortid.generate()
-                  // }), auth.token.access_token);
+                  plan.activities.forEach(activity => {
+                    this.props.addToBuilder(activity);
+                  })
                 }}/>
           })}
         </Card>
@@ -60,5 +58,6 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { addPlanToBuilder }
+  { addPlanToBuilder,
+    addToBuilder }
 )(DBPlansContainer)
