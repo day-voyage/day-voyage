@@ -89,14 +89,14 @@ export function changeRoutes(route) {
 /**
  * Get Yelp search results
  */
-export function getYelpActivities(query, location) {
+export function getAllActivities(query, location) {
   return (dispatch) => {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
 
     searchActivities(query.category, query.city, (results) => {
-      var dbResults = results.map((activity) => Object.assign(activity, {visArea: true, visCuisine: true, visBudget: true}));
+      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCuisine: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
     });
 
@@ -124,7 +124,7 @@ export function getYelpActivities(query, location) {
         transformed.state = activity.location.state_code;
         transformed.neighborhood = activity.location.neighborhoods || [];
         transformed.added = false;
-        transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
+        transformed.icon = 'http://www.maddiesrestaurant.com/wp-content/themes/maddies/images/yelp-icon.png';
         transformed.visArea = true;
         transformed.visCuisine = true;
         transformed.visBudget = true;
