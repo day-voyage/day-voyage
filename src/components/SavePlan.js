@@ -27,6 +27,7 @@ export default class SavePlan extends Component {
   finishSharing() {
     this.props.toggleModal();
     getPlansByUser(this.props.auth.user_id, response => {
+      console.log('finished sharing, heres the data: ', response.data);
       this.props.getDashboardActivities(response.data);
     });
     this.props.goToDashboard();
