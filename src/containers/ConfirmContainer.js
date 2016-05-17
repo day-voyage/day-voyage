@@ -65,12 +65,13 @@ export class ConfirmContainer extends Component {
           plan_id: response.data[0].id
         });
         var activities = [];
-        this.props.planBuilder.forEach(activity => {
+        this.props.planBuilder.forEach((activity, index) => {
           this.props.saveActivityToDb(Object.assign(activity, {
             isYelp: true,
             user_gen: false,
             clientside_id: shortid.generate(),
-            plan_id: response.data[0].id
+            plan_id: response.data[0].id,
+            index: index
           }), this.props.auth.token.access_token);
         });
 

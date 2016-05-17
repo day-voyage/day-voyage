@@ -60,7 +60,7 @@ export default class DashboardPlanItem extends Component {
     const { auth, activities } = this.props;
 
     if (activities) {
-      var mappedActivities = activities.map((activity, index) => {
+      var mappedActivities = activities.sort((a, b) => a.index < b.index).map((activity, index) => {
           return <DashboardActivityItem
             key={index}
             activity={activity}
