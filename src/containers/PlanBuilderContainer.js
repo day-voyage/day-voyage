@@ -57,8 +57,11 @@ class PlanBuilderContainer extends Component {
 
   getTotalPrice() {
     var total = 0;
-    this.props.planBuilder.forEach(activity => total += parseInt(activity.price));
-    this.setState({total: total});
+    this.props.planBuilder.forEach(activity => {
+      if (activity.price) { 
+        total += parseInt(activity.price) ;
+      }});
+    return total;
   }
 
   render() {
@@ -69,7 +72,7 @@ class PlanBuilderContainer extends Component {
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
-        Current cost so far: ${this.state.total}
+        Current cost so far: ${this.getTotalPrice()}
         {planBuilder.map((activity, index) =>
           <PlanBuilderItem
             key={index}
@@ -109,7 +112,6 @@ class PlanBuilderContainer extends Component {
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} /><br />
           $<TextField
-           id="text-field-default"
            type="number"
            hint="Enter a budget"
            onChange={this.handleBudget.bind(this)}/><br />
