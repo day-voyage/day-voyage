@@ -1,6 +1,7 @@
 import { checkHttpStatus, 
   parseJSON, 
   searchActivities,
+  searchPlans,
   getPlansByUser } from '../utils';
 
 import {
@@ -35,8 +36,10 @@ import {
   DB_ADD_TO_BUILDER,
   DB_DELETE_FROM_BUILDER,
   DASHBOARD_RECEIVE,
-  DASHBOARD_DELETE
-
+  DASHBOARD_DELETE,
+  RECEIVE_PLANS,
+  ADD_PLAN_TO_BUILDER,
+  DELETE_PLAN_FROM_BUILDER
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -51,14 +54,21 @@ export function receiveActivities(activities) {
   return {
     type: RECEIVE_ACTIVITIES,
     activities
-  }
+  };
 }
 
 export function receiveDBActivities(activities) {
   return {
     type: RECEIVE_DBACTIVITIES,
     activities
-  }
+  };
+}
+
+export function receivePlans(plans) {
+  return {
+    type: RECEIVE_PLANS,
+    plans
+  };
 }
 
 export function receiveRoutes(route) {
@@ -88,6 +98,11 @@ export function getYelpActivities(query, location) {
       console.log('results from searchActivities for DB', results);
       var dbResults = results.map((activity) => Object.assign(activity, {visArea: true, visCuisine: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
+    });
+
+    searchPlans(query.category, query.city, (results) => {
+      console.log('results from searchPlans for DB', results);
+      dispatch(receivePlans(results));
     });
 
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
@@ -188,6 +203,13 @@ export function DBaddToBuilder(activity) {
   };
 }
 
+export function addPlanToBuilder(plan) {
+  return {
+    type: ADD_PLAN_TO_BUILDER,
+    plan
+  };
+}
+
 export function deleteFromBuilder(activity) {
   return {
     type: DELETE_FROM_BUILDER,
@@ -199,6 +221,13 @@ export function DBdeleteFromBuilder(activity) {
   return {
     type: DB_DELETE_FROM_BUILDER,
     activity
+  };
+}
+
+export function deletePlanFromBuilder(plan) {
+  return {
+    type: DELETE_PLAN_FROM_BUILDER,
+    plan
   };
 }
 
