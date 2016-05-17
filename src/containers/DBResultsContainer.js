@@ -1,15 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addToBuilder, changingRoutes } from '../actions';
+import { addToBuilder, 
+        changingRoutes,
+        saveActivityToDb } from '../actions';
 import {GridList} from 'material-ui/GridList';
 import { Card } from 'material-ui/Card';
 import ActivityItem from '../components/ActivityItem';
 
+var shortid = require('shortid');
 
 
 class DBResultsContainer extends Component {
   render() {
-    const { activities } = this.props;
+    const { activities, auth } = this.props;
     const hasActivities = activities.length > 0;
     if (hasActivities && activities[0].distance) {
       activities.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
@@ -53,19 +56,13 @@ DBResultsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities
+    activities: state.activities,
+    auth: state.auth
   }
 }
 
 export default connect(
   mapStateToProps,
-  { addToBuilder }
+  { addToBuilder,
+    saveActivityToDb }
 )(DBResultsContainer)
-
-const styles = {
-  gridList: {
-    width: 550,
-    height: 500,
-    marginBottom: 24,
-  },
-};
