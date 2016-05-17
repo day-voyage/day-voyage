@@ -6,19 +6,24 @@ import { addToBuilder,
         reorderDown,
         changingRoutes,
         goToConfirm,
-        deleteActivityFromDb } from '../actions';
+        deleteActivityFromDb,
+        editPrice } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card } from 'material-ui/Card';
 import { isLoggedIn } from '../utils';
+import TextField from 'material-ui/TextField';
+
 
 class PlanBuilderContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      budget: 0,
+      total: 0
     };
   }
 
@@ -44,6 +49,18 @@ class PlanBuilderContainer extends Component {
     }
   }
 
+  handleBudget(event){
+    this.setState({
+      budget: event.target.value
+    })
+  }
+
+  getTotalPrice() {
+    var total = 0;
+    this.props.planBuilder.forEach(activity => total += parseInt(activity.price));
+    this.setState({total: total});
+  }
+
   render() {
     const { planBuilder, activities, auth } = this.props;
     const hasActivities = planBuilder.length > 0;
@@ -52,12 +69,14 @@ class PlanBuilderContainer extends Component {
       <em>Start building your itinerary here!</em> :
       <div>
         <div>
+        Current cost so far: ${this.state.total}
         {planBuilder.map((activity, index) =>
           <PlanBuilderItem
             key={index}
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
+            editPriceChange={price => this.props.editPrice(index, price)}
             onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
@@ -89,6 +108,11 @@ class PlanBuilderContainer extends Component {
           <FlatButton
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} /><br />
+          $<TextField
+           id="text-field-default"
+           type="number"
+           hint="Enter a budget"
+           onChange={this.handleBudget.bind(this)}/><br />
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton
@@ -128,6 +152,7 @@ export default connect(
     reorderDown,
     changingRoutes,
     goToConfirm,
-    deleteActivityFromDb }
+    deleteActivityFromDb,
+    editPrice }
 )(PlanBuilderContainer)
 

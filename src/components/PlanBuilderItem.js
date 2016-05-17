@@ -4,14 +4,17 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
-import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
+import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import TextField from 'material-ui/TextField';
 
 export default class PlanBuilderItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      descOpen: false
+      descOpen: false,
+      price: 0,
+      edited: false
     };
   }
 
@@ -26,6 +29,19 @@ export default class PlanBuilderItem extends Component {
     });
   }
 
+  handlePrice(event){
+    this.setState({
+      price: event.target.value,
+      edited: true
+    })
+    console.log(this.state.price);
+  }
+
+  handleSave(){
+    this.props.editPriceChange(this.state.price);
+    this.setState({edited: false});
+  }
+
   render() {
     const { activity, order } = this.props;
 
@@ -33,6 +49,17 @@ export default class PlanBuilderItem extends Component {
 
     if (this.state.descOpen) {
       var cardDesc = <div>
+          Estimated Cost: $
+          <TextField
+           id="text-field-default"
+           type="number"
+           defaultValue={activity.price?activity.price : '0'}
+           onChange={this.handlePrice.bind(this)}/>
+          <FlatButton
+           label="Modify"
+           className="save-info-btn"
+           disabled={!this.state.edited}
+           onClick={this.handleSave.bind(this)} /> <br />
           <strong>Address:</strong><br />
           {activity.address}<br />
           {activity.city}, {activity.state}<br /><br />

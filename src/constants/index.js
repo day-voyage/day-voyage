@@ -24,6 +24,7 @@ export default createConstants(
   'CHECK_CUISINE',
   'CHECK_BUDGET',
   'EDIT_DESC',
+  'EDIT_PRICE',
   'SAVE_ACTIVITY_CONFIRM',
   'DELETE_ACTIVITY_CONFIRM',
   'SAVE_PLAN_CONFIRM',

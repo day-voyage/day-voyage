@@ -28,6 +28,7 @@ import {
   CHECK_CUISINE,
   CHECK_BUDGET,
   EDIT_DESC,
+  EDIT_PRICE,
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
@@ -650,6 +651,13 @@ export function editDescription(activityIndex, text) {
   }
 }
 
+export function editPrice(activityIndex, price) {
+  return {
+    type: EDIT_PRICE,
+    activityIndex: activityIndex,
+    price: price
+  }
+}
 
 export function unCheckCity(city) {
   return {
