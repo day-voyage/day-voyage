@@ -10,12 +10,13 @@ import { addToBuilder,
         createPlan,
         deleteActivityFromDb,
         saveActivityToDb,
-        updateActivity } from '../actions';
+        updateActivity,
+        receiveBudget } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem';
 import SavePlan from '../components/SavePlan';
 import TextField from 'material-ui/TextField';
-import Card from 'material-ui/Card';
+import { Card, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import {Tabs, Tab} from 'material-ui/Tabs';
@@ -93,8 +94,12 @@ export class ConfirmContainer extends Component {
     return total;
   }
 
+  handleBudget(event){
+    this.props.receiveBudget(event.target.value)
+  }
+
   render() {
-    const { planBuilder, auth } = this.props;
+    const { planBuilder, auth, data } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     return (
@@ -103,7 +108,17 @@ export class ConfirmContainer extends Component {
           hintText="Name Your Itinerary"
           onChange={this.handleTitle.bind(this)}/><br />
         <div>
-        Current cost so far: ${this.getTotalPrice()}
+        <CardText>
+          Budget: $<TextField
+           type="number"
+           defaultValue={this.props.data.budget}
+           onChange={this.handleBudget.bind(this)}/><br />
+        </CardText>
+        Current cost so far: 
+                <span style={
+                  this.getTotalPrice() <= data.budget ?
+                  {color: '#009900'}:
+                  {color: '#F44336'}}> ${this.getTotalPrice()}</span>
         {planBuilder.map((activity, index) => 
           <ConfirmItem
             key={index}
@@ -144,7 +159,8 @@ export class ConfirmContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     planBuilder: state.planBuilder,
-    auth: state.auth
+    auth: state.auth,
+    data: state.data
   }
 }
 
@@ -161,5 +177,6 @@ export default connect(
     editPrice,
     deleteActivityFromDb,
     saveActivityToDb,
-    updateActivity }
+    updateActivity,
+    receiveBudget }
 )(ConfirmContainer)

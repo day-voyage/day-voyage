@@ -40,7 +40,8 @@ import {
   DASHBOARD_DELETE,
   RECEIVE_PLANS,
   ADD_PLAN_TO_BUILDER,
-  DELETE_PLAN_FROM_BUILDER
+  DELETE_PLAN_FROM_BUILDER,
+  RECEIVE_BUDGET
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -83,6 +84,15 @@ export function changeRoutes(route) {
   return {
     type: CHANGE_ROUTES,
     directions: route
+  };
+}
+
+export function receiveBudget(budget) {
+  return {
+    type: RECEIVE_BUDGET,
+    payload: {
+      budget: budget
+    }
   };
 }
 
