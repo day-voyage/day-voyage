@@ -84,6 +84,15 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
+  getTotalPrice() {
+    var total = 0;
+    this.props.planBuilder.forEach(activity => {
+      if (activity.price) { 
+        total += parseInt(activity.price) ;
+      }});
+    return total;
+  }
+
   render() {
     const { planBuilder, auth } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -94,6 +103,7 @@ export class ConfirmContainer extends Component {
           hintText="Name Your Itinerary"
           onChange={this.handleTitle.bind(this)}/><br />
         <div>
+        Current cost so far: ${this.getTotalPrice()}
         {planBuilder.map((activity, index) => 
           <ConfirmItem
             key={index}
