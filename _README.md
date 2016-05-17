@@ -73,7 +73,14 @@ The data powering our application.
 Our main DB link to it
 DP endpoints
 
-Yelp api google maps api
+###### External API - Yelp
+- Good Times utilizes the Yelp Search API to supplement user-generated activities with local establishments based on your search query in the city of your choosing.
+
+###### External API - Google Maps
+- Google Maps - Implemented using the React-Google-Maps library. Good Times generates all search points on the map and creates routes between destinations in a plan based on the order of destinations set.
+- Google Geocoding - When geolocation search is activated, Google Geocoding is used to translate the coordinates from latitude/longitude to a city name, so it can be implemented as a location query for our database and the Yelp Search API.
+- Google Distance Matrix - When doing search based on geolocation, all activities include the distance from the user's location in miles.
+
 
 ## Challenges
 - routing
