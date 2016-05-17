@@ -88,7 +88,7 @@ class PlanBuilderContainer extends Component {
             onClick={this.openCreate.bind(this)} />
           <FlatButton
             label="Clear All"
-            onClick={() => planBuilder.forEach(element => this.deleteActivity(element))} /><br />
+            onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton

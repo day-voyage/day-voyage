@@ -1,4 +1,8 @@
+<<<<<<< 70723762807e1aea53d453b2f65233a19ac949bd
 import { checkHttpStatus, parseJSON, searchActivities } from '../utils';
+=======
+import { checkHttpStatus, parseJSON, getPlansByUser } from '../utils';
+>>>>>>> implement redux state for dashboard
 import {
   ADD_TO_BUILDER,
   DELETE_FROM_BUILDER,
@@ -29,7 +33,10 @@ import {
   QUERY_DB,
   RECEIVE_DBACTIVITIES,
   DB_ADD_TO_BUILDER,
-  DB_DELETE_FROM_BUILDER
+  DB_DELETE_FROM_BUILDER,
+  DASHBOARD_RECEIVE,
+  DASHBOARD_DELETE
+
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -203,11 +210,24 @@ export function goToConfirm() {
   };
 }
 
+export function getDashboardActivities(dashboard) {
+  return {
+    type: DASHBOARD_RECEIVE,
+    dashboard
+  }
+}
+
 export function goToDashboard() {
   return dispatch => {
-    console.log("here in dispatch");
     dispatch(push('/dashboard'));
   };
+}
+
+export function deleteFromDashboard(planIndex) {
+  return {
+    type: DASHBOARD_DELETE,
+    planIndex
+  }
 }
 
 export function reorderUp(activityIndex) {

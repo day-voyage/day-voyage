@@ -6,7 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder, 
         changingRoutes,
-        deleteActivityFromDb } from '../actions';
+        deleteActivityFromDb,
+        goToDashboard } from '../actions';
 import { deletePlan } from '../utils';
 import DashboardActivityItem from '../components/DashboardActivityItem';
 
@@ -28,7 +29,8 @@ export default class DashboardPlanItem extends Component {
      */
     this.state = {
       copied: false,
-      descOpen: false
+      descOpen: false,
+      deleted: false
     };
   }
 
@@ -43,6 +45,15 @@ export default class DashboardPlanItem extends Component {
       copied: true
     })
     console.log(this.state.copied);
+  }
+
+  handleDeleteClicked() {
+    this.props.onDeleteClicked();
+
+    this.props.activities.forEach(activity => {
+      this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted'));
+    });
+    deletePlan(this.props.plan_id, response => console.log('plan deleted'));
   }
 
   render() {
@@ -82,12 +93,8 @@ export default class DashboardPlanItem extends Component {
             }}
             label={'Copy this plan'} />
           <FlatButton
-            onClick={() => {
-              activities.forEach(activity => {
-                this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted'));
-              });
-              deletePlan(this.props.plan_id, response => console.log('plan deleted'));
-            }}
+            onClick={this.handleDeleteClicked.bind(this)}
+
             label={'Delete'} />
             {this.state.descOpen ? mappedActivities : null}
           </div>
@@ -111,5 +118,6 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   { addToBuilder,
-    deleteActivityFromDb }
+    deleteActivityFromDb,
+    goToDashboard}
 )(DashboardPlanItem)

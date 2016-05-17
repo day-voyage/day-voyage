@@ -8,7 +8,8 @@ import { addToBuilder,
         editDescription,
         createPlan,
         deleteActivityFromDb,
-        saveActivityToDb } from '../actions';
+        saveActivityToDb,
+        updateActivity } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem';
 import SavePlan from '../components/SavePlan';
@@ -48,14 +49,6 @@ export class ConfirmContainer extends Component {
 
   saveItinerary() {
 
-    this.props.planBuilder.forEach(activity => {
-      this.props.saveActivityToDb(Object.assign(activity, {
-        isYelp: true,
-        user_gen: false,
-        clientside_id: shortid.generate()
-      }), this.props.auth.token.access_token)
-    });
-
     if (this.state.planTitle.length === 0) {
       this.toggleSnackbar("Please name your itinerary");
     } else {
@@ -66,9 +59,21 @@ export class ConfirmContainer extends Component {
         title: this.state.planTitle,
         desc: '',
         likes: 0
-      }), activityIds, (response) => {
-        console.log('saved to db, response: ', response);
-        this.setState({plan_id: response.data[0].id});
+      }), [], (response) => {
+        console.log('save itin response: ', response);
+        this.setState({
+          plan_id: response.data[0].id
+        });
+        var activities = [];
+        this.props.planBuilder.forEach(activity => {
+          this.props.saveActivityToDb(Object.assign(activity, {
+            isYelp: true,
+            user_gen: false,
+            clientside_id: shortid.generate(),
+            plan_id: response.data[0].id
+          }), this.props.auth.token.access_token);
+        });
+
       });
     }
   }
@@ -141,5 +146,6 @@ export default connect(
     createPlan,
     editDescription,
     deleteActivityFromDb,
-    saveActivityToDb }
+    saveActivityToDb,
+    updateActivity }
 )(ConfirmContainer)
