@@ -43,7 +43,7 @@ export default class CoreLayout extends React.Component {
     return (
       <nav className="app-navbar">
         <div className="app-navbar__header">
-            <Link className="app-title" to="/">GoodTimes</Link>
+            <Link className="app-title" to="/">DayVoyage</Link>
         </div>
         <div className="app-navbar__actions">
           {this.props.isAuthenticated
