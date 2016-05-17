@@ -95,13 +95,11 @@ export function getYelpActivities(query, location) {
     */
 
     searchActivities(query.category, query.city, (results) => {
-      console.log('results from searchActivities for DB', results);
       var dbResults = results.map((activity) => Object.assign(activity, {visArea: true, visCuisine: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
     });
 
     searchPlans(query.category, query.city, (results) => {
-      console.log('results from searchPlans for DB', results);
       dispatch(receivePlans(results));
     });
 

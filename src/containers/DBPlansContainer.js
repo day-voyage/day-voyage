@@ -12,7 +12,6 @@ var shortid = require('shortid');
 class DBPlansContainer extends Component {
   render() {
     const { plans, auth } = this.props;
-    console.log('plans in DBPlansContainer', plans);
     const hasplans = plans.length > 0;
     if (hasplans && plans[0].distance) {
       plans.sort((a, b) => parseFloat(a.distance) > parseFloat(b.distance));
