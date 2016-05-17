@@ -15,9 +15,9 @@ export default class DBPlan extends Component {
     window.open(`http://localhost:3000/?plan=${plan.id}`, 'blank');
   }
 
-  addPlan() {
-    console.log('add to plan here');
-  }
+  // addPlan() {
+  //   console.log('add to plan here');
+  // }
 
   render() {
     const { plan } = this.props;
@@ -33,7 +33,7 @@ export default class DBPlan extends Component {
           onClick={this.openLink.bind(this)}
           label="Show More Details" />
         <FlatButton
-          onClick={this.addPlan.bind(this)}
+          onClick={this.props.onAddToBuilderClicked}
           label="Add" />
       </Card>
     )
