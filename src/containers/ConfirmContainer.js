@@ -7,7 +7,9 @@ import { addToBuilder,
         changingRoutes,
         editDescription,
         createPlan,
-        deleteActivityFromDb } from '../actions';
+        deleteActivityFromDb,
+        saveActivityToDb,
+        updateActivity } from '../actions';
 import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem';
 import SavePlan from '../components/SavePlan';
@@ -29,6 +31,7 @@ export class ConfirmContainer extends Component {
       modalOpen: false,
       snackbar: false,
       message: '',
+      plan_id: null
     };
   }
 
@@ -44,18 +47,34 @@ export class ConfirmContainer extends Component {
     setTimeout(() => this.setState({snackbar: false}), 2000);
   }
 
-  saveItinerary(user_id, activity_ids) {
+  saveItinerary() {
+
     if (this.state.planTitle.length === 0) {
       this.toggleSnackbar("Please name your itinerary");
     } else {
       this.toggleModal();
       this.props.createPlan(Object.assign({}, {
-        user_id: user_id,
+        user_id: this.props.auth.user_id,
         clientside_id: shortid.generate(),
         title: this.state.planTitle,
         desc: '',
         likes: 0
-      }), activity_ids, (response) => console.log('saved to db, response: ', response));
+      }), [], (response) => {
+        console.log('save itin response: ', response);
+        this.setState({
+          plan_id: response.data[0].id
+        });
+        var activities = [];
+        this.props.planBuilder.forEach(activity => {
+          this.props.saveActivityToDb(Object.assign(activity, {
+            isYelp: true,
+            user_gen: false,
+            clientside_id: shortid.generate(),
+            plan_id: response.data[0].id
+          }), this.props.auth.token.access_token);
+        });
+
+      });
     }
   }
 
@@ -63,20 +82,9 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
-  deleteActivity(activity) {
-    this.props.deleteFromBuilder(activity);
-
-    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
-  }
-
   render() {
     const { planBuilder, auth } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-    var activityIds = [];
-    for (var i = 0; i < planBuilder.length; i++) {
-      activityIds.push({id: planBuilder[i].id});
-    }
 
     return (
       <Card>
@@ -91,7 +99,7 @@ export class ConfirmContainer extends Component {
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
             editDescChange={(text) => this.props.editDescription(index, text)}
-            onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
               
@@ -102,13 +110,14 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.saveItinerary(auth.token.user_id, activityIds)}>
+          onClick={() => this.saveItinerary()}>
           Save Itinerary
         </FlatButton>
         <SavePlan
           toggleModal={this.toggleModal.bind(this)}
           toggleSnackbar={this.toggleSnackbar.bind(this)}
           planTitle={this.state.planTitle}
+          plan_id={this.state.plan_id}
           modalOpen={this.state.modalOpen}/>
         <Snackbar
           open={this.state.snackbar}
@@ -128,13 +137,15 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { addToBuilder, 
-    deleteFromBuilder, 
-    reorderUp, 
-    reorderDown, 
+  { addToBuilder,
+    deleteFromBuilder,
+    reorderUp,
+    reorderDown,
     changingRoutes,
     editDescription,
     createPlan,
     editDescription,
-    deleteActivityFromDb }
+    deleteActivityFromDb,
+    saveActivityToDb,
+    updateActivity }
 )(ConfirmContainer)

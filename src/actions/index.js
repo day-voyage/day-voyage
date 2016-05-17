@@ -1,4 +1,8 @@
-import { checkHttpStatus, parseJSON } from '../utils';
+import { checkHttpStatus, 
+  parseJSON, 
+  searchActivities,
+  getPlansByUser } from '../utils';
+
 import {
   ADD_TO_BUILDER,
   DELETE_FROM_BUILDER,
@@ -26,7 +30,13 @@ import {
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
-  QUERY_DB
+  QUERY_DB,
+  RECEIVE_DBACTIVITIES,
+  DB_ADD_TO_BUILDER,
+  DB_DELETE_FROM_BUILDER,
+  DASHBOARD_RECEIVE,
+  DASHBOARD_DELETE
+
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -40,6 +50,13 @@ export function initApp() {
 export function receiveActivities(activities) {
   return {
     type: RECEIVE_ACTIVITIES,
+    activities
+  }
+}
+
+export function receiveDBActivities(activities) {
+  return {
+    type: RECEIVE_DBACTIVITIES,
     activities
   }
 }
@@ -66,6 +83,15 @@ export function getYelpActivities(query, location) {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
+
+    searchActivities(query.category, query.city, (results) => {
+      console.log('results from searchActivities for DB', results);
+      dispatch(receiveDBActivities(results));
+    });
+
+
+
+
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
@@ -84,7 +110,7 @@ export function getYelpActivities(query, location) {
         transformed.address = activity.location.address[0];
         transformed.city = activity.location.city;
         transformed.state = activity.location.state_code;
-        transformed.neighborhood = activity.location.neighborhoods;
+        transformed.neighborhood = activity.location.neighborhoods || [];
         transformed.added = false;
         transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
         transformed.visArea = true;
@@ -101,6 +127,7 @@ export function getYelpActivities(query, location) {
       * if current location was included
       */
       if (location !== null) {
+        console.log('inside location !== null');
         /**
         * check distances of all activities from current location using Google distance matrix api
         */
@@ -114,6 +141,8 @@ export function getYelpActivities(query, location) {
           /**
           * add distance key to each activity
           */
+          console.log('distances: ', distances);
+          console.log('nolocation: ', noLocation);
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
@@ -124,6 +153,7 @@ export function getYelpActivities(query, location) {
           dispatch(receiveActivities(withLocation));
         })
         .then(() => {
+          console.log('about to push');
           /**
           * route to activities page
           */
@@ -153,6 +183,13 @@ export function addToBuilder(activity) {
   };
 }
 
+export function DBaddToBuilder(activity) {
+  return {
+    type: DB_ADD_TO_BUILDER,
+    activity
+  };
+}
+
 export function deleteFromBuilder(activity) {
   return {
     type: DELETE_FROM_BUILDER,
@@ -160,9 +197,36 @@ export function deleteFromBuilder(activity) {
   };
 }
 
+export function DBdeleteFromBuilder(activity) {
+  return {
+    type: DB_DELETE_FROM_BUILDER,
+    activity
+  };
+}
+
 export function goToConfirm() {
   return dispatch => {
     dispatch(push('/confirm'));
+  };
+}
+
+export function getDashboardActivities(dashboard) {
+  return {
+    type: DASHBOARD_RECEIVE,
+    dashboard
+  }
+}
+
+export function goToDashboard() {
+  return dispatch => {
+    dispatch(push('/dashboard'));
+  };
+}
+
+export function deleteFromDashboard(planIndex) {
+  return {
+    type: DASHBOARD_DELETE,
+    planIndex
   }
 }
 
@@ -189,13 +253,13 @@ export function changingRoutes(activities) {
     }
 
     var places = activities.map(function(item) {
-      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, icon: item.icon, address: [item.address, item.city, item.state].join(', ') };
+      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, icon: item.icon};
     });
 
     DirectionsService.route(
       {
-        origin: places[0].address,
-        destination: places[places.length-1].address,
+        origin: places[0].position,
+        destination: places[places.length-1].position,
         waypoints: places.slice(1,-1).map((item) => item.position),
         optimizeWaypoints: false,
         travelMode: google.maps.TravelMode.WALKING,
@@ -210,10 +274,14 @@ export function changingRoutes(activities) {
 }
 
 
-export function loginUserSuccess(token, snackbar) {
+export function loginUserSuccess(token, snackbar, signedup) {
   localStorage.setItem('token', JSON.stringify(token));
   if (snackbar) {
-    snackbar("You have successfully logged in");
+    if (signedup) {
+      snackbar("Congratulations, you have signed up!");
+    } else {
+      snackbar("You have successfully logged in");
+    }
   }
   return {
     type: LOGIN_USER_SUCCESS,
@@ -223,8 +291,9 @@ export function loginUserSuccess(token, snackbar) {
   }
 }
 
-export function loginUserFailure(error) {
+export function loginUserFailure(error, snackbar) {
   localStorage.removeItem('token');
+  snackbar('The user name and password you have entered do not match our records');
   console.log(error);
   return {
     type: LOGIN_USER_FAILURE,
@@ -258,7 +327,7 @@ export function logoutAndRedirect(snackbar) {
     }
 }
 
-export function loginUser(username, password, snackbar) {
+export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
         return fetch('http://localhost:8080/v1/access_tokens', {
@@ -273,16 +342,15 @@ export function loginUser(username, password, snackbar) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(loginUserSuccess(response.data[0], snackbar));
+                    dispatch(loginUserSuccess(response.data[0], snackbar, signedup));
                 } catch (e) {
                     console.log(e);
-                    snackbar('The user name and password you have entered do not match our records');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
                           statusText: 'Invalid token'
                         }
-                    }));
+                    }, snackbar));
                 }
             })
             .catch(error => {
@@ -294,7 +362,7 @@ export function loginUser(username, password, snackbar) {
                let resError = Object.assign({}, {
                 response: response
               });
-               dispatch(loginUserFailure(resError));
+               dispatch(loginUserFailure(resError, snackbar));
             })
     }
 }
@@ -318,7 +386,7 @@ export function signUpUser(username, password, email, snackbar) {
     .then(parseJSON)
     .then(response => {
       try {
-          dispatch(loginUser(username, password));
+          dispatch(loginUser(username, password, snackbar, true));
         } catch (e) {
           snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
@@ -373,6 +441,7 @@ export function fetchProtectedDataRequest() {
     type: FETCH_PROTECTED_DATA_REQUEST
   }
 }
+
 
 export function fetchProtectedData(token) {
 
@@ -431,9 +500,10 @@ export function saveActivityConfirm(activity, activity_db_id) {
   }
 }
 
-export function savePlanConfirm() {
+export function savePlanConfirm(planId) {
   return {
-    type: SAVE_PLAN_CONFIRM
+    type: SAVE_PLAN_CONFIRM,
+    planId
   }
 }
 
@@ -522,6 +592,7 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
+    console.log(activities);
     fetch(`/db/plan`, {
       method: 'POST',
       headers: {
@@ -532,8 +603,9 @@ export function createPlan(plan, activities, cb) {
     .then(parseJSON)
     .then(response => {
       cb(response);
+      var planId = response.data[0].id
+      dispatch(savePlanConfirm(planId));
     })
-    .then(() => dispatch(savePlanConfirm()))
     .catch(error => console.log(`Error creating plan: ${error}`))
   }
 }
@@ -560,5 +632,3 @@ export function queryDb() {
     type: QUERY_DB
   };
 }
-
-

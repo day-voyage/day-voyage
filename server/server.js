@@ -86,7 +86,7 @@ app.post('/db/plan', function (request, response) {
       response.send(data.data);
   })
     .catch(error => {
-      console.log(`Error posting plans to db from server: ${error}`);
+      console.log('Error posting plans to db from server:', error);
       response.send(error);
     });
 });

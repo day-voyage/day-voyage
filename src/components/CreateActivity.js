@@ -123,7 +123,7 @@ export default class CreateActivity extends Component {
       lat: lat,
       long: long
     })
-    
+
   }
 
   addNewEvent() {
@@ -151,7 +151,6 @@ export default class CreateActivity extends Component {
     this.props.addFromCreate(activity);
     this.props.toggleModal();
     this.props.openSnackbar("Event has been created");
-    this.props.saveToDb(activity);
   }
 
   render() {
@@ -223,10 +222,12 @@ export default class CreateActivity extends Component {
                 labelPosition="right"
                 onToggle={this.handlePrivate.bind(this)}
                 defaultToggled={false} />
-              <FlatButton 
-                label="Add to itinerary" 
+              <FlatButton
+                label="Add to itinerary"
                 onClick={this.addNewEvent.bind(this)}/>
-              <img src='../assets/close.png' onClick={this.toggleModal.bind(this)} />
+              <FlatButton
+                label="Cancel"
+                onClick={this.toggleModal.bind(this)} />
            </form>
           </div>
       </Dialog>

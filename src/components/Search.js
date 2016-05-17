@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import AutoComplete from 'material-ui/AutoComplete';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
+import ActionSearch from 'material-ui/svg-icons/action/search';
 import * as utils from '../utils';
 
 
@@ -40,7 +42,6 @@ export class Search extends React.Component {
     });
   }
 
-
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...
@@ -63,11 +64,11 @@ export class Search extends React.Component {
   }
 
   handleCategory(event) {
-    this.setState({category: event.target.value});
+    this.setState({category: event});
   }
 
   handleCity(event){
-    this.setState({city: event.target.value});
+    this.setState({city: event});
   }
 
   checkBox() {
@@ -80,7 +81,6 @@ export class Search extends React.Component {
     );
   }
 
-
   testing() {
     this.props.actions.testPlan();
   }
@@ -88,16 +88,16 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
-    // utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
+    // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
 
     // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.getPlansByUser(2, result => console.log(result));
+    // utils.getPlansByUser(11, result => console.log(result));
 
-    // utils.getActivitiesByUser(2);
+    // utils.getActivitiesByUser(2, (result) => console.log(result));
 
     // utils.updateActivity(2, {duration: 100});
 
@@ -105,77 +105,105 @@ export class Search extends React.Component {
 
     // utils.updateUser(2, {username: 'Iamsam'});
 
-    // utils.getActivitiesByPlan(2, activities => console.log(activities));
+    // utils.getActivitiesByPlan(8, activities => console.log(activities));
 
-    // utils.deleteActivity(13, (result) => console.log(result));
+    utils.deleteActivity(13, (result) => console.log(result));
 
     // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
-    utils.getPlanWithActivities(2, (result) => console.log(result));
+    // utils.getPlan(2, (result) => console.log(result));
+
+    // utils.getPlan(8, (result) => console.log(result));
+
 
     // utils.getAllPlans(plans => console.log(plans));
 
     // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
-    // utils.deletePlan(4, (plan) => console.log(plan));
+    
+    // utils.deletePlan(8, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
+    // utils.createComment({
+    //   content: 'Yo momma so fat... she got up from the couch and the decks on the bay bridge collapsed',
+    //   user_id: 3,
+    //   plan_id: 5
+    // }, (result) => console.log('result', result));
 
   }
 
   render() {
+
     var spinner = this.state.lat ?
       <Checkbox
-        label="Use Current Location"
-        labelPosition="left"
-        style={{maxWidth: 200}}
+        label="Use current location"
+        iconStyle={checkboxIconStyle}
+        labelStyle={checkboxLabelStyle}
         onCheck={this.checkBox.bind(this)} /> :
         <div>
           getting your current location... <br />
           <LinearProgress
             mode="indeterminate"
             color={"#FF9800"}
-            syle={{width: 100}}/>
+            style={{width: 100}}/>
         </div>
+
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <form style={{textAlign: "center", marginTop: 25}} className="commentForm" onSubmit={this.searchActivities.bind(this)}>
-              <TextField
-                id="text-field-controlled"
-                type="text"
-                value={this.state.value}
-                placeholder="Activities, Restaurants, or Places"
-                style={{marginBottom: 25}}
-                onChange={this.handleCategory.bind(this)} />
-              {!this.state.location ? <span>  in  </span> : null}
-              {!this.state.location ? <TextField
-                id="text-field-controlled"
-                type="text"
-                value={this.state.city}
-                defaultValue={this.state.city}
-                style={{marginBottom: 25}}
-                onChange={this.handleCity.bind(this)} /> : null}
-              <FlatButton label="Search" onClick={this.searchActivities.bind(this)}/>
-            </form>
+      <div className="search">
+       <button onClick={this.triggerAPItest.bind(this)}>test API</button>
+        <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
+          <div className="search-form__inputs">
+            <ActionSearch className="hidden-xs" />
+            <AutoComplete
+              floatingLabelText="Activities, Restaurants, or Places"
+              fullWidth={true}
+              style={{width: '450px'}}
+              className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={catSearch}
+              maxSearchResults={6}
+              value={this.state.value}
+              onUpdateInput={this.handleCategory.bind(this)} />
+            <div className="search-form__separator">in</div>
+            <AutoComplete
+              floatingLabelText="City"
+              fullWidth={true}
+              style={{width: '300px'}}
+              className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={citySearch}
+              maxSearchResults={3}
+              value={this.state.city}
+              disabled={this.state.location}
+              onUpdateInput={this.handleCity.bind(this)} />
+            <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
           </div>
-        </div>
-        <button onClick={this.triggerAPItest.bind(this)}>test API</button>
-        <div className="row">
-          <div className="col-sm-5">
-          <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+          <div className="search__location-checkbox">
+            { spinner }
           </div>
-          <div className="col-sm-2">
-            {this.state.geolocation ? spinner : null}
-          </div>
-          <div className="col-sm-5">
-          </div>
+        </form>
+        <div className="search__call-to-action">
+          <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
       </div>
     );
+
+    /* TEST BUTTONS */
+    /*
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
+      <div className="row">
+        <div className="col-sm-5">
+        <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+        </div>
+        <div className="col-sm-2">
+          {this.state.geolocation ? spinner : null}
+        </div>
+        <div className="col-sm-5">
+        </div>
+      </div>
+    */
   }
 }
 
@@ -186,12 +214,17 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actionCreators, dispatch),
 });
 
-const style = {
-  refresh: {
-    display: 'inline-block',
-    position: 'relative',
-  },
+const checkboxIconStyle = {
+  // fill: '#424242'
 };
+
+const checkboxLabelStyle = {
+  color: '#424242',
+  'fontWeight': 'normal'
+}
+
+const catSearch = ['Active', 'Arts & Entertainment', 'Food', 'Nightlife', 'Personal', 'Shopping'];
+const citySearch = ['San Francisco', 'Oakland', 'San Jose'];
 
 export default connect(
   mapStateToProps,

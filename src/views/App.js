@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import NavContainer from '../containers/NavContainer';
 import PlanContainer from '../containers/PlanContainer';
 import Snackbar from 'material-ui/Snackbar';
-import { getPlanWithActivities } from '../actions';
+import { getPlan } from '../utils';
 
 
 export default class CoreLayout extends Component {
@@ -20,9 +20,12 @@ export default class CoreLayout extends Component {
   componentWillMount() {
     if (this.props.children.props.location.query.plan) {
       var plan_id = this.props.children.props.location.query.plan;
-      getPlanWithActivities(plan_id, (data) => this.setState({
-        plan: data
-      }));
+      getPlan(plan_id, (results) => {
+        console.log(results);
+        this.setState({
+          plan: results.data[0]
+        });
+      });
     }
   }
 
@@ -33,22 +36,23 @@ export default class CoreLayout extends Component {
   }
 
   render () {
+    var planExists = this.props.children.props.location.query.plan;
     var plan = this.props.children.props.location.query.plan ? <PlanContainer plan={this.state.plan}/> : null;
 
     const {dispatch} = this.props;
     return (
       <div>
-        <NavContainer 
+        <NavContainer
           openSnackbar={this.initiateSnackbar.bind(this)}/>
         {plan}
         <Snackbar
           open={this.state.snackbar}
           message={this.state.message}
           autoHideDuration={2000} />
-        <div className='container'>
-          <div className='row'>
-            <div className='col-sm-12'>
-              {this.props.children}
+        <div className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              {planExists ? null : this.props.children}
             </div>
           </div>
         </div>

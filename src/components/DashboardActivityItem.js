@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import { isLoggedIn } from '../utils';
+
 
 /**
 * template for individual activity items, 'dumb' child component of Activity
 */
-export default class ActivityItem extends Component {
+export default class DashboardActivityItem extends Component {
   constructor(props) {
     super(props);
 
@@ -27,13 +27,8 @@ export default class ActivityItem extends Component {
     this.setState({
       buttonClicked: !this.state.buttonClicked
     });
-    let loggedIn = isLoggedIn();
-    if (loggedIn) {
-      this.props.onAddToBuilderClicked();
-      this.props.openSnackbar("Event has been added to your itinerary");
-    } else {
-      this.props.openSnackbar('Please login to add activity to your itinerary');
-    }
+    this.props.onAddToBuilderClicked();
+    this.props.openSnackbar("Event has been added to your itinerary");
   }
 
   toggleDesc() {
@@ -64,14 +59,6 @@ export default class ActivityItem extends Component {
   }
 }
 
-ActivityItem.propTypes = {
-  activity: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    desc: PropTypes.string.isRequired,
-    city: PropTypes.string.isRequired,
-  }).isRequired,
-  onAddToBuilderClicked: PropTypes.func.isRequired
-}
 
 const customContentStyle = {
   width: '60%',

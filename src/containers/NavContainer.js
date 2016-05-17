@@ -3,7 +3,10 @@ import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutAndRedirect } from '../actions';
+import { logoutAndRedirect,
+          getDashboardActivities,
+          goToDashboard } from '../actions';
+import { getPlansByUser } from '../utils'
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
 import { push } from 'redux-router';
@@ -28,41 +31,65 @@ export default class CoreLayout extends React.Component {
     });
   }
 
+  handleDashboard() {
+    getPlansByUser(this.props.auth.user_id, response => {
+      this.props.getDashboardActivities(response.data);
+    });
+    this.props.goToDashboard();
+  }
+
   render () {
     const {dispatch} = this.props;
     return (
-      <nav className="navbar navbar-default">
-        <div className="container">
-          <div className="navbar-header">
-            <Link className="navbar-brand" to="/">Figs break no sweat</Link>
-          </div>
-          <div id="navbar">
-            <div className="nav navbar-nav navbar-right">
-              {this.props.isAuthenticated
-                ?
-                  <span>
-                    <FlatButton
-                      label="Profile"
-                      onClick={() => this.props.dispatch(push('/profile'))}
-                    />
-                    <FlatButton
-                      label="Logout"
-                      onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
-                    />
-                  </span>
-                :
-                <span>
-                  <LoginComponent
-                    modal={this.state.modalOpen}
-                    toggleModal={this.toggleModal.bind(this)}
-                    openSnackbar={this.props.openSnackbar}
-                  />
-                </span>
-                }
-            </div>
-          </div>
+      <nav className="app-navbar">
+        <div className="app-navbar__header">
+            <Link className="app-title" to="/">GoodTimes</Link>
+        </div>
+        <div className="app-navbar__actions">
+          {this.props.isAuthenticated
+            ?
+              <span>
+                <FlatButton
+                  label="Activities"
+                  onClick={() => this.props.dispatch(push('/activities'))}
+                />
+                <FlatButton
+                  label="Dashboard"
+                  onClick={this.handleDashboard.bind(this)}
+                />
+                <FlatButton
+                  label="Logout"
+                  secondary="true"
+                  onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
+                />
+              </span>
+            :
+              <span>
+                <LoginComponent
+                  modal={this.state.modalOpen}
+                  toggleModal={this.toggleModal.bind(this)}
+                  openSnackbar={this.props.openSnackbar}
+                />
+              </span>
+          }
         </div>
       </nav>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  dashboard: state.dashboard
+});
+
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(actionCreators, dispatch),
+// });
+
+export default connect(
+  mapStateToProps,
+  { logoutAndRedirect,
+    getDashboardActivities,
+    goToDashboard }
+  )(CoreLayout);

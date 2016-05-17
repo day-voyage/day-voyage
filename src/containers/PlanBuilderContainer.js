@@ -6,13 +6,13 @@ import { addToBuilder,
         reorderDown,
         changingRoutes,
         goToConfirm,
-        saveActivityToDb,
         deleteActivityFromDb } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card } from 'material-ui/Card';
+import { isLoggedIn } from '../utils';
 
 class PlanBuilderContainer extends Component {
   constructor(props) {
@@ -28,19 +28,20 @@ class PlanBuilderContainer extends Component {
     });
   }
 
-  checkIfLoggedIn() {
-    var token = localStorage.getItem('token');
-    if (token) {
+  goToConfirm() {
+    if (!!isLoggedIn()) {
       this.props.goToConfirm();
     } else {
       this.props.openSnackbar("Please sign in or create a profile to continue");
     }
   }
 
-  deleteActivity(activity) {
-    this.props.deleteFromBuilder(activity);
-
-    this.props.deleteActivityFromDb(activity.id, response => console.log('activity deleted from db, response: ', response));
+  openCreate() {
+    if (!!isLoggedIn()) {
+      this.toggleModal();
+    } else {
+      this.props.openSnackbar("Please sign in or create a profile to continue");
+    }
   }
 
   render() {
@@ -57,14 +58,14 @@ class PlanBuilderContainer extends Component {
             activity={activity}
             order={alphabetOrder[index] + '.'}
             openSnackbar={this.props.openSnackbar}
-            onDeleteFromBuilderClicked={() => this.deleteActivity(activity)}
+            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
             onMoveUpClicked={() => {
               this.props.reorderUp(planBuilder.indexOf(activity));
-              
+
             }}
             onMoveDownClicked={() => {
               this.props.reorderDown(planBuilder.indexOf(activity));
-              
+
             }}/>
         )}
         </div>
@@ -74,23 +75,25 @@ class PlanBuilderContainer extends Component {
         <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
+        <h3 style={{marginLeft: 15}}>Itinerary</h3>
         <Card>
-          <h3 style={{marginLeft: 15}}>Itinerary</h3>
           <CreateActivity
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
             openSnackbar={this.props.openSnackbar}
             addFromCreate={(activity) => this.props.addToBuilder(activity)}
-            saveToDb={(activity) => this.props.saveActivityToDb(activity, auth.token.access_token)}
             user_id={auth.user_id}/>
           <FlatButton
             label="Create Own Activity"
-            onClick={this.toggleModal.bind(this)} /><br />
+            onClick={this.openCreate.bind(this)} />
+          <FlatButton
+            label="Clear All"
+            onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} /><br />
           {nodes}
           <div style={{marginBottom: 10}}>
             <FlatButton
               label="Confirm"
-              onClick={this.checkIfLoggedIn.bind(this)}
+              onClick={this.goToConfirm.bind(this)}
               style={{position: "relative", float: "right"}}
               disabled={hasActivities ? false : true} />
           </div>
@@ -125,7 +128,6 @@ export default connect(
     reorderDown,
     changingRoutes,
     goToConfirm,
-    saveActivityToDb,
     deleteActivityFromDb }
 )(PlanBuilderContainer)
 
