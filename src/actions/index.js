@@ -620,7 +620,7 @@ export function createPlan(plan, activities, cb) {
       activities: activities
     };
 
-    fetch(`/db/createplan`, {
+    fetch(`/plan/createplan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

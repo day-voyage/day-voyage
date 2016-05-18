@@ -6,7 +6,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
-const dbRouter = require('./routers/db');
+const planRouter = require('./routers/planRouter');
 
 const config = require('../webpack.config');
 const compiler = webpack(config);
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '../src')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/db', dbRouter);
+app.use('/plan', planRouter);
 
 //TODO: is this necessary
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));

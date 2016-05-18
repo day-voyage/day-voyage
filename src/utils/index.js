@@ -101,9 +101,10 @@ export function deleteUser(userID, cb) {
 export function searchActivities(searchTerm, city, cb) {
   city = parseCity(city);
 
-  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
     .then(parseJSON)
     .then(result => {
+      console.log(result);
       let activities = result.data;
       let matchHash = Object.create(null);
       let query = new RegExp(searchTerm, 'gi');
@@ -111,6 +112,7 @@ export function searchActivities(searchTerm, city, cb) {
         let categoryString = activity.categories.join(',');
         return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
       });
+      console.log('matches are', matches);
       matches.forEach((activity, i) => {
         matchHash[activity.title] = activity;
       });
@@ -118,6 +120,8 @@ export function searchActivities(searchTerm, city, cb) {
       for (const title in matchHash) {
         uniqueMatches.push(matchHash[title]);
       }
+      console.log('unique matches are', uniqueMatches);
+
       cb(uniqueMatches);
     })
     .catch(error => console.log(error));
@@ -226,7 +230,7 @@ export function searchPlans(searchTerm, city, cb) {
 export function getPlansByUser(userID, cb) {
   const reqBody = { userID };
   console.log('routing get plans by user to server');
-  fetch('/db/getplanbyuser', {
+  fetch('/plan/getplanbyuser', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -303,7 +307,7 @@ export function updatePlan(planID, planUpdates, activities, cb) {
     activities: activities,
     plan_id: planID
   };
-  fetch(`db/updateplan`, {
+  fetch(`plan/updateplan`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -323,7 +327,7 @@ export function updatePlan(planID, planUpdates, activities, cb) {
  */
 export function deletePlan(planID, cb) {
   const reqBody = { planID };
-  fetch(`/db/deleteplan`, {
+  fetch(`/plan/deleteplan`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -1,18 +1,20 @@
 'use strict';
 
-const dbrouter = require('express').Router();
+const planRouter = require('express').Router();
 const axios = require('axios');
 
 /**
  *  PLAN ROUTES ----------------------------------------------------
  */
 
-dbrouter
+planRouter
   .route('/searchplans')
   .post((request, response) => {
     const city = request.body.city;
 
-    axios.get(`http://sleepy-crag-32675.herokuapp.com/v1/plans?city__icontains=${city}&private__is=false`)
+    console.log('getting from AWS server');
+
+    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/plans?city__icontains=${city}&private__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -20,7 +22,7 @@ dbrouter
       });
   });
 
-dbrouter
+planRouter
   .route('/createplan')
   .post((request, response) => {
     const plan = request.body.plan;
@@ -38,7 +40,7 @@ dbrouter
       });
   });
 
-dbrouter
+planRouter
   .route('/updateplan')
   .post((request, response) => {
     const plan = request.body.plan;
@@ -57,7 +59,7 @@ dbrouter
     });
   });
 
-dbrouter
+planRouter
   .route('/deleteplan')
   .post((request, response) => {
     const planID = request.body.planID;
@@ -70,7 +72,7 @@ dbrouter
       });
   });
 
-dbrouter
+planRouter
   .route('/getplanbyuser')
   .post((request, response) => {
     console.log('inside server get plans by user');
@@ -84,9 +86,5 @@ dbrouter
       });
   });
 
-/**
- *  ACTIVITY ROUTES --------------------------------------------------
- */
 
-
-module.exports = dbrouter;
+module.exports = planRouter;

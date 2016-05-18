@@ -88,15 +88,15 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('a', 'san francisco', activities => console.log('activity matches are',activities));
 
-    // utils.getActivitiesByUser(3, (result) => console.log(result));
+    // utils.getActivitiesByUser(3, (result) => console.log('got activities from aws', result));
 
     // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
     // this.props.actions.createPlan({desc: 'woopie', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+    // utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
 
     // utils.getPlansByUser(5, result => console.log(result));
@@ -129,11 +129,11 @@ export class Search extends React.Component {
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
-    utils.createComment({
-      content: 'HODOR HODOR',
-      user_id: 3,
-      plan_id: 5
-    }, (result) => console.log('result', result));
+    // utils.createComment({
+    //   content: 'HODOR HODOR',
+    //   user_id: 3,
+    //   plan_id: 5
+    // }, (result) => console.log('result', result));
 
   }
 
