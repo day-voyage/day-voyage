@@ -8,29 +8,27 @@ import nock from 'nock';
 import fetch from 'isomorphic-fetch';
 
 (function (glob) {
-    function mockStorage() {
-        var storage = {};
-        return {
-            setItem: function(key, value) {
-                storage[key] = value || '';
-            },
-            getItem: function(key) {
-                return storage[key];
-            },
-            removeItem: function(key) {
-                delete storage[key];
-            },
-            get length () {
-                return Object.keys(storage).length;
-            },
-            key: function(i) {
-                var keys = Object.keys(storage);
-                return keys[i] || null;
-            }
-        };
-    }
-    glob.localStorage = mockStorage();
-    glob.sessionStorage = mockStorage();
+  function mockStorage() {
+    var storage = {};
+    return {
+      setItem: (key, value) => storage[key] = value || '',
+      getItem: function(key) {
+        return storage[key];
+      },
+      removeItem: function(key) {
+        delete storage[key];
+      },
+      get length() {
+        return Object.keys(storage).length;
+      },
+      key: function(i) {
+        var keys = Object.keys(storage);
+        return keys[i] || null;
+      }
+    };
+  }
+glob.localStorage = mockStorage();
+glob.sessionStorage = mockStorage();
 }(typeof window !== 'undefined' ? window : global));
 
 describe('actions:', () => {
@@ -163,7 +161,7 @@ describe('actions:', () => {
     it('loginUser should create LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, and PUSH_STATE actions when API returns 200', (done) => {
 
         let redirect = '/';
-        
+
         const expectedActions = [
             {
                 type: TYPES.LOGIN_USER_REQUEST
