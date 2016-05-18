@@ -36,7 +36,8 @@ export class ConfirmContainer extends Component {
       snackbar: false,
       message: '',
       plan_id: null,
-      budgeting: this.props.data.budget > 0 ? true : false
+      budgeting: this.props.data.budget > 0 ? true : false,
+      budgetingButtonColor: this.props.data.budget? "#00cc00":"#000000"
     };
   }
 
@@ -102,10 +103,21 @@ export class ConfirmContainer extends Component {
   }
 
   checkBudgeting() {
-    this.setState({budgeting: !this.state.budgeting})
-    console.log(this.state.budgeting);
-  }
+    this.setState({
+      budgeting: !this.state.budgeting,
+    })
 
+    if (!this.state.budgeting) {
+      this.setState({
+        budgetingButtonColor: "#00cc00"
+      })
+    } else {
+      this.setState({
+        budgetingButtonColor: "#000000"
+      })
+    }
+  }
+  
   render() {
     const { planBuilder, auth, data } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -132,13 +144,14 @@ export class ConfirmContainer extends Component {
           hintText="Name Your Itinerary"
           onChange={this.handleTitle.bind(this)}/><br />
         <div>
-        <Checkbox
-          checkedIcon={<EditorAttachMoney />}
-          iconStyle={{color: "#00cc00"}}
-          uncheckedIcon={<EditorAttachMoney />}
-          label="Budgeting"
-          onCheck={this.checkBudgeting.bind(this)}
-        />
+       <FlatButton
+            label="Budgeting"
+            labelPosition="after"
+            primary={true}
+            onClick={this.checkBudgeting.bind(this)}
+            icon={<EditorAttachMoney />}
+            style={{color: this.state.budgetingButtonColor}}
+          />
         {budgetField}
         {planBuilder.map((activity, index) => 
           <ConfirmItem

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addToBuilder, 
         changingRoutes,
         saveActivityToDb } from '../actions';
-import { Card } from 'material-ui/Card';
+import { Card, CardText } from 'material-ui/Card';
 import ActivityItem from '../components/ActivityItem';
 
 var shortid = require('shortid');
@@ -19,9 +19,11 @@ class DBActivitiesContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Activities</h3>
-        <Card>
-          {!hasdbActivities ? <em>0 search results</em> :
+        <Card style={cardColumnStyle}>
+          {!hasdbActivities ? 
+            <CardText>
+              <em>0 search results</em>
+            </CardText> :
             dbactivities.map((activity, index) => {
               if (activity.visArea && activity.visCategory && activity.visBudget) {
                 return <ActivityItem
@@ -43,6 +45,13 @@ class DBActivitiesContainer extends Component {
     )
   }
 }
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+};
 
 DBActivitiesContainer.propTypes = {
   dbactivities: PropTypes.arrayOf(PropTypes.shape({

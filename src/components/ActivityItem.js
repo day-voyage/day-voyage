@@ -3,6 +3,8 @@ import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, 
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { isLoggedIn } from '../utils';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import IconButton from 'material-ui/IconButton';
 
 /**
 * template for individual activity items, 'dumb' child component of Activity
@@ -46,30 +48,42 @@ export default class ActivityItem extends Component {
     const { activity } = this.props;
     var title = activity.distance ? activity.title + ' - ' + activity.distance + " away" : activity.title;
     return (
-      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
-        <CardHeader
-          title={title}
-          subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
-          onClick={this.toggleDesc.bind(this)}
-          actAsExpander={true}
-          showExpandableButton={true}
-        />
-        <FlatButton
-          onClick={this.clickAddButton.bind(this)}
-          disabled={activity.added ? true : false}
-          label={activity.added ? 'Added' : 'Add to itinerary'} />
-        {this.state.descOpen ? 
-          <CardText>
-            <strong>Estimated cost: </strong> 
-              ${activity.price?activity.price:'0'}. (add activity to modify)<br />
-            <strong>Address:</strong>
-            <br />{activity.address}<br />
-            {activity.city}, {activity.state}<br /><br />
-            {activity.desc}
-          </CardText> : null}
+      <Card className="item-card" style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+        <div className="card-content">
+
+          <CardHeader
+            style={cardHeadStyle}
+            title={title}
+            subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
+            onClick={this.toggleDesc.bind(this)}
+            actAsExpander={true}
+          />
+          {this.state.descOpen ? 
+            <CardText>
+              <strong>Estimated cost: </strong> 
+                ${activity.price?activity.price:'0'}. (add activity to modify)<br />
+              <strong>Address:</strong>
+              <br />{activity.address}<br />
+              {activity.city}, {activity.state}<br /><br />
+              {activity.desc}
+            </CardText> : null}
+        </div>
+        <div className="add-btn">
+          <IconButton 
+            tooltip="Add to itinerary"
+            onClick={this.clickAddButton.bind(this)}
+            disabled={activity.added ? true : false}
+            label={activity.added ? 'Added' : ''}>
+            <ContentAdd />
+          </IconButton>
+        </div>
       </Card>
     )
   }
+}
+
+var cardHeadStyle = {
+  marginBottom: 0
 }
 
 ActivityItem.propTypes = {

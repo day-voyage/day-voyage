@@ -15,6 +15,7 @@ import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money';
 import { isLoggedIn } from '../utils';
 import TextField from 'material-ui/TextField';
@@ -25,7 +26,9 @@ class PlanBuilderContainer extends Component {
     super(props);
     this.state = {
       modalOpen: false,
-      budgeting: false
+      budgeting: false,
+      budgetingButtonColor: "#000000",
+      open: true
     };
   }
 
@@ -34,6 +37,13 @@ class PlanBuilderContainer extends Component {
       modalOpen: !this.state.modalOpen
     });
   }
+
+  handleBarToggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+
 
   goToConfirm() {
     if (!!isLoggedIn()) {
@@ -56,8 +66,19 @@ class PlanBuilderContainer extends Component {
   }
 
   checkBudgeting() {
-    this.setState({budgeting: !this.state.budgeting})
-    console.log(this.state.budgeting);
+    this.setState({
+      budgeting: !this.state.budgeting,
+    })
+
+    if (!this.state.budgeting) {
+      this.setState({
+        budgetingButtonColor: "#00cc00"
+      })
+    } else {
+      this.setState({
+        budgetingButtonColor: "#000000"
+      })
+    }
   }
 
   getTotalPrice() {
@@ -74,23 +95,27 @@ class PlanBuilderContainer extends Component {
     const hasActivities = planBuilder.length > 0;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const budgetField = this.state.budgeting ?
-    <div>
-      <CardText>
+    <div style={budgetFieldStyle}>
+      <div>
         Budget: $<TextField
+        id="budget-field"
          type="number"
          defaultValue={this.props.data.budget}
          onChange={this.handleBudget.bind(this)}/><br />
+      </div>
+      <div>
       Current cost so far: 
       <span style={
         this.getTotalPrice() <= data.budget ?
-        {color: '#009900'}:
+        {color: '#00cc00'}:
         {color: '#F44336'}}> ${this.getTotalPrice()}</span>
-      </CardText>
+      </div>
     </div> : ''
 
-
     const nodes = !hasActivities ?
-      <em>Start building your itinerary here!</em> :
+      <CardText>
+        <em>Start building your plan here!</em>
+      </CardText> :
       <div>
         <div>
         {planBuilder.map((activity, index) =>
@@ -112,13 +137,14 @@ class PlanBuilderContainer extends Component {
         )}
         </div>
       </div>
+
     return (
       <div>
         <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
-        <h3 style={{marginLeft: 15}}>Itinerary</h3>
-        <Card>
+        <h3 style={{marginLeft: 15}}>Plan</h3>
+        <Card style={cardColumnStyle}>
           <CreateActivity
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
@@ -131,27 +157,43 @@ class PlanBuilderContainer extends Component {
           <FlatButton
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
-          <Checkbox
-            checkedIcon={<EditorAttachMoney />}
-            iconStyle={{color: "#00cc00"}}
-            uncheckedIcon={<EditorAttachMoney />}
+          <FlatButton
             label="Budgeting"
-            onCheck={this.checkBudgeting.bind(this)}
+            labelPosition="after"
+            primary={true}
+            onClick={this.checkBudgeting.bind(this)}
+            icon={<EditorAttachMoney />}
+            style={{color: this.state.budgetingButtonColor}}
           />
             <br />
           {budgetField}
           {nodes}
-          <div style={{marginBottom: 10}}>
+        </Card>
+          <div>
             <FlatButton
               label="Confirm"
               onClick={this.goToConfirm.bind(this)}
               style={{position: "relative", float: "right"}}
               disabled={hasActivities ? false : true} />
           </div>
-        </Card>
       </div>
     )
   }
+}
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+}
+
+var budgetFieldStyle = {
+  marginLeft: 15,
+  marginRight: 15,
+  marginBottom: 15,
+  flexDirection: 'row',
+  justifyContent: 'flex-end'
 }
 
 PlanBuilderContainer.propTypes = {

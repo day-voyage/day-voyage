@@ -4,7 +4,7 @@ import { addPlanToBuilder,
         changingRoutes,
         saveActivityToDb,
         addToBuilder } from '../actions';
-import { Card } from 'material-ui/Card';
+import { Card, CardText } from 'material-ui/Card';
 import DBPlan from '../components/DBPlan';
 
 var shortid = require('shortid');
@@ -19,9 +19,11 @@ class DBPlansContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Plans</h3>
-        <Card>
-          {!hasplans ? <em>0 search results</em> :
+        <Card style={cardColumnStyle}>
+          {!hasplans ? 
+            <CardText>
+              <em>0 search results</em> 
+            </CardText> :
             plans.map((plan, index) => {
               return <DBPlan
                 key={index}
@@ -38,6 +40,13 @@ class DBPlansContainer extends Component {
     )
   }
 }
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+};
 
 // DBPlansContainer.propTypes = {
 //   plans: PropTypes.arrayOf(PropTypes.shape({
