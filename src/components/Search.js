@@ -88,7 +88,7 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
+    utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
     // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
@@ -107,7 +107,7 @@ export class Search extends React.Component {
 
     // utils.getActivitiesByPlan(8, activities => console.log(activities));
 
-    utils.deleteActivity(13, (result) => console.log(result));
+    // utils.deleteActivity(13, (result) => console.log(result));
 
     // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
@@ -119,7 +119,7 @@ export class Search extends React.Component {
     // utils.getAllPlans(plans => console.log(plans));
 
     // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
-    
+
     // utils.deletePlan(8, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
@@ -186,12 +186,12 @@ export class Search extends React.Component {
         <div className="search__call-to-action">
           <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       </div>
     );
 
     /* TEST BUTTONS */
     /*
-      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       <div className="row">
         <div className="col-sm-5">
         <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
