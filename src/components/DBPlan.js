@@ -23,8 +23,7 @@ export default class DBPlan extends Component {
         <CardHeader
           title={plan.title}
           subtitle={plan.desc}
-          actAsExpander={true}
-          showExpandableButton={true} />
+          actAsExpander={true}/>
         <FlatButton
           onClick={this.openLink.bind(this)}
           label="Show More Details" />

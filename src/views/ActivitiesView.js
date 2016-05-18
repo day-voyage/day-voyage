@@ -12,7 +12,7 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsMap from 'material-ui/svg-icons/maps/map';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
+import NavigationMoreHoriz from 'material-ui/svg-icons/navigation/more-horiz';
 
 
 export class ActivitiesView extends Component {
@@ -73,15 +73,15 @@ export class ActivitiesView extends Component {
               <Tab
                 value="b"
                 icon={<MapsMap />}
-                label="Plans"
+                label="PLANS"
                 onClick={this.handleChangeB.bind(this)}>
                 <DBPlansContainer
                   openSnackbar={this.initiateSnackbar.bind(this)} />
               </Tab>
               <Tab
                 value="c"
-                icon={<ActionFavoriteBorder />}
-                label="YELP SEARCH"
+                icon={<NavigationMoreHoriz />}
+                label="MORE IDEAS"
                 onClick={this.handleChangeC.bind(this)}>
                 <ActivitiesContainer
                   openSnackbar={this.initiateSnackbar.bind(this)} />

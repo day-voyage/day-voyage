@@ -24,8 +24,8 @@ import {
   SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
-  CHECK_AREA,
-  CHECK_CUISINE,
+  CHECK_NEIGHBORHOOD,
+  CHECK_CATEGORY,
   CHECK_BUDGET,
   EDIT_DESC,
   EDIT_PRICE,
@@ -41,7 +41,8 @@ import {
   RECEIVE_PLANS,
   ADD_PLAN_TO_BUILDER,
   DELETE_PLAN_FROM_BUILDER,
-  RECEIVE_BUDGET
+  RECEIVE_BUDGET,
+  RECEIVE_FILTER
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -96,6 +97,13 @@ export function receiveBudget(budget) {
   };
 }
 
+export function receiveFilter(filter) {
+  return {
+    type: RECEIVE_FILTER,
+    filter
+  };
+}
+
 /**
  * Get Yelp search results
  */
@@ -106,7 +114,7 @@ export function getAllActivities(query, location) {
     */
 
     searchActivities(query.category, query.city, (results) => {
-      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCuisine: true, visBudget: true}));
+      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
     });
 
@@ -136,7 +144,7 @@ export function getAllActivities(query, location) {
         transformed.added = false;
         transformed.icon = 'http://www.maddiesrestaurant.com/wp-content/themes/maddies/images/yelp-icon.png';
         transformed.visArea = true;
-        transformed.visCuisine = true;
+        transformed.visCategory = true;
         transformed.visBudget = true;
         transformed.budget = Math.random() * 100;
         transformed.notes= '';
@@ -163,8 +171,6 @@ export function getAllActivities(query, location) {
           /**
           * add distance key to each activity
           */
-          console.log('distances: ', distances);
-          console.log('nolocation: ', noLocation);
           var withLocation = noLocation.map((activity, i) => {
             activity.distance = distances[i];
             return activity;
@@ -173,9 +179,9 @@ export function getAllActivities(query, location) {
           * dispatch activities with new distance key
           */
           dispatch(receiveActivities(withLocation));
+          dispatch(receiveFilter(createFilter(noLocation)));
         })
         .then(() => {
-          console.log('about to push');
           /**
           * route to activities page
           */
@@ -187,6 +193,7 @@ export function getAllActivities(query, location) {
       */
       } else {
         dispatch(receiveActivities(noLocation));
+        dispatch(receiveFilter(createFilter(noLocation)));
       }
     })
     .then(() => {
@@ -196,6 +203,42 @@ export function getAllActivities(query, location) {
     })
     .catch(e => console.log(e));
   };
+}
+
+export function createFilter(activityArr) {
+  var neighborhood_id = [];
+  var neighborhoodArray = [];    
+  var categoryArr = [];
+  var category_id = [];
+  var maxBudget = 0;
+  activityArr.forEach((activity) => {
+    if (activity.budget > maxBudget) {
+      maxBudget = activity.budget;
+    }
+    for (var i = 0; i < activity.neighborhood.length; i++){
+      if (neighborhood_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
+        neighborhood_id.push(activity.neighborhood[i].toUpperCase());
+        neighborhoodArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
+      }
+    }
+
+    for (var i = 0; i < activity.category.length; i++) {
+      if (category_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
+        category_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
+        categoryArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
+      }       
+    }
+  });
+  neighborhoodArray.sort((a, b) => a.location > b.location);
+  categoryArr.sort((a, b) => a.type > b.type);
+  var newFilter = {
+    neighborhoods: neighborhoodArray,
+    categories: categoryArr,
+    minPrice: 0,
+    maxPrice: Math.round(maxBudget) + 10
+  };
+  
+  return newFilter;
 }
 
 export function addToBuilder(activity) {
@@ -508,18 +551,18 @@ export function fetchProtectedData(token) {
     //    }
 }
 
-export function checkArea(neighborhoods) {
+export function checkNeighborhood(neighborhoods) {
   return {
-    type: CHECK_AREA,
+    type: CHECK_NEIGHBORHOOD,
     neighborhoods
   }
 }
 
 
-export function checkCuisine(cuisines) {
+export function checkCategory(categories) {
   return {
-    type: CHECK_CUISINE,
-    cuisines
+    type: CHECK_CATEGORY,
+    categories
   }
 }
 

@@ -4,7 +4,7 @@ import { addToBuilder,
         changingRoutes } from '../actions';
 import ActivityItem from '../components/ActivityItem';
 import FlatButton from 'material-ui/FlatButton';
-import { Card } from 'material-ui/Card';
+import { Card, CardText } from 'material-ui/Card';
 
 
 class ActivitiesContainer extends Component {
@@ -16,11 +16,14 @@ class ActivitiesContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Yelp Activities</h3>
-        <Card>
-          {!hasActivities ? <em>0 search results</em> :
+        <h3 style={{marginLeft: 15}}>Yelp Results</h3>
+        <Card style={cardColumnStyle}>
+          {!hasActivities ? 
+            <CardText>
+              <em>0 search results</em>
+            </CardText> :
             activities.map((activity, index) => {
-              if (activity.visArea && activity.visCuisine && activity.visBudget) {
+              if (activity.visArea && activity.visCategory && activity.visBudget) {
                 return <ActivityItem
                   key={index}
                   activity={activity}
@@ -35,6 +38,13 @@ class ActivitiesContainer extends Component {
     )
   }
 }
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+};
 
 ActivitiesContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
