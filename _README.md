@@ -62,7 +62,7 @@ Good Times is a Single Page Application built with React with Redux, with client
 ###### Redux 
 - Unidirectional data-flow normalizes data and provides predictability 
 - Manages states and acts as a single source of truth for props shared by components throughout the app
-- Utilized in conjunction with local states to preserve modularity and keep organized
+- Utilized in conjunction with local states to preserve modularity
 - States implemented:
   - activities - results from Yelp api call
   - auth - stores web token and user information
