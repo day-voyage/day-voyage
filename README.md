@@ -10,7 +10,6 @@ where will you're day take you?
 
 ## Table of Contents
 
-1. [Team](#team)
 1. [Why Day Voyage](#why-day-voyage)
 1. [Up and Running](#up-and-running)
 1. [Requirements](#requirements)
@@ -77,20 +76,20 @@ Diagram of architecture goes here
 
 ## Unstacking the stack
 
-Day Voyage is a Single Page Application built with:
+_**Day Voyage is a Single Page Application built with:**_
 - React (drives user driven client side interface)
 - Redux (application state management)
 - React Router and Redux Router (client side routing)
 
-###### React
+### React
 - Views are created using modular and reusable components built in React/JSX.
 - React components implement one-way reactive data flow to immediately rerender views upon changes.
 
-###### React Router
+### React Router
 - Day Voyage uses the React Router library for dynamic route matching to keep our UI in sync with the URL.
 - URL paths are synced seamlessly with React view components and allows for smooth transition between page routes.
 
-###### Redux
+### Redux
 - Unidirectional data-flow normalizes data and provides predictability
 - Manages states and acts as a single source of truth for data shared by components throughout the application
 - Utilized in conjunction with local states to preserve modularity
@@ -104,35 +103,33 @@ Day Voyage is a Single Page Application built with:
   - **planBuilder:** temporary list of activities that the user is creating before sa**ving the** the database
   - **router:** keeps track of react router history and location change
 
-###### Node
-- Good Times utilizes Node.js for its extensive package ecosystem through npm, including React and other libraries.
+### Node
+- Day Voyage utilizes Node.js for its extensive package ecosystem through npm, including React and other libraries.
 
 ###### Express
-- Good Times is served using Express, which provides server-side routing and an enviornment for executing API calls to the database and external APIs.
+- Day Voyage is served using Express, which provides server-side routing and an enviornment for executing API calls to the database and external APIs.
 - Utilizes middleware such as body-parser for requests and webpack-dev-middleware to serve our Webpack assets.
 
 ###### Webpack
 
 
 ## API's
-The data powering our application.
+The data powering our app
 
-###### Day Voyage API
-[sweaty-figs-db](https://github.com/sweaty-figs/sweaty-figs-db)
+###### [Day Voyage API](https://github.com/sweaty-figs/sweaty-figs-db)
 - Built with Nodal and Postgres
 - See linked repo for endpoints and schemas
+- **[Postgress](http://www.postgresql.org)**
+  - Our solution for the relational nature of the data
+  - Recommended to use [Postgress.app](http://postgresapp.com) for mac users
+- **[Nodal](http://www.nodaljs.com)**
+  - Our server interfacing with the Postgres instance
+  - Separating our API from the application server decouples concerns of the cient and data
 
-**Postgress**
-- Our solution for the relational nature of the data
-
-**Nodal**
-- Our server interfacing with the Postgres instance
-- Separating our API from the application server decouples concerns of the cient and data
-
-###### Yelp __External API__
+###### [Yelp](https://www.yelp.com/developers/documentation/v2/overview) _External API_
 - Day Voyage utilizes the **Yelp Search API** to supplement user-generated activities with local establishments based on your search query in the city of your choosing.
 
-###### Google Maps __External API__
+###### [Google Maps](https://developers.google.com/maps) _External API_
 - **Google Maps** - Implemented using the React-Google-Maps library. Day Voyage generates all search points on the map and creates routes between activities in a plan based on the order of activities set.
 - **Google Geocoding** - When geolocation search is activated, Google Geocoding is used to translate the coordinates from latitude/longitude to a city name, so it can be implemented as a location query for our database and the Yelp Search API.
 - **Google Distance Matrix** - allows for searches based on geolocation. All activities in the application include the distance from the user's location in miles.
