@@ -6,8 +6,6 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
-import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
 import { checkNeighborhood, checkCategory, checkBudget } from '../actions';
 import { sliderclass } from './styles.css';
 
@@ -36,20 +34,14 @@ export default class FilterContainer extends Component {
 
   handleSlider(event, value) {
     var budget = Math.round(value);
-
     this.setState({priceSlider: budget});
-    
     this.props.checkBudget(budget);
   }
 
   handleCategory(category) {
     const { filter } = this.props;
-
     var categoryArr = filter.categories;
-    console.log(categoryArr);
 
-    var index = 0;
-    // step through array, toggle visible
     for(var i = 0; i < categoryArr.length; i++) {
       if(categoryArr[i].type === category) {
         categoryArr[i].visible = !categoryArr[i].visible;
@@ -65,10 +57,8 @@ export default class FilterContainer extends Component {
 
   handleNeighborhood(neighborhood) {
     const { filter } = this.props;
-
     var neighborhoodArray = filter.neighborhoods;
-    var index = 0;
-    // step through array, toggle visible
+    
     for(var i = 0; i < neighborhoodArray.length; i++) {
       if(neighborhoodArray[i].location === neighborhood) {
         neighborhoodArray[i].visible = !neighborhoodArray[i].visible;
