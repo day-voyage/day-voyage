@@ -2,8 +2,8 @@ import { createReducer } from '../utils';
 import { RECEIVE_PLANS,
          ADD_PLAN_TO_BUILDER,
          DELETE_PLAN_FROM_BUILDER } from '../constants';
-         // CHECK_AREA,
-         // CHECK_CUISINE,
+         // CHECK_NEIGHBORHOOD,
+         // CHECK_CATEGORY,
          // CHECK_BUDGET } from '../constants';
 import { pushState } from 'redux-router';
 
@@ -20,7 +20,7 @@ export default function plans(state = [], action) {
       action.plan.added = false;
       action.plan.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
       return state;
-    // case CHECK_AREA:
+    // case CHECK_NEIGHBORHOOD:
     //   var newState = state.slice()
     //   newState.forEach((activity) => {
     //     var isVisible = false;
@@ -32,16 +32,16 @@ export default function plans(state = [], action) {
     //     activity.visArea = isVisible;
     //   })
     //   return newState;
-    // case CHECK_CUISINE:
+    // case CHECK_CATEGORY:
     //   var newState = state.slice()
     //   newState.forEach((activity) => {
     //     var isVisible = false;
     //     for (var i = 0; i < activity.category.length; i++) {
-    //       if (action.cuisines.indexOf(activity.category[i].toUpperCase()) >= 0) {
+    //       if (action.category.indexOf(activity.category[i].toUpperCase()) >= 0) {
     //         isVisible = true;
     //       }
     //     }
-    //     activity.visCuisine = isVisible;
+    //     activity.visCategory = isVisible;
     //   })
     //   return newState;
     // case CHECK_BUDGET:
