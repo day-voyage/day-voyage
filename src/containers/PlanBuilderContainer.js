@@ -26,7 +26,8 @@ class PlanBuilderContainer extends Component {
     super(props);
     this.state = {
       modalOpen: false,
-      budgeting: false
+      budgeting: false,
+      budgetingButtonColor: "#000000"
     };
   }
 
@@ -57,8 +58,19 @@ class PlanBuilderContainer extends Component {
   }
 
   checkBudgeting() {
-    this.setState({budgeting: !this.state.budgeting})
-    console.log(this.state.budgeting);
+    this.setState({
+      budgeting: !this.state.budgeting,
+    })
+
+    if (!this.state.budgeting) {
+      this.setState({
+        budgetingButtonColor: "#00cc00"
+      })
+    } else {
+      this.setState({
+        budgetingButtonColor: "#000000"
+      })
+    }
   }
 
   getTotalPrice() {
@@ -77,19 +89,19 @@ class PlanBuilderContainer extends Component {
     const budgetField = this.state.budgeting ?
     <div>
         Budget: $<TextField
+        id="budget-field"
          type="number"
          defaultValue={this.props.data.budget}
          onChange={this.handleBudget.bind(this)}/><br />
       Current cost so far: 
       <span style={
         this.getTotalPrice() <= data.budget ?
-        {color: '#009900'}:
+        {color: '#00cc00'}:
         {color: '#F44336'}}> ${this.getTotalPrice()}</span>
     </div> : ''
 
-
     const nodes = !hasActivities ?
-      <em>Start building your itinerary here!</em> :
+      <em>Start building your plan here!</em> :
       <div>
         <div>
         {planBuilder.map((activity, index) =>
@@ -112,44 +124,12 @@ class PlanBuilderContainer extends Component {
         </div>
       </div>
 
-
-
-    const styles = {
-      smallIcon: {
-        width: 36,
-        height: 36,
-      },
-      mediumIcon: {
-        width: 48,
-        height: 48,
-      },
-      largeIcon: {
-        width: 60,
-        height: 60,
-      },
-      small: {
-        width: 72,
-        height: 72,
-        padding: 16,
-      },
-      medium: {
-        width: 96,
-        height: 96,
-        padding: 24,
-      },
-      large: {
-        width: 120,
-        height: 120,
-        padding: 30,
-      },
-    };
-
     return (
       <div>
         <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
-        <h3 style={{marginLeft: 15}}>Itinerary</h3>
+        <h3 style={{marginLeft: 15}}>Plan</h3>
         <Card>
           <CreateActivity
             modal={this.state.modalOpen}
@@ -164,17 +144,13 @@ class PlanBuilderContainer extends Component {
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
           <FlatButton
-            label="Label before"
-            labelPosition="before"
+            label="Budgeting"
+            labelPosition="after"
             primary={true}
-            icon={<EditorAttachMoney color="#00cc00"/>}
+            onClick={this.checkBudgeting.bind(this)}
+            icon={<EditorAttachMoney />}
+            style={{color: this.state.budgetingButtonColor}}
           />
-          <IconButton
-            iconStyle={styles.mediumIcon}
-            style={styles.medium}
-            onClick={this.checkBudgeting.bind(this)} />
-            <EditorAttachMoney color="#00cc00"/>
-          <IconButton />
             <br />
           {budgetField}
           {nodes}
