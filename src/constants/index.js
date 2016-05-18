@@ -37,5 +37,6 @@ export default createConstants(
   'RECEIVE_PLANS',
   'ADD_PLAN_TO_BUILDER',
   'DELETE_PLAN_FROM_BUILDER',
-  'RECEIVE_BUDGET'
+  'RECEIVE_BUDGET',
+  'RECEIVE_FILTER'
 );

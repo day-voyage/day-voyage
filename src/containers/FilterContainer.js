@@ -8,7 +8,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import { checkArea, checkCuisine, checkBudget } from '../actions';
+import { checkArea, checkCuisine, checkBudget, receiveFilter } from '../actions';
 import { sliderclass } from './styles.css';
 
 export default class FilterContainer extends Component {
@@ -16,53 +16,15 @@ export default class FilterContainer extends Component {
     super(props);
     this.state = {
       drawerOpen: false,
-      neighborhood: [],
-      cuisines: [],
-      minPrice: 0,
-      maxPrice: 0,
       priceSlider: 0
     };
   }
 
   componentWillMount() {
-    const { activities } = this.props;
-
-    var areas_id = [];
-    var areasArray = [];    
-    var cuisineArr = [];
-    var cuisines_id = [];
-    var maxBudget = 0;
-
-    console.log(activities)
-
-    activities.forEach((activity) => {
-      for (var i = 0; i < activity.neighborhood.length; i++){
-        if (areas_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
-          areas_id.push(activity.neighborhood[i].toUpperCase());
-          areasArray.push({location: activity.neighborhood[i].toUpperCase(), visible: true});
-            if(activity.budget > maxBudget) {
-              maxBudget = activity.budget;
-              console.log('maxBudget ', maxBudget)
-              console.log('activityBudget ', activity.budget)
-            }
-        }
-      }
-      for (var i = 0; i < activity.category.length; i++) {
-        if (cuisines_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
-          cuisines_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
-          cuisineArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
-        }       
-      }
-    })
-
-    areasArray.sort((a, b) => a.location > b.location);
-    cuisineArr.sort((a, b) => a.type > b.type);
+    const { filter } = this.props;
 
     this.setState({
-      neighborhood: areasArray,
-      cuisines: cuisineArr,
-      maxPrice: Math.round(maxBudget) + 10,
-      priceSlider: Math.round(maxBudget) + 10
+      priceSlider: filter.maxPrice
     });
   }
 
@@ -77,55 +39,51 @@ export default class FilterContainer extends Component {
 
     this.setState({priceSlider: budget});
     
-    ///this.props.checkBudget(budget)
-    console.log(budget);
     this.props.checkBudget(budget);
-
-
-
   }
 
-  handleCuisine(cuisine) {
-    var cuisineArr = this.state.cuisines;
+  handleCategory(cuisine) {
+    const { filter } = this.props;
+
+    var categoryArr = filter.categories;
     var index = 0;
     // step through array, toggle visible
-    for(var i = 0; i < cuisineArr.length; i++) {
-      if(cuisineArr[i].type === cuisine) {
-        cuisineArr[i].visible = !cuisineArr[i].visible;
+    for(var i = 0; i < categoryArr.length; i++) {
+      if(categoryArr[i].type === cuisine) {
+        categoryArr[i].visible = !categoryArr[i].visible;
       }
     }
 
+    var checkedCuisines = categoryArr
+      .filter(item => item.visible === true)
+      .map(item => item.type);
 
-    var checkedCuisines = 
-      cuisineArr.filter(item => item.visible === true)
-                .map(item => item.type);
-
-      console.log('checkedCuisines: ', checkedCuisines)
-
-      this.props.checkCuisine(checkedCuisines)
+    this.props.checkCuisine(checkedCuisines);
   }
 
-  handleArea(area) {    
-    var areasArray = this.state.neighborhood;
+  handleArea(area) {
+    const { filter } = this.props;
+
+    var neighborhoodArray = filter.neighborhoods;
     var index = 0;
     // step through array, toggle visible
-    for(var i = 0; i < areasArray.length; i++) {
-      if(areasArray[i].location === area) {
-        areasArray[i].visible = !areasArray[i].visible;
+    for(var i = 0; i < neighborhoodArray.length; i++) {
+      if(neighborhoodArray[i].location === area) {
+        neighborhoodArray[i].visible = !neighborhoodArray[i].visible;
       }
     }
 
-    var checkedAreas = 
-      areasArray.filter(item => item.visible === true)
-                .map(item => item.location);
-
-    console.log('checkedAreas: ', checkedAreas);
+    var checkedAreas = neighborhoodArray
+      .filter(item => item.visible === true)
+      .map(item => item.location);
 
     this.props.checkArea(checkedAreas);
   }
 
   render() {
-    var areaOptions = this.state.neighborhood.map((area, index) => {
+    const { filter } = this.props;
+
+    var areaOptions = filter.neighborhoods.map((area, index) => {
       return ( 
         <Checkbox
           key={ index }
@@ -136,14 +94,14 @@ export default class FilterContainer extends Component {
         )
     })
 
-    var cuisineOptions = this.state.cuisines.map((cuisine, index) => {
+    var categoryOptions = filter.categories.map((category, index) => {
       return ( 
         <Checkbox
           key={ index }
-          label={cuisine.type}
-          defaultChecked={cuisine.visible}
+          label={category.type}
+          defaultChecked={category.visible}
           style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}
-          onCheck={(e) => this.handleCuisine(cuisine.type)} />
+          onCheck={(e) => this.handleCategory(category.type)} />
       )
     })
     
@@ -159,22 +117,22 @@ export default class FilterContainer extends Component {
           Budget ${this.state.priceSlider}</MenuItem>
           <Slider
             style={{marginLeft: 25, marginRight: 25}}
-            min={this.state.minPrice}
-            max={this.state.maxPrice}
+            min={filter.minPrice}
+            max={filter.maxPrice}
             step={0.01}
             className="slider-class"
-            defaultValue={this.state.maxPrice}
+            defaultValue={filter.maxPrice}
             onChange={this.handleSlider.bind(this)}/>
           </div>
 
             <div>
-            <MenuItem>Neighborhood</MenuItem>
+            <MenuItem>Neighborhoods</MenuItem>
             {areaOptions}
             </div>
 
             <div>
-            <MenuItem>Cuisines</MenuItem>
-            {cuisineOptions}
+            <MenuItem>Categories</MenuItem>
+            {categoryOptions}
             </div>
         
         </Drawer>
@@ -185,8 +143,9 @@ export default class FilterContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    activities: state.activities
+    activities: state.activities,
+    filter: state.filter
   }
 }
 
-export default connect(mapStateToProps, { checkArea, checkCuisine, checkBudget })(FilterContainer)
+export default connect(mapStateToProps, { checkArea, checkCuisine, checkBudget, receiveFilter })(FilterContainer)
