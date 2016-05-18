@@ -15,6 +15,7 @@ import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money';
 import { isLoggedIn } from '../utils';
 import TextField from 'material-ui/TextField';
@@ -75,7 +76,6 @@ class PlanBuilderContainer extends Component {
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const budgetField = this.state.budgeting ?
     <div>
-      <CardText>
         Budget: $<TextField
          type="number"
          defaultValue={this.props.data.budget}
@@ -85,7 +85,6 @@ class PlanBuilderContainer extends Component {
         this.getTotalPrice() <= data.budget ?
         {color: '#009900'}:
         {color: '#F44336'}}> ${this.getTotalPrice()}</span>
-      </CardText>
     </div> : ''
 
 
@@ -112,6 +111,39 @@ class PlanBuilderContainer extends Component {
         )}
         </div>
       </div>
+
+
+
+    const styles = {
+      smallIcon: {
+        width: 36,
+        height: 36,
+      },
+      mediumIcon: {
+        width: 48,
+        height: 48,
+      },
+      largeIcon: {
+        width: 60,
+        height: 60,
+      },
+      small: {
+        width: 72,
+        height: 72,
+        padding: 16,
+      },
+      medium: {
+        width: 96,
+        height: 96,
+        padding: 24,
+      },
+      large: {
+        width: 120,
+        height: 120,
+        padding: 30,
+      },
+    };
+
     return (
       <div>
         <div className="row" style={{marginBottom: 10}}>
@@ -131,13 +163,19 @@ class PlanBuilderContainer extends Component {
           <FlatButton
             label="Clear All"
             onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
-          <Checkbox
-            checkedIcon={<EditorAttachMoney />}
-            iconStyle={{color: "#00cc00"}}
-            uncheckedIcon={<EditorAttachMoney />}
-            label="Budgeting"
-            onCheck={this.checkBudgeting.bind(this)}
+          <FlatButton
+            label="Label before"
+            labelPosition="before"
+            primary={true}
+            style={styles.button}
+            icon={<EditorAttachMoney color="#00cc00"/>}
           />
+          <IconButton
+            iconStyle={styles.mediumIcon}
+            style={styles.medium}
+            onClick={this.checkBudgeting.bind(this)} />
+            <EditorAttachMoney color="#00cc00"/>
+          <IconButton />
             <br />
           {budgetField}
           {nodes}

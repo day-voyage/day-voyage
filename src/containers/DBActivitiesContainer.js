@@ -19,7 +19,6 @@ class DBActivitiesContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Activities</h3>
         <Card>
           {!hasdbActivities ? <em>0 search results</em> :
             dbactivities.map((activity, index) => {

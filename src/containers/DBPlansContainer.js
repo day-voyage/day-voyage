@@ -19,7 +19,6 @@ class DBPlansContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Plans</h3>
         <Card>
           {!hasplans ? <em>0 search results</em> :
             plans.map((plan, index) => {

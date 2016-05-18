@@ -198,6 +198,12 @@ body {
   margin-top: 15px !important;
 }
 
+.item-card .add-btn {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
 
 /**
  *  Other Styles

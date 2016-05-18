@@ -5,9 +5,11 @@ import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import AutoComplete from 'material-ui/AutoComplete';
+import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
 import ActionSearch from 'material-ui/svg-icons/action/search';
+import Snackbar from 'material-ui/Snackbar';
 import * as utils from '../utils';
 
 
@@ -16,11 +18,13 @@ export class Search extends React.Component {
     super(props);
     this.state = {
       category: "",
-      city: "San Francisco, CA",
+      city: "San Francisco",
       lat: null,
       lng: null,
       location: null,
-      geolocation: true
+      geolocation: true,
+      snackbar: false,
+      message: '',
     };
   }
 
@@ -42,6 +46,14 @@ export class Search extends React.Component {
     });
   }
 
+  initiateSnackbar(message) {
+    this.setState({message: message, snackbar: true});
+    var that = this;
+    setTimeout(function() {
+      that.setState({snackbar: false});
+    }, 2000);
+  }
+
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...
@@ -61,14 +73,18 @@ export class Search extends React.Component {
     } else {
       this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, null);
     }
+
+    if (!this.state.city && this.state.location===null) {
+      this.initiateSnackbar("Please enter a city");
+    }
   }
 
   handleCategory(event) {
-    this.setState({category: event});
+    this.setState({category: event.target.value});
   }
 
   handleCity(event){
-    this.setState({city: event});
+    this.setState({city: event.target.value});
   }
 
   checkBox() {
@@ -81,115 +97,127 @@ export class Search extends React.Component {
     );
   }
 
+  testing() {
+    this.props.actions.testPlan();
+  }
 
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('a', 'san francisco', activities => console.log('activity matches are',activities));
-
-    // utils.getActivitiesByUser(3, (result) => console.log('got activities from aws', result));
+    // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
     // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
-    // this.props.actions.createPlan({desc: 'woopie', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+    // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
+    // utils.getPlansByUser(11, result => console.log(result));
 
-    // utils.getPlansByUser(5, result => console.log(result));
+    // utils.getActivitiesByUser(2, (result) => console.log(result));
 
-//>>>>>>>>>>>>>>>>>>>>>>> test these on live connection
-//
-    // utils.updateActivity(2, {duration: 88}, (response) => console.log(response));
+    // utils.updateActivity(2, {duration: 100});
 
-    // utils.updatePlan(3, {desc: `Is there anything different all a description`, title: 'Afternoon delight'}, [{id: 9, user_gen: true}], result => console.log('updated plan >>', result));
+    // utils.updatePlan(2, {desc: `Now that's what I call a description`, title: 'Afternoon delight'});
 
-    // utils.updateUser(2, {username: 'Iamsam'}, result => console.log('updated user', result));
+    // utils.updateUser(2, {username: 'Iamsam'});
 
-    // utils.getActivitiesByPlan(5, activities => console.log(activities));
+    // utils.getActivitiesByPlan(8, activities => console.log(activities));
 
-    // this.props.actions.deleteActivityFromDb(13, (result) => console.log(result));
+    utils.deleteActivity(13, (result) => console.log(result));
 
+    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
     // utils.getPlan(2, (result) => console.log(result));
 
-    // utils.getPlan(1, (result) => console.log(result));
+    // utils.getPlan(8, (result) => console.log(result));
 
 
     // utils.getAllPlans(plans => console.log(plans));
 
-    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'a'}, (result) => console.log(result));
-
-    // utils.deletePlan(4, (plan) => console.log(plan));
+    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
+    
+    // utils.deletePlan(8, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
     // utils.createComment({
-    //   content: 'HODOR HODOR',
+    //   content: 'Yo momma so fat... she got up from the couch and the decks on the bay bridge collapsed',
     //   user_id: 3,
     //   plan_id: 5
     // }, (result) => console.log('result', result));
 
   }
 
-  render() {
+    render() {
 
-    var spinner = this.state.lat ?
-      <Checkbox
-        label="Use current location"
-        iconStyle={checkboxIconStyle}
-        labelStyle={checkboxLabelStyle}
-        onCheck={this.checkBox.bind(this)} /> :
-        <div>
-          getting your current location... <br />
-          <LinearProgress
-            mode="indeterminate"
-            color={"#FF9800"}
-            style={{width: 100}}/>
-        </div>
+      var spinner = this.state.lat ?
+        <Checkbox
+          label="Use current location"
+          iconStyle={checkboxIconStyle}
+          labelStyle={checkboxLabelStyle}
+          onCheck={this.checkBox.bind(this)} /> :
+          <div>
+            getting your current location... <br />
+            <LinearProgress
+              mode="indeterminate"
+              color={"#FF9800"}
+              style={{width: 100}}/>
+          </div>
 
-    return (
-      <div className="search">
-        <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
-          <div className="search-form__inputs">
-            <ActionSearch className="hidden-xs" />
-            <AutoComplete
-              floatingLabelText="Activities, Restaurants, or Places"
-              fullWidth={true}
-              style={{width: '450px'}}
-              className="search-form__activity-input"
-              filter={AutoComplete.fuzzyFilter}
-              dataSource={catSearch}
-              maxSearchResults={6}
-              value={this.state.value}
-              onUpdateInput={this.handleCategory.bind(this)} />
-            <div className="search-form__separator">in</div>
-            <AutoComplete
-              floatingLabelText="City"
-              fullWidth={true}
-              style={{width: '300px'}}
-              className="search-form__activity-input"
-              filter={AutoComplete.fuzzyFilter}
-              dataSource={citySearch}
-              maxSearchResults={3}
-              value={this.state.city}
-              disabled={this.state.location}
-              onUpdateInput={this.handleCity.bind(this)} />
-            <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
+      return (
+        <div className="search">
+        <Snackbar
+          open={this.state.snackbar}
+          message={this.state.message}
+          autoHideDuration={2000} />
+          <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
+            <div className="search-form__inputs">
+              <ActionSearch className="hidden-xs" />
+              <TextField
+                type="text"
+                className="search-form__activity-input"
+                value={this.state.value}
+                placeholder="activities, restaurants, or places"
+                onChange={this.handleCategory.bind(this)} />
+              <div className="search-form__separator">in</div>
+              <TextField
+                  type="text"
+                  className="search-form__city-input"
+                  value={this.state.city}
+                  defaultValue={this.state.city}
+                  placeholder="city"
+                  disabled={this.state.location}
+                  onChange={this.handleCity.bind(this)} />
+              <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
+            </div>
+            <div className="search__location-checkbox">
+              { spinner }
+            </div>
+          </form>
+          <div className="search__call-to-action">
+            <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
           </div>
-          <div className="search__location-checkbox">
-            { spinner }
-          </div>
-        </form>
-        <div className="search__call-to-action">
-          <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
-      </div>
-    );
+      );
+
+      /* TEST BUTTONS */
+      /*
+        <button onClick={this.triggerAPItest.bind(this)}>test API</button>
+        <div className="row">
+          <div className="col-sm-5">
+          <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
+          </div>
+          <div className="col-sm-2">
+            {this.state.geolocation ? spinner : null}
+          </div>
+          <div className="col-sm-5">
+          </div>
+        </div> 
+      */
+    }
   }
-}
 
 const mapStateToProps = (state) => ({
 });
