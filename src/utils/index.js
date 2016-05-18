@@ -153,7 +153,7 @@ export function searchActivities(searchTerm, city, cb) {
   // console.log('here in SearchActivities in utils', searchTerm, city);
   city = parseCity(city);
 
-  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false`)
+  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
