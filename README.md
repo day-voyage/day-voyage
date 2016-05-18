@@ -10,15 +10,24 @@ where will you're day take you?
 
 ## Table of Contents
 
+1. [Team](#team)
+1. [Why Day Voyage](#why-day-voyage)
 1. [Up and Running](#up-and-running)
-1. [Why Day Voyage][#why-day-voyage]
 1. [Requirements](#requirements)
 1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
+1. [Depolyement] (#deployment)
+1. [Application Architecture](#application-architecture)
 1. [Unstacking the Stack](#unstacking-the-stack)
+1. [API's](#api's)
+1. [Challenges](#challenges)
+1. [Roadmap] (#roadmap)
+1. [Contributing](#contributing)
+
+## Why Day Voyage
+
+For locals and travelers to build and share custom plans of fun things to do around town or anywhere you go.
+
+On a budget? Day Voyage helps tailor your plans to meet a budget of any size.
 
 ## GIF goes here
 
@@ -35,12 +44,6 @@ npm start
 
 > You are now running locally on [localhost:3000](http://localhost:3000/)
 
-## Why Day Voyage
-
-For locals and travelers to build and share custom plans of fun things to do around town or anywhere you go.
-
-On a budget? Day Voyage help tailor your plans to meet a budget of any size.
-
 ## Requirements
 
 - React
@@ -51,6 +54,22 @@ On a budget? Day Voyage help tailor your plans to meet a budget of any size.
 - Nodal 0.1.0
 
 Please see this [repo](https://github.com/sweaty-figs/sweaty-figs-db) for information about requirments and set up for the API driving our data layer.
+
+## Development
+
+To build webpack and generate a bundle:
+From within the root directory:
+```sh
+npm start
+```
+
+## Deployment
+To generate docs:
+```sh
+npm start doc
+```
+Refer to http://en.blog.koba04.com/2015/06/28/esdoc-documentation-for-react-and-es6/ for how to
+document
 
 ## Application Architecture
 
@@ -121,22 +140,6 @@ The data powering our application.
 
 ## Challenges
 Our team sailed through on calm seas!
-
-## Development
-
-To build webpack and generate a bundle:
-From within the root directory:
-```sh
-npm start
-```
-
-## Deployment
-To generate docs:
-```sh
-npm start doc
-```
-Refer to http://en.blog.koba04.com/2015/06/28/esdoc-documentation-for-react-and-es6/ for how to
-document
 
 
 ### Roadmap
