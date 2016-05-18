@@ -52,6 +52,7 @@ export default class ActivityItem extends Component {
         <div className="card-content">
 
           <CardHeader
+            style={cardHeadStyle}
             title={title}
             subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
@@ -79,6 +80,10 @@ export default class ActivityItem extends Component {
       </Card>
     )
   }
+}
+
+var cardHeadStyle = {
+  marginBottom: 0
 }
 
 ActivityItem.propTypes = {

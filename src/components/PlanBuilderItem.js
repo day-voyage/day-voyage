@@ -51,11 +51,12 @@ export default class PlanBuilderItem extends Component {
           Estimated Cost: $
           <TextField
            id="text-field-default"
+           style={budgetTextFieldStyle}
            type="number"
            defaultValue={activity.price?activity.price : '0'}
            onChange={this.handlePrice.bind(this)}/>
           <FlatButton
-           label="Modify"
+           label="Save"
            className="save-info-btn"
            disabled={!this.state.edited}
            onClick={this.handleSave.bind(this)} /> <br />
@@ -83,6 +84,7 @@ export default class PlanBuilderItem extends Component {
         style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
         <div className="card-content">
           <CardHeader
+            style={cardHeadStyle}
             title={title}
             subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
@@ -109,6 +111,16 @@ export default class PlanBuilderItem extends Component {
       </Card>
     )
   }
+}
+
+var budgetTextFieldStyle = {
+  width: 100,
+  marginTop: 15,
+  marginBottom: 15
+}
+
+var cardHeadStyle = {
+  marginBottom: 0
 }
 
 PlanBuilderItem.propTypes = {

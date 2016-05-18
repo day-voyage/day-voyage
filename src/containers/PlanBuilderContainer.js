@@ -27,7 +27,8 @@ class PlanBuilderContainer extends Component {
     this.state = {
       modalOpen: false,
       budgeting: false,
-      budgetingButtonColor: "#000000"
+      budgetingButtonColor: "#000000",
+      open: true
     };
   }
 
@@ -36,6 +37,13 @@ class PlanBuilderContainer extends Component {
       modalOpen: !this.state.modalOpen
     });
   }
+
+  handleBarToggle() {
+    this.setState({
+      open: !this.state.open
+    });
+  }
+
 
   goToConfirm() {
     if (!!isLoggedIn()) {
@@ -87,21 +95,27 @@ class PlanBuilderContainer extends Component {
     const hasActivities = planBuilder.length > 0;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const budgetField = this.state.budgeting ?
-    <div>
+    <div style={budgetFieldStyle}>
+      <div>
         Budget: $<TextField
         id="budget-field"
          type="number"
          defaultValue={this.props.data.budget}
          onChange={this.handleBudget.bind(this)}/><br />
+      </div>
+      <div>
       Current cost so far: 
       <span style={
         this.getTotalPrice() <= data.budget ?
         {color: '#00cc00'}:
         {color: '#F44336'}}> ${this.getTotalPrice()}</span>
+      </div>
     </div> : ''
 
     const nodes = !hasActivities ?
-      <em>Start building your plan here!</em> :
+      <CardText>
+        <em>Start building your plan here!</em>
+      </CardText> :
       <div>
         <div>
         {planBuilder.map((activity, index) =>
@@ -130,7 +144,7 @@ class PlanBuilderContainer extends Component {
           <Maps size="small" />
         </div>
         <h3 style={{marginLeft: 15}}>Plan</h3>
-        <Card>
+        <Card style={cardColumnStyle}>
           <CreateActivity
             modal={this.state.modalOpen}
             toggleModal={this.toggleModal.bind(this)}
@@ -154,17 +168,32 @@ class PlanBuilderContainer extends Component {
             <br />
           {budgetField}
           {nodes}
-          <div style={{marginBottom: 10}}>
+        </Card>
+          <div>
             <FlatButton
               label="Confirm"
               onClick={this.goToConfirm.bind(this)}
               style={{position: "relative", float: "right"}}
               disabled={hasActivities ? false : true} />
           </div>
-        </Card>
       </div>
     )
   }
+}
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+}
+
+var budgetFieldStyle = {
+  marginLeft: 15,
+  marginRight: 15,
+  marginBottom: 15,
+  flexDirection: 'row',
+  justifyContent: 'flex-end'
 }
 
 PlanBuilderContainer.propTypes = {
