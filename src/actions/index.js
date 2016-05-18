@@ -601,22 +601,7 @@ export function deleteActivityFromDb(activityId, cb) {
     }
 }
 
-//TODO: perhaps do separate requests and keep only unique ids
-//maybe use a hash or a set
-//save to a search cache?
 
-export function updateActivity(activityID, updates, access_token) {
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updates)
-  })
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(err => console.log(`Error updating activities: ${err}`));
-}
 
 
 /**

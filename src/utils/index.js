@@ -52,53 +52,18 @@ export function parseJSON(response) {
   return response.json();
 }
 
-/** Remove state if included with user input */
+/** Helps remove state and extra from city input */
 export function parseCity(cityInput) {
   return cityInput.replace(/,.*/, '');
 }
-// API helpers to communti
 
-// export function updateActivity(activityID, updates, access_token) {
-//   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(updates)
-//   })
-//   .then(parseJSON)
-//   .then(response => cb(response))
-//   .catch(err => console.log(`Error updating activities: ${err}`));
-// }
+/**
+ * API HELPERS TO INTERFACE WITH DB
+ */
 
-
-// export function savePlanToDb(plan, access_token) {
-//   return dispatch => {
-//     return fetch('https://sleepy-crag-32675.herokuapp.com/v1/plans?access_token=' + access_token, {
-//         method: 'POST',
-
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//             body: JSON.stringify(plan)
-//         })
-//         .then(checkHttpStatus)
-//         .then(parseJSON)
-//         .then(response => {
-//             try {
-//               dispatch(savePlanConfirm())
-//             } catch (e) {
-//               console.log(e);
-//               snackbar('There was an error saving the plan');
-//             }
-//         })
-//         .catch(error => {
-//            console.log(error);
-//         })
-//     }
-// }
-
-// API requests
+/**
+ * USER helpers -------------------------------------------------------
+ */
 
 export function updateUser(userID, updates, cb) {
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
@@ -114,43 +79,22 @@ export function updateUser(userID, updates, cb) {
 }
 
 export function deleteUser(userID, cb) {
-
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(error));
-
-}
-
-
-export function getActivitiesByUser(id, cb) {
-  // console.log(`<><> getting activities for user_id ${id}`);
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities by userID: ${error}`));
-}
-
-export function getActivitiesUnderBudget(amount, cb) {
-  console.log('getting activities under budget');
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?costPerPerson__lte=${amount}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities under budget: ${error}`))
 }
 
 /**
- *  Search activities by category
+ * ACTIVITY helpers -----------------------------------------------------
  */
 
 export function searchActivities(searchTerm, city, cb) {
-  //TODO: maybe cache calls to a particular city
-  // console.log('here in SearchActivities in utils', searchTerm, city);
   city = parseCity(city);
 
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
@@ -173,8 +117,57 @@ export function searchActivities(searchTerm, city, cb) {
       cb(uniqueMatches);
       })
     .catch(error => console.log(error));
-
 }
+
+
+export function getActivitiesByUser(id, cb) {
+  // console.log(`<><> getting activities for user_id ${id}`);
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities by userID: ${error}`));
+}
+
+export function getActivitiesUnderBudget(amount, cb) {
+  console.log('getting activities under budget');
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?costPerPerson__lte=${amount}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities under budget: ${error}`));
+}
+
+
+/**
+ * Get all activities for a given plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
+export function getActivitiesByPlan(planID, cb) {
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/?plan__plan_id=${planID}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities by planID: ${error}`));
+}
+
+
+export function updateActivity(activityID, updates, cb) {
+  const token = localStorage.getItem('token');
+  const access_token = JSON.parse(token).access_token;
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updates),
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
+}
+
+/**
+ * PLAN helpers -------------------------------------------------------
+ */
 
 /**
  * Seach for plans
@@ -182,6 +175,14 @@ export function searchActivities(searchTerm, city, cb) {
  * @param  {String}   city
  * @param  {Function} cb
  */
+
+export function getAllPlans(cb) {
+  fetch('https://sleepy-crag-32675.herokuapp.com/v1/plans')
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting all plans: ${error}`));
+}
+
 export function searchPlans(searchTerm, city, cb) {
   city = parseCity(city);
 
@@ -196,43 +197,22 @@ export function searchPlans(searchTerm, city, cb) {
     },
     body: JSON.stringify(reqBody)
   })
-    .then(parseJSON)
-    .then(result => {
-      let plans = result.data;
-      let query = new RegExp(searchTerm, 'gi');
-      let matchHash = Object.create(null);
-      let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
-      matches.forEach((plan, i) => {
-        matchHash[plan.title] = plan;
-      });
-      let uniqueMatches = [];
-      for (const title in matchHash) {
-        uniqueMatches.push(matchHash[title]);
-      }
-      cb(matches);
-      })
-    .catch(error => console.log(error));
-
-}
-
-
-export function getAllPlans(cb) {
-  fetch('https://sleepy-crag-32675.herokuapp.com/v1/plans')
   .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting all plans: ${error}`));
-}
-
-/**
- * Get all activities for a given plan
- * @param  {int}   planID
- * @param  {Function} cb
- */
-export function getActivitiesByPlan(planID, cb) {
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/?plan__plan_id=${planID}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities by planID: ${error}`));
+  .then(result => {
+    let plans = result.data;
+    let query = new RegExp(searchTerm, 'gi');
+    let matchHash = Object.create(null);
+    let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+    matches.forEach((plan, i) => {
+      matchHash[plan.title] = plan;
+    });
+    let uniqueMatches = [];
+    for (const title in matchHash) {
+      uniqueMatches.push(matchHash[title]);
+    }
+    cb(matches);
+    })
+  .catch(error => console.log(error));
 }
 
 /**
@@ -262,34 +242,6 @@ export function getPlan(planID, cb) {
       });
     })
    .catch(error => console.log(error));
-}
-
-/**
- * Update plan
- * @param  {Int}   planID
- * @param  {Object}   planUpdates hash with plan updates
- * @param  {Array}   activities  array of activity ojects to update
- * @param  {Function} cb
- */
-export function updatePlan(planID, planUpdates, activities, cb) {
-  let token = localStorage.getItem('token');
-  let access_token = JSON.parse(token).access_token;
-  let reqBody = {
-    plan: planUpdates,
-    access_token: access_token,
-    activities: activities,
-    plan_id: planID
-  };
-  fetch(`db/updateplan`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(reqBody)
-  })
-  .then(parseJSON)
-  .then(data => cb(data))
-  .catch(error => console.log(`Error updating plan: ${error}`))
 }
 
 /**
@@ -324,21 +276,56 @@ export function createPlan(plan, activities, cb) {
 }
 
 /**
+ * Update plan
+ * @param  {Int}   planID
+ * @param  {Object}   planUpdates hash with plan updates
+ * @param  {Array}   activities  array of activity ojects to update
+ * @param  {Function} cb
+ */
+export function updatePlan(planID, planUpdates, activities, cb) {
+  let token = localStorage.getItem('token');
+  let access_token = JSON.parse(token).access_token;
+  let reqBody = {
+    plan: planUpdates,
+    access_token: access_token,
+    activities: activities,
+    plan_id: planID
+  };
+  fetch(`db/updateplan`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  })
+  .then(parseJSON)
+  .then(data => cb(data))
+  .catch(error => console.log(`Error updating plan: ${error}`))
+}
+
+
+/**
  * Delete plan
  * @param  {int}   planID
  * @param  {Function} cb
  */
 export function deletePlan(planID, cb) {
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`, {
-    method: 'DELETE',
+  const reqBody = { planID };
+  fetch(`/db/deleteplan`, {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
   })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(error));
 }
+
+/**
+ * ADDITIONAL HELPERS --------------------------------------------------------
+ */
 
 /**
  * Run custom queries on tables
