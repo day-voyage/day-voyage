@@ -8,7 +8,7 @@ import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border';
-import { checkArea, checkCuisine, checkBudget, receiveFilter } from '../actions';
+import { checkNeighborhood, checkCategory, checkBudget } from '../actions';
 import { sliderclass } from './styles.css';
 
 export default class FilterContainer extends Component {
@@ -42,55 +42,57 @@ export default class FilterContainer extends Component {
     this.props.checkBudget(budget);
   }
 
-  handleCategory(cuisine) {
+  handleCategory(category) {
     const { filter } = this.props;
 
     var categoryArr = filter.categories;
+    console.log(categoryArr);
+
     var index = 0;
     // step through array, toggle visible
     for(var i = 0; i < categoryArr.length; i++) {
-      if(categoryArr[i].type === cuisine) {
+      if(categoryArr[i].type === category) {
         categoryArr[i].visible = !categoryArr[i].visible;
       }
     }
 
-    var checkedCuisines = categoryArr
+    var checkedCategories = categoryArr
       .filter(item => item.visible === true)
       .map(item => item.type);
 
-    this.props.checkCuisine(checkedCuisines);
+    this.props.checkCategory(checkedCategories);
   }
 
-  handleArea(area) {
+  handleNeighborhood(neighborhood) {
     const { filter } = this.props;
 
     var neighborhoodArray = filter.neighborhoods;
     var index = 0;
     // step through array, toggle visible
     for(var i = 0; i < neighborhoodArray.length; i++) {
-      if(neighborhoodArray[i].location === area) {
+      if(neighborhoodArray[i].location === neighborhood) {
         neighborhoodArray[i].visible = !neighborhoodArray[i].visible;
       }
     }
 
-    var checkedAreas = neighborhoodArray
+    var checkedNeighborhoods = neighborhoodArray
       .filter(item => item.visible === true)
       .map(item => item.location);
 
-    this.props.checkArea(checkedAreas);
+    this.props.checkNeighborhood(checkedNeighborhoods);
   }
 
   render() {
     const { filter } = this.props;
 
-    var areaOptions = filter.neighborhoods.map((area, index) => {
+    var neighborhoodOptions = filter.neighborhoods.map((neighborhood, index) => {
       return ( 
         <Checkbox
           key={ index }
-          label={area.location}
-          defaultChecked={area.visible}
+          label={neighborhood.location}
+          defaultChecked={neighborhood.visible}
           style={{marginLeft: 25, marginRight: 25, marginBottom: 10}}
-          onCheck={(e) => this.handleArea(area.location)} />
+          onCheck={(e) => this.handleNeighborhood(neighborhood.location)} />
         )
     })
 
@@ -111,30 +113,21 @@ export default class FilterContainer extends Component {
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>
-          
-          
-          <MenuItem>
-          Budget ${this.state.priceSlider}</MenuItem>
-          <Slider
-            style={{marginLeft: 25, marginRight: 25}}
-            min={filter.minPrice}
-            max={filter.maxPrice}
-            step={0.01}
-            className="slider-class"
-            defaultValue={filter.maxPrice}
-            onChange={this.handleSlider.bind(this)}/>
-          </div>
-
-            <div>
+            <MenuItem>
+            Budget ${this.state.priceSlider}</MenuItem>
+            <Slider
+              style={{marginLeft: 25, marginRight: 25}}
+              min={filter.minPrice}
+              max={filter.maxPrice}
+              step={0.01}
+              className="slider-class"
+              defaultValue={filter.maxPrice}
+              onChange={this.handleSlider.bind(this)}/>
             <MenuItem>Neighborhoods</MenuItem>
-            {areaOptions}
-            </div>
-
-            <div>
+            {neighborhoodOptions}
             <MenuItem>Categories</MenuItem>
             {categoryOptions}
-            </div>
-        
+          </div>
         </Drawer>
       </div>
     );
@@ -148,4 +141,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkArea, checkCuisine, checkBudget, receiveFilter })(FilterContainer)
+export default connect(mapStateToProps, { checkNeighborhood, checkCategory, checkBudget })(FilterContainer)

@@ -20,7 +20,7 @@ class ActivitiesContainer extends Component {
         <Card>
           {!hasActivities ? <em>0 search results</em> :
             activities.map((activity, index) => {
-              if (activity.visArea && activity.visCuisine && activity.visBudget) {
+              if (activity.visArea && activity.visCategory && activity.visBudget) {
                 return <ActivityItem
                   key={index}
                   activity={activity}

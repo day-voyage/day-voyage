@@ -24,8 +24,8 @@ import {
   SIGNUP_USER,
   FETCH_PROTECTED_DATA_REQUEST,
   RECEIVE_PROTECTED_DATA,
-  CHECK_AREA,
-  CHECK_CUISINE,
+  CHECK_NEIGHBORHOOD,
+  CHECK_CATEGORY,
   CHECK_BUDGET,
   EDIT_DESC,
   EDIT_PRICE,
@@ -114,7 +114,7 @@ export function getAllActivities(query, location) {
     */
 
     searchActivities(query.category, query.city, (results) => {
-      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCuisine: true, visBudget: true}));
+      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
     });
 
@@ -144,7 +144,7 @@ export function getAllActivities(query, location) {
         transformed.added = false;
         transformed.icon = 'http://www.maddiesrestaurant.com/wp-content/themes/maddies/images/yelp-icon.png';
         transformed.visArea = true;
-        transformed.visCuisine = true;
+        transformed.visCategory = true;
         transformed.visBudget = true;
         transformed.budget = Math.random() * 100;
         transformed.notes= '';
@@ -228,7 +228,7 @@ export function createFilter(activityArr) {
         categoryArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
       }       
     }
-  })
+  });
   neighborhoodArray.sort((a, b) => a.location > b.location);
   categoryArr.sort((a, b) => a.type > b.type);
   var newFilter = {
@@ -552,18 +552,18 @@ export function fetchProtectedData(token) {
     //    }
 }
 
-export function checkArea(neighborhoods) {
+export function checkNeighborhood(neighborhoods) {
   return {
-    type: CHECK_AREA,
+    type: CHECK_NEIGHBORHOOD,
     neighborhoods
   }
 }
 
 
-export function checkCuisine(cuisines) {
+export function checkCategory(categories) {
   return {
-    type: CHECK_CUISINE,
-    cuisines
+    type: CHECK_CATEGORY,
+    categories
   }
 }
 
