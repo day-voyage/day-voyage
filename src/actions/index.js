@@ -634,8 +634,8 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
-    console.log(activities);
-    fetch(`/db/plan`, {
+    console.log('sending to server route');
+    fetch(`/db/createplan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

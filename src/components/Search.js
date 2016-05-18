@@ -88,12 +88,14 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
     // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
+    this.props.actions.createPlan({desc: 'thats right', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+
 
     // utils.getPlansByUser(11, result => console.log(result));
 
@@ -109,7 +111,6 @@ export class Search extends React.Component {
 
     // utils.deleteActivity(13, (result) => console.log(result));
 
-    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
     // utils.getPlan(2, (result) => console.log(result));
 

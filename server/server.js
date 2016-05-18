@@ -6,6 +6,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
+const dbRouter = require('./routers/db');
 
 const config = require('../webpack.config');
 const compiler = webpack(config);
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname + '../src')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/db', dbRouter);
 
 //TODO: is this necessary
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
@@ -74,39 +77,7 @@ app.get('/api/reversegeocode', function(request, response) {
     });
 });
 
-app.post('/db/plan', function (request, response) {
-  let plan = request.body.plan;
-  let access_token = request.body.access_token;
-  let activities = request.body.activities;
-  let reqBody = Object.assign(plan, {
-    activities: activities
-  });
-  axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
-    .then(data => {
-      response.send(data.data);
-  })
-    .catch(error => {
-      console.log('Error posting plans to db from server:', error);
-      response.send(error);
-    });
-});
 
-app.post('/db/updateplan', function(request, response) {
-  console.log('<><> inside post to update db <>');
-  let plan = request.body.plan;
-  let plan_id = request.body.plan_id;
-  let access_token = request.body.access_token;
-  let activities = request.body.activities;
-  let reqBody = Object.assign(plan, {
-    activities: activities
-  });
-  axios.put(`http://localhost:8080/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
-  .then(data => response.send(data.data))
-  .catch(error => {
-    console.log(error);
-    response.send(error);
-  });
-});
 
 app.get('*', function (request, response){
   response.sendFile(path.join(__dirname + '/../src/index.html'));
