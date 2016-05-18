@@ -65,6 +65,8 @@ export function parseCity(cityInput) {
  * USER helpers -------------------------------------------------------
  */
 
+//NOTE: create user is in actions since coupled with signup actions
+
 export function updateUser(userID, updates, cb) {
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'PUT',
@@ -106,7 +108,7 @@ export function searchActivities(searchTerm, city, cb) {
       let matches = activities.filter((activity) => {
         let categoryString = activity.categories.join(',');
         return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
-        });
+      });
       matches.forEach((activity, i) => {
         matchHash[activity.title] = activity;
       });
@@ -115,13 +117,12 @@ export function searchActivities(searchTerm, city, cb) {
         uniqueMatches.push(matchHash[title]);
       }
       cb(uniqueMatches);
-      })
+    })
     .catch(error => console.log(error));
 }
 
 
 export function getActivitiesByUser(id, cb) {
-  // console.log(`<><> getting activities for user_id ${id}`);
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
@@ -221,7 +222,15 @@ export function searchPlans(searchTerm, city, cb) {
  * @param  {Function} cb
  */
 export function getPlansByUser(userID, cb) {
-  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans?user_id=${userID}`)
+  const reqBody = { userID };
+  console.log('routing get plans by user to server');
+  fetch('/db/getplanbyuser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
@@ -236,6 +245,7 @@ export function getPlan(planID, cb) {
   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => {
+      console.log('getting comments');
       getComments('plan', planID, comments => {
         data.data[0].comments = comments.data;
         cb(data);

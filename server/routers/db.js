@@ -48,7 +48,7 @@ dbrouter
     const reqBody = Object.assign(plan, {
       activities: activities
     });
-
+    console.log('inside updateplan');
     axios.put(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
     .then(data => response.send(data.data))
     .catch(error => {
@@ -63,6 +63,20 @@ dbrouter
     const planID = request.body.planID;
 
     axios.delete(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
+      .then((data) => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
+
+dbrouter
+  .route('/getplanbyuser')
+  .post((request, response) => {
+    console.log('inside server get plans by user');
+
+    const userID = request.body.userID;
+    axios.get(`https://sleepy-crag-32675.herokuapp.com/v1/plans?user_id=${userID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
