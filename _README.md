@@ -60,10 +60,18 @@ Good Times is a Single Page Application built with React with Redux, with client
 - URL paths are synced seamlessly with React view components and allows for smooth transition between page routes.
 
 ###### Redux 
-- talk flux architecture, helped manage complexity over large application
-- state management allowing a single source of truth for props shared throughout app
-- reducers, store and actions - helps separate concerns
-- what each does and how specifically it helped
+- Unidirectional data-flow normalizes data and provides predictability 
+- Manages states and acts as a single source of truth for props shared by components throughout the app
+- Utilized in conjunction with local states to preserve modularity and keep organized
+- States implemented:
+  - activities - results from Yelp api call
+  - auth - stores web token and user information
+  - dashboard - stores plans that the user has created
+  - data - loading information and miscellaneous items (i.e. budget)
+  - dbactivities - results from database api call
+  - directions - stores map coordinates of activities
+  - planBuilder - temporary list of activities that the user is creating before saving the the database
+  - router - keeps track of react router history and location change
 
 ###### Node
 - Good Times utilizes Node.js for its extensive package ecosystem through npm, including React and other libraries.
