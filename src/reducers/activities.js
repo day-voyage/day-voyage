@@ -10,7 +10,7 @@ import { pushState } from 'redux-router';
 
 export default function activities(state = [], action) {
   switch (action.type) {
-    case 'RECEIVE_ACTIVITIES':
+    case RECEIVE_ACTIVITIES:
       return action.activities;
     case ADD_TO_BUILDER:
       action.activity.added = true;
