@@ -88,7 +88,7 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    utils.searchActivities('a', 'san francisco', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('a', 'san francisco', activities => console.log('activity matches are',activities));
 
     // utils.getActivitiesByUser(3, (result) => console.log('got activities from aws', result));
 
@@ -116,7 +116,7 @@ export class Search extends React.Component {
 
     // utils.getPlan(2, (result) => console.log(result));
 
-    // utils.getPlan(8, (result) => console.log(result));
+    // utils.getPlan(1, (result) => console.log(result));
 
 
     // utils.getAllPlans(plans => console.log(plans));
