@@ -69,7 +69,7 @@ export function parseCity(cityInput) {
 
 //TOD0: check if run into CORS issues
 export function updateUser(userID, updates, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ export function updateUser(userID, updates, cb) {
 
 //TOD0: check if run into CORS issues
 export function deleteUser(userID, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export function deleteUser(userID, cb) {
 export function searchActivities(searchTerm, city, cb) {
   city = parseCity(city);
 
-  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
@@ -125,7 +125,7 @@ export function searchActivities(searchTerm, city, cb) {
 
 
 export function getActivitiesByUser(id, cb) {
-  fetch(`http://localhost:8080/v1/activities?user_id=${id}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by userID: ${error}`));
@@ -133,7 +133,7 @@ export function getActivitiesByUser(id, cb) {
 
 export function getActivitiesUnderBudget(amount, cb) {
   console.log('getting activities under budget');
-  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities under budget: ${error}`));
@@ -146,7 +146,7 @@ export function getActivitiesUnderBudget(amount, cb) {
  * @param  {Function} cb
  */
 export function getActivitiesByPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/activities/?plan_id=${planID}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities/?plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
@@ -156,7 +156,7 @@ export function getActivitiesByPlan(planID, cb) {
 export function updateActivity(activityID, updates, cb) {
   const token = localStorage.getItem('token');
   const access_token = JSON.parse(token).access_token;
-  fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export function updateActivity(activityID, updates, cb) {
  */
 
 export function getAllPlans(cb) {
-  fetch('http://localhost:8080/v1/plans')
+  fetch('http://sleepy-crag-32675.herokuapp.com/v1/plans')
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting all plans: ${error}`));
@@ -244,7 +244,7 @@ export function getPlansByUser(userID, cb) {
  * @param  {Function} cb
  */
 export function getPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => {
       console.log('getting comments');
@@ -348,7 +348,7 @@ export function deletePlan(planID, cb) {
  */
 export function getComments(type, id, cb) {
   let queryString = `?${type}_id=${id}`;
-  let url = `http://localhost:8080/v1/comments${queryString}`;
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/comments${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))
@@ -356,7 +356,7 @@ export function getComments(type, id, cb) {
 }
 
 export function createComment(comment, cb) {
-  let url = `http://localhost:8080/v1/comments`;
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/comments`;
   fetch(url, {
     method: 'POST',
     headers: {
@@ -395,7 +395,7 @@ export function queryTable(table, queries, cb) {
       queryString+='&'
     }
   });
-  let url = `http://localhost:8080/v1/${table}${queryString}`;
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/${table}${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))

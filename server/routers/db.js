@@ -12,7 +12,7 @@ dbrouter
   .post((request, response) => {
     const city = request.body.city;
 
-    axios.get(`http://localhost:8080/v1/plans?city__icontains=${city}&private__is=false`)
+    axios.get(`http://sleepy-crag-32675.herokuapp.com/v1/plans?city__icontains=${city}&private__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -30,7 +30,7 @@ dbrouter
       activities: activities
     });
 
-    axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
+    axios.post(`http://sleepy-crag-32675.herokuapp.com/v1/plans?access_token=${access_token}`, reqBody)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log('Error posting plans to db from server:', error);
@@ -49,7 +49,7 @@ dbrouter
       activities: activities
     });
     console.log('inside updateplan');
-    axios.put(`http://localhost:8080/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
+    axios.put(`http://sleepy-crag-32675.herokuapp.com/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
     .then(data => response.send(data.data))
     .catch(error => {
       console.log(error);
@@ -62,7 +62,7 @@ dbrouter
   .post((request, response) => {
     const planID = request.body.planID;
 
-    axios.delete(`http://localhost:8080/v1/plans/${planID}`)
+    axios.delete(`http://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -76,7 +76,7 @@ dbrouter
     console.log('inside server get plans by user');
 
     const userID = request.body.userID;
-    axios.get(`http://localhost:8080/v1/plans?user_id=${userID}`)
+    axios.get(`http://sleepy-crag-32675.herokuapp.com/v1/plans?user_id=${userID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);

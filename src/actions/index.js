@@ -372,7 +372,7 @@ export function logoutAndRedirect(snackbar) {
 export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        return fetch('http://localhost:8080/v1/access_tokens', {
+        return fetch('http://sleepy-crag-32675.herokuapp.com/v1/access_tokens', {
             method: 'POST',
             // credentials: 'include',
             headers: {
@@ -413,7 +413,7 @@ export function signUpUser(username, password, email, snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
-    return fetch('http://localhost:8080/v1/users', {
+    return fetch('http://sleepy-crag-32675.herokuapp.com/v1/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -489,7 +489,7 @@ export function fetchProtectedData(token) {
 
     // return (dispatch, state) => {
     //     dispatch(fetchProtectedDataRequest());
-    //     return fetch('http://localhost:8080/v1/plans', {
+    //     return fetch('http://sleepy-crag-32675.herokuapp.com/v1/plans', {
     //             credentials: 'include',
     //             headers: {
     //                 'Authorization': `Bearer ${token}`
@@ -558,7 +558,7 @@ export function deleteConfirm() {
 export function saveActivityToDb(activity, access_token) {
   return dispatch => {
 
-    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+    return fetch('http://sleepy-crag-32675.herokuapp.com/v1/activities?access_token=' + access_token, {
         method: 'POST',
 
         headers: {
@@ -586,7 +586,7 @@ export function saveActivityToDb(activity, access_token) {
 export function deleteActivityFromDb(activityId, cb) {
   return dispatch => {
 
-    return fetch(`http://localhost:8080/v1/activities/${activityId}`, {
+    return fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities/${activityId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

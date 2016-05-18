@@ -96,7 +96,7 @@ export class Search extends React.Component {
 
     // this.props.actions.createPlan({desc: 'woopie', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+    utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
 
     // utils.getPlansByUser(5, result => console.log(result));
