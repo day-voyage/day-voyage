@@ -12,7 +12,7 @@ export default class DBPlan extends Component {
 
   openLink() {
     const { plan } = this.props;
-    window.open(`https://sleepy-crag-32675.herokuapp.com/?plan=${plan.id}`, 'blank');
+    window.open(`http://localhost:3000/?plan=${plan.id}`, 'blank');
   }
 
   render() {

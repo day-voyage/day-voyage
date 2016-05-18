@@ -94,7 +94,7 @@ export default class SavePlan extends Component {
           onClick={this.finishSharing.bind(this)}/>
       ];
 
-    var shareURL = encodeURIComponent(`https://sleepy-crag-32675.herokuapp.com/?plan=${this.props.plan_id}`);
+    var shareURL = encodeURIComponent(`http://localhost:3000/?plan=${this.props.plan_id}`);
 
     return (
       <Dialog
@@ -111,7 +111,7 @@ export default class SavePlan extends Component {
             <div className="container">
               <div className="row">
                 <h3>Share with your friends</h3>
-                <span style={{color: "#808080"}}><h6>{`https://sleepy-crag-32675.herokuapp.com/?plan=${this.props.plan_id}`}</h6></span>
+                <span style={{color: "#808080"}}><h6>{`http://localhost:3000/?plan=${this.props.plan_id}`}</h6></span>
                 <a target="_blank" href={ `https://www.facebook.com/sharer/sharer.php?u=` + shareURL }>Share plan through Facebook</a>
               </div>
             </div>

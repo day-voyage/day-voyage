@@ -82,7 +82,7 @@ export default class DashboardPlanItem extends Component {
           showExpandableButton={true}
         />
         <div>
-        <a href={`https://sleepy-crag-32675.herokuapp.com/?plan=${this.props.plan_id}`}>
+        <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
           <FlatButton label={'View map'} />
         </a>
           <FlatButton
