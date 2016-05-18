@@ -100,11 +100,18 @@ export function deleteUser(userID, cb) {
 
 export function searchActivities(searchTerm, city, cb) {
   city = parseCity(city);
+  const reqBody = { city };
 
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+  fetch('/activity/searchActivities', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
     .then(parseJSON)
     .then(result => {
-      console.log(result);
+      console.log('got result from activity search',result);
       let activities = result.data;
       let matchHash = Object.create(null);
       let query = new RegExp(searchTerm, 'gi');
@@ -197,7 +204,7 @@ export function searchPlans(searchTerm, city, cb) {
     city: city,
   };
 
-  fetch(`/db/searchPlans`, {
+  fetch(`/plan/searchPlans`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
