@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import AutoComplete from 'material-ui/AutoComplete';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
 import ActionSearch from 'material-ui/svg-icons/action/search';
@@ -42,7 +42,6 @@ export class Search extends React.Component {
     });
   }
 
-
   searchActivities(event) {
     event.preventDefault();
     // if doing search by geolocation...
@@ -55,21 +54,21 @@ export class Search extends React.Component {
       .then((cityData) => cityData.json())
       .then((cityInfo) => {
         var city = cityInfo.formatted_address.split(", ")[1];
-        // run redux action getYelpActivities with our geolocation city, category, and current location (lat and lng)
-        this.props.actions.getYelpActivities({city: city, category: this.state.category}, this.state.location);
+        // run redux action getAllActivities with our geolocation city, category, and current location (lat and lng)
+        this.props.actions.getAllActivities({city: city, category: this.state.category}, this.state.location);
       });
-      // otherwise run redux action getYelpActivities with typed in city and category
+      // otherwise run redux action getAllActivities with typed in city and category
     } else {
-      this.props.actions.getYelpActivities({city: this.state.city, category: this.state.category}, null);
+      this.props.actions.getAllActivities({city: this.state.city, category: this.state.category}, null);
     }
   }
 
   handleCategory(event) {
-    this.setState({category: event.target.value});
+    this.setState({category: event});
   }
 
   handleCity(event){
-    this.setState({city: event.target.value});
+    this.setState({city: event});
   }
 
   checkBox() {
@@ -82,7 +81,6 @@ export class Search extends React.Component {
     );
   }
 
-
   testing() {
     this.props.actions.testPlan();
   }
@@ -90,40 +88,52 @@ export class Search extends React.Component {
   triggerAPItest() {
     console.log('triggering API test');
 
-    // utils.searchActivities('food', 'san francisco', activities => console.log('activity matches are',activities));
+    // utils.searchActivities('a', 'san francisco', activities => console.log('activity matches are',activities));
 
-    // utils.searchPlans('dives', 'san francisco', plans => console.log('plan matches are',plans));
+    // utils.getActivitiesByUser(3, (result) => console.log('got activities from aws', result));
+
+    // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
+
+    // this.props.actions.createPlan({desc: 'woopie', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+
+    // utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
 
-    // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+    // utils.getPlansByUser(5, result => console.log(result));
 
-    // utils.getPlansByUser(2, result => console.log(result));
+//>>>>>>>>>>>>>>>>>>>>>>> test these on live connection
+//
+    // utils.updateActivity(2, {duration: 88}, (response) => console.log(response));
 
-    // utils.getActivitiesByUser(2);
+    // utils.updatePlan(3, {desc: `Is there anything different all a description`, title: 'Afternoon delight'}, [{id: 9, user_gen: true}], result => console.log('updated plan >>', result));
 
-    // utils.updateActivity(2, {duration: 100});
+    // utils.updateUser(2, {username: 'Iamsam'}, result => console.log('updated user', result));
 
-    // utils.updatePlan(2, {desc: `Now that's what I call a description`, title: 'Afternoon delight'});
+    // utils.getActivitiesByPlan(5, activities => console.log(activities));
 
-    // utils.updateUser(2, {username: 'Iamsam'});
+    // this.props.actions.deleteActivityFromDb(13, (result) => console.log(result));
 
-    // utils.getActivitiesByPlan(2, activities => console.log(activities));
 
-    // utils.deleteActivity(13, (result) => console.log(result));
+    // utils.getPlan(2, (result) => console.log(result));
 
-    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
+    // utils.getPlan(1, (result) => console.log(result));
 
-    utils.getPlanWithActivities(2, (result) => console.log(result));
 
     // utils.getAllPlans(plans => console.log(plans));
 
-    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
+    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'a'}, (result) => console.log(result));
+
     // utils.deletePlan(4, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
+    // utils.createComment({
+    //   content: 'HODOR HODOR',
+    //   user_id: 3,
+    //   plan_id: 5
+    // }, (result) => console.log('result', result));
 
   }
 
@@ -148,20 +158,28 @@ export class Search extends React.Component {
         <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
           <div className="search-form__inputs">
             <ActionSearch className="hidden-xs" />
-            <TextField
-              type="text"
+            <AutoComplete
+              floatingLabelText="Activities, Restaurants, or Places"
+              fullWidth={true}
+              style={{width: '450px'}}
               className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={catSearch}
+              maxSearchResults={6}
               value={this.state.value}
-              placeholder="Activities, Restaurants, or Places"
-              onChange={this.handleCategory.bind(this)} />
+              onUpdateInput={this.handleCategory.bind(this)} />
             <div className="search-form__separator">in</div>
-            <TextField
-                type="text"
-                className="search-form__city-input"
-                value={this.state.city}
-                defaultValue={this.state.city}
-                disabled={this.state.location}
-                onChange={this.handleCity.bind(this)} />
+            <AutoComplete
+              floatingLabelText="City"
+              fullWidth={true}
+              style={{width: '300px'}}
+              className="search-form__activity-input"
+              filter={AutoComplete.fuzzyFilter}
+              dataSource={citySearch}
+              maxSearchResults={3}
+              value={this.state.city}
+              disabled={this.state.location}
+              onUpdateInput={this.handleCity.bind(this)} />
             <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
           </div>
           <div className="search__location-checkbox">
@@ -171,12 +189,12 @@ export class Search extends React.Component {
         <div className="search__call-to-action">
           <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       </div>
     );
 
     /* TEST BUTTONS */
     /*
-      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       <div className="row">
         <div className="col-sm-5">
         <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
@@ -186,7 +204,7 @@ export class Search extends React.Component {
         </div>
         <div className="col-sm-5">
         </div>
-      </div> 
+      </div>
     */
   }
 }
@@ -204,8 +222,11 @@ const checkboxIconStyle = {
 
 const checkboxLabelStyle = {
   color: '#424242',
-  'font-weight': 'normal'
+  'fontWeight': 'normal'
 }
+
+const catSearch = ['Active', 'Arts & Entertainment', 'Food', 'Nightlife', 'Personal', 'Shopping'];
+const citySearch = ['San Francisco', 'Oakland', 'San Jose'];
 
 export default connect(
   mapStateToProps,

@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 export default class PlanItem extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       descOpen: false
     };

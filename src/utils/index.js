@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
 // createConstants creates a hash with all of the constants
+/**
+ * Creates hash of all constants
+ * @param  {...String} constants [string describing action]
+ * @return {Object}    [hash of constants]
+ */
 export function createConstants(...constants) {
   return constants.reduce((acc, constant) => {
     acc[constant] = constant;
@@ -10,6 +15,16 @@ export function createConstants(...constants) {
   }, {});
 }
 
+export function isLoggedIn() {
+  var token = localStorage.getItem('token');
+  return !!token ? true : false;
+}
+/**
+ * Composes a hash with reducer functions
+ * @param  {Object} initialState
+ * @param  {Object} reducerMap
+ * @return {Object} hash with reducer functions by action
+ */
 export function createReducer(initialState, reducerMap) {
   return (state = initialState, action) => {
     const reducer = reducerMap[action.type];
@@ -17,6 +32,11 @@ export function createReducer(initialState, reducerMap) {
   };
 }
 
+/**
+ * Checks status of API responses
+ * @param  {Object} response
+ * @return {Object} response || error
+ */
 export function checkHttpStatus(response) {
   //TODO: adjust the error that are being put onto the response object
   if (response.status >= 200 && response.status < 300) {
@@ -32,52 +52,24 @@ export function parseJSON(response) {
   return response.json();
 }
 
-// API helpers to communti
+/** Helps remove state and extra from city input */
+export function parseCity(cityInput) {
+  return cityInput.replace(/,.*/, '');
+}
 
-// export function updateActivity(activityID, updates, access_token) {
-//   fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(updates)
-//   })
-//   .then(parseJSON)
-//   .then(response => cb(response))
-//   .catch(err => console.log(`Error updating activities: ${err}`));
-// }
+/**
+ * API HELPERS TO INTERFACE WITH DB
+ */
 
+/**
+ * USER helpers -------------------------------------------------------
+ */
 
-// export function savePlanToDb(plan, access_token) {
-//   return dispatch => {
-//     return fetch('http://localhost:8080/v1/plans?access_token=' + access_token, {
-//         method: 'POST',
+//NOTE: create user is in actions since coupled with signup actions
 
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//             body: JSON.stringify(plan)
-//         })
-//         .then(checkHttpStatus)
-//         .then(parseJSON)
-//         .then(response => {
-//             try {
-//               dispatch(savePlanConfirm())
-//             } catch (e) {
-//               console.log(e);
-//               snackbar('There was an error saving the plan');
-//             }
-//         })
-//         .catch(error => {
-//            console.log(error);
-//         })
-//     }
-// }
-
-// API requests
-
+//TOD0: check if run into CORS issues
 export function updateUser(userID, updates, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/users/${userID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -89,24 +81,58 @@ export function updateUser(userID, updates, cb) {
   .catch(error => console.log(`Error updating user: ${error}`))
 }
 
+//TOD0: check if run into CORS issues
 export function deleteUser(userID, cb) {
-
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/users/${userID}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(error));
+}
 
+/**
+ * ACTIVITY helpers -----------------------------------------------------
+ */
+
+export function searchActivities(searchTerm, city, cb) {
+  city = parseCity(city);
+  const reqBody = { city };
+
+  fetch('/activity/searchActivities', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
+    .then(parseJSON)
+    .then(result => {
+      let activities = result.data;
+      let matchHash = Object.create(null);
+      let query = new RegExp(searchTerm, 'gi');
+      let matches = activities.filter((activity) => {
+        let categoryString = activity.categories.join(',');
+        return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
+      });
+      matches.forEach((activity, i) => {
+        matchHash[activity.title] = activity;
+      });
+      let uniqueMatches = [];
+      for (const title in matchHash) {
+        uniqueMatches.push(matchHash[title]);
+      }
+      cb(uniqueMatches);
+    })
+    .catch(error => console.log(error));
 }
 
 
 export function getActivitiesByUser(id, cb) {
-  // console.log(`<><> getting activities for user_id ${id}`);
-  fetch(`http://localhost:8080/v1/activities?user__id=${id}`)
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by userID: ${error}`));
@@ -114,86 +140,167 @@ export function getActivitiesByUser(id, cb) {
 
 export function getActivitiesUnderBudget(amount, cb) {
   console.log('getting activities under budget');
-  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities under budget: ${error}`))
+  .catch(error => console.log(`Error getting activities under budget: ${error}`));
 }
+
 
 /**
- *  Search activities by category
+ * Get all activities for a given plan
+ * @param  {int}   planID
+ * @param  {Function} cb
  */
-
-export function searchActivities(searchTerm, city, cb) {
-  //TODO: maybe cache calls to a particular city
-
-  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}`)
-    .then(parseJSON)
-    .then(result => {
-      let activities = result.data;
-      let query = new RegExp(searchTerm, 'gi');
-      let matches = activities.filter((activity) => {
-        let categoryString = activity.categories.join(',');
-        return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
-        });
-      cb(matches);
-      })
-    .catch(error => console.log(error));
-
-}
-
-export function searchPlans(searchTerm, city, cb) {
-
-  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}`)
-    .then(parseJSON)
-    .then(result => {
-      let plans = result.data;
-      let query = new RegExp(searchTerm, 'gi');
-      let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
-      cb(matches);
-      })
-    .catch(error => console.log(error));
-
-}
-/*
-   Get all plans from database
- */
-export function getAllPlans(cb) {
-  fetch('http://localhost:8080/v1/plans')
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting all plans: ${error}`));
-}
-
 export function getActivitiesByPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities/?plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
 }
 
+
+export function updateActivity(activityID, updates, cb) {
+  const token = localStorage.getItem('token');
+  const access_token = JSON.parse(token).access_token;
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities/${activityID}?access_token=${access_token}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updates),
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
+}
+
+/**
+ * PLAN helpers -------------------------------------------------------
+ */
+
+/**
+ * Seach for plans
+ * @param  {String}   searchTerm
+ * @param  {String}   city
+ * @param  {Function} cb
+ */
+
+export function getAllPlans(cb) {
+  fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/plans')
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting all plans: ${error}`));
+}
+
+export function searchPlans(searchTerm, city, cb) {
+  city = parseCity(city);
+
+  const reqBody = {
+    city: city,
+  };
+
+  fetch(`/plan/searchPlans`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  })
+  .then(parseJSON)
+  .then(result => {
+    let plans = result.data;
+    let query = new RegExp(searchTerm, 'gi');
+    let matchHash = Object.create(null);
+    let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+    matches.forEach((plan, i) => {
+      matchHash[plan.title] = plan;
+    });
+    let uniqueMatches = [];
+    for (const title in matchHash) {
+      uniqueMatches.push(matchHash[title]);
+    }
+    cb(matches);
+    })
+  .catch(error => console.log(error));
+}
+
+/**
+ * Get all plans for a given user
+ * @param  {int}   userID
+ * @param  {Function} cb
+ */
 export function getPlansByUser(userID, cb) {
-  fetch(`http://localhost:8080/v1/plans?user__id=${userID}`)
+  const reqBody = { userID };
+  console.log('routing get plans by user to server');
+  fetch('/plan/getplanbyuser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
 }
 
-export function getPlanWithActivities(planID, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`)
+/**
+ * Get a single plan, including activities associated with plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
+export function getPlan(planID, cb) {
+  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => {
-      getActivitiesByPlan(planID, (activityData) => {
-        let plan = {
-          plan: data.data[0],
-          activities: activityData.data
-        };
-        cb(plan);
+      console.log('getting comments');
+      getComments('plan', planID, comments => {
+        data.data[0].comments = comments.data;
+        cb(data);
       });
-   })
+    })
    .catch(error => console.log(error));
 }
 
+/**
+ * Create plan in db
+ * @param  {object} plan       [object that matches plan schema]
+ * @param  {Array} activities  [array of activity objects]
+ * @param  {Function} cb
+ */
+export function createPlan(plan, activities, cb) {
+  return dispatch => {
+    let token = localStorage.getItem('token');
+    let access_token = JSON.parse(token).access_token;
+    let reqBody = {
+      plan: plan,
+      access_token: access_token,
+      activities: activities
+    };
+    fetch(`/db/plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    })
+    .then(parseJSON)
+    .then(response => {
+      cb(response);
+    })
+    .then(() => dispatch(savePlanConfirm()))
+    .catch(error => console.log(`Error creating plan: ${error}`))
+  }
+}
+
+/**
+ * Update plan
+ * @param  {Int}   planID
+ * @param  {Object}   planUpdates hash with plan updates
+ * @param  {Array}   activities  array of activity ojects to update
+ * @param  {Function} cb
+ */
 export function updatePlan(planID, planUpdates, activities, cb) {
   let token = localStorage.getItem('token');
   let access_token = JSON.parse(token).access_token;
@@ -203,7 +310,7 @@ export function updatePlan(planID, planUpdates, activities, cb) {
     activities: activities,
     plan_id: planID
   };
-  fetch(`db/updateplan`, {
+  fetch(`plan/updateplan`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -216,12 +323,19 @@ export function updatePlan(planID, planUpdates, activities, cb) {
 }
 
 
+/**
+ * Delete plan
+ * @param  {int}   planID
+ * @param  {Function} cb
+ */
 export function deletePlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`, {
-    method: 'DELETE',
+  const reqBody = { planID };
+  fetch(`/plan/deleteplan`, {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
   })
   .then(parseJSON)
   .then(response => cb(response))
@@ -229,17 +343,54 @@ export function deletePlan(planID, cb) {
 }
 
 /**
- * [queryTable description]
- * @param  {[type]}   table   [description]
- * @param  {[type]}   queries [description]
- * @param  {Function} cb      [description]
- * @return {[type]}           [description]
+ * COMMENT HELPERS --------------------------------------------------------
+ */
+
+
+/**
+ * Get comments from DB
+ * @param  {String}   type user, activity, plan
+ * @param  {int}   id   id of type
+ * @param  {Function} cb   callback to execute with response
+ */
+export function getComments(type, id, cb) {
+  let queryString = `?${type}_id=${id}`;
+  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/comments${queryString}`;
+  fetch(url)
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(error => console.log(error));
+}
+
+export function createComment(comment, cb) {
+  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/comments`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(comment),
+  })
+  .then(parseJSON)
+  .then((response) => cb(response))
+  .catch(error => console.log(error));
+}
+
+/**
+ * ADDITIONAL HELPERS --------------------------------------------------------
+ */
+
+/**
+ * Run custom queries on tables
+ * @param  {string}    table
+ * @param  {Object}    queries attributes for object to match
+ * @param  {Function}  cb
  */
 export function queryTable(table, queries, cb) {
   let queryString = '?';
-  let contains = '__icontains='
+  let contains = '__icontains=';
   let is = '__is=';
-  var keys = Object.keys(queries);
+  const keys = Object.keys(queries);
   keys.forEach((key, i) => {
     let queryValue = queries[key];
     if (typeof queryValue === 'string') {
@@ -251,7 +402,7 @@ export function queryTable(table, queries, cb) {
       queryString+='&'
     }
   });
-  let url = `http://localhost:8080/v1/${table}${queryString}`;
+  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/${table}${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))
@@ -259,11 +410,5 @@ export function queryTable(table, queries, cb) {
 }
 
 
-export function getComments(type, id, cb) {
-  let queryString = `?${type}_id=${id}`;
-  let url = `http://localhost:8080/v1/comments${queryString}`;
-  fetch(url)
-    .then(parseJSON)
-    .then(response => cb(response))
-    .catch(error => console.log(error));
-}
+
+

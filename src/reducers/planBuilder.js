@@ -5,6 +5,7 @@ import {
   REORDER_UP,
   REORDER_DOWN,
   EDIT_DESC,
+  EDIT_PRICE,
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
@@ -60,6 +61,10 @@ export default function planBuilder(state = [], action) {
       var newState = state.slice();
       newState[action.activityIndex].desc = action.text;
       return newState;
+    case EDIT_PRICE:
+      var newState = state.slice();
+      newState[action.activityIndex].price = action.price;
+      return newState;
     case SAVE_ACTIVITY_CONFIRM:
       var newState = state.slice();
       var index = newState.indexOf(action.activity);
@@ -68,7 +73,11 @@ export default function planBuilder(state = [], action) {
     case DELETE_ACTIVITY_CONFIRM:
       return state
     case SAVE_PLAN_CONFIRM:
-      return state
+      var newState = state.slice();
+      for (var i = 0; i < newState.length; i++) {
+        newState[i].plan_id = action.planId;
+      }
+      return newState
     case QUERY_DB:
       return state
     default:

@@ -1,4 +1,9 @@
-import { checkHttpStatus, parseJSON } from '../utils';
+import { checkHttpStatus,
+  parseJSON,
+  searchActivities,
+  searchPlans,
+  getPlansByUser } from '../utils';
+
 import {
   ADD_TO_BUILDER,
   DELETE_FROM_BUILDER,
@@ -23,10 +28,20 @@ import {
   CHECK_CUISINE,
   CHECK_BUDGET,
   EDIT_DESC,
+  EDIT_PRICE,
   SAVE_ACTIVITY_CONFIRM,
   DELETE_ACTIVITY_CONFIRM,
   SAVE_PLAN_CONFIRM,
-  QUERY_DB
+  QUERY_DB,
+  RECEIVE_DBACTIVITIES,
+  DB_ADD_TO_BUILDER,
+  DB_DELETE_FROM_BUILDER,
+  DASHBOARD_RECEIVE,
+  DASHBOARD_DELETE,
+  RECEIVE_PLANS,
+  ADD_PLAN_TO_BUILDER,
+  DELETE_PLAN_FROM_BUILDER,
+  RECEIVE_BUDGET
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -41,7 +56,21 @@ export function receiveActivities(activities) {
   return {
     type: RECEIVE_ACTIVITIES,
     activities
-  }
+  };
+}
+
+export function receiveDBActivities(activities) {
+  return {
+    type: RECEIVE_DBACTIVITIES,
+    activities
+  };
+}
+
+export function receivePlans(plans) {
+  return {
+    type: RECEIVE_PLANS,
+    plans
+  };
 }
 
 export function receiveRoutes(route) {
@@ -58,14 +87,33 @@ export function changeRoutes(route) {
   };
 }
 
+export function receiveBudget(budget) {
+  return {
+    type: RECEIVE_BUDGET,
+    payload: {
+      budget: budget
+    }
+  };
+}
+
 /**
  * Get Yelp search results
  */
-export function getYelpActivities(query, location) {
+export function getAllActivities(query, location) {
   return (dispatch) => {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
+
+    searchActivities(query.category, query.city, (results) => {
+      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCuisine: true, visBudget: true}));
+      dispatch(receiveDBActivities(dbResults));
+    });
+
+    searchPlans(query.category, query.city, (results) => {
+      dispatch(receivePlans(results));
+    });
+
     fetch(`/api/yelpSearch?city=${query.city}&category=${query.category}`, {
       method: 'GET'
     })
@@ -86,7 +134,7 @@ export function getYelpActivities(query, location) {
         transformed.state = activity.location.state_code;
         transformed.neighborhood = activity.location.neighborhoods || [];
         transformed.added = false;
-        transformed.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
+        transformed.icon = 'http://www.maddiesrestaurant.com/wp-content/themes/maddies/images/yelp-icon.png';
         transformed.visArea = true;
         transformed.visCuisine = true;
         transformed.visBudget = true;
@@ -100,9 +148,6 @@ export function getYelpActivities(query, location) {
       /**
       * if current location was included
       */
-          console.log('nolocation: ', noLocation);
-          console.log('location: ', location);
-
       if (location !== null) {
         console.log('inside location !== null');
         /**
@@ -130,6 +175,7 @@ export function getYelpActivities(query, location) {
           dispatch(receiveActivities(withLocation));
         })
         .then(() => {
+          console.log('about to push');
           /**
           * route to activities page
           */
@@ -159,6 +205,20 @@ export function addToBuilder(activity) {
   };
 }
 
+export function DBaddToBuilder(activity) {
+  return {
+    type: DB_ADD_TO_BUILDER,
+    activity
+  };
+}
+
+// export function addPlanToBuilder(plan) {
+//   return {
+//     type: ADD_PLAN_TO_BUILDER,
+//     plan
+//   };
+// }
+
 export function deleteFromBuilder(activity) {
   return {
     type: DELETE_FROM_BUILDER,
@@ -166,9 +226,49 @@ export function deleteFromBuilder(activity) {
   };
 }
 
+export function DBdeleteFromBuilder(activity) {
+  return {
+    type: DB_DELETE_FROM_BUILDER,
+    activity
+  };
+}
+
+export function deletePlanFromBuilder(plan) {
+  return {
+    type: DELETE_PLAN_FROM_BUILDER,
+    plan
+  };
+}
+
+export function goToActivities() {
+  return dispatch => {
+    dispatch(push('/activities'));
+  };
+}
+
 export function goToConfirm() {
   return dispatch => {
     dispatch(push('/confirm'));
+  };
+}
+
+export function getDashboardActivities(dashboard) {
+  return {
+    type: DASHBOARD_RECEIVE,
+    dashboard
+  }
+}
+
+export function goToDashboard() {
+  return dispatch => {
+    dispatch(push('/dashboard'));
+  };
+}
+
+export function deleteFromDashboard(planIndex) {
+  return {
+    type: DASHBOARD_DELETE,
+    planIndex
   }
 }
 
@@ -195,13 +295,13 @@ export function changingRoutes(activities) {
     }
 
     var places = activities.map(function(item) {
-      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, title: item.title, icon: item.icon, address: [item.address, item.city, item.state].join(', ') };
+      return {position: {location: {lat: parseFloat(item.lat), lng: parseFloat(item.long) }}, icon: item.icon};
     });
 
     DirectionsService.route(
       {
-        origin: places[0].address,
-        destination: places[places.length-1].address,
+        origin: places[0].position,
+        destination: places[places.length-1].position,
         waypoints: places.slice(1,-1).map((item) => item.position),
         optimizeWaypoints: false,
         travelMode: google.maps.TravelMode.WALKING,
@@ -216,10 +316,14 @@ export function changingRoutes(activities) {
 }
 
 
-export function loginUserSuccess(token, snackbar) {
+export function loginUserSuccess(token, snackbar, signedup) {
   localStorage.setItem('token', JSON.stringify(token));
   if (snackbar) {
-    snackbar("You have successfully logged in");
+    if (signedup) {
+      snackbar("Congratulations, you have signed up!");
+    } else {
+      snackbar("You have successfully logged in");
+    }
   }
   return {
     type: LOGIN_USER_SUCCESS,
@@ -229,8 +333,9 @@ export function loginUserSuccess(token, snackbar) {
   }
 }
 
-export function loginUserFailure(error) {
+export function loginUserFailure(error, snackbar) {
   localStorage.removeItem('token');
+  snackbar('The user name and password you have entered do not match our records');
   console.log(error);
   return {
     type: LOGIN_USER_FAILURE,
@@ -264,12 +369,11 @@ export function logoutAndRedirect(snackbar) {
     }
 }
 
-export function loginUser(username, password, snackbar) {
+export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        return fetch('http://localhost:8080/v1/access_tokens', {
+        return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/access_tokens', {
             method: 'POST',
-            // credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -279,16 +383,15 @@ export function loginUser(username, password, snackbar) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(loginUserSuccess(response.data[0], snackbar));
+                    dispatch(loginUserSuccess(response.data[0], snackbar, signedup));
                 } catch (e) {
                     console.log(e);
-                    snackbar('The user name and password you have entered do not match our records');
                     dispatch(loginUserFailure({
                         response: {
                           status: 403,
                           statusText: 'Invalid token'
                         }
-                    }));
+                    }, snackbar));
                 }
             })
             .catch(error => {
@@ -300,7 +403,7 @@ export function loginUser(username, password, snackbar) {
                let resError = Object.assign({}, {
                 response: response
               });
-               dispatch(loginUserFailure(resError));
+               dispatch(loginUserFailure(resError, snackbar));
             })
     }
 }
@@ -309,7 +412,7 @@ export function signUpUser(username, password, email, snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
-    return fetch('http://localhost:8080/v1/users', {
+    return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -324,7 +427,7 @@ export function signUpUser(username, password, email, snackbar) {
     .then(parseJSON)
     .then(response => {
       try {
-          dispatch(loginUser(username, password));
+          dispatch(loginUser(username, password, snackbar, true));
         } catch (e) {
           snackbar('Please enter a valid username, password, or email');
           dispatch(signUpUserFailure({
@@ -380,11 +483,12 @@ export function fetchProtectedDataRequest() {
   }
 }
 
+
 export function fetchProtectedData(token) {
 
     // return (dispatch, state) => {
     //     dispatch(fetchProtectedDataRequest());
-    //     return fetch('http://localhost:8080/v1/plans', {
+    //     return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/plans', {
     //             credentials: 'include',
     //             headers: {
     //                 'Authorization': `Bearer ${token}`
@@ -437,9 +541,10 @@ export function saveActivityConfirm(activity, activity_db_id) {
   }
 }
 
-export function savePlanConfirm() {
+export function savePlanConfirm(planId) {
   return {
-    type: SAVE_PLAN_CONFIRM
+    type: SAVE_PLAN_CONFIRM,
+    planId
   }
 }
 
@@ -452,7 +557,7 @@ export function deleteConfirm() {
 export function saveActivityToDb(activity, access_token) {
   return dispatch => {
 
-    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+    return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?access_token=' + access_token, {
         method: 'POST',
 
         headers: {
@@ -480,7 +585,7 @@ export function saveActivityToDb(activity, access_token) {
 export function deleteActivityFromDb(activityId, cb) {
   return dispatch => {
 
-    return fetch(`http://localhost:8080/v1/activities/${activityId}`, {
+    return fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities/${activityId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -495,22 +600,7 @@ export function deleteActivityFromDb(activityId, cb) {
     }
 }
 
-//TODO: perhaps do separate requests and keep only unique ids
-//maybe use a hash or a set
-//save to a search cache?
 
-export function updateActivity(activityID, updates, access_token) {
-  fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(updates)
-  })
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(err => console.log(`Error updating activities: ${err}`));
-}
 
 
 /**
@@ -528,7 +618,8 @@ export function createPlan(plan, activities, cb) {
       access_token: access_token,
       activities: activities
     };
-    fetch(`/db/plan`, {
+
+    fetch(`/plan/createplan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -538,8 +629,9 @@ export function createPlan(plan, activities, cb) {
     .then(parseJSON)
     .then(response => {
       cb(response);
+      var planId = response.data[0].id
+      dispatch(savePlanConfirm(planId));
     })
-    .then(() => dispatch(savePlanConfirm()))
     .catch(error => console.log(`Error creating plan: ${error}`))
   }
 }
@@ -553,6 +645,13 @@ export function editDescription(activityIndex, text) {
   }
 }
 
+export function editPrice(activityIndex, price) {
+  return {
+    type: EDIT_PRICE,
+    activityIndex: activityIndex,
+    price: price
+  }
+}
 
 export function unCheckCity(city) {
   return {
@@ -566,5 +665,3 @@ export function queryDb() {
     type: QUERY_DB
   };
 }
-
-
