@@ -167,7 +167,6 @@ class PlanBuilderContainer extends Component {
             label="Label before"
             labelPosition="before"
             primary={true}
-            style={styles.button}
             icon={<EditorAttachMoney color="#00cc00"/>}
           />
           <IconButton
