@@ -59,7 +59,7 @@ export function parseCity(cityInput) {
 // API helpers to communti
 
 // export function updateActivity(activityID, updates, access_token) {
-//   fetch(`https://sweatyfigs.api.poly.cloud/v1/activities/${activityID}?access_token=${access_token}`, {
+//   fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
 //     method: 'PUT',
 //     headers: {
 //       'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ export function parseCity(cityInput) {
 
 // export function savePlanToDb(plan, access_token) {
 //   return dispatch => {
-//     return fetch('https://sweatyfigs.api.poly.cloud/v1/plans?access_token=' + access_token, {
+//     return fetch('https://sleepy-crag-32675.herokuapp.com/v1/plans?access_token=' + access_token, {
 //         method: 'POST',
 
 //         headers: {
@@ -101,7 +101,7 @@ export function parseCity(cityInput) {
 // API requests
 
 export function updateUser(userID, updates, cb) {
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/users/${userID}`, {
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -115,7 +115,7 @@ export function updateUser(userID, updates, cb) {
 
 export function deleteUser(userID, cb) {
 
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/users/${userID}`, {
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ export function deleteUser(userID, cb) {
 
 export function getActivitiesByUser(id, cb) {
   // console.log(`<><> getting activities for user_id ${id}`);
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/activities?user_id=${id}`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by userID: ${error}`));
@@ -138,7 +138,7 @@ export function getActivitiesByUser(id, cb) {
 
 export function getActivitiesUnderBudget(amount, cb) {
   console.log('getting activities under budget');
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/activities?costPerPerson__lte=${amount}`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities under budget: ${error}`))
@@ -153,7 +153,7 @@ export function searchActivities(searchTerm, city, cb) {
   // console.log('here in SearchActivities in utils', searchTerm, city);
   city = parseCity(city);
 
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
@@ -185,7 +185,17 @@ export function searchActivities(searchTerm, city, cb) {
 export function searchPlans(searchTerm, city, cb) {
   city = parseCity(city);
 
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/plans?city__icontains=${city}&private__is=false`)
+  const reqBody = {
+    city: city,
+  };
+
+  fetch(`/db/searchPlans`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  })
     .then(parseJSON)
     .then(result => {
       let plans = result.data;
@@ -207,7 +217,7 @@ export function searchPlans(searchTerm, city, cb) {
 
 
 export function getAllPlans(cb) {
-  fetch('https://sweatyfigs.api.poly.cloud/v1/plans')
+  fetch('https://sleepy-crag-32675.herokuapp.com/v1/plans')
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting all plans: ${error}`));
@@ -219,7 +229,7 @@ export function getAllPlans(cb) {
  * @param  {Function} cb
  */
 export function getActivitiesByPlan(planID, cb) {
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/activities/?plan__plan_id=${planID}`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/activities/?plan__plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
@@ -231,7 +241,7 @@ export function getActivitiesByPlan(planID, cb) {
  * @param  {Function} cb
  */
 export function getPlansByUser(userID, cb) {
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/plans?user_id=${userID}`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans?user_id=${userID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
@@ -243,7 +253,7 @@ export function getPlansByUser(userID, cb) {
  * @param  {Function} cb
  */
 export function getPlan(planID, cb) {
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/plans/${planID}`)
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => {
       getComments('plan', planID, comments => {
@@ -319,7 +329,7 @@ export function createPlan(plan, activities, cb) {
  * @param  {Function} cb
  */
 export function deletePlan(planID, cb) {
-  fetch(`https://sweatyfigs.api.poly.cloud/v1/plans/${planID}`, {
+  fetch(`https://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -352,7 +362,7 @@ export function queryTable(table, queries, cb) {
       queryString+='&'
     }
   });
-  let url = `https://sweatyfigs.api.poly.cloud/v1/${table}${queryString}`;
+  let url = `https://sleepy-crag-32675.herokuapp.com/v1/${table}${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))
@@ -367,7 +377,7 @@ export function queryTable(table, queries, cb) {
  */
 export function getComments(type, id, cb) {
   let queryString = `?${type}_id=${id}`;
-  let url = `https://sweatyfigs.api.poly.cloud/v1/comments${queryString}`;
+  let url = `https://sleepy-crag-32675.herokuapp.com/v1/comments${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))
@@ -375,7 +385,7 @@ export function getComments(type, id, cb) {
 }
 
 export function createComment(comment, cb) {
-  let url = `https://sweatyfigs.api.poly.cloud/v1/comments`;
+  let url = `https://sleepy-crag-32675.herokuapp.com/v1/comments`;
   fetch(url, {
     method: 'POST',
     headers: {
