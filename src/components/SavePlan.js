@@ -44,7 +44,7 @@ export default class SavePlan extends Component {
       value: 'share'
     });
   }
-  
+
   selectEmailTab() {
     this.setState({
       value: 'email'

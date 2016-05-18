@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import { addToBuilder, 
+import { addToBuilder,
         changingRoutes,
         deleteActivityFromDb,
         goToActivities } from '../actions';
@@ -15,7 +15,7 @@ var shortid = require('shortid');
 
 
 /**
-* template for individual dashboard items, 
+* template for individual dashboard items,
 */
 export default class DashboardPlanItem extends Component {
   constructor(props) {

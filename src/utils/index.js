@@ -52,56 +52,24 @@ export function parseJSON(response) {
   return response.json();
 }
 
-/** Remove state if included with user input */
+/** Helps remove state and extra from city input */
 export function parseCity(cityInput) {
   return cityInput.replace(/,.*/, '');
 }
-// API helpers to communti
 
-// export function updateActivity(activityID, updates, access_token) {
-//   fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify(updates)
-//   })
-//   .then(parseJSON)
-//   .then(response => cb(response))
-//   .catch(err => console.log(`Error updating activities: ${err}`));
-// }
+/**
+ * API HELPERS TO INTERFACE WITH DB
+ */
 
+/**
+ * USER helpers -------------------------------------------------------
+ */
 
-// export function savePlanToDb(plan, access_token) {
-//   return dispatch => {
-//     return fetch('http://localhost:8080/v1/plans?access_token=' + access_token, {
-//         method: 'POST',
+//NOTE: create user is in actions since coupled with signup actions
 
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//             body: JSON.stringify(plan)
-//         })
-//         .then(checkHttpStatus)
-//         .then(parseJSON)
-//         .then(response => {
-//             try {
-//               dispatch(savePlanConfirm())
-//             } catch (e) {
-//               console.log(e);
-//               snackbar('There was an error saving the plan');
-//             }
-//         })
-//         .catch(error => {
-//            console.log(error);
-//         })
-//     }
-// }
-
-// API requests
-
+//TOD0: check if run into CORS issues
 export function updateUser(userID, updates, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -113,47 +81,27 @@ export function updateUser(userID, updates, cb) {
   .catch(error => console.log(`Error updating user: ${error}`))
 }
 
+//TOD0: check if run into CORS issues
 export function deleteUser(userID, cb) {
-
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/users/${userID}`, {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(error));
-
-}
-
-
-export function getActivitiesByUser(id, cb) {
-  // console.log(`<><> getting activities for user_id ${id}`);
-  fetch(`http://localhost:8080/v1/activities?user_id=${id}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities by userID: ${error}`));
-}
-
-export function getActivitiesUnderBudget(amount, cb) {
-  console.log('getting activities under budget');
-  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
-  .then(parseJSON)
-  .then(response => cb(response))
-  .catch(error => console.log(`Error getting activities under budget: ${error}`))
 }
 
 /**
- *  Search activities by category
+ * ACTIVITY helpers -----------------------------------------------------
  */
 
 export function searchActivities(searchTerm, city, cb) {
-  //TODO: maybe cache calls to a particular city
-  // console.log('here in SearchActivities in utils', searchTerm, city);
   city = parseCity(city);
 
-  fetch(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
     .then(parseJSON)
     .then(result => {
       let activities = result.data;
@@ -162,7 +110,7 @@ export function searchActivities(searchTerm, city, cb) {
       let matches = activities.filter((activity) => {
         let categoryString = activity.categories.join(',');
         return query.test(activity.desc) || query.test(categoryString) || query.test(activity.title);
-        });
+      });
       matches.forEach((activity, i) => {
         matchHash[activity.title] = activity;
       });
@@ -171,47 +119,26 @@ export function searchActivities(searchTerm, city, cb) {
         uniqueMatches.push(matchHash[title]);
       }
       cb(uniqueMatches);
-      })
+    })
     .catch(error => console.log(error));
-
-}
-
-/**
- * Seach for plans
- * @param  {String}   searchTerm
- * @param  {String}   city
- * @param  {Function} cb
- */
-export function searchPlans(searchTerm, city, cb) {
-  city = parseCity(city);
-
-  fetch(`http://localhost:8080/v1/plans?city__icontains=${city}&private__is=false`)
-    .then(parseJSON)
-    .then(result => {
-      let plans = result.data;
-      let query = new RegExp(searchTerm, 'gi');
-      let matchHash = Object.create(null);
-      let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
-      matches.forEach((plan, i) => {
-        matchHash[plan.title] = plan;
-      });
-      let uniqueMatches = [];
-      for (const title in matchHash) {
-        uniqueMatches.push(matchHash[title]);
-      }
-      cb(matches);
-      })
-    .catch(error => console.log(error));
-
 }
 
 
-export function getAllPlans(cb) {
-  fetch('http://localhost:8080/v1/plans')
+export function getActivitiesByUser(id, cb) {
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
-  .catch(error => console.log(`Error getting all plans: ${error}`));
+  .catch(error => console.log(`Error getting activities by userID: ${error}`));
 }
+
+export function getActivitiesUnderBudget(amount, cb) {
+  console.log('getting activities under budget');
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities?costPerPerson__lte=${amount}`)
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting activities under budget: ${error}`));
+}
+
 
 /**
  * Get all activities for a given plan
@@ -219,10 +146,76 @@ export function getAllPlans(cb) {
  * @param  {Function} cb
  */
 export function getActivitiesByPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/activities/?plan__plan_id=${planID}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities/?plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
+}
+
+
+export function updateActivity(activityID, updates, cb) {
+  const token = localStorage.getItem('token');
+  const access_token = JSON.parse(token).access_token;
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/activities/${activityID}?access_token=${access_token}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updates),
+  })
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(err => console.log(`Error updating activities: ${err}`));
+}
+
+/**
+ * PLAN helpers -------------------------------------------------------
+ */
+
+/**
+ * Seach for plans
+ * @param  {String}   searchTerm
+ * @param  {String}   city
+ * @param  {Function} cb
+ */
+
+export function getAllPlans(cb) {
+  fetch('http://sleepy-crag-32675.herokuapp.com/v1/plans')
+  .then(parseJSON)
+  .then(response => cb(response))
+  .catch(error => console.log(`Error getting all plans: ${error}`));
+}
+
+export function searchPlans(searchTerm, city, cb) {
+  city = parseCity(city);
+
+  const reqBody = {
+    city: city,
+  };
+
+  fetch(`/db/searchPlans`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  })
+  .then(parseJSON)
+  .then(result => {
+    let plans = result.data;
+    let query = new RegExp(searchTerm, 'gi');
+    let matchHash = Object.create(null);
+    let matches = plans.filter((plan) => query.test(plan.desc) || query.test(plan.title));
+    matches.forEach((plan, i) => {
+      matchHash[plan.title] = plan;
+    });
+    let uniqueMatches = [];
+    for (const title in matchHash) {
+      uniqueMatches.push(matchHash[title]);
+    }
+    cb(matches);
+    })
+  .catch(error => console.log(error));
 }
 
 /**
@@ -231,7 +224,15 @@ export function getActivitiesByPlan(planID, cb) {
  * @param  {Function} cb
  */
 export function getPlansByUser(userID, cb) {
-  fetch(`http://localhost:8080/v1/plans?user_id=${userID}`)
+  const reqBody = { userID };
+  console.log('routing get plans by user to server');
+  fetch('/db/getplanbyuser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting plans by userID: ${error}`));
@@ -243,43 +244,16 @@ export function getPlansByUser(userID, cb) {
  * @param  {Function} cb
  */
 export function getPlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`)
+  fetch(`http://sleepy-crag-32675.herokuapp.com/v1/plans/${planID}`)
    .then(parseJSON)
    .then(data => {
+      console.log('getting comments');
       getComments('plan', planID, comments => {
         data.data[0].comments = comments.data;
         cb(data);
       });
     })
    .catch(error => console.log(error));
-}
-
-/**
- * Update plan
- * @param  {Int}   planID
- * @param  {Object}   planUpdates hash with plan updates
- * @param  {Array}   activities  array of activity ojects to update
- * @param  {Function} cb
- */
-export function updatePlan(planID, planUpdates, activities, cb) {
-  let token = localStorage.getItem('token');
-  let access_token = JSON.parse(token).access_token;
-  let reqBody = {
-    plan: planUpdates,
-    access_token: access_token,
-    activities: activities,
-    plan_id: planID
-  };
-  fetch(`db/updateplan`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(reqBody)
-  })
-  .then(parseJSON)
-  .then(data => cb(data))
-  .catch(error => console.log(`Error updating plan: ${error}`))
 }
 
 /**
@@ -314,21 +288,90 @@ export function createPlan(plan, activities, cb) {
 }
 
 /**
+ * Update plan
+ * @param  {Int}   planID
+ * @param  {Object}   planUpdates hash with plan updates
+ * @param  {Array}   activities  array of activity ojects to update
+ * @param  {Function} cb
+ */
+export function updatePlan(planID, planUpdates, activities, cb) {
+  let token = localStorage.getItem('token');
+  let access_token = JSON.parse(token).access_token;
+  let reqBody = {
+    plan: planUpdates,
+    access_token: access_token,
+    activities: activities,
+    plan_id: planID
+  };
+  fetch(`db/updateplan`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reqBody)
+  })
+  .then(parseJSON)
+  .then(data => cb(data))
+  .catch(error => console.log(`Error updating plan: ${error}`))
+}
+
+
+/**
  * Delete plan
  * @param  {int}   planID
  * @param  {Function} cb
  */
 export function deletePlan(planID, cb) {
-  fetch(`http://localhost:8080/v1/plans/${planID}`, {
-    method: 'DELETE',
+  const reqBody = { planID };
+  fetch(`/db/deleteplan`, {
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
   })
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(error));
 }
+
+/**
+ * COMMENT HELPERS --------------------------------------------------------
+ */
+
+
+/**
+ * Get comments from DB
+ * @param  {String}   type user, activity, plan
+ * @param  {int}   id   id of type
+ * @param  {Function} cb   callback to execute with response
+ */
+export function getComments(type, id, cb) {
+  let queryString = `?${type}_id=${id}`;
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/comments${queryString}`;
+  fetch(url)
+    .then(parseJSON)
+    .then(response => cb(response))
+    .catch(error => console.log(error));
+}
+
+export function createComment(comment, cb) {
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/comments`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(comment),
+  })
+  .then(parseJSON)
+  .then((response) => cb(response))
+  .catch(error => console.log(error));
+}
+
+/**
+ * ADDITIONAL HELPERS --------------------------------------------------------
+ */
 
 /**
  * Run custom queries on tables
@@ -352,40 +395,13 @@ export function queryTable(table, queries, cb) {
       queryString+='&'
     }
   });
-  let url = `http://localhost:8080/v1/${table}${queryString}`;
+  let url = `http://sleepy-crag-32675.herokuapp.com/v1/${table}${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))
     .catch(error => console.log(error));
 }
 
-/**
- * Get comments from DB
- * @param  {String}   type user, activity, plan
- * @param  {int}   id   id of type
- * @param  {Function} cb   callback to execute with response
- */
-export function getComments(type, id, cb) {
-  let queryString = `?${type}_id=${id}`;
-  let url = `http://localhost:8080/v1/comments${queryString}`;
-  fetch(url)
-    .then(parseJSON)
-    .then(response => cb(response))
-    .catch(error => console.log(error));
-}
 
-export function createComment(comment, cb) {
-  let url = `http://localhost:8080/v1/comments`;
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(comment),
-  })
-  .then(parseJSON)
-  .then((response) => cb(response))
-  .catch(error => console.log(error));
-}
 
 

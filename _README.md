@@ -1,12 +1,12 @@
 # Good Times
-
 Let 'em roll
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - [Steven Tran] (https://github.com/steventran06)
+  - [Vivian Chen] (https://github.com/vichen)
+  - [Tor Sinclair] (https://github.com/torsinclair)
+  - [Michael Rico] (https://github.com/mrmrico)
 
 ## Table of Contents
 
@@ -24,24 +24,29 @@ Let 'em roll
 - Install dependencies
 - Export environement
 - Start server
-- Go to API repo for instructions to set up data layer
+- Please visit API [repo](https://github.com/sweaty-figs/sweaty-figs-db) for instructions on setting up database layer
 
 ```sh
 npm install
 npm start
 ```
 
+> You are now running locally on [localhost:3000](http://localhost:3000/)
+
 ## Why good times?
+For locals and travelers to build and share custom plans of fun things to do around town or anywhere you go.
+
+On a budget? GoodTimes can help tailor your plans to meet a budget of any size.
+
 
 ## Requirements
 
 - React
 - Redux
 - Node 0.10.x
-- Postgresql 9.5.2
-- Nodal 0.1.0
 - Webpack 1.11.0
 
+Please see out this [repo](https://github.com/sweaty-figs/sweaty-figs-db) for information about the requirments for setting up the API to interface with Postrgres database.
 
 ## Application Architecture
 
@@ -86,8 +91,9 @@ Good Times is a Single Page Application built with React with Redux, with client
 ## API's
 The data powering our application.
 
-Our main DB link to it
-DP endpoints
+[sweaty-figs-db](https://github.com/sweaty-figs/sweaty-figs-db)
+- Built with Nodal and Postgres
+- see repo for endpoints
 
 ###### External API - Yelp
 - Good Times utilizes the Yelp Search API to supplement user-generated activities with local establishments based on your search query in the city of your choosing.

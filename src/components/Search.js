@@ -90,26 +90,29 @@ export class Search extends React.Component {
 
     // utils.searchActivities('a', 'san francisco, wassh', activities => console.log('activity matches are',activities));
 
+    // utils.getActivitiesByUser(3, (result) => console.log(result));
+
     // utils.searchPlans('d', 'san francisco', plans => console.log('plan matches are',plans));
 
+    // this.props.actions.createPlan({desc: 'woopie', 'title': 'voyage'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
 
-    // utils.createPlan({desc: 'Ow ow sweaty figs corner office', 'title': 'what you know about titles wanted'}, [{activity_id: 10, title: 'watermelon'}], response => console.log('Posted it!', response));
+    utils.updatePlan(1, {title: 'ooo PA'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
-    // utils.getPlansByUser(11, result => console.log(result));
 
-    // utils.getActivitiesByUser(2, (result) => console.log(result));
+    // utils.getPlansByUser(5, result => console.log(result));
 
-    // utils.updateActivity(2, {duration: 100});
+//>>>>>>>>>>>>>>>>>>>>>>> test these on live connection
+//
+    // utils.updateActivity(2, {duration: 88}, (response) => console.log(response));
 
-    // utils.updatePlan(2, {desc: `Now that's what I call a description`, title: 'Afternoon delight'});
+    // utils.updatePlan(3, {desc: `Is there anything different all a description`, title: 'Afternoon delight'}, [{id: 9, user_gen: true}], result => console.log('updated plan >>', result));
 
-    // utils.updateUser(2, {username: 'Iamsam'});
+    // utils.updateUser(2, {username: 'Iamsam'}, result => console.log('updated user', result));
 
-    // utils.getActivitiesByPlan(8, activities => console.log(activities));
+    // utils.getActivitiesByPlan(5, activities => console.log(activities));
 
-    utils.deleteActivity(13, (result) => console.log(result));
+    // this.props.actions.deleteActivityFromDb(13, (result) => console.log(result));
 
-    // utils.updatePlan(2, {title: 'oh please'},[{activity_id: 3, title:'do it to meybabt'}, {activity_id: 4, title:'DA BOMB', desc: 'a man walks to a church, ha'}], result => console.log(result));
 
     // utils.getPlan(2, (result) => console.log(result));
 
@@ -118,19 +121,19 @@ export class Search extends React.Component {
 
     // utils.getAllPlans(plans => console.log(plans));
 
-    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
-    
-    // utils.deletePlan(8, (plan) => console.log(plan));
+    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'a'}, (result) => console.log(result));
+
+    // utils.deletePlan(4, (plan) => console.log(plan));
 
     // utils.getComments('user', 4, comment => console.log(comment));
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
-    // utils.createComment({
-    //   content: 'Yo momma so fat... she got up from the couch and the decks on the bay bridge collapsed',
-    //   user_id: 3,
-    //   plan_id: 5
-    // }, (result) => console.log('result', result));
+    utils.createComment({
+      content: 'HODOR HODOR',
+      user_id: 3,
+      plan_id: 5
+    }, (result) => console.log('result', result));
 
   }
 
@@ -186,12 +189,12 @@ export class Search extends React.Component {
         <div className="search__call-to-action">
           <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
         </div>
+      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       </div>
     );
 
     /* TEST BUTTONS */
     /*
-      <button onClick={this.triggerAPItest.bind(this)}>test API</button>
       <div className="row">
         <div className="col-sm-5">
         <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
