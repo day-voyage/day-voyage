@@ -5,13 +5,13 @@ import { RECEIVE_ACTIVITIES,
          CHECK_AREA,
          CHECK_CUISINE,
          CHECK_BUDGET } from '../constants';
-import { pushState } from 'redux-router';
 
+import { pushState } from 'redux-router';
 
 export default function activities(state = [], action) {
   switch (action.type) {
-    case RECEIVE_ACTIVITIES:
-      return action.activities
+    case 'RECEIVE_ACTIVITIES':
+      return action.activities;
     case ADD_TO_BUILDER:
       action.activity.added = true;
       action.activity.icon = '';

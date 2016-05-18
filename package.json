@@ -11,7 +11,7 @@
     "lint": "eslint src/.; exit 0",
     "postinstall": "npm run build && npm run doc",
     "start": "npm run dev",
-    "test": "mocha test/reducers --compilers js:babel-core/register --require ./newtest/test_helper.js  --recursive",
+    "test": "mocha test/reducers --compilers js:babel-core/register --require ./test/reducers/test_helper.js  --recursive",
     "test:watch": "npm run test -- --watch"
   },
   "repository": {},
