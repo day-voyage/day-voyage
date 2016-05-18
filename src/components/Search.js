@@ -101,16 +101,17 @@ export class Search extends React.Component {
 
     // utils.getPlansByUser(5, result => console.log(result));
 
-
+//>>>>>>>>>>>>>>>>>>>>>>> test these on live connection
+//
     // utils.updateActivity(2, {duration: 88}, (response) => console.log(response));
 
-    utils.updatePlan(3, {desc: `Is there anything different all a description`, title: 'Afternoon delight'}, {id: 9, user_gen: true}, result => console.log('updated plan >>', result));
+    // utils.updatePlan(3, {desc: `Is there anything different all a description`, title: 'Afternoon delight'}, [{id: 9, user_gen: true}], result => console.log('updated plan >>', result));
 
-    // utils.updateUser(2, {username: 'Iamsam'});
+    // utils.updateUser(2, {username: 'Iamsam'}, result => console.log('updated user', result));
 
-    // utils.getActivitiesByPlan(8, activities => console.log(activities));
+    // utils.getActivitiesByPlan(5, activities => console.log(activities));
 
-    // utils.deleteActivity(13, (result) => console.log(result));
+    // this.props.actions.deleteActivityFromDb(13, (result) => console.log(result));
 
 
     // utils.getPlan(2, (result) => console.log(result));
@@ -120,7 +121,7 @@ export class Search extends React.Component {
 
     // utils.getAllPlans(plans => console.log(plans));
 
-    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'heaven'}, (result) => console.log(result));
+    // utils.queryTable('activities', {user_gen: true, city: 'San Francisco', 'title': 'a'}, (result) => console.log(result));
 
     // utils.deletePlan(4, (plan) => console.log(plan));
 
@@ -128,11 +129,11 @@ export class Search extends React.Component {
 
     // utils.getComments('activity', 3, comment => console.log(comment));
 
-    // utils.createComment({
-    //   content: 'Yo momma so fat... she got up from the couch and the decks on the bay bridge collapsed',
-    //   user_id: 3,
-    //   plan_id: 5
-    // }, (result) => console.log('result', result));
+    utils.createComment({
+      content: 'HODOR HODOR',
+      user_id: 3,
+      plan_id: 5
+    }, (result) => console.log('result', result));
 
   }
 
