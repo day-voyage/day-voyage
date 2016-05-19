@@ -1,18 +1,16 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions';
-import React from 'react';
+import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
 
-export class LoginComponent extends React.Component {
+export class LoginComponent extends Component {
   constructor(props) {
     super(props);
-    // console.log('>>>>>  prop in login modal:', props);
     const { router } = props;
     const redirectRoute = router.location.query.next || router.location.pathName;
     this.state = {

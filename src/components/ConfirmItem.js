@@ -1,11 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-
 import IconButton from 'material-ui/IconButton';
-import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline'
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
@@ -15,13 +12,6 @@ import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-a
 export default class ConfirmItem extends Component {
   constructor(props) {
     super(props);
-
-    /**
-     * @type {object}
-     * @property {boolean} descOpen toggles card expansion
-     * @property {string} description of plan that user inputs
-     * @property {boolean} edited toggles
-     */
     this.state = {
       descOpen: false,
       description: '',
@@ -140,13 +130,3 @@ export default class ConfirmItem extends Component {
     )
   }
 }
-
-// ConfirmItem.propTypes = {
-//   activity: PropTypes.shape({
-//     title: PropTypes.string.isRequired,
-//     desc: PropTypes.string.isRequired,
-//     // categories: PropTypes.array.isRequired,
-//     city: PropTypes.string.isRequired,
-//     added: PropTypes.bool.isRequired
-//   }).isRequired
-// }

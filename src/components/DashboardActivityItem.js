@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
+import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 
 /**
@@ -10,13 +9,6 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 export default class DashboardActivityItem extends Component {
   constructor(props) {
     super(props);
-
-    /**
-     * @type {object}
-     * @property {boolean} buttonClicked triggers addToBuilder and openSnackbar
-     * in ActivityContainer
-     * @property {boolean} descOpen toggles card expansion
-     */
     this.state = {
       buttonClicked: false,
       descOpen: false

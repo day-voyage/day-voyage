@@ -1,27 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addToBuilder, 
-        deleteFromBuilder, 
+import {deleteFromBuilder, 
         reorderUp, 
         reorderDown, 
-        changingRoutes,
         editDescription,
         editPrice,
         createPlan,
-        deleteActivityFromDb,
         saveActivityToDb,
-        updateActivity,
         receiveBudget } from '../actions';
-import { bindActionCreators } from 'redux';
 import ConfirmItem from '../components/ConfirmItem';
 import SavePlan from '../components/SavePlan';
 import TextField from 'material-ui/TextField';
 import { Card, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import {Tabs, Tab} from 'material-ui/Tabs';
 import Snackbar from 'material-ui/Snackbar';
-import Checkbox from 'material-ui/Checkbox';
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money';
 
 var shortid = require('shortid');
@@ -200,17 +192,12 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { addToBuilder,
-    deleteFromBuilder,
+  { deleteFromBuilder,
     reorderUp,
     reorderDown,
-    changingRoutes,
     editDescription,
     createPlan,
-    editDescription,
     editPrice,
-    deleteActivityFromDb,
     saveActivityToDb,
-    updateActivity,
     receiveBudget }
 )(ConfirmContainer)
