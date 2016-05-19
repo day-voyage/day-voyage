@@ -1,9 +1,9 @@
 body {
   /*font-family: 'Metrophobic', Arial, serif;*/
   font-weight: 400;
-  /*background: linear-gradient(to bottom, #f4fafb, #d0eaf1);
+  background: linear-gradient(to bottom, #f4fafb, #d0eaf1);
   background-attachment: fixed;
-  background-repeat: no-repeat;*/
+  background-repeat: no-repeat;
   height: 100vh;
   width: 100vw;
 }
@@ -155,6 +155,40 @@ body {
   }
 }
 
+.budget-field {
+  padding: 0px 15px 15px 0px;
+  height: 75%;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/**
+* Button Groupings
+*/
+.planBuilder-btns {
+  padding: 15px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.create-activity-btns {
+  padding: 15px 15px 15px 0px;
+  width: 35%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.confirm-budget-btn {
+  padding: 15px;
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+}
 
 /**
  * The geosuggest module
@@ -233,6 +267,7 @@ body {
   width: 50%;
 }
 
+
 /**
  * Item Card
  */
@@ -245,6 +280,7 @@ body {
 .item-card > div {
   display: flex;
 }
+
 .item-card .card-content { flex: 1; }
 .item-card .reorder-btns {
   display: flex;
@@ -262,12 +298,31 @@ body {
   justify-content: center;
 }
 
-.item-card .remove-btn {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
+/**
+* Create Activity Category Dropdown
+*/
+
+.styled-select {
+    border: 1px solid #ccc;
+    width: 200px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa no-repeat 90% 50%;
 }
 
+.styled-select select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.styled-select select:focus {
+    outline: none;
+}
 
 /**
  *  Other Styles

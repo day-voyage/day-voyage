@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 import { isLoggedIn } from '../utils';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import IconButton from 'material-ui/IconButton';
@@ -50,23 +50,23 @@ export default class ActivityItem extends Component {
         <div className="card-content">
 
           <CardHeader
-            style={cardHeadStyle}
             title={title}
             subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
             actAsExpander={true}
           />
           {this.state.descOpen ? 
-            <CardText>
-              <strong>Estimated cost: </strong> 
-                ${activity.price?activity.price:'0'} (add activity to modify)<br />
+            <CardText style={cardTextStyle}>
+              Estimated Cost:
+                ${activity.price?activity.price:'0'} (add activity to modify)<br /><br />
               <strong>Address:</strong>
               <br />{activity.address}<br />
               {activity.city}, {activity.state}<br /><br />
               {activity.desc}
             </CardText> : null}
         </div>
-        <div className="add-btn">
+        <div>
+        <CardActions>
           <IconButton 
             tooltip="Add to plan"
             onClick={this.clickAddButton.bind(this)}
@@ -74,15 +74,18 @@ export default class ActivityItem extends Component {
             label={activity.added ? 'Added' : ''}>
             <ContentAdd />
           </IconButton>
+        </CardActions>
         </div>
       </Card>
     )
   }
 }
 
-var cardHeadStyle = {
-  marginBottom: 0
+
+var cardTextStyle = {
+  paddingTop: 0
 }
+
 
 ActivityItem.propTypes = {
   activity: PropTypes.shape({

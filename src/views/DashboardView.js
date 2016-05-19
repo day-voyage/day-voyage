@@ -12,8 +12,8 @@ export class DashboardView extends Component {
       <div>
         <div>
           <h1>Welcome, {auth.username}</h1>
-          <h3>Itineraries</h3>
-          {dashboard.length > 0 ? '' : 'You don\'t have any itineraries, create one now!'}
+          <h3>Plans</h3>
+          {dashboard.length > 0 ? '' : 'You don\'t have any plans, create one now!'}
           <Card>
           {dashboard.map((item, index) => {
             return <DashboardPlanItem

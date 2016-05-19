@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
@@ -72,6 +72,7 @@ export default class ConfirmItem extends Component {
         Estimated Cost: $
         <TextField
          id="text-field-default"
+         style={{width: 50}}
          type="number"
          defaultValue={activity.price?activity.price : '0'}
          onChange={this.handlePrice.bind(this)}/>
@@ -92,35 +93,15 @@ export default class ConfirmItem extends Component {
             className="save-info-btn"
             disabled={!this.state.descEdited}
             onClick={this.handleSaveDesc.bind(this)} /> <br />
-          <FlatButton
-              label="Remove"
-              style={{color: '#F44336'}}
-              onClick={this.removeItem.bind(this)} />
         </div>
     } else {
-      var cardDesc =
-      <div>
-        <FlatButton
-              label="Remove"
-              style={{color: '#F44336'}}
-              onClick={this.removeItem.bind(this)} />
-      </div>
+      var cardDesc = null;
     }
 
     return (
       <Card
         className="item-card"
         style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
-        <div className="card-content">
-          <CardHeader
-            title={order + '   ' + activity.title}
-            subtitle={address + activity.neighborhood}
-            key={activity.i}
-            onClick={this.toggleDesc.bind(this)} />
-          <CardText>
-            {cardDesc}
-          </CardText>
-        </div>
         <div className="reorder-btns">
           <IconButton
             tooltip="Move Up"
@@ -133,6 +114,23 @@ export default class ConfirmItem extends Component {
             <HardwareKeyboardArrowDown />
           </IconButton>
         </div>
+        <div className="card-content">
+          <CardHeader
+            style={{paddingBottom: 0}}
+            title={order + '   ' + activity.title}
+            subtitle={address + activity.neighborhood}
+            key={activity.i}
+            onClick={this.toggleDesc.bind(this)} />
+          <CardText style={{paddingTop: 0}}>
+            {cardDesc}
+          </CardText>
+        </div>
+        <CardActions>
+          <FlatButton
+              label="Remove"
+              style={{color: '#F44336'}}
+              onClick={this.removeItem.bind(this)} />
+        </CardActions>
       </Card>
     )
   }

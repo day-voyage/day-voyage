@@ -42,7 +42,7 @@ export default class CoreLayout extends Component {
     return (
       <nav className="app-navbar">
         <div className="app-navbar__header">
-            <Link className="app-title" to="/">DayVoyage</Link>
+            <Link className="app-title" to="/"><img style={{height: '30%', width: '30%'}} src="http://s32.postimg.org/i33xfbc05/dayvoyage.png"/></Link>
         </div>
         <div className="app-navbar__actions">
           {this.props.isAuthenticated
@@ -59,6 +59,7 @@ export default class CoreLayout extends Component {
                 <FlatButton
                   label="Logout"
                   secondary={true}
+                  style={{color: "#eb6157"}}
                   onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
                 />
               </span>
