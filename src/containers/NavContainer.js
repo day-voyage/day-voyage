@@ -1,11 +1,10 @@
-import React from 'react';
-import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutAndRedirect,
-          getDashboardActivities,
-          goToDashboard } from '../actions';
+import {logoutAndRedirect,
+        getDashboardActivities,
+        goToDashboard } from '../actions';
 import { getPlansByUser } from '../utils'
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
@@ -17,7 +16,7 @@ import { push } from 'redux-router';
   };
 })
 
-export default class CoreLayout extends React.Component {
+export default class CoreLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
