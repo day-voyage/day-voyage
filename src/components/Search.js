@@ -197,7 +197,7 @@ export class Search extends React.Component {
             </div>
           </form>
           <div className="search__call-to-action">
-            <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
+            <RaisedButton primary="true" className="search-btn" label="Start Planning" onClick={this.searchActivities.bind(this)}/>
           </div>
         </div>
       );

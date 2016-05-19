@@ -32,9 +32,9 @@ export default class ActivityItem extends Component {
     let loggedIn = isLoggedIn();
     if (loggedIn) {
       this.props.onAddToBuilderClicked();
-      this.props.openSnackbar("Event has been added to your itinerary");
+      this.props.openSnackbar("Event has been added to your plan");
     } else {
-      this.props.openSnackbar('Please login to add activity to your itinerary');
+      this.props.openSnackbar('Please login to add activity to your plan');
     }
   }
 
@@ -61,7 +61,7 @@ export default class ActivityItem extends Component {
           {this.state.descOpen ? 
             <CardText>
               <strong>Estimated cost: </strong> 
-                ${activity.price?activity.price:'0'}. (add activity to modify)<br />
+                ${activity.price?activity.price:'0'} (add activity to modify)<br />
               <strong>Address:</strong>
               <br />{activity.address}<br />
               {activity.city}, {activity.state}<br /><br />
@@ -70,7 +70,7 @@ export default class ActivityItem extends Component {
         </div>
         <div className="add-btn">
           <IconButton 
-            tooltip="Add to itinerary"
+            tooltip="Add to plan"
             onClick={this.clickAddButton.bind(this)}
             disabled={activity.added ? true : false}
             label={activity.added ? 'Added' : ''}>

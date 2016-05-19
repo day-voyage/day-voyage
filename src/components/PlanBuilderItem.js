@@ -6,6 +6,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import ContentClear from 'material-ui/svg-icons/content/clear';
 import TextField from 'material-ui/TextField';
 
 export default class PlanBuilderItem extends Component {
@@ -19,7 +20,7 @@ export default class PlanBuilderItem extends Component {
   }
 
   removeItem() {
-    this.props.openSnackbar("Event has been removed from your itinerary");
+    this.props.openSnackbar("Event has been removed from your plan");
     this.props.onDeleteFromBuilderClicked();
   }
 
@@ -56,26 +57,26 @@ export default class PlanBuilderItem extends Component {
            defaultValue={activity.price?activity.price : '0'}
            onChange={this.handlePrice.bind(this)}/>
           <FlatButton
-           label="Save"
+          label={this.state.edited ? "Save" : ''}
            className="save-info-btn"
            disabled={!this.state.edited}
            onClick={this.handleSave.bind(this)} /> <br />
           <strong>Address:</strong><br />
           {activity.address}<br />
           {activity.city}, {activity.state}<br /><br />
-          {activity.desc}
-          <FlatButton 
+          {activity.desc} <br />
+          <FlatButton
               label="Remove"
               style={{color: '#F44336'}}
-              onClick={this.removeItem.bind(this)} />
+              onClick={this.removeItem.bind(this)}/>
         </div>
     } else {
       var cardDesc = 
       <div>
         <FlatButton 
-              label="Remove"
-              style={{color: '#F44336'}}
-              onClick={this.removeItem.bind(this)} />
+          label="Remove"
+          style={{color: '#F44336'}}
+          onClick={this.removeItem.bind(this)} />
       </div>
     }
     return (

@@ -9,6 +9,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Search from '../components/Search';
 
 import {Tabs, Tab} from 'material-ui/Tabs';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsMap from 'material-ui/svg-icons/maps/map';
@@ -54,9 +55,16 @@ export class ActivitiesView extends Component {
   render() {
     return (
       <div className="container">
+      <Toolbar>
+         <ToolbarGroup firstChild={true}>
+            <FilterContainer />
+       
+
+            <Search />
+           
+         </ToolbarGroup>
+       </Toolbar>
         <div className="row">
-          <Search />
-          <FilterContainer />
         </div>
         <div className="row">
           <div className="col-sm-6">

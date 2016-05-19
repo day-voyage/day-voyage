@@ -53,10 +53,10 @@ export class ConfirmContainer extends Component {
     setTimeout(() => this.setState({snackbar: false}), 2000);
   }
 
-  saveItinerary() {
+  saveplan() {
 
     if (this.state.planTitle.length === 0) {
-      this.toggleSnackbar("Please name your itinerary");
+      this.toggleSnackbar("Please name your plan");
     } else {
       this.toggleModal();
       this.props.createPlan(Object.assign({}, {
@@ -141,7 +141,7 @@ export class ConfirmContainer extends Component {
     return (
       <Card>
         <TextField
-          hintText="Name Your Itinerary"
+          hintText="Name Your plan"
           onChange={this.handleTitle.bind(this)}/><br />
         <div>
        <FlatButton
@@ -172,8 +172,8 @@ export class ConfirmContainer extends Component {
         )}
         </div>
         <FlatButton
-          onClick={() => this.saveItinerary()}>
-          Save Itinerary
+          onClick={() => this.saveplan()}>
+          Save plan
         </FlatButton>
         <SavePlan
           toggleModal={this.toggleModal.bind(this)}

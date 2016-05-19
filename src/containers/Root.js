@@ -48,7 +48,7 @@ export default class Root extends React.Component {
         accent3Color: grey500,
         textColor: darkBlack,
         alternateTextColor: white,
-        canvasColor: "e4f3f7",
+        canvasColor: white,
         borderColor: grey300,
         disabledColor: fade(darkBlack, 0.3),
         pickerHeaderColor: cyan500,
