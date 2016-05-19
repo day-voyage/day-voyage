@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardHeader} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import { addToBuilder,
+        changingRoutes,
         deleteActivityFromDb,
         goToActivities } from '../actions';
 import { deletePlan } from '../utils';

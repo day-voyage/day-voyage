@@ -4,7 +4,9 @@ import { addToBuilder,
         deleteFromBuilder,
         reorderUp,
         reorderDown,
+        changingRoutes,
         goToConfirm,
+        deleteActivityFromDb,
         editPrice,
         receiveBudget } from '../actions';
 import PlanBuilderItem from '../components/PlanBuilderItem';
@@ -13,6 +15,8 @@ import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardText } from 'material-ui/Card';
+import Checkbox from 'material-ui/Checkbox';
+import IconButton from 'material-ui/IconButton';
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money';
 import { isLoggedIn } from '../utils';
 import TextField from 'material-ui/TextField';
@@ -218,7 +222,9 @@ export default connect(
     deleteFromBuilder,
     reorderUp,
     reorderDown,
+    changingRoutes,
     goToConfirm,
+    deleteActivityFromDb,
     editPrice,
     receiveBudget }
 )(PlanBuilderContainer)

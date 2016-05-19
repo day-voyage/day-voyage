@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import {logoutAndRedirect,
-        getDashboardActivities,
-        goToDashboard } from '../actions';
+import { bindActionCreators } from 'redux';
+import { logoutAndRedirect,
+          getDashboardActivities,
+          goToDashboard } from '../actions';
 import { getPlansByUser } from '../utils'
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
@@ -16,7 +17,7 @@ import { push } from 'redux-router';
   };
 })
 
-export default class CoreLayout extends Component {
+export default class CoreLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +82,10 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   dashboard: state.dashboard
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(actionCreators, dispatch),
+// });
 
 export default connect(
   mapStateToProps,

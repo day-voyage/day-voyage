@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
 import Toggle from 'material-ui/Toggle';
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 var shortid = require('shortid');
 
@@ -28,6 +31,24 @@ export default class CreateActivity extends Component {
       private: false,
     };
   }
+
+  /* The following gets the user's location to optimize autocomplete search*/
+  // componentWillMount() {
+  //   navigator.geolocation.getCurrentPosition(function(pos) {
+  //     this.setState({
+  //       lat: pos.coords.latitude,
+  //       long: pos.coords.longitude
+  //     })
+  //     console.log(this.state.lat);
+  //     console.log(this.state.long);
+  //   }, function(err) {
+  //     // else error grabbing location, just return SF's coords
+  //     this.setState({
+  //       lat: 37.7749295,
+  //       long: -122.41941550000001
+  //     })
+  //   });
+  // }
 
   componentDidMount() {
     if (this.props.open) {

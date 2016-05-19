@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import React, { Component, PropTypes } from 'react';
+import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 export default class PlanItem extends Component {
   constructor(props) {
