@@ -27,6 +27,9 @@ import {
   CHECK_NEIGHBORHOOD,
   CHECK_CATEGORY,
   CHECK_BUDGET,
+  DB_CHECK_NEIGHBORHOOD,
+  DB_CHECK_CATEGORY,
+  DB_CHECK_BUDGET,
   EDIT_DESC,
   EDIT_PRICE,
   SAVE_ACTIVITY_CONFIRM,
@@ -112,7 +115,6 @@ export function getAllActivities(query, location) {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
-
     searchActivities(query.category, query.city, (results) => {
       var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
@@ -571,6 +573,30 @@ export function checkBudget(budget) {
 
   return {
     type: CHECK_BUDGET,
+    budget
+  }
+}
+
+export function dbCheckNeighborhood(neighborhoods) {
+  return {
+    type: DB_CHECK_NEIGHBORHOOD,
+    neighborhoods
+  }
+}
+
+
+export function dbCheckCategory(categories) {
+  return {
+    type: DB_CHECK_CATEGORY,
+    categories
+  }
+}
+
+export function dbCheckBudget(budget) {
+  console.log(budget)
+
+  return {
+    type: DB_CHECK_BUDGET,
     budget
   }
 }

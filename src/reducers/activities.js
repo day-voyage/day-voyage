@@ -21,7 +21,7 @@ export default function activities(state = [], action) {
       action.activity.icon = 'https://storage.googleapis.com/support-kms-prod/SNP_2752125_en_v0';
       return state;
     case CHECK_NEIGHBORHOOD:
-      var newState = state.slice()
+      var newState = state.slice();
       newState.forEach((activity) => {
         var isVisible = false;
         for (var i = 0; i < activity.neighborhood.length; i++) {
@@ -30,10 +30,10 @@ export default function activities(state = [], action) {
           }
         }
         activity.visArea = isVisible;
-      })
+      });
       return newState;
     case CHECK_CATEGORY:
-      var newState = state.slice()
+      var newState = state.slice();
       newState.forEach((activity) => {
         var isVisible = false;
         for (var i = 0; i < activity.category.length; i++) {
@@ -42,17 +42,17 @@ export default function activities(state = [], action) {
           }
         }
         activity.visCategory = isVisible;
-      })
+      });
       return newState;
     case CHECK_BUDGET:
-      var newState = state.slice()
+      var newState = state.slice();
       newState.forEach((activity) => {
         var isVisible = false;
         if (action.budget > activity.budget) {
           isVisible = true;
         }
-        activity.visBudget = isVisible
-      })
+        activity.visBudget = isVisible;
+      });
       return newState;
     default:
       return state;
