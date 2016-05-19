@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import PlanItem from '../components/PlanItem';
-import AddComment from '../components/AddComment';
+import AddComment from '../components/AddComment'
 import CommentItem from '../components/CommentItem';
 import PlanMaps from '../components/PlanMaps';
 import FlatButton from 'material-ui/FlatButton';

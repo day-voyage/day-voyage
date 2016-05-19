@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Provider} from 'react-redux';
 import routes from '../routes';
 import {ReduxRouter} from 'redux-router';
@@ -17,7 +17,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-export default class Root extends Component {
+export default class Root extends React.Component {
 
   static propTypes = {
     store: React.PropTypes.object.isRequired

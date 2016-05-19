@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { deleteFromDashboard } from '../actions'
+import { getPlansByUser,
+        getPlan } from '../utils';
 import DashboardPlanItem from '../components/DashboardPlanItem';
 import { Card } from 'material-ui/Card';
 
 
 
-export class DashboardView extends Component {
+export class DashboardView extends React.Component {
 
   render() {
     const { data, auth, dashboard } = this.props;
@@ -43,6 +46,10 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   dashboard: state.dashboard
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   actions: bindActionCreators(actionCreators, dispatch),
+// });
 
 export default connect(
   mapStateToProps,
