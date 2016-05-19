@@ -54,19 +54,12 @@ export class ActivitiesView extends Component {
 
   render() {
     return (
-      <div className="container">
-      <Toolbar>
-         <ToolbarGroup firstChild={true}>
-            <FilterContainer />
-       
-
-            <Search />
-           
-         </ToolbarGroup>
-       </Toolbar>
-        <div className="row">
+      <div className="activities">
+        <div className="row activities__toolbar">
+          <FilterContainer />
+          <Search />
         </div>
-        <div className="row">
+        <div className="row" style={{marginTop: 20}}>
           <div className="col-sm-6">
             <Tabs 
               value={this.state.value}>

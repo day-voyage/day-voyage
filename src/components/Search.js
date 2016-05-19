@@ -174,14 +174,14 @@ export class Search extends React.Component {
           autoHideDuration={2000} />
           <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
             <div className="search-form__inputs">
-              <ActionSearch className="hidden-xs" />
+              <ActionSearch className="hidden-xs search-icon" />
               <TextField
                 type="text"
                 className="search-form__activity-input"
                 value={this.state.value}
                 placeholder="activities, restaurants, or places"
                 onChange={this.handleCategory.bind(this)} />
-              <div className="search-form__separator">in</div>
+              <div className="hidden-xs search-form__separator">in</div>
               <TextField
                   type="text"
                   className="search-form__city-input"

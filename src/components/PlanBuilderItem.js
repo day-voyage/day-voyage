@@ -65,24 +65,14 @@ export default class PlanBuilderItem extends Component {
           {activity.address}<br />
           {activity.city}, {activity.state}<br /><br />
           {activity.desc} <br />
-          <FlatButton
-              label="Remove"
-              style={{color: '#F44336'}}
-              onClick={this.removeItem.bind(this)}/>
         </div>
     } else {
-      var cardDesc = 
-      <div>
-        <FlatButton 
-          label="Remove"
-          style={{color: '#F44336'}}
-          onClick={this.removeItem.bind(this)} />
-      </div>
+      var cardDesc = null;
     }
     return (
       <Card 
         className="item-card"
-        style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+        style={{marginLeft: 10, marginRight:10, marginBottom: 10, cursor: 'pointer'}}>
         <div className="card-content">
           <CardHeader
             style={cardHeadStyle}
@@ -96,6 +86,12 @@ export default class PlanBuilderItem extends Component {
           <CardText>
             {cardDesc}
           </CardText>
+          <CardActions>
+            <FlatButton
+                label="Remove"
+                style={{color: '#F44336'}}
+                onClick={this.removeItem.bind(this)}/>
+          </CardActions>
         </div>
         <div className="reorder-btns">
           <IconButton 

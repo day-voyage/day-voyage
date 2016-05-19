@@ -48,7 +48,7 @@ export default class ActivityItem extends Component {
     const { activity } = this.props;
     var title = activity.distance ? activity.title + ' - ' + activity.distance + " away" : activity.title;
     return (
-      <Card className="item-card" style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+      <Card className="item-card" style={{marginLeft: 10, marginRight:10, marginBottom: 10, cursor: 'pointer'}}>
         <div className="card-content">
 
           <CardHeader
