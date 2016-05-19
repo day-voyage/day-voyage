@@ -183,6 +183,13 @@ body {
   justify-content: space-between;
 }
 
+.confirm-budget-btn {
+  padding: 15px;
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+}
+
 /**
  * The geosuggest module
  */

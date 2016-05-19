@@ -25,8 +25,6 @@ export class ConfirmContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      planTitle: '',
-      description: '',
       modalOpen: false,
       snackbar: false,
       message: '',
@@ -50,15 +48,15 @@ export class ConfirmContainer extends Component {
 
   saveplan() {
 
-    if (this.state.planTitle.length === 0) {
+    if (this.props.planTitle.length === 0) {
       this.toggleSnackbar("Please name your plan");
     } else {
       this.toggleModal();
       this.props.createPlan(Object.assign({}, {
         user_id: this.props.auth.user_id,
         clientside_id: shortid.generate(),
-        title: this.state.planTitle,
-        desc: '',
+        title: this.props.planTitle,
+        desc: this.props.plantDesc,
         likes: 0
       }), [], (response) => {
         console.log('save itin response: ', response);
@@ -80,15 +78,7 @@ export class ConfirmContainer extends Component {
     }
   }
 
-  handleTitle(event) {
-    this.setState({planTitle: event.target.value});
-  }
 
-  handleDesc(event){
-    this.setState({
-      description: event.target.value
-    })
-  }
 
   getTotalPrice() {
     var total = 0;
@@ -125,27 +115,16 @@ export class ConfirmContainer extends Component {
 
     return (
       <div>
-        <Card style={cardColumnStyle}>
-          <div>
-            <TextField
-              hintText="Plan Name"
-              onChange={this.handleTitle.bind(this)}/><br />
-            <TextField
-              hintText="Plan Description"
-              onChange={this.handleDesc.bind(this)}
-              multiLine={true}
-              rows={4}
-            /><br />
+        <Card style={{padding: 30}}>
+          <div className="confirm-budget-btn">
+            <RaisedButton
+              secondary={!this.state.budgeting}
+              label="Budgeting"
+              labelPosition="after"
+              onClick={this.checkBudgeting.bind(this)}
+              icon={<EditorAttachMoney />}
+              labelColor={this.state.budgetingButtonColor}/>
           </div>
-          
-          <RaisedButton
-            secondary={!this.state.budgeting}
-            label="Budgeting"
-            labelPosition="after"
-            onClick={this.checkBudgeting.bind(this)}
-            icon={<EditorAttachMoney />}
-            labelColor={this.state.budgetingButtonColor}
-          />
           {this.state.budgeting ?
             <div className="budget-field">
               <div>
@@ -185,7 +164,7 @@ export class ConfirmContainer extends Component {
           <SavePlan
             toggleModal={this.toggleModal.bind(this)}
             toggleSnackbar={this.toggleSnackbar.bind(this)}
-            planTitle={this.state.planTitle}
+            planTitle={this.props.planTitle}
             plan_id={this.state.plan_id}
             modalOpen={this.state.modalOpen}/>
           <Snackbar
@@ -203,13 +182,6 @@ export class ConfirmContainer extends Component {
       </div>
     )
   }
-}
-
-var cardColumnStyle = {
- paddingTop: 15,
- paddingBottom: 15,
- paddingLeft: 15,
- paddingRight: 15
 }
 
 var budgetFieldStyle = {
