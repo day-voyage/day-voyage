@@ -63,6 +63,21 @@ npm start
 ```
 
 ## Deployment
+
+DayVoyage is deployed on AWS, taking advantage of their Elastic Compute Cloud (EC2) that makes web-scale convenient. For those not familiar with AWS, AWS provides a simple web service interface making it relatively easy to configure capacity.
+
+To leverage off the AWS infrastructure DayVoyage chose to deploy its Express Server within an EC2 instance. The Express Server handles all api requests from clients and interfaces with Nodal Server.
+
+Nodal Server, in turn, is reponsible for all API requests to the database and we have chosen to deploy the Nodal Server as its own EC2 instance also.
+
+The Postgres SQL Database has been setup witin AWS Managed Relational Database Service. The purpose for deploying the database within its own environment is to extend AWS managed service that makes it easy to operate and scale a relational database in the cloud. Amazon RDS automatically patches the database software and backs up your database, storing the backups for a user-defined retention period.
+
+Deployment runs Screen. screen <followed by command> ensures process runs even when terminal exits screen -r enters same session on re-login.
+
+### Testing
+
+DayVoyage is tested using Mocha and Chai.
+
 To generate docs:
 ```sh
 npm start doc
@@ -112,7 +127,6 @@ _**Day Voyage is a Single Page Application built with:**_
 
 ###### Webpack
 
-
 ## API's
 The data powering our app
 
@@ -134,15 +148,12 @@ The data powering our app
 - **Google Geocoding** - When geolocation search is activated, Google Geocoding is used to translate the coordinates from latitude/longitude to a city name, so it can be implemented as a location query for our database and the Yelp Search API.
 - **Google Distance Matrix** - allows for searches based on geolocation. All activities in the application include the distance from the user's location in miles.
 
-
 ## Challenges
 Our team sailed through on calm seas!
-
 
 ### Roadmap
 
 View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
-
 
 ## Contributing
 
