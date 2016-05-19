@@ -3,8 +3,6 @@ import Maps from '../components/Maps';
 import ConfirmContainer from '../containers/ConfirmContainer';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
-
-
 import { connect } from 'react-redux';
 
 export class ConfirmView extends Component {
@@ -17,7 +15,6 @@ export class ConfirmView extends Component {
       description: ''
     };
   }
-
 
   initiateSnackbar(message) {
     this.setState({message: message, snackbar: true});

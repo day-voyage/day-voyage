@@ -58,7 +58,7 @@ export default class CoreLayout extends Component {
                 />
                 <FlatButton
                   label="Logout"
-                  secondary="true"
+                  secondary={true}
                   onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
                 />
               </span>

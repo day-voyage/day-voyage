@@ -6,7 +6,6 @@ import PlanContainer from '../containers/PlanContainer';
 import Snackbar from 'material-ui/Snackbar';
 import { getPlan } from '../utils';
 
-
 export default class CoreLayout extends Component {
   constructor(props) {
     super(props);

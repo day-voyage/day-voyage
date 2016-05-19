@@ -12,7 +12,6 @@ import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsMap from 'material-ui/svg-icons/maps/map';
 import NavigationMoreHoriz from 'material-ui/svg-icons/navigation/more-horiz';
 
-
 export class ActivitiesView extends Component {
    constructor(props) {
     super(props);
