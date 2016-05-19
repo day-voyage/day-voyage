@@ -28,7 +28,7 @@ export default class DashboardActivityItem extends Component {
       buttonClicked: !this.state.buttonClicked
     });
     this.props.onAddToBuilderClicked();
-    this.props.openSnackbar("Event has been added to your itinerary");
+    this.props.openSnackbar("Event has been added to your plan");
   }
 
   toggleDesc() {
@@ -52,7 +52,7 @@ export default class DashboardActivityItem extends Component {
         <FlatButton
           onClick={this.clickAddButton.bind(this)}
           disabled={activity.added ? true : false}
-          label={activity.added ? 'Added' : 'Add to itinerary'} />
+          label={activity.added ? 'Added' : 'Add to plan'} />
         {this.state.descOpen ? <CardText><strong>Address:</strong><br />{activity.address}<br />{activity.city}, {activity.state}<br /><br />{activity.desc}</CardText> : null}
       </Card>
     )

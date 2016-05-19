@@ -1,6 +1,11 @@
 body {
-  font-family: 'Metrophobic', Arial, serif;
+  /*font-family: 'Metrophobic', Arial, serif;*/
   font-weight: 400;
+  /*background: linear-gradient(to bottom, #f4fafb, #d0eaf1);
+  background-attachment: fixed;
+  background-repeat: no-repeat;*/
+  height: 100vh;
+  width: 100vw;
 }
 
 /**
@@ -9,11 +14,11 @@ body {
 .app-navbar {
   margin-bottom: 10px;
   padding: 8px 32px;
-  background: white;
+  background: transparent;
   height: 60px;
   display: flex;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+  /*box-shadow: 0 4px 6px rgba(0,0,0,.1);*/
 }
 .app-navbar__header {
   flex: 1;
@@ -39,19 +44,36 @@ body {
  * Home Page
  */
 .home {
+  margin-top: 48px;
+  padding: 64px 16px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  background: rgba(255,255,255,.8);
 }
 .home__tagline {
-  margin: 48px 0;
+  margin-bottom: 80px;
   color: #424242;
+  font-size: 48px;
 } 
 .home .search__call-to-action {
   display: flex;
+}
+.home__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("http://imgh.us/landmarks.svg"), linear-gradient(to bottom, #f4fafb, #d0eaf1);  
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center bottom;
 }
 
 /**
@@ -75,7 +97,7 @@ body {
 }
 .search-form__activity-input {
   margin-left: 18px;
-  flex: 1 1 450px;
+  flex: 1 1 300px;
 }
 .search-form__separator {
   height: 100%;
@@ -95,6 +117,42 @@ body {
 }
 .search__call-to-action .search-btn {
   min-width: 250px;
+}
+@media (max-width: 749px) {
+  .search-form__inputs  { flex-direction: column; }
+  .search-form__activity-input { 
+    flex: 0 !important; 
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  .search .search-btn,
+  .search-form__separator {
+    display: none;
+  }
+}
+
+
+/**
+ *  Activities Page
+ */
+.activities__toolbar {
+  display: flex;
+}
+.activities__toolbar .toolbar-separator {
+  margin: 0 10px;
+  width: 2px;
+  height: 20px;
+  border-right: 2px solid lightgrey;
+}
+/*.activities__toolbar .search-icon,
+*/
+.activities__toolbar .search-form__separator {
+  display: none !important;
+}
+@media (max-width: 749px) {
+  .activities__toolbar {
+    flex-direction: column-reverse;
+  }
 }
 
 

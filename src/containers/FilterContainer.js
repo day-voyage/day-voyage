@@ -6,7 +6,13 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Slider from 'material-ui/Slider';
 import Checkbox from 'material-ui/Checkbox';
-import { checkNeighborhood, checkCategory, checkBudget } from '../actions';
+import { 
+  checkNeighborhood,
+  checkCategory, 
+  checkBudget,
+  dbCheckNeighborhood,
+  dbCheckCategory, 
+  dbCheckBudget } from '../actions';
 import { sliderclass } from './styles.css';
 
 export default class FilterContainer extends Component {
@@ -36,6 +42,7 @@ export default class FilterContainer extends Component {
     var budget = Math.round(value);
     this.setState({priceSlider: budget});
     this.props.checkBudget(budget);
+    this.props.dbCheckBudget(budget);
   }
 
   handleCategory(category) {
@@ -53,6 +60,8 @@ export default class FilterContainer extends Component {
       .map(item => item.type);
 
     this.props.checkCategory(checkedCategories);
+    this.props.dbCheckCategory(checkedCategories);
+
   }
 
   handleNeighborhood(neighborhood) {
@@ -70,6 +79,7 @@ export default class FilterContainer extends Component {
       .map(item => item.location);
 
     this.props.checkNeighborhood(checkedNeighborhoods);
+    this.props.dbCheckNeighborhood(checkedNeighborhoods);
   }
 
   render() {
@@ -99,7 +109,9 @@ export default class FilterContainer extends Component {
     
     return (
       <div>
-        <FlatButton label="Filter" onClick={this.toggleDrawer.bind(this)} />
+        <FlatButton 
+          style={{marginTop: 6, marginRight: 18}}
+          label="Filter" onClick={this.toggleDrawer.bind(this)} />
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>
@@ -131,4 +143,11 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { checkNeighborhood, checkCategory, checkBudget })(FilterContainer)
+export default connect(mapStateToProps, 
+  { checkNeighborhood, 
+    checkCategory, 
+    checkBudget, 
+    dbCheckNeighborhood, 
+    dbCheckCategory, 
+    dbCheckBudget }
+  )(FilterContainer)

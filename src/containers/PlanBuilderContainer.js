@@ -13,6 +13,7 @@ import PlanBuilderItem from '../components/PlanBuilderItem';
 import CreateActivity from '../components/CreateActivity';
 import Maps from '../components/Maps';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
@@ -108,7 +109,7 @@ class PlanBuilderContainer extends Component {
       <span style={
         this.getTotalPrice() <= data.budget ?
         {color: '#00cc00'}:
-        {color: '#F44336'}}> ${this.getTotalPrice()}</span>
+        {color: '#bd352b'}}> ${this.getTotalPrice()}</span>
       </div>
     </div> : ''
 
@@ -170,10 +171,11 @@ class PlanBuilderContainer extends Component {
           {nodes}
         </Card>
           <div>
-            <FlatButton
+            <RaisedButton
               label="Confirm"
+              primary="true"
               onClick={this.goToConfirm.bind(this)}
-              style={{position: "relative", float: "right"}}
+              style={{position: "relative", float: "right", marginTop: 15, marginBottom: 25}}
               disabled={hasActivities ? false : true} />
           </div>
       </div>

@@ -98,7 +98,7 @@ export default class SavePlan extends Component {
 
     return (
       <Dialog
-        title="You have saved your itinerary!"
+        title="You have saved your plan!"
         modal={true}
         actions={actions}
         open={this.props.modalOpen}>
@@ -122,7 +122,7 @@ export default class SavePlan extends Component {
             onClick={this.selectEmailTab.bind(this)}>
             <div className="container">
               <div className="row">
-                <h3>Email your itinerary to your friends!</h3>
+                <h3>Email your plan to your friends!</h3>
                 <div className="col-sm-4">
                   <TextField
                     className="text-field"
@@ -137,7 +137,7 @@ export default class SavePlan extends Component {
                     primary={true}
                     onClick={this.addEmail.bind(this)} />
                   <FlatButton
-                    label="Email Itinerary"
+                    label="Email plan"
                     primary={true}
                     disabled={this.state.emails.length < 1}
                     onClick={this.emailPlan.bind(this)} />

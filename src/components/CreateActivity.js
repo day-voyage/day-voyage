@@ -223,7 +223,7 @@ export default class CreateActivity extends Component {
                 onToggle={this.handlePrivate.bind(this)}
                 defaultToggled={false} />
               <FlatButton
-                label="Add to itinerary"
+                label="Add to plan"
                 onClick={this.addNewEvent.bind(this)}/>
               <FlatButton
                 label="Cancel"

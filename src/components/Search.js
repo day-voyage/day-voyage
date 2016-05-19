@@ -162,7 +162,7 @@ export class Search extends React.Component {
             getting your current location... <br />
             <LinearProgress
               mode="indeterminate"
-              color={"#FF9800"}
+              color={"#f5ac4c"}
               style={{width: 100}}/>
           </div>
 
@@ -174,14 +174,14 @@ export class Search extends React.Component {
           autoHideDuration={2000} />
           <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
             <div className="search-form__inputs">
-              <ActionSearch className="hidden-xs" />
+              <ActionSearch className="hidden-xs search-icon" />
               <TextField
                 type="text"
                 className="search-form__activity-input"
                 value={this.state.value}
                 placeholder="activities, restaurants, or places"
                 onChange={this.handleCategory.bind(this)} />
-              <div className="search-form__separator">in</div>
+              <div className="hidden-xs search-form__separator">in</div>
               <TextField
                   type="text"
                   className="search-form__city-input"
@@ -197,7 +197,7 @@ export class Search extends React.Component {
             </div>
           </form>
           <div className="search__call-to-action">
-            <RaisedButton primary="true" className="search-btn" label="Start Planning Your Trip" onClick={this.searchActivities.bind(this)}/>
+            <RaisedButton primary="true" className="search-btn" label="Start Planning" onClick={this.searchActivities.bind(this)}/>
           </div>
         </div>
       );
