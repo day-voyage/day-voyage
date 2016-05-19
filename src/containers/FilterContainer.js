@@ -109,7 +109,9 @@ export default class FilterContainer extends Component {
     
     return (
       <div>
-        <FlatButton label="Filter" onClick={this.toggleDrawer.bind(this)} />
+        <FlatButton 
+          style={{marginTop: 6, marginRight: 18}}
+          label="Filter" onClick={this.toggleDrawer.bind(this)} />
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>

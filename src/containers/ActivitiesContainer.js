@@ -16,8 +16,8 @@ class ActivitiesContainer extends Component {
     }
     return (
       <div>
-        <h3 style={{marginLeft: 15}}>Yelp Results</h3>
         <Card style={cardColumnStyle}>
+        <h3 style={{marginLeft: 15}}>Yelp Results</h3>
           {!hasActivities ? 
             <CardText>
               <em>0 search results</em>

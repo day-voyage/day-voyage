@@ -19,7 +19,7 @@ export default class ConfirmItem extends Component {
     /**
      * @type {object}
      * @property {boolean} descOpen toggles card expansion
-     * @property {string} description of itinerary that user inputs
+     * @property {string} description of plan that user inputs
      * @property {boolean} edited toggles
      */
     this.state = {
@@ -37,7 +37,7 @@ export default class ConfirmItem extends Component {
   }
 
   removeItem() {
-    this.props.openSnackbar("Event has been removed from your itinerary");
+    this.props.openSnackbar("Event has been removed from your plan");
     this.props.onDeleteFromBuilderClicked();
   }
 
@@ -79,7 +79,7 @@ export default class ConfirmItem extends Component {
          defaultValue={activity.price?activity.price : '0'}
          onChange={this.handlePrice.bind(this)}/>
         <FlatButton
-         label="Modify"
+         label={this.state.priceEdited ? "Save" : ''}
          className="save-info-btn"
          disabled={!this.state.priceEdited}
          onClick={this.handleSavePrice.bind(this)} /> <br />
@@ -91,7 +91,7 @@ export default class ConfirmItem extends Component {
             multiLine={true}
             rows={4} />
            <FlatButton
-            label="Save"
+            label={this.state.descEdited ? "Save" : ''}
             className="save-info-btn"
             disabled={!this.state.descEdited}
             onClick={this.handleSaveDesc.bind(this)} /> <br />

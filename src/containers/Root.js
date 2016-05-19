@@ -40,7 +40,7 @@ export default class Root extends React.Component {
       },
       fontFamily: 'Roboto, sans-serif',
       palette: {
-        primary1Color: cyan700,
+        primary1Color: '#f5ac4c',
         primary2Color: cyan700,
         primary3Color: grey400,
         accent1Color: pinkA200,
