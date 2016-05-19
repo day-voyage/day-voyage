@@ -170,7 +170,9 @@ export class Search extends Component {
           open={this.state.snackbar}
           message={this.state.message}
           autoHideDuration={2000} />
-          <form className="search-form" onSubmit={this.searchActivities.bind(this)}>
+          <form 
+            className="search-form" 
+            onSubmit={this.searchActivities.bind(this)}>
             <div className="search-form__inputs">
               <ActionSearch className="hidden-xs search-icon" />
               <TextField
@@ -188,32 +190,25 @@ export class Search extends Component {
                   placeholder="city"
                   disabled={this.state.location}
                   onChange={this.handleCity.bind(this)} />
-              <input type="submit" style={{opacity: 0, width: 0, height: 0, padding: 0}} />
+              <input 
+                type="submit"
+                style={{opacity: 0, width: 0, height: 0, padding: 0}} />
             </div>
-            <div className="search__location-checkbox">
+            <div 
+              className="search__location-checkbox">
               { spinner }
             </div>
           </form>
-          <div className="search__call-to-action">
-            <RaisedButton primary="true" className="search-btn" label="Start Planning" onClick={this.searchActivities.bind(this)}/>
+          <div 
+            className="search__call-to-action">
+            <RaisedButton 
+              primary={true}
+              className="search-btn"
+              label="Start Planning"
+              onClick={this.searchActivities.bind(this)}/>
           </div>
         </div>
       );
-
-      /* TEST BUTTONS */
-      /*
-        <button onClick={this.triggerAPItest.bind(this)}>test API</button>
-        <div className="row">
-          <div className="col-sm-5">
-          <button onClick={this.testing.bind(this)}>TEST BUTTON</button>
-          </div>
-          <div className="col-sm-2">
-            {this.state.geolocation ? spinner : null}
-          </div>
-          <div className="col-sm-5">
-          </div>
-        </div> 
-      */
     }
   }
 
@@ -230,11 +225,8 @@ const checkboxIconStyle = {
 
 const checkboxLabelStyle = {
   color: '#424242',
-  'fontWeight': 'normal'
+  fontWeight: 'normal'
 }
-
-const catSearch = ['Active', 'Arts & Entertainment', 'Food', 'Nightlife', 'Personal', 'Shopping'];
-const citySearch = ['San Francisco', 'Oakland', 'San Jose'];
 
 export default connect(
   mapStateToProps,

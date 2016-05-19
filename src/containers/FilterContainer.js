@@ -113,8 +113,8 @@ export default class FilterContainer extends Component {
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>
-            <MenuItem>
-            Budget ${this.state.priceSlider}</MenuItem>
+            <MenuItem>Budget ${this.state.priceSlider}</MenuItem>
+            <h6 style={{marginLeft: 25}}>*Not all activities have prices</h6>
             <Slider
               style={{marginLeft: 25, marginRight: 25}}
               min={filter.minPrice}

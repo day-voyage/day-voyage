@@ -44,7 +44,8 @@ import {
   ADD_PLAN_TO_BUILDER,
   DELETE_PLAN_FROM_BUILDER,
   RECEIVE_BUDGET,
-  RECEIVE_FILTER
+  RECEIVE_FILTER,
+  RECEIVE_SLIDER
 } from '../constants';
 import { push } from 'redux-router';
 import { store } from '../index.js';
@@ -106,6 +107,13 @@ export function receiveFilter(filter) {
   };
 }
 
+export function receiveSlider(filter) {
+  return {
+    type: RECEIVE_SLIDER,
+    filter
+  };
+}
+
 /**
  * Get Yelp search results
  */
@@ -117,6 +125,7 @@ export function getAllActivities(query, location) {
     searchActivities(query.category, query.city, (results) => {
       var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
       dispatch(receiveDBActivities(dbResults));
+      dispatch(receiveSlider(createSlider(dbResults)));
     });
 
     searchPlans(query.category, query.city, (results) => {
@@ -157,7 +166,6 @@ export function getAllActivities(query, location) {
       * if current location was included
       */
       if (location !== null) {
-        console.log('inside location !== null');
         /**
         * check distances of all activities from current location using Google distance matrix api
         */
@@ -179,7 +187,7 @@ export function getAllActivities(query, location) {
           * dispatch activities with new distance key
           */
           dispatch(receiveActivities(withLocation));
-          dispatch(receiveFilter(createFilter(noLocation)));
+          dispatch(receiveFilter(createFilter(withLocation)));
         })
         .then(() => {
           /**
@@ -210,11 +218,7 @@ export function createFilter(activityArr) {
   var neighborhoodArray = [];    
   var categoryArr = [];
   var category_id = [];
-  var maxBudget = 0;
   activityArr.forEach((activity) => {
-    if (activity.budget > maxBudget) {
-      maxBudget = activity.budget;
-    }
     for (var i = 0; i < activity.neighborhood.length; i++){
       if (neighborhood_id.indexOf(activity.neighborhood[i].toUpperCase()) === -1) {
         neighborhood_id.push(activity.neighborhood[i].toUpperCase());
@@ -222,10 +226,10 @@ export function createFilter(activityArr) {
       }
     }
 
-    for (var i = 0; i < activity.category.length; i++) {
-      if (category_id.indexOf(activity.category[i].toUpperCase().replace(/\s/g,'')) === -1) {
-        category_id.push(activity.category[i].toUpperCase().replace(/\s/g, ''));
-        categoryArr.push({type: activity.category[i].toUpperCase().replace(/\s/g, ''), visible: true});
+    for (var j = 0; j < activity.category.length; j++) {
+      if (category_id.indexOf(activity.category[j].toUpperCase().replace(/\s/g,'')) === -1) {
+        category_id.push(activity.category[j].toUpperCase().replace(/\s/g, ''));
+        categoryArr.push({type: activity.category[j].toUpperCase().replace(/\s/g, ''), visible: true});
       }       
     }
   });
@@ -234,10 +238,22 @@ export function createFilter(activityArr) {
   var newFilter = {
     neighborhoods: neighborhoodArray,
     categories: categoryArr,
-    minPrice: 0,
-    maxPrice: Math.round(maxBudget) + 10
   };
-  
+  return newFilter;
+}
+
+export function createSlider(activityArr) {
+  var maxPrice = 0;
+  activityArr.forEach((activity) => {
+    if (activity.price > maxPrice) {
+      maxPrice = activity.price;
+    }
+  });
+
+  var newFilter = {
+    minPrice: 0,
+    maxPrice: Math.round(maxPrice) + 10
+  };
   return newFilter;
 }
 
@@ -582,8 +598,6 @@ export function dbCheckCategory(categories) {
 }
 
 export function dbCheckBudget(budget) {
-  console.log(budget)
-
   return {
     type: DB_CHECK_BUDGET,
     budget

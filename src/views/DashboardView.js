@@ -4,8 +4,6 @@ import { deleteFromDashboard } from '../actions';
 import DashboardPlanItem from '../components/DashboardPlanItem';
 import { Card } from 'material-ui/Card';
 
-
-
 export class DashboardView extends Component {
 
   render() {
@@ -35,8 +33,6 @@ export class DashboardView extends Component {
   }
 }
 
-
-
 const mapStateToProps = (state) => ({
   data: state.data.data,
   isFetching: state.data.isFetching,
@@ -48,4 +44,3 @@ export default connect(
   mapStateToProps,
   { deleteFromDashboard }
   )(DashboardView);
-
