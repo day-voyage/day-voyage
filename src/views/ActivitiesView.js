@@ -7,10 +7,7 @@ import FilterContainer from '../containers/FilterContainer';
 import PlanBuilderContainer from '../containers/PlanBuilderContainer';
 import Snackbar from 'material-ui/Snackbar';
 import Search from '../components/Search';
-
 import {Tabs, Tab} from 'material-ui/Tabs';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-
 import MapsPlace from 'material-ui/svg-icons/maps/place';
 import MapsMap from 'material-ui/svg-icons/maps/map';
 import NavigationMoreHoriz from 'material-ui/svg-icons/navigation/more-horiz';

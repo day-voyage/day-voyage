@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -13,7 +11,7 @@ import Snackbar from 'material-ui/Snackbar';
 import * as utils from '../utils';
 
 
-export class Search extends React.Component {
+export class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
