@@ -12,7 +12,6 @@ export class ConfirmView extends Component {
     this.state = {
       snackbar: false,
       message: '',
-      description: ''
     };
   }
 
@@ -24,24 +23,12 @@ export class ConfirmView extends Component {
     }, 2000);
   }
 
-  handleDesc(event){
-    this.setState({
-      description: event.target.value
-    })
-  }
-
   render () {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
             <Maps size="small" /> <br />
-            Description: <br />
-            <TextField
-              onChange={this.handleDesc.bind(this)}
-              multiLine={true}
-              rows={4}
-            /><br />
           </div>
           <div className="col-sm-6">
             <ConfirmContainer 

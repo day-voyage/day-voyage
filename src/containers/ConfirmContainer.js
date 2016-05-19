@@ -26,6 +26,7 @@ export class ConfirmContainer extends Component {
     super(props);
     this.state = {
       planTitle: '',
+      description: '',
       modalOpen: false,
       snackbar: false,
       message: '',
@@ -83,6 +84,12 @@ export class ConfirmContainer extends Component {
     this.setState({planTitle: event.target.value});
   }
 
+  handleDesc(event){
+    this.setState({
+      description: event.target.value
+    })
+  }
+
   getTotalPrice() {
     var total = 0;
     this.props.planBuilder.forEach(activity => {
@@ -116,38 +123,48 @@ export class ConfirmContainer extends Component {
     const { planBuilder, auth, data } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    const budgetField = this.state.budgeting ?
-      <div style={budgetFieldStyle}>
-        <div>
-          Budget: $<TextField
-           type="number"
-           defaultValue={this.props.data.budget}
-           onChange={this.handleBudget.bind(this)}/><br />
-        Current cost so far: 
-        <span style={
-          this.getTotalPrice() <= data.budget ?
-          {color: '#009900'}:
-          {color: '#F44336'}}> ${this.getTotalPrice()}</span>
-        </div>
-      </div> : ''
-
-
     return (
       <div>
         <Card style={cardColumnStyle}>
-          <TextField
-            hintText="Name Your plan"
-            onChange={this.handleTitle.bind(this)}/><br />
+          <div>
+            <TextField
+              hintText="Plan Name"
+              onChange={this.handleTitle.bind(this)}/><br />
+            <TextField
+              hintText="Plan Description"
+              onChange={this.handleDesc.bind(this)}
+              multiLine={true}
+              rows={4}
+            /><br />
+          </div>
           
-         <FlatButton
-              label="Budgeting"
-              labelPosition="after"
-              primary={true}
-              onClick={this.checkBudgeting.bind(this)}
-              icon={<EditorAttachMoney />}
-              style={{color: this.state.budgetingButtonColor}}
-            />
-          {budgetField}
+          <RaisedButton
+            secondary={!this.state.budgeting}
+            label="Budgeting"
+            labelPosition="after"
+            onClick={this.checkBudgeting.bind(this)}
+            icon={<EditorAttachMoney />}
+            labelColor={this.state.budgetingButtonColor}
+          />
+          {this.state.budgeting ?
+            <div className="budget-field">
+              <div>
+                <h4>Enter Budget: $
+                <TextField
+                  style={{padding: 0, width: 50}}
+                  type="number"
+                  defaultValue={this.props.data.budget}
+                  onChange={this.handleBudget.bind(this)}/></h4>
+              </div>
+              <div>
+              <h4>Current cost so far:
+              <span style={
+                this.getTotalPrice() <= data.budget ?
+                {color: '#00cc00'}:
+                {color: '#F44336'}}> ${this.getTotalPrice()}</span></h4>
+              </div>
+            </div> : ''}
+
           {planBuilder.map((activity, index) => 
             <ConfirmItem
               key={index}
