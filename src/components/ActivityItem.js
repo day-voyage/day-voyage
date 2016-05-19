@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 import { isLoggedIn } from '../utils';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import IconButton from 'material-ui/IconButton';
@@ -65,7 +65,8 @@ export default class ActivityItem extends Component {
               {activity.desc}
             </CardText> : null}
         </div>
-        <div className="add-btn">
+        <div>
+        <CardActions>
           <IconButton 
             tooltip="Add to plan"
             onClick={this.clickAddButton.bind(this)}
@@ -73,6 +74,7 @@ export default class ActivityItem extends Component {
             label={activity.added ? 'Added' : ''}>
             <ContentAdd />
           </IconButton>
+        </CardActions>
         </div>
       </Card>
     )

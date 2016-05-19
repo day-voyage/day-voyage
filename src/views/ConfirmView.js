@@ -42,7 +42,7 @@ export class ConfirmView extends Component {
         <div className="row">
           <div className="col-sm-6">
             <Maps size="small" /> <br />
-            <Card style={cardColumnStyle}>
+            <Card style={{padding: 30}}>
             <div>
               <h4 style={{padding: 0}}>Plan Name: </h4><br />
               <TextField
@@ -73,13 +73,6 @@ export class ConfirmView extends Component {
     );
   }
 
-}
-
-var cardColumnStyle = {
- paddingTop: 15,
- paddingBottom: 15,
- paddingLeft: 15,
- paddingRight: 15
 }
 
 function mapStateToProps(state) {

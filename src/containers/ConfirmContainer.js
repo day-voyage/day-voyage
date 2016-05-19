@@ -115,7 +115,7 @@ export class ConfirmContainer extends Component {
 
     return (
       <div>
-        <Card style={{padding: 30}}>
+        <Card style={{padding: 15}}>
           <div className="confirm-budget-btn">
             <RaisedButton
               secondary={!this.state.budgeting}

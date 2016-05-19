@@ -298,12 +298,6 @@ body {
   justify-content: center;
 }
 
-.item-card .remove-btn {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-}
-
 /**
 * Create Activity Category Dropdown
 */

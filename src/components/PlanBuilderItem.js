@@ -70,6 +70,18 @@ export default class PlanBuilderItem extends Component {
       <Card 
         className="item-card"
         style={{marginLeft: 10, marginRight:10, marginBottom: 10, cursor: 'pointer'}}>
+        <div className="reorder-btns">
+          <IconButton 
+            tooltip="Move Up"
+            onClick={this.props.onMoveUpClicked}>
+            <HardwareKeyboardArrowUp />
+          </IconButton>
+          <IconButton 
+            tooltip="Move Down"
+            onClick={this.props.onMoveDownClicked}>
+            <HardwareKeyboardArrowDown />
+          </IconButton>
+        </div>
         <div className="card-content">
           <CardHeader
             style={cardHeadStyle}
@@ -83,25 +95,15 @@ export default class PlanBuilderItem extends Component {
           <CardText style={cardTextStyle}>
             {cardDesc}
           </CardText>
-          <CardActions>
-            <FlatButton
-                label="Remove"
-                style={{color: '#F44336'}}
-                onClick={this.removeItem.bind(this)}/>
-          </CardActions>
         </div>
-        <div className="reorder-btns">
-          <IconButton 
-            tooltip="Move Up"
-            onClick={this.props.onMoveUpClicked}>
-            <HardwareKeyboardArrowUp />
-          </IconButton>
-          <IconButton 
-            tooltip="Move Down"
-            onClick={this.props.onMoveDownClicked}>
-            <HardwareKeyboardArrowDown />
-          </IconButton>
-        </div>
+        <CardActions>
+          <FlatButton
+              className="remove-btn"
+              label="Remove"
+              style={{color: '#F44336'}}
+              onClick={this.removeItem.bind(this)}/>
+        </CardActions>
+        
       </Card>
     )
   }
