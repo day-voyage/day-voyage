@@ -108,7 +108,7 @@ class PlanBuilderContainer extends Component {
       <span style={
         this.getTotalPrice() <= data.budget ?
         {color: '#00cc00'}:
-        {color: '#F44336'}}> ${this.getTotalPrice()}</span>
+        {color: '#bd352b'}}> ${this.getTotalPrice()}</span>
       </div>
     </div> : ''
 

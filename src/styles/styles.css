@@ -1,6 +1,10 @@
 body {
-  font-family: 'Metrophobic', Arial, serif;
+  /*font-family: 'Metrophobic', Arial, serif;*/
   font-weight: 400;
+  background-image: url("http://imgh.us/dayvoyagebackground.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center bottom;
 }
 
 /**

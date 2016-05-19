@@ -40,7 +40,7 @@ export default class Root extends React.Component {
       },
       fontFamily: 'Roboto, sans-serif',
       palette: {
-        primary1Color: cyan700,
+        primary1Color: '#f5ac4c',
         primary2Color: cyan700,
         primary3Color: grey400,
         accent1Color: pinkA200,
@@ -48,7 +48,7 @@ export default class Root extends React.Component {
         accent3Color: grey500,
         textColor: darkBlack,
         alternateTextColor: white,
-        canvasColor: white,
+        canvasColor: "e4f3f7",
         borderColor: grey300,
         disabledColor: fade(darkBlack, 0.3),
         pickerHeaderColor: cyan500,

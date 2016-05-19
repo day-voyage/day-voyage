@@ -162,7 +162,7 @@ export class Search extends React.Component {
             getting your current location... <br />
             <LinearProgress
               mode="indeterminate"
-              color={"#FF9800"}
+              color={"#f5ac4c"}
               style={{width: 100}}/>
           </div>
 

@@ -8,7 +8,7 @@ export default class HomeView extends Component {
   render () {
     return (
       <div className="home">
-        <h1 className="home__tagline">Plan things to do in your city</h1>
+        <h1 className="home__tagline">Where will your day take you?</h1>
         <Search />
       </div>
     );
