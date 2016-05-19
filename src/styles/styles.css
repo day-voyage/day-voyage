@@ -54,7 +54,6 @@ body {
   align-items: center;
   border-radius: 8px;
   background: rgba(255,255,255,.8);
-  box-shadow: 0 6px 10px rgba(255,255,255,.5);
 }
 .home__tagline {
   margin-bottom: 80px;
