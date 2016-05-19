@@ -50,16 +50,15 @@ export default class ActivityItem extends Component {
         <div className="card-content">
 
           <CardHeader
-            style={cardHeadStyle}
             title={title}
             subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
             actAsExpander={true}
           />
           {this.state.descOpen ? 
-            <CardText>
-              <strong>Estimated cost: </strong> 
-                ${activity.price?activity.price:'0'} (add activity to modify)<br />
+            <CardText style={cardTextStyle}>
+              Estimated Cost:
+                ${activity.price?activity.price:'0'} (add activity to modify)<br /><br />
               <strong>Address:</strong>
               <br />{activity.address}<br />
               {activity.city}, {activity.state}<br /><br />
@@ -80,9 +79,11 @@ export default class ActivityItem extends Component {
   }
 }
 
-var cardHeadStyle = {
-  marginBottom: 0
+
+var cardTextStyle = {
+  paddingTop: 0
 }
+
 
 ActivityItem.propTypes = {
   activity: PropTypes.shape({

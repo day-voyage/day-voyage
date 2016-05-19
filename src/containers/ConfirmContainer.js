@@ -14,6 +14,7 @@ import SavePlan from '../components/SavePlan';
 import TextField from 'material-ui/TextField';
 import { Card, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 import EditorAttachMoney from 'material-ui/svg-icons/editor/attach-money';
 
@@ -116,8 +117,8 @@ export class ConfirmContainer extends Component {
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     const budgetField = this.state.budgeting ?
-      <div>
-        <CardText>
+      <div style={budgetFieldStyle}>
+        <div>
           Budget: $<TextField
            type="number"
            defaultValue={this.props.data.budget}
@@ -127,60 +128,79 @@ export class ConfirmContainer extends Component {
           this.getTotalPrice() <= data.budget ?
           {color: '#009900'}:
           {color: '#F44336'}}> ${this.getTotalPrice()}</span>
-        </CardText>
+        </div>
       </div> : ''
 
 
     return (
-      <Card>
-        <TextField
-          hintText="Name Your plan"
-          onChange={this.handleTitle.bind(this)}/><br />
+      <div>
+        <Card style={cardColumnStyle}>
+          <TextField
+            hintText="Name Your plan"
+            onChange={this.handleTitle.bind(this)}/><br />
+          
+         <FlatButton
+              label="Budgeting"
+              labelPosition="after"
+              primary={true}
+              onClick={this.checkBudgeting.bind(this)}
+              icon={<EditorAttachMoney />}
+              style={{color: this.state.budgetingButtonColor}}
+            />
+          {budgetField}
+          {planBuilder.map((activity, index) => 
+            <ConfirmItem
+              key={index}
+              activity={activity}
+              order={alphabetOrder[index] + '.'}
+              openSnackbar={this.props.openSnackbar}
+              editPriceChange={price => this.props.editPrice(index, price)}
+              editDescChange={(text) => this.props.editDescription(index, text)}
+              onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
+              onMoveUpClicked={() => {
+                this.props.reorderUp(planBuilder.indexOf(activity));
+                
+              }}
+              onMoveDownClicked={() => {
+                this.props.reorderDown(planBuilder.indexOf(activity));
+                }}/>
+          )}
+          <SavePlan
+            toggleModal={this.toggleModal.bind(this)}
+            toggleSnackbar={this.toggleSnackbar.bind(this)}
+            planTitle={this.state.planTitle}
+            plan_id={this.state.plan_id}
+            modalOpen={this.state.modalOpen}/>
+          <Snackbar
+            open={this.state.snackbar}
+            message={this.state.message}
+            autoHideDuration={2000} />
+        </Card>
         <div>
-       <FlatButton
-            label="Budgeting"
-            labelPosition="after"
-            primary={true}
-            onClick={this.checkBudgeting.bind(this)}
-            icon={<EditorAttachMoney />}
-            style={{color: this.state.budgetingButtonColor}}
-          />
-        {budgetField}
-        {planBuilder.map((activity, index) => 
-          <ConfirmItem
-            key={index}
-            activity={activity}
-            order={alphabetOrder[index] + '.'}
-            openSnackbar={this.props.openSnackbar}
-            editPriceChange={price => this.props.editPrice(index, price)}
-            editDescChange={(text) => this.props.editDescription(index, text)}
-            onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
-            onMoveUpClicked={() => {
-              this.props.reorderUp(planBuilder.indexOf(activity));
-              
-            }}
-            onMoveDownClicked={() => {
-              this.props.reorderDown(planBuilder.indexOf(activity));
-              }}/>
-        )}
+          <RaisedButton
+            label="Save Plan"
+            primary="true"
+            onClick={this.saveplan.bind(this)}
+            style={{position: "relative", float: "right", marginTop: 15, marginBottom: 25}}/>
         </div>
-        <FlatButton
-          onClick={() => this.saveplan()}>
-          Save plan
-        </FlatButton>
-        <SavePlan
-          toggleModal={this.toggleModal.bind(this)}
-          toggleSnackbar={this.toggleSnackbar.bind(this)}
-          planTitle={this.state.planTitle}
-          plan_id={this.state.plan_id}
-          modalOpen={this.state.modalOpen}/>
-        <Snackbar
-          open={this.state.snackbar}
-          message={this.state.message}
-          autoHideDuration={2000} />
-      </Card>
+      </div>
     )
   }
+}
+
+var cardColumnStyle = {
+ paddingTop: 15,
+ paddingBottom: 15,
+ paddingLeft: 15,
+ paddingRight: 15
+}
+
+var budgetFieldStyle = {
+  marginLeft: 15,
+  marginRight: 15,
+  marginBottom: 15,
+  flexDirection: 'row',
+  justifyContent: 'flex-end'
 }
 
 const mapStateToProps = (state) => {

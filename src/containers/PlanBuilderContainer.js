@@ -91,23 +91,6 @@ class PlanBuilderContainer extends Component {
     const { planBuilder, activities, auth, data } = this.props;
     const hasActivities = planBuilder.length > 0;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const budgetField = this.state.budgeting ?
-    <div style={budgetFieldStyle}>
-      <div>
-        Budget: $<TextField
-        id="budget-field"
-         type="number"
-         defaultValue={this.props.data.budget}
-         onChange={this.handleBudget.bind(this)}/><br />
-      </div>
-      <div>
-      Current cost so far: 
-      <span style={
-        this.getTotalPrice() <= data.budget ?
-        {color: '#00cc00'}:
-        {color: '#bd352b'}}> ${this.getTotalPrice()}</span>
-      </div>
-    </div> : ''
 
     const nodes = !hasActivities ?
       <CardText>
@@ -140,30 +123,50 @@ class PlanBuilderContainer extends Component {
         <div className="row" style={{marginBottom: 10}}>
           <Maps size="small" />
         </div>
-        <h3 style={{marginLeft: 15}}>Plan</h3>
         <Card style={cardColumnStyle}>
-          <CreateActivity
-            modal={this.state.modalOpen}
-            toggleModal={this.toggleModal.bind(this)}
-            openSnackbar={this.props.openSnackbar}
-            addFromCreate={(activity) => this.props.addToBuilder(activity)}
-            user_id={auth.user_id}/>
-          <FlatButton
-            label="Create Own Activity"
-            onClick={this.openCreate.bind(this)} />
-          <FlatButton
-            label="Clear All"
-            onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
-          <FlatButton
-            label="Budgeting"
-            labelPosition="after"
-            primary={true}
-            onClick={this.checkBudgeting.bind(this)}
-            icon={<EditorAttachMoney />}
-            style={{color: this.state.budgetingButtonColor}}
-          />
+          <div className="planBuilder-btns">
+            <CreateActivity
+              modal={this.state.modalOpen}
+              toggleModal={this.toggleModal.bind(this)}
+              openSnackbar={this.props.openSnackbar}
+              addFromCreate={(activity) => this.props.addToBuilder(activity)}
+              user_id={auth.user_id}/>
+            <RaisedButton
+              secondary="true"
+              label="Create Own Activity"
+              onClick={this.openCreate.bind(this)} />
+            <RaisedButton
+              secondary="true"
+              label="Clear All"
+              onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
+            <RaisedButton
+              secondary={!this.state.budgeting}
+              label="Budgeting"
+              labelPosition="after"
+              onClick={this.checkBudgeting.bind(this)}
+              icon={<EditorAttachMoney />}
+              labelColor={this.state.budgetingButtonColor}
+            />
+          </div>
             <br />
-          {budgetField}
+          {this.state.budgeting ?
+            <div className="budget-field">
+              <div>
+                <h4>Enter Budget: $
+                <TextField
+                  style={{padding: 0, width: 50}}
+                  type="number"
+                  defaultValue={this.props.data.budget}
+                  onChange={this.handleBudget.bind(this)}/></h4>
+              </div>
+              <div>
+              <h4>Current cost so far:
+              <span style={
+                this.getTotalPrice() <= data.budget ?
+                {color: '#00cc00'}:
+                {color: '#F44336'}}> ${this.getTotalPrice()}</span></h4>
+              </div>
+            </div> : ''}
           {nodes}
         </Card>
           <div>
@@ -186,13 +189,13 @@ var cardColumnStyle = {
  paddingRight: 15
 }
 
-var budgetFieldStyle = {
-  marginLeft: 15,
-  marginRight: 15,
-  marginBottom: 15,
-  flexDirection: 'row',
-  justifyContent: 'flex-end'
-}
+// var budgetFieldStyle = {
+//   marginLeft: 15,
+//   marginRight: 15,
+//   marginBottom: 15,
+//   flexDirection: 'row',
+//   justifyContent: 'flex-end'
+// }
 
 PlanBuilderContainer.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({

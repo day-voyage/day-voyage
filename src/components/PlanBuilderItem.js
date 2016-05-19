@@ -80,7 +80,7 @@ export default class PlanBuilderItem extends Component {
             actAsExpander={true}
             showExpandableButton={true}
             onClick={this.toggleDesc.bind(this)} />
-          <CardText>
+          <CardText style={cardTextStyle}>
             {cardDesc}
           </CardText>
           <CardActions>
@@ -109,12 +109,16 @@ export default class PlanBuilderItem extends Component {
 
 var budgetTextFieldStyle = {
   width: 100,
-  marginTop: 15,
+  marginTop: 0,
   marginBottom: 15
 }
 
 var cardHeadStyle = {
-  marginBottom: 0
+  paddingBottom: 0
+}
+
+var cardTextStyle = {
+  paddingTop: 0
 }
 
 PlanBuilderItem.propTypes = {
