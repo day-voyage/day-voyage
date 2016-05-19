@@ -9,6 +9,5 @@ export default(
         <Route path="activities" component={ ActivitiesView } />
         <Route path="confirm" component={ requireAuthentication(ConfirmView) } />
         <Route path="dashboard" component={ requireAuthentication(DashboardView) }/>
-        <Route path="plan/:id" component={ PlanView } />
     </Route>
 );
