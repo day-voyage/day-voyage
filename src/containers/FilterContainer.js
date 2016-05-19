@@ -9,7 +9,6 @@ import Checkbox from 'material-ui/Checkbox';
 import { 
   checkNeighborhood,
   checkCategory, 
-  checkBudget,
   dbCheckNeighborhood,
   dbCheckCategory, 
   dbCheckBudget } from '../actions';
@@ -41,7 +40,6 @@ export default class FilterContainer extends Component {
   handleSlider(event, value) {
     var budget = Math.round(value);
     this.setState({priceSlider: budget});
-    this.props.checkBudget(budget);
     this.props.dbCheckBudget(budget);
   }
 
@@ -146,7 +144,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, 
   { checkNeighborhood, 
     checkCategory, 
-    checkBudget, 
     dbCheckNeighborhood, 
     dbCheckCategory, 
     dbCheckBudget }

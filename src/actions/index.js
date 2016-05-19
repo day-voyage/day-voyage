@@ -26,7 +26,6 @@ import {
   RECEIVE_PROTECTED_DATA,
   CHECK_NEIGHBORHOOD,
   CHECK_CATEGORY,
-  CHECK_BUDGET,
   DB_CHECK_NEIGHBORHOOD,
   DB_CHECK_CATEGORY,
   DB_CHECK_BUDGET,
@@ -148,7 +147,6 @@ export function getAllActivities(query, location) {
         transformed.visArea = true;
         transformed.visCategory = true;
         transformed.visBudget = true;
-        transformed.budget = Math.random() * 100;
         transformed.notes= '';
         return transformed;
       });
@@ -565,15 +563,6 @@ export function checkCategory(categories) {
   return {
     type: CHECK_CATEGORY,
     categories
-  }
-}
-
-export function checkBudget(budget) {
-  console.log(budget)
-
-  return {
-    type: CHECK_BUDGET,
-    budget
   }
 }
 
