@@ -84,7 +84,7 @@ export default class PlanBuilderItem extends Component {
         </div>
         <div className="card-content">
           <CardHeader
-            style={cardHeadStyle}
+            style={{paddingBottom: 0}}
             title={title}
             subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
             onClick={this.toggleDesc.bind(this)}
@@ -92,7 +92,7 @@ export default class PlanBuilderItem extends Component {
             actAsExpander={true}
             showExpandableButton={true}
             onClick={this.toggleDesc.bind(this)} />
-          <CardText style={cardTextStyle}>
+          <CardText style={{paddingTop: 0}}>
             {cardDesc}
           </CardText>
         </div>
@@ -115,13 +115,6 @@ var budgetTextFieldStyle = {
   marginBottom: 15
 }
 
-var cardHeadStyle = {
-  paddingBottom: 0
-}
-
-var cardTextStyle = {
-  paddingTop: 0
-}
 
 PlanBuilderItem.propTypes = {
   activity: PropTypes.shape({
