@@ -25,14 +25,16 @@ planRouter
 planRouter
   .route('/createplan')
   .post((request, response) => {
+    console.log('creating plan >>>>>>>>>>>>>>>>>>>>>>>>')
     const plan = request.body.plan;
     const access_token = request.body.access_token;
-    const activities = request.body.activities;
-    const reqBody = Object.assign(plan, {
-      activities: activities
-    });
+    // const activities = request.body.activities;
+    // const reqBody = Object.assign(plan, {
+    //   activities: activities
+    // });
 
-    axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
+
+    axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, plan)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log('Error posting plans to db from server:', error);

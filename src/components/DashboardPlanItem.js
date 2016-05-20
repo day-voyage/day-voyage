@@ -81,8 +81,8 @@ export default class DashboardPlanItem extends Component {
           showExpandableButton={true}
         />
           <div className="dashboard-plan-btns">
-            <a href={`https://www.dayvoyage.com/?plan=${this.props.plan_id}`}>
-              <RaisedButton 
+            <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
+              <RaisedButton
                 secondary={true}
                 label={'View Map'} />
             </a>
