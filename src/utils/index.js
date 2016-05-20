@@ -140,7 +140,7 @@ export function searchActivities(searchTerm, city, cb) {
 
 
 export function getActivitiesByUser(id, cb) {
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities?user_id=${id}`)
+  fetch(`http://localhost:8080/v1/activities?user_id=${id}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by userID: ${error}`));
@@ -148,7 +148,7 @@ export function getActivitiesByUser(id, cb) {
 
 export function getActivitiesUnderBudget(amount, cb) {
   console.log('getting activities under budget');
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities?costPerPerson__lte=${amount}`)
+  fetch(`http://localhost:8080/v1/activities?costPerPerson__lte=${amount}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities under budget: ${error}`));
@@ -161,7 +161,7 @@ export function getActivitiesUnderBudget(amount, cb) {
  * @param  {Function} cb
  */
 export function getActivitiesByPlan(planID, cb) {
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities/?plan_id=${planID}`)
+  fetch(`http://localhost:8080/v1/activities/?plan_id=${planID}`)
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting activities by planID: ${error}`));
@@ -201,7 +201,7 @@ export function updateActivity(activityID, updates, cb) {
  */
 
 export function getAllPlans(cb) {
-  fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans')
+  fetch('http://localhost:8080/v1/plans')
   .then(parseJSON)
   .then(response => cb(response))
   .catch(error => console.log(`Error getting all plans: ${error}`));
@@ -265,7 +265,16 @@ export function getPlansByUser(userID, cb) {
  * @param  {Function} cb
  */
 export function getPlan(planID, cb) {
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${planID}`)
+  let reqBody = {
+    planID: planID
+  };
+  fetch(`/plan/getplan`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
    .then(parseJSON)
    .then(data => {
       console.log('getting comments');
@@ -336,14 +345,23 @@ export function deletePlan(planID, cb) {
  * @param  {int}   id   id of type
  * @param  {Function} cb   callback to execute with response
  */
-export function getComments(type, id, cb) {
-  let queryString = `?${type}_id=${id}`;
-  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/comments${queryString}`;
-  fetch(url)
-    .then(parseJSON)
-    .then(response => cb(response))
-    .catch(error => console.log(error));
-}
+ export function getComments(type, id, cb) {
+   let queryString = `?${type}_id=${id}`;
+   let reqBody = {
+     queryString: queryString
+   };
+   // let url = `http://localhost:8080/v1/comments${queryString}`;
+   fetch('/comment/get', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify(reqBody),
+   })
+     .then(parseJSON)
+     .then(response => cb(response))
+     .catch(error => console.log(error));
+ }
 
 export function createComment(comment, cb) {
   let url = `/comment/create`;
@@ -385,7 +403,7 @@ export function queryTable(table, queries, cb) {
       queryString+='&'
     }
   });
-  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/${table}${queryString}`;
+  let url = `http://localhost:8080/v1/${table}${queryString}`;
   fetch(url)
     .then(parseJSON)
     .then(response => cb(response))

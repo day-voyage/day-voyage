@@ -14,7 +14,7 @@ planRouter
 
     console.log('getting from AWS server');
 
-    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans?city__icontains=${city}&private__is=false`)
+    axios.get(`http://localhost:8080/v1/plans?city__icontains=${city}&private__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -34,7 +34,7 @@ planRouter
     // });
 
 
-    axios.post(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans?access_token=${access_token}`, plan)
+    axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, plan)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log('Error posting plans to db from server:', error);
@@ -53,7 +53,7 @@ planRouter
       activities: activities
     });
     console.log('inside updateplan');
-    axios.put(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
+    axios.put(`http://localhost:8080/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
     .then(data => response.send(data.data))
     .catch(error => {
       console.log(error);
@@ -66,7 +66,7 @@ planRouter
   .post((request, response) => {
     const planID = request.body.planID;
 
-    axios.delete(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${planID}`)
+    axios.delete(`http://localhost:8080/v1/plans/${planID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -80,7 +80,7 @@ planRouter
     console.log('inside server get plans by user');
 
     const userID = request.body.userID;
-    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans?user_id=${userID}`)
+    axios.get(`http://localhost:8080/v1/plans?user_id=${userID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -93,7 +93,7 @@ planRouter
   .post((request, response) => {
     console.log('inside server route in get plan');
     const planID = request.body.planID;
-    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${planID}`)
+    axios.get(`http://localhost:8080/v1/plans/${planID}`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);

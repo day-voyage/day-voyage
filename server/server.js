@@ -91,7 +91,7 @@ app.get('*', function (request, response){
 });
 
 
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 
 app.listen(port);
 
