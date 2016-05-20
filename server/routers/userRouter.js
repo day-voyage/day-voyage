@@ -37,7 +37,10 @@ userRouter
     const reqBody = request.body.updates;
     axios.put(`http://localhost:8080/v1/users/${userID}`, reqBody)
       .then(data => response.send(data.data))
-      .catch(error => response.send(error));
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
   });
 
 userRouter
@@ -47,6 +50,9 @@ userRouter
     const userID = request.body.userID;
     axios.delete(`http://localhost:8080/v1/users/${userID}`)
       .then(data => response.send(data.data))
-      .catch(error => response.send(error));
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
   });
 module.exports = userRouter;

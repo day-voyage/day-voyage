@@ -56,4 +56,19 @@ activityRouter
       });
   });
 
+activityRouter
+  .route('/update')
+  .post((request, response) => {
+    console.log('inside update activity in server');
+    const activityId = request.body.activityId;
+    const reqBody = request.body.updates;
+
+    axios.put(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, reqBody)
+      .then(data => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
+
 module.exports = activityRouter;

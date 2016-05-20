@@ -171,12 +171,18 @@ export function getActivitiesByPlan(planID, cb) {
 export function updateActivity(activityID, updates, cb) {
   const token = localStorage.getItem('token');
   const access_token = JSON.parse(token).access_token;
-  fetch(`http://localhost:8080/v1/activities/${activityID}?access_token=${access_token}`, {
-    method: 'PUT',
+
+  const reqBody = {
+    access_token: access_token,
+    updates: updates,
+  };
+
+  fetch(`/activity/update`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(updates),
+    body: JSON.stringify(reqBody),
   })
   .then(parseJSON)
   .then(response => cb(response))
@@ -272,37 +278,6 @@ export function getPlan(planID, cb) {
 }
 
 /**
- * Create plan in db
- * @param  {object} plan       [object that matches plan schema]
- * @param  {Array} activities  [array of activity objects]
- * @param  {Function} cb
- */
-export function createPlan(plan, activities, cb) {
-  return dispatch => {
-    let token = localStorage.getItem('token');
-    let access_token = JSON.parse(token).access_token;
-    let reqBody = {
-      plan: plan,
-      access_token: access_token,
-      activities: activities
-    };
-    fetch(`/db/plan`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(reqBody)
-    })
-    .then(parseJSON)
-    .then(response => {
-      cb(response);
-    })
-    .then(() => dispatch(savePlanConfirm()))
-    .catch(error => console.log(`Error creating plan: ${error}`))
-  }
-}
-
-/**
  * Update plan
  * @param  {Int}   planID
  * @param  {Object}   planUpdates hash with plan updates
@@ -371,7 +346,7 @@ export function getComments(type, id, cb) {
 }
 
 export function createComment(comment, cb) {
-  let url = `http://localhost:8080/v1/comments`;
+  let url = `/comment/create`;
   fetch(url, {
     method: 'POST',
     headers: {
