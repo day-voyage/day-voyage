@@ -16,7 +16,7 @@ export class Search extends Component {
     super(props);
     this.state = {
       category: "",
-      city: "San Francisco",
+      city: "",
       lat: null,
       lng: null,
       location: null,

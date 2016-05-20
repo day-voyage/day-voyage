@@ -44,10 +44,10 @@ export class ConfirmView extends Component {
             <Maps size="small" /> <br />
             <Card style={{padding: 30}}>
             <div>
-              <h4 style={{padding: 0}}>Plan Name: </h4><br />
+              <h4 style={{padding: 0}}>Plan Name: </h4>
               <TextField
                 onChange={this.handleTitle.bind(this)}/><br />
-              <h4 style={{padding: 0}}>Plan Description: </h4><br />
+              <h4 style={{padding: 0}}>Plan Description: </h4>
               <TextField
                 onChange={this.handleDesc.bind(this)}
                 multiLine={true}
