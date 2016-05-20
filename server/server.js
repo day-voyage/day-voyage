@@ -9,6 +9,7 @@ const app = express();
 
 const planRouter = require('./routers/planRouter');
 const activityRouter = require('./routers/activityRouter');
+const userRouter = require('./routers/userRouter');
 
 const config = require('../webpack.config');
 const compiler = webpack(config);
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '../src')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/user', userRouter);
 app.use('/plan', planRouter);
 app.use('/activity', activityRouter);
 
