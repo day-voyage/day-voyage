@@ -215,7 +215,7 @@ export function getAllActivities(query, location) {
 
 export function createFilter(activityArr) {
   var neighborhood_id = [];
-  var neighborhoodArray = [];    
+  var neighborhoodArray = [];
   var categoryArr = [];
   var category_id = [];
   activityArr.forEach((activity) => {
@@ -230,7 +230,7 @@ export function createFilter(activityArr) {
       if (category_id.indexOf(activity.category[j].toUpperCase().replace(/\s/g,'')) === -1) {
         category_id.push(activity.category[j].toUpperCase().replace(/\s/g, ''));
         categoryArr.push({type: activity.category[j].toUpperCase().replace(/\s/g, ''), visible: true});
-      }       
+      }
     }
   });
   neighborhoodArray.sort((a, b) => a.location > b.location);
@@ -431,7 +431,7 @@ export function logoutAndRedirect(snackbar) {
 export function loginUser(username, password, snackbar, signedup) {
     return function(dispatch) {
         dispatch(loginUserRequest());
-        return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/access_tokens', {
+        return fetch('/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -471,7 +471,7 @@ export function signUpUser(username, password, email, snackbar) {
   // console.log(`username is ${username}\npassword is ${password}\nemail is ${email}`);
   return function(dispatch) {
     dispatch(signUpUserRequest());
-    return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/users', {
+    return fetch('/user/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -629,13 +629,18 @@ export function deleteConfirm() {
 export function saveActivityToDb(activity, access_token) {
   return dispatch => {
 
-    return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities?access_token=' + access_token, {
+    const reqBody = {
+      access_token: access_token,
+      activity: activity,
+    };
+    console.log('sending save to db');
+    return fetch('/activity/saveactivity', {
         method: 'POST',
 
         headers: {
             'Content-Type': 'application/json'
         },
-            body: JSON.stringify(activity)
+            body: JSON.stringify(reqBody)
         })
         .then(checkHttpStatus)
         .then(parseJSON)
@@ -656,12 +661,16 @@ export function saveActivityToDb(activity, access_token) {
 
 export function deleteActivityFromDb(activityId, cb) {
   return dispatch => {
+    const reqBody = {
+      activityId: activityId
+    };
 
-    return fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities/${activityId}`, {
-      method: 'DELETE',
+    return fetch(`/activity/deleteactivity`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(reqBody)
     })
     .then(parseJSON)
     .then(response => {

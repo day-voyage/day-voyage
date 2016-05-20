@@ -25,14 +25,16 @@ planRouter
 planRouter
   .route('/createplan')
   .post((request, response) => {
+    console.log('creating plan >>>>>>>>>>>>>>>>>>>>>>>>')
     const plan = request.body.plan;
     const access_token = request.body.access_token;
-    const activities = request.body.activities;
-    const reqBody = Object.assign(plan, {
-      activities: activities
-    });
+    // const activities = request.body.activities;
+    // const reqBody = Object.assign(plan, {
+    //   activities: activities
+    // });
 
-    axios.post(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans?access_token=${access_token}`, reqBody)
+
+    axios.post(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans?access_token=${access_token}`, plan)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log('Error posting plans to db from server:', error);
@@ -86,5 +88,17 @@ planRouter
       });
   });
 
+planRouter
+  .route('/getplan')
+  .post((request, response) => {
+    console.log('inside server route in get plan');
+    const planID = request.body.planID;
+    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${planID}`)
+      .then(data => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
 
 module.exports = planRouter;
