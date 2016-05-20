@@ -4,11 +4,11 @@ const userRouter = require('express').Router();
 const axios = require('axios');
 
 userRouter
-  .route('/loginuser')
+  .route('/login')
   .post((request, response) => {
     console.log('inside server login route');
     const reqBody = request.body;
-    axios.post('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/access_tokens', reqBody)
+    axios.post('http://localhost:8080/v1/access_tokens', reqBody)
     .then(data => response.send(data.data))
     .catch(error => {
       console.log(error);
@@ -16,5 +16,18 @@ userRouter
     });
   });
 
+userRouter
+  .route('/signup')
+  .post((request, response) => {
+    console.log('inside server signup route');
+    const reqBody = request.body;
+    axios.post(`http://localhost:8080/v1/users`, reqBody)
+      .then(data => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
 
-module.exports= userRouter;
+
+module.exports = userRouter;

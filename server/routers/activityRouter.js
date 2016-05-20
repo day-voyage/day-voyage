@@ -8,7 +8,7 @@ activityRouter
   .post((request, response) => {
     const city = request.body.city;
 
-    axios.get(`https://dayvoyage.api.poly.cloud/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+    axios.get(`http://localhost:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);

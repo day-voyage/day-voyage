@@ -14,7 +14,7 @@ planRouter
 
     console.log('getting from AWS server');
 
-    axios.get(`https://dayvoyage.api.poly.cloud/v1/plans?city__icontains=${city}&private__is=false`)
+    axios.get(`http://localhost:8080/v1/plans?city__icontains=${city}&private__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -32,7 +32,7 @@ planRouter
       activities: activities
     });
 
-    axios.post(`https://dayvoyage.api.poly.cloud/v1/plans?access_token=${access_token}`, reqBody)
+    axios.post(`http://localhost:8080/v1/plans?access_token=${access_token}`, reqBody)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log('Error posting plans to db from server:', error);
@@ -51,7 +51,7 @@ planRouter
       activities: activities
     });
     console.log('inside updateplan');
-    axios.put(`https://dayvoyage.api.poly.cloud/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
+    axios.put(`http://localhost:8080/v1/plans/${plan_id}?access_token=${access_token}`, reqBody)
     .then(data => response.send(data.data))
     .catch(error => {
       console.log(error);
@@ -64,7 +64,7 @@ planRouter
   .post((request, response) => {
     const planID = request.body.planID;
 
-    axios.delete(`https://dayvoyage.api.poly.cloud/v1/plans/${planID}`)
+    axios.delete(`http://localhost:8080/v1/plans/${planID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
@@ -78,7 +78,7 @@ planRouter
     console.log('inside server get plans by user');
 
     const userID = request.body.userID;
-    axios.get(`https://dayvoyage.api.poly.cloud/v1/plans?user_id=${userID}`)
+    axios.get(`http://localhost:8080/v1/plans?user_id=${userID}`)
       .then((data) => response.send(data.data))
       .catch(error => {
         console.log(error);
