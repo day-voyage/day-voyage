@@ -1,9 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addPlanToBuilder, 
-        changingRoutes,
-        saveActivityToDb,
-        addToBuilder } from '../actions';
+import { addToBuilder } from '../actions';
 import { Card, CardText } from 'material-ui/Card';
 import DBPlan from '../components/DBPlan';
 
@@ -48,16 +45,6 @@ var cardColumnStyle = {
  paddingRight: 15
 };
 
-// DBPlansContainer.propTypes = {
-//   plans: PropTypes.arrayOf(PropTypes.shape({
-//     id: PropTypes.number,
-//     title: PropTypes.string.isRequired,
-//     desc: PropTypes.string.isRequired,
-//     city: PropTypes.string
-//   })).isRequired,
-//   addToBuilder: PropTypes.func.isRequired
-// }
-
 function mapStateToProps(state) {
   return {
     plans: state.plans,
@@ -67,6 +54,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { addPlanToBuilder,
-    addToBuilder }
+  { addToBuilder }
 )(DBPlansContainer)

@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import HardwareKeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
-import ContentClear from 'material-ui/svg-icons/content/clear';
 import TextField from 'material-ui/TextField';
 
 export default class PlanBuilderItem extends Component {
@@ -73,26 +70,6 @@ export default class PlanBuilderItem extends Component {
       <Card 
         className="item-card"
         style={{marginLeft: 10, marginRight:10, marginBottom: 10, cursor: 'pointer'}}>
-        <div className="card-content">
-          <CardHeader
-            style={cardHeadStyle}
-            title={title}
-            subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
-            onClick={this.toggleDesc.bind(this)}
-            key={activity.i}
-            actAsExpander={true}
-            showExpandableButton={true}
-            onClick={this.toggleDesc.bind(this)} />
-          <CardText>
-            {cardDesc}
-          </CardText>
-          <CardActions>
-            <FlatButton
-                label="Remove"
-                style={{color: '#F44336'}}
-                onClick={this.removeItem.bind(this)}/>
-          </CardActions>
-        </div>
         <div className="reorder-btns">
           <IconButton 
             tooltip="Move Up"
@@ -105,6 +82,28 @@ export default class PlanBuilderItem extends Component {
             <HardwareKeyboardArrowDown />
           </IconButton>
         </div>
+        <div className="card-content">
+          <CardHeader
+            style={{paddingBottom: 0}}
+            title={title}
+            subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
+            onClick={this.toggleDesc.bind(this)}
+            key={activity.i}
+            actAsExpander={true}
+            showExpandableButton={true}
+            onClick={this.toggleDesc.bind(this)} />
+          <CardText style={{paddingTop: 0}}>
+            {cardDesc}
+          </CardText>
+        </div>
+        <CardActions>
+          <FlatButton
+              className="remove-btn"
+              label="Remove"
+              style={{color: '#F44336'}}
+              onClick={this.removeItem.bind(this)}/>
+        </CardActions>
+        
       </Card>
     )
   }
@@ -112,13 +111,10 @@ export default class PlanBuilderItem extends Component {
 
 var budgetTextFieldStyle = {
   width: 100,
-  marginTop: 15,
+  marginTop: 0,
   marginBottom: 15
 }
 
-var cardHeadStyle = {
-  marginBottom: 0
-}
 
 PlanBuilderItem.propTypes = {
   activity: PropTypes.shape({

@@ -1,6 +1,6 @@
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -9,7 +9,6 @@ import Checkbox from 'material-ui/Checkbox';
 import { 
   checkNeighborhood,
   checkCategory, 
-  checkBudget,
   dbCheckNeighborhood,
   dbCheckCategory, 
   dbCheckBudget } from '../actions';
@@ -41,7 +40,6 @@ export default class FilterContainer extends Component {
   handleSlider(event, value) {
     var budget = Math.round(value);
     this.setState({priceSlider: budget});
-    this.props.checkBudget(budget);
     this.props.dbCheckBudget(budget);
   }
 
@@ -115,8 +113,8 @@ export default class FilterContainer extends Component {
         <Drawer open={this.state.drawerOpen}>
           <FlatButton label="Close Filter" onClick={this.toggleDrawer.bind(this)} />
           <div>
-            <MenuItem>
-            Budget ${this.state.priceSlider}</MenuItem>
+            <MenuItem>Budget ${this.state.priceSlider}</MenuItem>
+            <h6 style={{marginLeft: 25}}>*Not all activities have prices</h6>
             <Slider
               style={{marginLeft: 25, marginRight: 25}}
               min={filter.minPrice}
@@ -146,7 +144,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, 
   { checkNeighborhood, 
     checkCategory, 
-    checkBudget, 
     dbCheckNeighborhood, 
     dbCheckCategory, 
     dbCheckBudget }

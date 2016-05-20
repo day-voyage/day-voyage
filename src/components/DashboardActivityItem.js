@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
+import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 
 /**
@@ -41,8 +40,9 @@ export default class DashboardActivityItem extends Component {
     const { activity } = this.props;
     var title = activity.distance ? activity.title + ' - ' + activity.distance + " away" : activity.title;
     return (
-      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+      <Card style={{padding: 15}}>
         <CardHeader
+          titleStyle={{fontSize: 18}}
           title={title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Provider} from 'react-redux';
 import routes from '../routes';
 import {ReduxRouter} from 'redux-router';
@@ -8,7 +8,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
 cyan500, cyan700,
 grey100, grey300, grey400, grey500,
-pinkA200,
 white, darkBlack, fullBlack,
 } from 'material-ui/styles/colors';
 import {fade} from 'material-ui/utils/colorManipulator';
@@ -17,7 +16,7 @@ import {fade} from 'material-ui/utils/colorManipulator';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-export default class Root extends React.Component {
+export default class Root extends Component {
 
   static propTypes = {
     store: React.PropTypes.object.isRequired
@@ -40,10 +39,10 @@ export default class Root extends React.Component {
       },
       fontFamily: 'Roboto, sans-serif',
       palette: {
-        primary1Color: '#f5ac4c',
-        primary2Color: cyan700,
+        primary1Color: '#f5ac4c', //orange
+        primary2Color: '#41829c', //blue
         primary3Color: grey400,
-        accent1Color: pinkA200,
+        accent1Color: '#47bfbd', //teal
         accent2Color: grey100,
         accent3Color: grey500,
         textColor: darkBlack,

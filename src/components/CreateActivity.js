@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
 import Toggle from 'material-ui/Toggle';
 import Geosuggest from 'react-geosuggest/module/Geosuggest';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
 
 var shortid = require('shortid');
 
@@ -31,24 +28,6 @@ export default class CreateActivity extends Component {
       private: false,
     };
   }
-
-  /* The following gets the user's location to optimize autocomplete search*/
-  // componentWillMount() {
-  //   navigator.geolocation.getCurrentPosition(function(pos) {
-  //     this.setState({
-  //       lat: pos.coords.latitude,
-  //       long: pos.coords.longitude
-  //     })
-  //     console.log(this.state.lat);
-  //     console.log(this.state.long);
-  //   }, function(err) {
-  //     // else error grabbing location, just return SF's coords
-  //     this.setState({
-  //       lat: 37.7749295,
-  //       long: -122.41941550000001
-  //     })
-  //   });
-  // }
 
   componentDidMount() {
     if (this.props.open) {
@@ -160,7 +139,7 @@ export default class CreateActivity extends Component {
         modal={true}
         contentStyle={modalStyle}
         autoScrollBodyContent={true}>
-          <div>
+          <div style={{padding: 20}}>
             <h2 style={{marginTop: 10, marginBottom: 30}}>Create your own activity</h2>
 
             <form style={{textAlign: "left", marginTop: 10}} className="commentForm">
@@ -183,6 +162,7 @@ export default class CreateActivity extends Component {
                 style={{marginBottom: 25}} /><br />
 
               Category: <br />
+              <div className="styled-select">
               <select id="create-activity-category">
                 <option value="Active">Active</option>
                 <option value="Arts & Entertainment">Arts & Entertainment</option>
@@ -190,7 +170,9 @@ export default class CreateActivity extends Component {
                 <option value="Nightlife">Nightlife</option>
                 <option value="Personal">Personal</option>
                 <option value="Shopping">Shopping</option>
-              </select><br />
+              </select>
+              </div>
+              <br /><br />
 
               Estimated Cost: <br />
               $
@@ -222,12 +204,15 @@ export default class CreateActivity extends Component {
                 labelPosition="right"
                 onToggle={this.handlePrivate.bind(this)}
                 defaultToggled={false} />
-              <FlatButton
-                label="Add to plan"
-                onClick={this.addNewEvent.bind(this)}/>
-              <FlatButton
-                label="Cancel"
-                onClick={this.toggleModal.bind(this)} />
+              <div className="create-activity-btns">
+                <RaisedButton
+                  label="Add to plan"
+                  primary="true"
+                  onClick={this.addNewEvent.bind(this)}/>
+                <RaisedButton
+                  label="Cancel"
+                  onClick={this.toggleModal.bind(this)} />
+              </div>
            </form>
           </div>
       </Dialog>

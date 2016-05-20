@@ -48,7 +48,7 @@ export default function dbactivities(state = [], action) {
       var newState = state.slice();
       newState.forEach((activity) => {
         var isVisible = false;
-        if (action.budget > activity.budget) {
+        if (action.budget > activity.price) {
           isVisible = true;
         }
         activity.visBudget = isVisible;

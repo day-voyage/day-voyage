@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { GoogleMapLoader, GoogleMap, Marker, DirectionsRenderer } from "react-google-maps";
 import { changingRoutes } from '../actions';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions';
 
 export default class Maps extends Component {
   constructor(props) {
