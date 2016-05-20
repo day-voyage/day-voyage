@@ -56,7 +56,7 @@ export class ConfirmContainer extends Component {
         user_id: this.props.auth.user_id,
         clientside_id: shortid.generate(),
         title: this.props.planTitle,
-        desc: this.props.plantDesc,
+        desc: this.props.planDesc,
         likes: 0
       }), [], (response) => {
         console.log('save itin response: ', response);

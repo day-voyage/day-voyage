@@ -132,11 +132,11 @@ class PlanBuilderContainer extends Component {
               addFromCreate={(activity) => this.props.addToBuilder(activity)}
               user_id={auth.user_id}/>
             <RaisedButton
-              secondary="true"
+              secondary={true}
               label="Create Own Activity"
               onClick={this.openCreate.bind(this)} />
             <RaisedButton
-              secondary="true"
+              secondary={true}
               label="Clear All"
               onClick={() => planBuilder.forEach(element => this.props.deleteFromBuilder(element))} />
             <RaisedButton

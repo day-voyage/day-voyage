@@ -11,10 +11,9 @@ export class DashboardView extends Component {
     return (
       <div>
         <div>
-          <h1>Welcome, {auth.username}</h1>
-          <h3>Plans</h3>
+          <h1>{auth.username}'s Plans</h1>
           {dashboard.length > 0 ? '' : 'You don\'t have any plans, create one now!'}
-          <Card>
+          <Card style={{padding: 15}}>
           {dashboard.map((item, index) => {
             return <DashboardPlanItem
               key={index}
