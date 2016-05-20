@@ -1,5 +1,5 @@
 # Day Voyage
-where will you're day take you?
+where will your day take you?
 
 ## Team
 
