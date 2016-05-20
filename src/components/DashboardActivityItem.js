@@ -42,7 +42,6 @@ export default class DashboardActivityItem extends Component {
     return (
       <Card style={{padding: 15}}>
         <CardHeader
-          titleStyle={{fontSize: 18}}
           title={title}
           subtitle={activity.neighborhood ? activity.neighborhood.join(', ') : ''}
           onClick={this.toggleDesc.bind(this)}
