@@ -265,7 +265,16 @@ export function getPlansByUser(userID, cb) {
  * @param  {Function} cb
  */
 export function getPlan(planID, cb) {
-  fetch(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans/${planID}`)
+  let reqBody = {
+    planID: planID
+  };
+  fetch(`/plan/getplan`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(reqBody),
+  })
    .then(parseJSON)
    .then(data => {
       console.log('getting comments');
@@ -336,14 +345,23 @@ export function deletePlan(planID, cb) {
  * @param  {int}   id   id of type
  * @param  {Function} cb   callback to execute with response
  */
-export function getComments(type, id, cb) {
-  let queryString = `?${type}_id=${id}`;
-  let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/comments${queryString}`;
-  fetch(url)
-    .then(parseJSON)
-    .then(response => cb(response))
-    .catch(error => console.log(error));
-}
+ export function getComments(type, id, cb) {
+   let queryString = `?${type}_id=${id}`;
+   let reqBody = {
+     queryString: queryString
+   };
+   // let url = `http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/comments${queryString}`;
+   fetch('/comment/get', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify(reqBody),
+   })
+     .then(parseJSON)
+     .then(response => cb(response))
+     .catch(error => console.log(error));
+ }
 
 export function createComment(comment, cb) {
   let url = `/comment/create`;
