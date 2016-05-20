@@ -183,6 +183,14 @@ body {
   justify-content: space-between;
 }
 
+.dashboard-plan-btns {
+  padding: 15px;
+  width: 50%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+}
+
 .confirm-budget-btn {
   padding: 15px;
   display: flex;

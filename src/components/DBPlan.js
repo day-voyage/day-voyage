@@ -26,7 +26,7 @@ export default class DBPlan extends Component {
           actAsExpander={true}/>
         <FlatButton
           onClick={this.openLink.bind(this)}
-          label="Show More Details" />
+          label="View More Details" />
         <FlatButton
           onClick={this.props.onAddToBuilderClicked}
           label="Copy" />
