@@ -306,6 +306,10 @@ body {
   justify-content: center;
 }
 
+.dashboard-card {
+  display: flex;
+}
+
 /**
 * Create Activity Category Dropdown
 */

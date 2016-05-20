@@ -12,7 +12,7 @@ export default class DBPlan extends Component {
 
   openLink() {
     const { plan } = this.props;
-    window.open(`http://localhost:3000/?plan=${plan.id}`, 'blank');
+    window.open(`https://www.dayvoyage.com/?plan=${plan.id}`, 'blank');
   }
 
   render() {

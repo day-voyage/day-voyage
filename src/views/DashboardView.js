@@ -13,7 +13,7 @@ export class DashboardView extends Component {
         <div>
           <h1>{auth.username}'s Plans</h1>
           {dashboard.length > 0 ? '' : 'You don\'t have any plans, create one now!'}
-          <Card style={{padding: 15}}>
+          <div className="dashboard-cards">
           {dashboard.map((item, index) => {
             return <DashboardPlanItem
               key={index}
@@ -25,7 +25,7 @@ export class DashboardView extends Component {
               }}
               activities={item.activities} />
           })}
-          </Card>
+          </div>
         </div>
       </div>
     );

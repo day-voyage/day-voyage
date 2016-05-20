@@ -73,7 +73,7 @@ export default class DashboardPlanItem extends Component {
     return (
       <Card style={{padding: 15}}>
         <CardHeader
-          titleStyle={{fontSize: 28}}
+          titleStyle={{fontSize: 24}}
           title={this.props.title}
           subtitle={this.props.desc}
           onClick={this.toggleDesc.bind(this)}
@@ -81,7 +81,7 @@ export default class DashboardPlanItem extends Component {
           showExpandableButton={true}
         />
         <div className="dashboard-plan-btns">
-          <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
+          <a href={`https://www.dayvoyage.com/?plan=${this.props.plan_id}`}>
             <RaisedButton 
               secondary={true}
               label={'View More Details'} />
