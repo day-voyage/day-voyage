@@ -629,13 +629,18 @@ export function deleteConfirm() {
 export function saveActivityToDb(activity, access_token) {
   return dispatch => {
 
-    return fetch('http://localhost:8080/v1/activities?access_token=' + access_token, {
+    const reqBody = {
+      access_token: access_token,
+      activity: activity,
+    };
+    console.log('sending save to db');
+    return fetch('/activity/saveactivity', {
         method: 'POST',
 
         headers: {
             'Content-Type': 'application/json'
         },
-            body: JSON.stringify(activity)
+            body: JSON.stringify(reqBody)
         })
         .then(checkHttpStatus)
         .then(parseJSON)

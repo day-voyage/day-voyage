@@ -86,5 +86,17 @@ planRouter
       });
   });
 
+planRouter
+  .route('/getplan')
+  .post((request, response) => {
+    console.log('inside server route in get plan');
+    const planID = request.body.planID;
+    axios.get(`http://localhost:8080/v1/plans/${planID}`)
+      .then(data => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
 
 module.exports = planRouter;
