@@ -122,10 +122,37 @@ export function getAllActivities(query, location) {
     /**
     * do Yelp search based on query city (may be geolocation or typed in) and category
     */
-    searchActivities(query.category, query.city, (results) => {
-      var dbResults = results.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
-      dispatch(receiveDBActivities(dbResults));
-      dispatch(receiveSlider(createSlider(dbResults)));
+    searchActivities(query.category, query.city, (activities) => {
+      var dbNoLocation = activities.map((activity) => Object.assign(activity, {added: false, icon: 'https://storage.googleapis.com/support-kms-prod/SNP_2752129_en_v0', visArea: true, visCategory: true, visBudget: true}));
+      if (location !== null) {
+        /**
+        * check distances of all activities from current location using Google distance matrix api
+        */
+        var dbCoords = dbNoLocation.slice().map((info) => {
+          return [info.lat, info.long].join('%2C');
+        }).join('%7C');
+        fetch(`/api/distancematrix?location=${location.lat+','+location.lng}&results=${dbCoords}`, {
+          method: 'GET'
+        }).then((dbDistanceResults) => dbDistanceResults.json())
+        .then((dbDistances) => {
+          console.log('have distances for db', dbDistances);
+          /**
+          * add distance key to each activity
+          */
+          var dbWithLocation = dbNoLocation.map((activity, i) => {
+            activity.distance = dbDistances[i];
+            return activity;
+          });
+          /**
+          * dispatch activities with new distance key
+          */
+         console.log('db with location', dbWithLocation);
+          dispatch(receiveDBActivities(dbWithLocation));
+        });
+      } else {
+        dispatch(receiveDBActivities(dbNoLocation));
+      }
+      dispatch(receiveSlider(createSlider(activities)));
     });
 
     searchPlans(query.category, query.city, (results) => {

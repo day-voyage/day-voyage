@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {deleteFromBuilder, 
-        reorderUp, 
-        reorderDown, 
+import {deleteFromBuilder,
+        reorderUp,
+        reorderDown,
         editDescription,
         editPrice,
         createPlan,
@@ -47,7 +47,6 @@ export class ConfirmContainer extends Component {
   }
 
   saveplan() {
-
     if (this.props.planTitle.length === 0) {
       this.toggleSnackbar("Please name your plan");
     } else {
@@ -65,13 +64,14 @@ export class ConfirmContainer extends Component {
         });
         var activities = [];
         this.props.planBuilder.forEach((activity, index) => {
+          var activityIndex = index;
           if (activity.isYelp === false) {
             this.props.saveActivityToDb(Object.assign(activity, {
               isYelp: false,
               user_gen: false,
               clientside_id: shortid.generate(),
               plan_id: response.data[0].id,
-              index: index
+              index: activityIndex
             }), this.props.auth.token.access_token);
           } else {
             this.props.saveActivityToDb(Object.assign(activity, {
@@ -79,7 +79,7 @@ export class ConfirmContainer extends Component {
               user_gen: false,
               clientside_id: shortid.generate(),
               plan_id: response.data[0].id,
-              index: index
+              index: activityIndex
             }), this.props.auth.token.access_token);
           }
         });
@@ -92,7 +92,7 @@ export class ConfirmContainer extends Component {
   getTotalPrice() {
     var total = 0;
     this.props.planBuilder.forEach(activity => {
-      if (activity.price) { 
+      if (activity.price) {
         total += parseInt(activity.price) ;
       }});
     return total;
@@ -117,7 +117,7 @@ export class ConfirmContainer extends Component {
       })
     }
   }
-  
+
   render() {
     const { planBuilder, auth, data } = this.props;
     const alphabetOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -153,7 +153,7 @@ export class ConfirmContainer extends Component {
               </div>
             </div> : ''}
 
-          {planBuilder.map((activity, index) => 
+          {planBuilder.map((activity, index) =>
             <ConfirmItem
               key={index}
               activity={activity}
@@ -164,7 +164,7 @@ export class ConfirmContainer extends Component {
               onDeleteFromBuilderClicked={() => this.props.deleteFromBuilder(activity)}
               onMoveUpClicked={() => {
                 this.props.reorderUp(planBuilder.indexOf(activity));
-                
+
               }}
               onMoveDownClicked={() => {
                 this.props.reorderDown(planBuilder.indexOf(activity));
