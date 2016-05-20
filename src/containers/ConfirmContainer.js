@@ -65,15 +65,24 @@ export class ConfirmContainer extends Component {
         });
         var activities = [];
         this.props.planBuilder.forEach((activity, index) => {
-          this.props.saveActivityToDb(Object.assign(activity, {
-            isYelp: true,
-            user_gen: false,
-            clientside_id: shortid.generate(),
-            plan_id: response.data[0].id,
-            index: index
-          }), this.props.auth.token.access_token);
+          if (activity.isYelp === false) {
+            this.props.saveActivityToDb(Object.assign(activity, {
+              isYelp: false,
+              user_gen: false,
+              clientside_id: shortid.generate(),
+              plan_id: response.data[0].id,
+              index: index
+            }), this.props.auth.token.access_token);
+          } else {
+            this.props.saveActivityToDb(Object.assign(activity, {
+              isYelp: true,
+              user_gen: false,
+              clientside_id: shortid.generate(),
+              plan_id: response.data[0].id,
+              index: index
+            }), this.props.auth.token.access_token);
+          }
         });
-
       });
     }
   }
