@@ -64,13 +64,14 @@ export class ConfirmContainer extends Component {
         });
         var activities = [];
         this.props.planBuilder.forEach((activity, index) => {
+          var activityIndex = index;
           if (activity.isYelp === false) {
             this.props.saveActivityToDb(Object.assign(activity, {
               isYelp: false,
               user_gen: false,
               clientside_id: shortid.generate(),
               plan_id: response.data[0].id,
-              index: index
+              index: activityIndex
             }), this.props.auth.token.access_token);
           } else {
             this.props.saveActivityToDb(Object.assign(activity, {
@@ -78,7 +79,7 @@ export class ConfirmContainer extends Component {
               user_gen: false,
               clientside_id: shortid.generate(),
               plan_id: response.data[0].id,
-              index: index
+              index: activityIndex
             }), this.props.auth.token.access_token);
           }
         });
