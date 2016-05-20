@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import React, { Component } from 'react';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 export default class CommentItem extends Component {
 

@@ -3,8 +3,8 @@ import { RECEIVE_ACTIVITIES,
          ADD_TO_BUILDER,
          DELETE_FROM_BUILDER,
          CHECK_NEIGHBORHOOD,
-         CHECK_CATEGORY,
-         CHECK_BUDGET } from '../constants';
+         CHECK_CATEGORY
+       } from '../constants';
 
 import { pushState } from 'redux-router';
 
@@ -42,16 +42,6 @@ export default function activities(state = [], action) {
           }
         }
         activity.visCategory = isVisible;
-      });
-      return newState;
-    case CHECK_BUDGET:
-      var newState = state.slice();
-      newState.forEach((activity) => {
-        var isVisible = false;
-        if (action.budget > activity.budget) {
-          isVisible = true;
-        }
-        activity.visBudget = isVisible;
       });
       return newState;
     default:

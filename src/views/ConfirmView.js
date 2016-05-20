@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router';
 import Maps from '../components/Maps';
 import ConfirmContainer from '../containers/ConfirmContainer';
 import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
-
-
+import { Card, CardText } from 'material-ui/Card';
 import { connect } from 'react-redux';
 
 export class ConfirmView extends Component {
@@ -15,10 +13,20 @@ export class ConfirmView extends Component {
     this.state = {
       snackbar: false,
       message: '',
-      description: ''
+      planTitle: '',
+      description: '',
     };
   }
 
+  handleTitle(event) {
+    this.setState({planTitle: event.target.value});
+  }
+
+  handleDesc(event){
+    this.setState({
+      description: event.target.value
+    })
+  }
 
   initiateSnackbar(message) {
     this.setState({message: message, snackbar: true});
@@ -28,28 +36,30 @@ export class ConfirmView extends Component {
     }, 2000);
   }
 
-  handleDesc(event){
-    this.setState({
-      description: event.target.value
-    })
-  }
-
   render () {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
             <Maps size="small" /> <br />
-            Description: <br />
-            <TextField
-              onChange={this.handleDesc.bind(this)}
-              multiLine={true}
-              rows={4}
-            /><br />
+            <Card style={{padding: 30}}>
+            <div>
+              <h4 style={{padding: 0}}>Plan Name: </h4>
+              <TextField
+                onChange={this.handleTitle.bind(this)}/><br />
+              <h4 style={{padding: 0}}>Plan Description: </h4>
+              <TextField
+                onChange={this.handleDesc.bind(this)}
+                multiLine={true}
+                rows={4}
+              /><br />
+            </div>
+            </Card>
           </div>
           <div className="col-sm-6">
             <ConfirmContainer 
               openSnackbar={this.initiateSnackbar.bind(this)}
+              planTitle={this.state.planTitle}
               planDesc={this.state.description}/>
             <Snackbar
               open={this.state.snackbar}

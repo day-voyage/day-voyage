@@ -1,11 +1,10 @@
-import React from 'react';
-import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { logoutAndRedirect,
-          getDashboardActivities,
-          goToDashboard } from '../actions';
+import {logoutAndRedirect,
+        getDashboardActivities,
+        goToDashboard } from '../actions';
 import { getPlansByUser } from '../utils'
 import LoginComponent from '../components/LoginComponent';
 import FlatButton from 'material-ui/FlatButton';
@@ -17,7 +16,7 @@ import { push } from 'redux-router';
   };
 })
 
-export default class CoreLayout extends React.Component {
+export default class CoreLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +42,7 @@ export default class CoreLayout extends React.Component {
     return (
       <nav className="app-navbar">
         <div className="app-navbar__header">
-            <Link className="app-title" to="/">DayVoyage</Link>
+            <Link className="app-title" to="/"><img style={{height: '30%', width: '30%'}} src="http://s32.postimg.org/i33xfbc05/dayvoyage.png"/></Link>
         </div>
         <div className="app-navbar__actions">
           {this.props.isAuthenticated
@@ -59,7 +58,8 @@ export default class CoreLayout extends React.Component {
                 />
                 <FlatButton
                   label="Logout"
-                  secondary="true"
+                  secondary={true}
+                  style={{color: "#eb6157"}}
                   onClick={() => this.props.dispatch(logoutAndRedirect(this.props.openSnackbar))}
                 />
               </span>

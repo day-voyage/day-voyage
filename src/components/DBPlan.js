@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader} from 'material-ui/Card';
 
 export default class DBPlan extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class DBPlan extends Component {
 
   openLink() {
     const { plan } = this.props;
-    window.open(`http://localhost:3000/?plan=${plan.id}`, 'blank');
+    window.open(`https://www.dayvoyage.com/?plan=${plan.id}`, 'blank');
   }
 
   render() {
@@ -26,7 +26,7 @@ export default class DBPlan extends Component {
           actAsExpander={true}/>
         <FlatButton
           onClick={this.openLink.bind(this)}
-          label="Show More Details" />
+          label="View More Details" />
         <FlatButton
           onClick={this.props.onAddToBuilderClicked}
           label="Copy" />

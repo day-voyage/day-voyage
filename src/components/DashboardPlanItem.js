@@ -1,11 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import Dialog from 'material-ui/Dialog'; //TODO: Dialog is not being used here, so take it out
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Card, CardHeader} from 'material-ui/Card';
 import { addToBuilder,
-        changingRoutes,
         deleteActivityFromDb,
         goToActivities } from '../actions';
 import { deletePlan } from '../utils';
@@ -73,32 +71,36 @@ export default class DashboardPlanItem extends Component {
     }
 
     return (
-      <Card style={{marginLeft: 10, marginRight:10, marginBottom: 10}}>
+      <Card style={{padding: 30, margin: 15}}>
         <CardHeader
+          titleStyle={{fontSize: 24}}
           title={this.props.title}
           subtitle={this.props.desc}
           onClick={this.toggleDesc.bind(this)}
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <div>
-        <a href={`http://localhost:3000/?plan=${this.props.plan_id}`}>
-          <FlatButton label={'View map'} />
-        </a>
-          <FlatButton
-            onClick={() => {
-              activities.forEach(activity => {
-                this.props.addToBuilder(activity);
-              })
-              this.props.goToActivities();
-            }}
-            label={'Copy this plan'} />
-          <FlatButton
-            onClick={this.handleDeleteClicked.bind(this)}
-
-            label={'Delete'} />
-            {this.state.descOpen ? mappedActivities : null}
+          <div className="dashboard-plan-btns">
+            <a href={`https://www.dayvoyage.com/?plan=${this.props.plan_id}`}>
+              <RaisedButton 
+                secondary={true}
+                label={'View Map'} />
+            </a>
+              <RaisedButton
+                secondary={true}
+                onClick={() => {
+                  activities.forEach(activity => {
+                    this.props.addToBuilder(activity);
+                  })
+                  this.props.goToActivities();
+                }}
+                label={'Copy this plan'} />
+            <FlatButton
+              style={{color: '#F44336'}}
+              onClick={this.handleDeleteClicked.bind(this)}
+              label={'Delete this plan'} />
           </div>
+              {this.state.descOpen ? mappedActivities : null}
       </Card>
     )
   }

@@ -8,7 +8,7 @@ activityRouter
   .post((request, response) => {
     const city = request.body.city;
 
-    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:8080/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
+    axios.get(`http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/activities?city__icontains=${city}&private__is=false&isYelp__is=false`)
       .then(data => response.send(data.data))
       .catch(error => {
         console.log(error);
