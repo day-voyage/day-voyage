@@ -9,6 +9,8 @@ const app = express();
 
 const planRouter = require('./routers/planRouter');
 const activityRouter = require('./routers/activityRouter');
+const userRouter = require('./routers/userRouter');
+const commentRouter = require('./routers/commentRouter');
 
 const config = require('../webpack.config');
 const compiler = webpack(config);
@@ -30,8 +32,10 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '../src')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/user', userRouter);
 app.use('/plan', planRouter);
 app.use('/activity', activityRouter);
+app.use('/comment', commentRouter);
 
 //TODO: is this necessary
 app.use('/node_modules', express.static(path.join(__dirname + '/../node_modules')));
