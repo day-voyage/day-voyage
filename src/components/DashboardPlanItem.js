@@ -71,7 +71,7 @@ export default class DashboardPlanItem extends Component {
     }
 
     return (
-      <Card style={{padding: 15}}>
+      <Card style={{padding: 30, margin: 15}}>
         <CardHeader
           titleStyle={{fontSize: 24}}
           title={this.props.title}
@@ -80,21 +80,21 @@ export default class DashboardPlanItem extends Component {
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <div className="dashboard-plan-btns">
-          <a href={`https://www.dayvoyage.com/?plan=${this.props.plan_id}`}>
-            <RaisedButton 
-              secondary={true}
-              label={'View More Details'} />
-          </a>
-            <RaisedButton
-              secondary={true}
-              onClick={() => {
-                activities.forEach(activity => {
-                  this.props.addToBuilder(activity);
-                })
-                this.props.goToActivities();
-              }}
-              label={'Copy this plan'} />
+          <div className="dashboard-plan-btns">
+            <a href={`https://www.dayvoyage.com/?plan=${this.props.plan_id}`}>
+              <RaisedButton 
+                secondary={true}
+                label={'View Map'} />
+            </a>
+              <RaisedButton
+                secondary={true}
+                onClick={() => {
+                  activities.forEach(activity => {
+                    this.props.addToBuilder(activity);
+                  })
+                  this.props.goToActivities();
+                }}
+                label={'Copy this plan'} />
             <FlatButton
               style={{color: '#F44336'}}
               onClick={this.handleDeleteClicked.bind(this)}

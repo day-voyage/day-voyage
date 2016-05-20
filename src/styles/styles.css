@@ -183,6 +183,7 @@ body {
   justify-content: space-between;
 }
 
+
 .dashboard-plan-btns {
   padding: 15px;
   width: 50%;
@@ -306,8 +307,11 @@ body {
   justify-content: center;
 }
 
-.dashboard-card {
+.dashboard-cards {
   display: flex;
+  height: 100%;
+  flex-flow: column nowrap;
+  justify-content: space-between;
 }
 
 /**
