@@ -661,12 +661,16 @@ export function saveActivityToDb(activity, access_token) {
 
 export function deleteActivityFromDb(activityId, cb) {
   return dispatch => {
+    const reqBody = {
+      activityId: activityId
+    };
 
-    return fetch(`http://localhost:8080/v1/activities/${activityId}`, {
-      method: 'DELETE',
+    return fetch(`/activity/deleteactivity`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(reqBody)
     })
     .then(parseJSON)
     .then(response => {

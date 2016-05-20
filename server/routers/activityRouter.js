@@ -43,4 +43,17 @@ activityRouter
       });
   });
 
+activityRouter
+  .route('/deleteactivity')
+  .post((request, response) => {
+    console.log('delete activity');
+    const activityId = request.body.activityId;
+    axios.delete(`http://localhost:8080/v1/activities/${activityId}`)
+      .then(data => response.send(data.data))
+      .catch(error => {
+        console.log(error);
+        response.send(error);
+      });
+  });
+
 module.exports = activityRouter;

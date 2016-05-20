@@ -69,12 +69,16 @@ export function parseCity(cityInput) {
 
 //TOD0: check if run into CORS issues
 export function updateUser(userID, updates, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
-    method: 'PUT',
+  const reqBody = {
+    userID: userID,
+    updates: updates
+  };
+  fetch(`/user/update`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(updates)
+    body: JSON.stringify(reqBody)
   })
   .then(parseJSON)
   .then(response => cb(response))
@@ -83,11 +87,15 @@ export function updateUser(userID, updates, cb) {
 
 //TOD0: check if run into CORS issues
 export function deleteUser(userID, cb) {
-  fetch(`http://localhost:8080/v1/users/${userID}`, {
-    method: 'DELETE',
+  const reqBody = {
+    userID: userID
+  };
+  fetch(`/user/delete`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(reqBody),
   })
   .then(parseJSON)
   .then(response => cb(response))

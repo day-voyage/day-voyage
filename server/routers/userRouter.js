@@ -29,5 +29,24 @@ userRouter
       });
   });
 
+userRouter
+  .route('/update')
+  .post((request, response) => {
+    console.log('inside server update user');
+    const userID = request.body.userID;
+    const reqBody = request.body.updates;
+    axios.put(`http://localhost:8080/v1/users/${userID}`, reqBody)
+      .then(data => response.send(data.data))
+      .catch(error => response.send(error));
+  });
 
+userRouter
+  .route('/delete')
+  .post((request, response) => {
+    console.log('inside server delete user');
+    const userID = request.body.userID;
+    axios.delete(`http://localhost:8080/v1/users/${userID}`)
+      .then(data => response.send(data.data))
+      .catch(error => response.send(error));
+  });
 module.exports = userRouter;
