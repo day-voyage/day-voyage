@@ -547,7 +547,7 @@ export function fetchProtectedData(token) {
 
     // return (dispatch, state) => {
     //     dispatch(fetchProtectedDataRequest());
-    //     return fetch('http://localhost:8080/v1/plans', {
+    //     return fetch('http://ec2-52-39-9-146.us-west-2.compute.amazonaws.com:443/v1/plans', {
     //             credentials: 'include',
     //             headers: {
     //                 'Authorization': `Bearer ${token}`
