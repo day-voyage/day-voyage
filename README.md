@@ -45,7 +45,7 @@ On a budget? Day Voyage helps tailor your plans to meet a budget of any size.
 ![Reorder](http://i.giphy.com/26vUEhFK7RPgt7DPO.gif)
 
 
-## More Screen Casts
+## Screen Casts
 #### Confirm Page
 <img src="https://github.com/sweaty-figs/sweaty-figs/blob/master/README_IMGS/day-voyage-confirm.png" width="450">
 
@@ -85,7 +85,7 @@ Please see this [repo](https://github.com/sweaty-figs/sweaty-figs-db) for inform
 ## Development
 
 To build webpack and generate a bundle:
-From within the root directory:
+From within the root directory:s
 ```sh
 npm start
 ```
