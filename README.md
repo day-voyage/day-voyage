@@ -1,5 +1,4 @@
-# Day Voyage
-https://www.dayvoyage.com
+# [Day Voyage](https://www.dayvoyage.com)
 ![Day Voyage Home](https://github.com/sweaty-figs/sweaty-figs/blob/master/README_IMGS/day-voyage-home.png)
 
 ## Team
