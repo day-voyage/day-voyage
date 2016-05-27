@@ -1,5 +1,5 @@
 # [Day Voyage](https://www.dayvoyage.com)
-![Day Voyage Home](https://github.com/sweaty-figs/sweaty-figs/blob/master/README_IMGS/day-voyage-home.png)
+[<img src="https://github.com/sweaty-figs/sweaty-figs/blob/master/README_IMGS/day-voyage-home.png">](https://www.dayvoyage.com)
 
 ## Team
 
