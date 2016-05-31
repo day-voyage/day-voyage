@@ -1,6 +1,8 @@
 # [Day Voyage](https://www.dayvoyage.com)
 [<img src="https://github.com/sweaty-figs/sweaty-figs/blob/master/README_IMGS/day-voyage-home.png">](https://www.dayvoyage.com)
 
+Visit [https://www.dayvoyage.com](https://www.dayvoyage.com)
+
 ## Team
 
   - [Steven Tran] (https://github.com/steventran06)
